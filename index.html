@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LAB Evolution Forum 2024 | Московская область</title>
+    <style>
+        /* Базовые стили */
+        :root {
+            --primary: #0d4e96;
+            --primary-dark: #0a3c75;
+            --secondary: #28a2a8;
+            --accent: #e63946;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --gray: #6c757d;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #fff;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Шапка */
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .logo-icon {
+            font-size: 2rem;
+        }
+        
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+        
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        nav a:hover {
+            color: var(--secondary);
+        }
+        
+        .cta-button {
+            background-color: var(--accent);
+            color: white;
+            border: none;
+            padding: 0.7rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .cta-button:hover {
+            background-color: #c1121f;
+            transform: translateY(-2px);
+        }
+        
+        /* Герой секция */
+        .hero {
+            background: linear-gradient(rgba(13, 78, 150, 0.8), rgba(13, 78, 150, 0.9)), url('https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 180px 0 100px;
+            text-align: center;
+        }
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+        
+        .hero p {
+            font-size: 1.3rem;
+            max-width: 800px;
+            margin: 0 auto 2rem;
+        }
+        
+        .date-place {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            font-size: 1.2rem;
+        }
+        
+        /* Секции */
+        section {
+            padding: 80px 0;
+        }
+        
+        h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: var(--primary);
+        }
+        
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto 4rem;
+            color: var(--gray);
+        }
+        
+        /* О конференции */
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+        
+        .about-text h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary);
+        }
+        
+        .about-features {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .feature {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+        
+        .feature-icon {
+            color: var(--secondary);
+            font-size: 1.5rem;
+            margin-top: 5px;
+        }
+        
+        .about-image {
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .about-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        
+        /* Темы */
+        .themes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .theme-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .theme-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+        
+        .theme-icon {
+            background: var(--primary);
+            color: white;
+            font-size: 2rem;
+            padding: 1.5rem;
+            text-align: center;
+        }
+        
+        .theme-content {
+            padding: 1.5rem;
+        }
+        
+        .theme-content h3 {
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+        
+        /* Форма регистрации */
+        .registration {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+        }
+        
+        .registration h2 {
+            color: white;
+        }
+        
+        .registration-form {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+            font-weight: 500;
+        }
+        
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+        
+        .submit-btn {
+            width: 100%;
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 1rem;
+            border-radius: 5px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        .submit-btn:hover {
+            background: #c1121f;
+        }
+        
+        /* Подвал */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 3rem 0;
+            text-align: center;
+        }
+        
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+        }
+        
+        .footer-logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+        
+        .footer-links {
+            display: flex;
+            gap: 2rem;
+            margin: 1rem 0;
+        }
+        
+        .footer-links a {
+            color: #ddd;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: white;
+        }
+        
+        .copyright {
+            color: #aaa;
+            font-size: 0.9rem;
+        }
+        
+        /* Адаптивность */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            nav ul {
+                gap: 1rem;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .date-place {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .about-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .about-features {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Шапка -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <div class="logo-icon">⚕️</div>
+                    <div class="logo-text">LAB Evolution Forum</div>
+                </div>
+                <nav>
+                    <ul>
+                        <li><a href="#about">О форуме</a></li>
+                        <li><a href="#themes">Направления</a></li>
+                        <li><a href="#registration">Регистрация</a></li>
+                        <li><a href="#contacts">Контакты</a></li>
+                    </ul>
+                </nav>
+                <button class="cta-button">Принять участие</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Герой секция -->
+    <section class="hero">
+        <div class="container">
+            <h1>LAB Evolution Forum 2024</h1>
+            <p>Стратегии построения современной высокотехнологичной лаборатории: от автоматизации процессов до оптимизации бизнес-модели</p>
+            <div class="date-place">
+                <div>📅 15-16 ноября 2024</div>
+                <div>📍 Конгресс-центр, Москва</div>
+            </div>
+            <button class="cta-button">Зарегистрироваться сейчас</button>
+        </div>
+    </section>
+
+    <!-- О конференции -->
+    <section id="about">
+        <div class="container">
+            <h2>О форуме</h2>
+            <p class="section-subtitle">Ключевое отраслевое событие для руководителей и специалистов медицинских лабораторий, посвященное трансформации лабораторной службы в современный технологический хаб</p>
+            
+            <div class="about-content">
+                <div class="about-text">
+                    <h3>Как построить лабораторию будущего уже сегодня?</h3>
+                    <p>LAB Evolution Forum — это уникальная площадка для обмена опытом между представителями Минздрава, руководителями лабораторных служб и ведущими технологическими компаниями.</p>
+                    <p>Мы фокусируемся на практических решениях для создания эффективной, масштабируемой и экономически обоснованной лабораторной инфраструктуры, соответствующей вызовам современного здравоохранения.</p>
+                    
+                    <div class="about-features">
+                        <div class="feature">
+                            <div class="feature-icon">✓</div>
+                            <div>Автоматизация всех этапов лабораторного процесса</div>
+                        </div>
+                        <div class="feature">
+                            <div class="feature-icon">✓</div>
+                            <div>Оптимизация бизнес-процессов и управленческих моделей</div>
+                        </div>
+                        <div class="feature">
+                            <div class="feature-icon">✓</div>
+                            <div>Внедрение современных ИТ-решений и цифровизация</div>
+                        </div>
+                        <div class="feature">
+                            <div class="feature-icon">✓</div>
+                            <div>Повышение качества и скорости оказания медицинской помощи</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="about-image">
+                    <img src="https://images.unsplash.com/photo-1582719471384-894fbb16e074?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Современная медицинская лаборатория">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Темы конференции -->
+    <section id="themes">
+        <div class="container">
+            <h2>Ключевые направления</h2>
+            <p class="section-subtitle">Основные блоки программы, охватывающие все аспекты создания и развития современной лабораторной службы</p>
+            
+            <div class="themes-grid">
+                <div class="theme-card">
+                    <div class="theme-icon">🔬</div>
+                    <div class="theme-content">
+                        <h3>Технологическая автоматизация</h3>
+                        <p>Полный цикл автоматизации: от преаналитики до хранения данных. Роботизация, ИИ в диагностике, системы управления лабораторным оборудованием.</p>
+                    </div>
+                </div>
+                
+                <div class="theme-card">
+                    <div class="theme-icon">📊</div>
+                    <div class="theme-content">
+                        <h3>Бизнес-процессы и управление</h3>
+                        <p>Экономическая эффективность, управление ресурсами, логистика, кадровая политика, модели финансирования и тарифообразования.</p>
+                    </div>
+                </div>
+                
+                <div class="theme-card">
+                    <div class="theme-icon">💻</div>
+                    <div class="theme-content">
+                        <h3>Цифровая трансформация</h3>
+                        <p>Лабораторные информационные системы, интеграция с ЕМИАС, большие данные, телемедицина, облачные решения для лабораторий.</p>
+                    </div>
+                </div>
+                
+                <div class="theme-card">
+                    <div class="theme-icon">⚖️</div>
+                    <div class="theme-content">
+                        <h3>Нормативное регулирование</h3>
+                        <p>Актуальные изменения в законодательстве, стандарты качества, лицензирование, экспертиза и контроль в сфере лабораторных услуг.</p>
+                    </div>
+                </div>
+                
+                <div class="theme-card">
+                    <div class="theme-icon">🔄</div>
+                    <div class="theme-content">
+                        <h3>Преаналитический этап</h3>
+                        <p>Современные решения для маркировки, транспортировки и хранения биоматериала. Снижение ошибок на самом уязвимом этапе.</p>
+                    </div>
+                </div>
+                
+                <div class="theme-card">
+                    <div class="theme-icon">🚀</div>
+                    <div class="theme-content">
+                        <h3>Инновации и развитие</h3>
+                        <p>Новые методики, оборудование будущего, инвестиции в развитие лабораторной службы, международный опыт и лучшие практики.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Регистрация -->
+    <section id="registration" class="registration">
+        <div class="container">
+            <h2>Регистрация на форум</h2>
+            <p class="section-subtitle">Заполните форму ниже, чтобы зарегистрироваться для участия в LAB Evolution Forum 2024</p>
+            
+            <div class="registration-form">
+                <form>
+                    <div class="form-group">
+                        <label for="fullname">ФИО</label>
+                        <input type="text" id="fullname" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="position">Должность</label>
+                        <input type="text" id="position" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="organization">Организация</label>
+                        <input type="text" id="organization" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Электронная почта</label>
+                        <input type="email" id="email" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="phone">Телефон</label>
+                        <input type="tel" id="phone" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="participant-type">Тип участия</label>
+                        <select id="participant-type">
+                            <option value="delegate">Делегат</option>
+                            <option value="speaker">Докладчик</option>
+                            <option value="exhibitor">Экспонент</option>
+                            <option value="partner">Партнер</option>
+                        </select>
+                    </div>
+                    
+                    <button type="submit" class="submit-btn">Зарегистрироваться</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Подвал -->
+    <footer id="contacts">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">LAB Evolution Forum</div>
+                <p>Главное событие года для специалистов медицинских лабораторий</p>
+                
+                <div class="footer-links">
+                    <a href="#about">О форуме</a>
+                    <a href="#themes">Программа</a>
+                    <a href="#registration">Участие</a>
+                    <a href="#">Партнерам</a>
+                    <a href="#">Контакты</a>
+                </div>
+                
+                <div class="copyright">
+                    © 2024 LAB Evolution Forum. Министерство здравоохранения Московской области.
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Плавная прокрутка к якорям
+        document.querySelectorAll('nav a, .cta-button').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                if(this.getAttribute('href') === '#') return;
+                
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                window.scrollTo({
+                    top: targetElement.offsetTop - 100,
+                    behavior: 'smooth'
+                });
+            });
+        });
+        
+        // Обработка формы
+        document.querySelector('form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Спасибо за регистрацию! Мы свяжемся с вами в ближайшее время.');
+            this.reset();
+        });
+    </script>
+</body>
+</html>
