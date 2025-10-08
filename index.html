@@ -3,349 +3,653 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LAB Evolution 2024</title>
+    <title>LAB Evolution 2024 | Автоматизация медицинских лабораторий</title>
     <style>
-        /* Reset и базовые стили в духе Apple */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, sans-serif;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        :root {
+            --primary: #0d47a1;
+            --primary-dark: #08306b;
+            --primary-light: #5472d3;
+            --secondary: #00695c;
+            --accent: #00b0ff;
+            --light: #e3f2fd;
+            --dark: #1a237e;
+            --text: #263238;
+            --text-light: #546e7a;
         }
 
         body {
-            background: #fff;
-            color: #1d1d1f;
-            line-height: 1.47059;
-            font-weight: 400;
-            letter-spacing: -0.022em;
+            background: linear-gradient(135deg, #f8fdff 0%, #e3f2fd 100%);
+            color: var(--text);
+            line-height: 1.6;
         }
 
         .container {
-            max-width: 980px;
+            max-width: 1200px;
             margin: 0 auto;
-            padding: 0 22px;
+            padding: 0 20px;
         }
 
-        /* Герой секция - минималистичный заголовок */
-        .hero {
-            padding: 160px 0 80px;
-            text-align: center;
-            background: linear-gradient(135deg, #f5f5f7 0%, #fff 100%);
+        /* Header */
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(13, 71, 161, 0.3);
         }
 
-        .hero h1 {
-            font-size: 48px;
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.5rem;
             font-weight: 700;
-            letter-spacing: -0.003em;
-            margin-bottom: 16px;
-            background: linear-gradient(135deg, #1d1d1f 0%, #424245 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
         }
 
-        .hero-subtitle {
-            font-size: 24px;
-            color: #86868b;
-            margin-bottom: 40px;
-            font-weight: 400;
+        .logo-icon {
+            font-size: 2rem;
         }
 
-        .date-place {
-            font-size: 17px;
-            color: #515154;
-            margin-bottom: 40px;
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+            padding: 8px 16px;
+            border-radius: 6px;
+        }
+
+        nav a:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--accent);
         }
 
         .cta-button {
-            display: inline-block;
-            background: #0071e3;
-            color: #fff;
-            padding: 12px 22px;
-            border-radius: 980px;
-            text-decoration: none;
-            font-size: 17px;
-            font-weight: 400;
-            transition: all 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 12px 28px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(0, 176, 255, 0.3);
         }
 
         .cta-button:hover {
-            background: #0077ed;
-            transform: scale(1.02);
+            background: #0091ea;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 176, 255, 0.4);
         }
 
-        /* Секция партнеров - сетка логотипов */
-        .partners {
+        /* Hero Section */
+        .hero {
+            padding: 180px 0 100px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" opacity="0.1"><path fill="white" d="M500,250c138,0,250,112,250,250S638,750,500,750S250,638,250,500S362,250,500,250z"/></svg>') center/cover;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            position: relative;
+        }
+
+        .hero-subtitle {
+            font-size: 1.4rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            position: relative;
+        }
+
+        .hero-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-top: 4rem;
+            position: relative;
+        }
+
+        .stat-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--accent);
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        /* Sections */
+        section {
             padding: 80px 0;
-            background: #f5f5f7;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary-dark);
+            margin-bottom: 3rem;
+        }
+
+        /* Partners */
+        .partners {
+            background: white;
         }
 
         .partners-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 40px;
-            align-items: center;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-bottom: 4rem;
         }
 
-        .partner-logo {
+        .partner-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
             text-align: center;
-            font-size: 20px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s;
+            border: 1px solid #e0e0e0;
+        }
+
+        .partner-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+        }
+
+        .partner-name {
+            font-size: 1.3rem;
             font-weight: 600;
-            color: #1d1d1f;
-            opacity: 0.8;
-            transition: opacity 0.3s ease;
+            color: var(--primary-dark);
+            margin-bottom: 1rem;
         }
 
-        .partner-logo:hover {
-            opacity: 1;
+        .partner-desc {
+            color: var(--text-light);
+            font-size: 0.95rem;
         }
 
-        /* Секция тем - минималистичные карточки */
-        .themes {
-            padding: 80px 0;
+        /* Program */
+        .program {
+            background: var(--light);
         }
 
-        .theme-item {
-            margin-bottom: 60px;
-            text-align: center;
-        }
-
-        .theme-number {
-            font-size: 48px;
-            font-weight: 700;
-            color: #86868b;
-            margin-bottom: 16px;
-        }
-
-        .theme-title {
-            font-size: 28px;
-            font-weight: 600;
-            margin-bottom: 12px;
-            color: #1d1d1f;
-        }
-
-        .theme-desc {
-            font-size: 19px;
-            color: #515154;
-            max-width: 600px;
+        .program-timeline {
+            max-width: 800px;
             margin: 0 auto;
         }
 
-        /* Секция спикеров */
-        .speakers {
-            padding: 80px 0;
-            background: #f5f5f7;
+        .timeline-item {
+            background: white;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+            border-left: 4px solid var(--accent);
         }
 
-        .speaker-item {
+        .time {
+            color: var(--primary);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .event-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--primary-dark);
+        }
+
+        /* Speakers */
+        .speakers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .speaker-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
             text-align: center;
-            margin-bottom: 40px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s;
+        }
+
+        .speaker-card:hover {
+            transform: translateY(-5px);
         }
 
         .speaker-name {
-            font-size: 24px;
+            font-size: 1.3rem;
             font-weight: 600;
-            margin-bottom: 8px;
+            color: var(--primary-dark);
+            margin-bottom: 0.5rem;
         }
 
-        .speaker-company {
-            font-size: 19px;
-            color: #86868b;
-            margin-bottom: 16px;
+        .speaker-role {
+            color: var(--primary);
+            font-weight: 500;
+            margin-bottom: 1rem;
         }
 
-        .speaker-topic {
-            font-size: 17px;
-            color: #515154;
-        }
-
-        /* Секция регистрации */
+        /* Registration */
         .registration {
-            padding: 80px 0;
-            text-align: center;
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
+            color: white;
         }
 
-        .registration h2 {
-            font-size: 32px;
-            font-weight: 600;
-            margin-bottom: 40px;
+        .registration .section-title {
+            color: white;
         }
 
-        .form-minimal {
-            max-width: 400px;
+        .registration-form {
+            max-width: 600px;
             margin: 0 auto;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 3rem;
+            border-radius: 16px;
+            backdrop-filter: blur(10px);
         }
 
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 1.5rem;
         }
 
-        .form-input {
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .form-group input, .form-group select {
             width: 100%;
-            padding: 12px 16px;
-            border: 1px solid #d2d2d7;
-            border-radius: 12px;
-            font-size: 17px;
-            transition: border-color 0.3s ease;
+            padding: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 1rem;
         }
 
-        .form-input:focus {
-            outline: none;
-            border-color: #0071e3;
+        .form-group input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
         }
 
         .submit-btn {
             width: 100%;
-            background: #1d1d1f;
-            color: #fff;
+            background: var(--accent);
+            color: white;
             border: none;
-            padding: 14px 22px;
-            border-radius: 12px;
-            font-size: 17px;
+            padding: 1.2rem;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
             cursor: pointer;
-            transition: background-color 0.3s ease;
+            transition: background 0.3s;
         }
 
         .submit-btn:hover {
-            background: #424245;
+            background: #0091ea;
         }
 
-        /* Футер */
+        /* Footer */
         footer {
-            padding: 40px 0;
+            background: var(--primary-dark);
+            color: white;
+            padding: 3rem 0;
             text-align: center;
-            color: #86868b;
-            font-size: 14px;
-            border-top: 1px solid #d2d2d7;
         }
 
-        /* Адаптивность */
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 1.5rem;
+            color: var(--accent);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent);
+        }
+
         @media (max-width: 768px) {
             .hero h1 {
-                font-size: 40px;
+                font-size: 2.5rem;
             }
             
-            .hero-subtitle {
-                font-size: 21px;
+            nav ul {
+                gap: 1rem;
             }
             
-            .partners-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 30px;
+            .hero-stats {
+                grid-template-columns: 1fr;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Герой - только суть -->
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <div class="logo-icon">⚕️</div>
+                    <div>LAB Evolution 2024</div>
+                </div>
+                <nav>
+                    <ul>
+                        <li><a href="#about">О событии</a></li>
+                        <li><a href="#program">Программа</a></li>
+                        <li><a href="#speakers">Эксперты</a></li>
+                        <li><a href="#partners">Технологии</a></li>
+                        <li><a href="#registration">Участие</a></li>
+                        <li><a href="#contacts">Контакты</a></li>
+                    </ul>
+                </nav>
+                <button class="cta-button">Регистрация</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
     <section class="hero">
         <div class="container">
             <h1>LAB Evolution 2024</h1>
-            <div class="hero-subtitle">Автоматизация медицинских лабораторий</div>
-            <div class="date-place">15 ноября • Москва • Конгресс-центр</div>
-            <a href="#registration" class="cta-button">Зарегистрироваться</a>
+            <div class="hero-subtitle">Трансформация лабораторной службы: от автоматизации процессов до цифровой экосистемы</div>
+            <button class="cta-button">Принять участие</button>
+            
+            <div class="hero-stats">
+                <div class="stat-item">
+                    <span class="stat-number">500+</span>
+                    <span class="stat-label">Участников</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">40+</span>
+                    <span class="stat-label">Экспертов</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">25+</span>
+                    <span class="stat-label">Технологических компаний</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">15+</span>
+                    <span class="stat-label">Практических кейсов</span>
+                </div>
+            </div>
         </div>
     </section>
 
-    <!-- Партнеры - только логотипы -->
-    <section class="partners">
+    <!-- About -->
+    <section id="about">
         <div class="container">
+            <h2 class="section-title">О событии</h2>
+            <div style="text-align: center; max-width: 800px; margin: 0 auto 3rem;">
+                <p style="font-size: 1.2rem; color: var(--text-light); margin-bottom: 2rem;">
+                    Ключевое отраслевое событие для руководителей и специалистов медицинских лабораторий, 
+                    посвященное стратегиям построения лабораторий будущего.
+                </p>
+            </div>
+            
             <div class="partners-grid">
-                <div class="partner-logo">Abbott</div>
-                <div class="partner-logo">Roche</div>
-                <div class="partner-logo">Siemens Healthineers</div>
-                <div class="partner-logo">Sysmex</div>
-                <div class="partner-logo">Beckman Coulter</div>
-                <div class="partner-logo">Mindray</div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Темы - только цифры и факты -->
-    <section class="themes">
-        <div class="container">
-            <div class="theme-item">
-                <div class="theme-number">01</div>
-                <div class="theme-title">Полная автоматизация</div>
-                <div class="theme-desc">От преаналитики до пост-аналитики. Роботизация Abbott, треки Roche, анализаторы Sysmex</div>
-            </div>
-            
-            <div class="theme-item">
-                <div class="theme-number">02</div>
-                <div class="theme-title">Бизнес-процессы</div>
-                <div class="theme-desc">Оптимизация затрат, управление ресурсами, экономическая эффективность лаборатории</div>
-            </div>
-            
-            <div class="theme-item">
-                <div class="theme-number">03</div>
-                <div class="theme-title">Цифровая трансформация</div>
-                <div class="theme-desc">Интеграция LIS с ЕМИАС, облачные решения, работа с большими данными</div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Спикеры - только имена и компании -->
-    <section class="speakers">
-        <div class="container">
-            <div class="speaker-item">
-                <div class="speaker-name">Михаил Иванов</div>
-                <div class="speaker-company">Abbott Laboratories</div>
-                <div class="speaker-topic">Автоматизация преаналитического этапа</div>
-            </div>
-            
-            <div class="speaker-item">
-                <div class="speaker-name">Анна Смирнова</div>
-                <div class="speaker-company">Roche Diagnostics</div>
-                <div class="speaker-topic">Цифровизация лабораторных процессов</div>
-            </div>
-            
-            <div class="speaker-item">
-                <div class="speaker-name">Дмитрий Петров</div>
-                <div class="speaker-company">Siemens Healthineers</div>
-                <div class="speaker-topic">Экономика лабораторного бизнеса</div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Регистрация - минималистичная форма -->
-    <section class="registration" id="registration">
-        <div class="container">
-            <h2>Регистрация</h2>
-            <form class="form-minimal">
-                <div class="form-group">
-                    <input type="text" class="form-input" placeholder="ФИО" required>
+                <div class="partner-card">
+                    <div class="partner-name">🏥 Минздрав МО</div>
+                    <div class="partner-desc">Официальный организатор конференции при поддержке Министерства здравоохранения Московской области</div>
                 </div>
-                <div class="form-group">
-                    <input type="email" class="form-input" placeholder="Email" required>
+                <div class="partner-card">
+                    <div class="partner-name">📊 Процессы</div>
+                    <div class="partner-desc">Оптимизация бизнес-процессов и управленческих моделей современной лаборатории</div>
                 </div>
-                <div class="form-group">
-                    <input type="text" class="form-input" placeholder="Организация" required>
+                <div class="partner-card">
+                    <div class="partner-name">🤖 Автоматизация</div>
+                    <div class="partner-desc">Внедрение роботизированных систем и AI-решений для повышения эффективности</div>
                 </div>
-                <button type="submit" class="submit-btn">Зарегистрироваться</button>
-            </form>
+            </div>
         </div>
     </section>
 
-    <!-- Футер - только копирайт -->
-    <footer>
+    <!-- Program -->
+    <section id="program" class="program">
         <div class="container">
-            <p>© 2024 LAB Evolution. Министерство здравоохранения Московской области.</p>
+            <h2 class="section-title">Программа дня</h2>
+            <div class="program-timeline">
+                <div class="timeline-item">
+                    <div class="time">09:00 - 10:00</div>
+                    <div class="event-title">Регистрация и приветственный кофе</div>
+                    <div class="event-desc">Знакомство с экспонентами, нетворкинг</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="time">10:00 - 11:30</div>
+                    <div class="event-title">Стратегическая сессия: Лаборатория 2025</div>
+                    <div class="event-desc">Тренды, вызовы и возможности цифровой трансформации</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="time">11:30 - 13:00</div>
+                    <div class="event-title">Технологические решения от лидеров рынка</div>
+                    <div class="event-desc">Презентации от Abbott, Roche, Siemens Healthineers, Sysmex</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="time">13:00 - 14:00</div>
+                    <div class="event-title">Обед и нетворкинг</div>
+                    <div class="event-desc">Неформальное общение с экспертами и коллегами</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Speakers -->
+    <section id="speakers">
+        <div class="container">
+            <h2 class="section-title">Ключевые эксперты</h2>
+            <div class="speakers-grid">
+                <div class="speaker-card">
+                    <div class="speaker-name">Дмитрий Волков</div>
+                    <div class="speaker-role">Главный специалист по лабораторной диагностике Минздрава МО</div>
+                    <div class="speaker-topic">Стратегия развития лабораторной службы региона</div>
+                </div>
+                <div class="speaker-card">
+                    <div class="speaker-name">Мария Иванова</div>
+                    <div class="speaker-role">Эксперт по автоматизации, Roche Diagnostics</div>
+                    <div class="speaker-topic">Цифровая трансформация лабораторных процессов</div>
+                </div>
+                <div class="speaker-card">
+                    <div class="speaker-name">Алексей Петров</div>
+                    <div class="speaker-role">Директор по развитию, Abbott Laboratories</div>
+                    <div class="speaker-topic">Инновации в преаналитическом этапе</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Partners -->
+    <section id="partners" class="partners">
+        <div class="container">
+            <h2 class="section-title">Технологические партнеры</h2>
+            <div class="partners-grid">
+                <div class="partner-card">
+                    <div class="partner-name">Abbott</div>
+                    <div class="partner-desc">Решения для полной автоматизации лабораторных процессов</div>
+                </div>
+                <div class="partner-card">
+                    <div class="partner-name">Roche</div>
+                    <div class="partner-desc">Инновационные диагностические системы и ИИ-решения</div>
+                </div>
+                <div class="partner-card">
+                    <div class="partner-name">Siemens Healthineers</div>
+                    <div class="partner-desc">Комплексные лабораторные информационные системы</div>
+                </div>
+                <div class="partner-card">
+                    <div class="partner-name">Sysmex</div>
+                    <div class="partner-desc">Передовые решения в гематологии и ургентной диагностике</div>
+                </div>
+                <div class="partner-card">
+                    <div class="partner-name">Beckman Coulter</div>
+                    <div class="partner-desc">Автоматизированные аналитические системы</div>
+                </div>
+                <div class="partner-card">
+                    <div class="partner-name">Mindray</div>
+                    <div class="partner-desc">Современное лабораторное оборудование и реагенты</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Registration -->
+    <section id="registration" class="registration">
+        <div class="container">
+            <h2 class="section-title">Регистрация на участие</h2>
+            <div class="registration-form">
+                <form>
+                    <div class="form-group">
+                        <label>ФИО</label>
+                        <input type="text" placeholder="Введите ваше полное имя" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Должность</label>
+                        <input type="text" placeholder="Ваша должность" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Организация</label>
+                        <input type="text" placeholder="Название медицинского учреждения" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" placeholder="example@mail.ru" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Телефон</label>
+                        <input type="tel" placeholder="+7 (XXX) XXX-XX-XX" required>
+                    </div>
+                    <button type="submit" class="submit-btn">Зарегистрироваться</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contacts">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Контакты</h3>
+                    <ul class="footer-links">
+                        <li>📞 +7 (495) 123-45-67</li>
+                        <li>✉️ info@labevolution.ru</li>
+                        <li>📍 Москва, Конгресс-центр</li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Участникам</h3>
+                    <ul class="footer-links">
+                        <li><a href="#program">Программа</a></li>
+                        <li><a href="#speakers">Спикеры</a></li>
+                        <li><a href="#partners">Партнеры</a></li>
+                        <li><a href="#registration">Регистрация</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Партнерам</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Условия участия</a></li>
+                        <li><a href="#">Экспонентам</a></li>
+                        <li><a href="#">Спонсорские пакеты</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div style="border-top: 1px solid rgba(255, 255, 255, 0.2); padding-top: 2rem;">
+                <p>© 2024 LAB Evolution Forum. Министерство здравоохранения Московской области.</p>
+            </div>
         </div>
     </footer>
 
     <script>
-        // Минималистичный скрипт для плавной прокрутки
-        document.querySelector('.cta-button').addEventListener('click', function(e) {
-            e.preventDefault();
-            document.querySelector('#registration').scrollIntoView({
-                behavior: 'smooth'
+        // Плавная прокрутка
+        document.querySelectorAll('nav a, .cta-button').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                if(this.getAttribute('href') === '#') return;
+                
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                window.scrollTo({
+                    top: targetElement.offsetTop - 100,
+                    behavior: 'smooth'
+                });
             });
         });
-
+        
         // Обработка формы
         document.querySelector('form').addEventListener('submit', function(e) {
             e.preventDefault();
-            alert('Регистрация принята. Спасибо!');
+            alert('Спасибо за регистрацию! Мы свяжемся с вами в ближайшее время.');
             this.reset();
         });
     </script>
