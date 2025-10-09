@@ -65,6 +65,65 @@ let currentSlide = 0;
 let autoSlideInterval;
 let yandexMap = null;
 
+// ==================== БУРГЕР-МЕНЮ ====================
+
+function initBurgerMenu() {
+    const burgerMenu = document.getElementById('burgerMenu');
+    const navMenu = document.getElementById('navMenu');
+    const body = document.body;
+    
+    if (!burgerMenu || !navMenu) return;
+    
+    burgerMenu.addEventListener('click', function() {
+        // Переключаем классы активности
+        burgerMenu.classList.toggle('active');
+        navMenu.classList.toggle('active');
+        body.classList.toggle('menu-open');
+        
+        // Обновляем aria-атрибуты для доступности
+        const isExpanded = burgerMenu.classList.contains('active');
+        burgerMenu.setAttribute('aria-expanded', isExpanded);
+        navMenu.setAttribute('aria-hidden', !isExpanded);
+    });
+    
+    // Закрываем меню при клике на ссылку
+    const navLinks = document.querySelectorAll('.nav-links a, .nav-register-btn');
+    navLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            burgerMenu.classList.remove('active');
+            navMenu.classList.remove('active');
+            body.classList.remove('menu-open');
+            burgerMenu.setAttribute('aria-expanded', 'false');
+            navMenu.setAttribute('aria-hidden', 'true');
+        });
+    });
+    
+    // Закрываем меню при клике вне его области
+    document.addEventListener('click', function(event) {
+        const isClickInsideMenu = navMenu.contains(event.target);
+        const isClickOnBurger = burgerMenu.contains(event.target);
+        
+        if (!isClickInsideMenu && !isClickOnBurger && navMenu.classList.contains('active')) {
+            burgerMenu.classList.remove('active');
+            navMenu.classList.remove('active');
+            body.classList.remove('menu-open');
+            burgerMenu.setAttribute('aria-expanded', 'false');
+            navMenu.setAttribute('aria-hidden', 'true');
+        }
+    });
+    
+    // Закрываем меню при нажатии Escape
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'Escape' && navMenu.classList.contains('active')) {
+            burgerMenu.classList.remove('active');
+            navMenu.classList.remove('active');
+            body.classList.remove('menu-open');
+            burgerMenu.setAttribute('aria-expanded', 'false');
+            navMenu.setAttribute('aria-hidden', 'true');
+        }
+    });
+}
+
 // ==================== КАРУСЕЛЬ СПИКЕРОВ ====================
 
 function initCarousel() {
@@ -365,14 +424,14 @@ END:VCALENDAR`;
 }
 
 function initCalendarButtons() {
-    document.querySelectorAll('#addToCalendar, #addToCalendarFooter, .cta-button').forEach(button => {
-        if (button.textContent.includes('календарь') || button.id.includes('Calendar')) {
-            button.addEventListener('click', function(e) {
-                e.preventDefault();
-                addToCalendar();
-            });
-        }
-    });
+    // Обрабатываем кнопку в герое
+    const heroCalendarBtn = document.getElementById('addToCalendarHero');
+    if (heroCalendarBtn) {
+        heroCalendarBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            addToCalendar();
+        });
+    }
 }
 
 // ==================== УВЕДОМЛЕНИЯ ====================
@@ -619,12 +678,13 @@ document.addEventListener('DOMContentLoaded', function() {
     addCustomStyles();
     
     // Инициализируем все модули
+    initBurgerMenu(); // Добавляем бургер-меню
     initCarousel();
     initCarouselEvents();
     initBackToTop();
     initSmoothScroll();
     initScrollAnimations();
-    initCalendarButtons();
+    initCalendarButtons(); // Обновленная функция календаря
     initMapFunctions();
     
     // Обработчики событий
