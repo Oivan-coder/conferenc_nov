@@ -72,18 +72,16 @@ let yandexMap = null;
 document.addEventListener('DOMContentLoaded', function() {
     console.log('🚀 Инициализация LAB Evolution 2025');
     
-    // Инициализация всех модулей
+    // Инициализация всех модулей (без галереи)
     initBurgerMenu();
     initPhotoSlider();
     initSpeakersCarousel();
-    initGalleryCarousel();
     initBackToTop();
     initSmoothScroll();
     initScrollAnimations();
     initCalendarButtons();
     initMapFunctions();
     
-    // Добавляем кастомные стили для уведомлений
     addCustomStyles();
 });
 
@@ -370,80 +368,7 @@ function resetSpeakerAutoSlide() {
     startSpeakerAutoSlide();
 }
 
-// ==================== ГАЛЕРЕЯ ====================
 
-function initGalleryCarousel() {
-    const galleryTrack = document.getElementById('galleryTrack');
-    const galleryDots = document.getElementById('galleryDots');
-    const prevBtn = document.querySelector('.gallery-prev');
-    const nextBtn = document.querySelector('.gallery-next');
-    
-    if (!galleryTrack || !galleryDots) {
-        console.warn('Элементы галереи не найдены');
-        return;
-    }
-    
-    // Заглушки для галереи
-    const galleryItems = ['📷', '🎥', '📹', '🎬', '📸', '🎞️'];
-    
-    // Создаем слайды галереи
-    galleryItems.forEach((item, index) => {
-        const slide = document.createElement('div');
-        slide.className = 'gallery-slide';
-        slide.innerHTML = `
-            <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 4rem; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 12px; color: white;">
-                ${item}
-            </div>
-        `;
-        galleryTrack.appendChild(slide);
-        
-        // Создаем точки навигации
-        const dot = document.createElement('button');
-        dot.className = `carousel-dot ${index === 0 ? 'active' : ''}`;
-        dot.setAttribute('aria-label', `Перейти к фото ${index + 1}`);
-        dot.addEventListener('click', () => goToGallerySlide(index));
-        galleryDots.appendChild(dot);
-    });
-    
-    // Обработчики кнопок навигации
-    if (prevBtn) {
-        prevBtn.addEventListener('click', () => moveGallerySlide(-1));
-    }
-    
-    if (nextBtn) {
-        nextBtn.addEventListener('click', () => moveGallerySlide(1));
-    }
-    
-    updateGalleryCarousel();
-    
-    console.log('✅ Галерея инициализирована');
-}
-
-function moveGallerySlide(direction) {
-    const totalSlides = document.querySelectorAll('.gallery-slide').length;
-    currentGallerySlide = (currentGallerySlide + direction + totalSlides) % totalSlides;
-    updateGalleryCarousel();
-}
-
-function goToGallerySlide(index) {
-    currentGallerySlide = index;
-    updateGalleryCarousel();
-}
-
-function updateGalleryCarousel() {
-    const galleryTrack = document.getElementById('galleryTrack');
-    const dots = document.querySelectorAll('#galleryDots .carousel-dot');
-    const slideWidth = 300 + 16; // Ширина слайда + gap
-    
-    if (galleryTrack) {
-        galleryTrack.style.transform = `translateX(-${currentGallerySlide * slideWidth}px)`;
-    }
-    
-    // Обновляем точки
-    dots.forEach((dot, index) => {
-        dot.classList.toggle('active', index === currentGallerySlide);
-    });
-}
 
 // ==================== КАРТА ====================
 
