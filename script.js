@@ -225,7 +225,7 @@ function initCarouselEvents() {
 // ==================== ИНТЕРАКТИВНАЯ КАРТА ====================
 
 function initYandexMap() {
-    const mapContainer = document.getElementById('yandexMap');
+    const mapContainer = document.getElementById('yandexMapFull'); // Изменил ID
     
     if (!mapContainer) return;
     
@@ -236,26 +236,9 @@ function initYandexMap() {
     }
 }
 
-function loadYandexMapsAPI() {
-    // Если API ключ не указан, используем фолбэк
-    if (!CONFIG.yandexMapsApiKey || CONFIG.yandexMapsApiKey === 'YOUR_YANDEX_MAPS_API_KEY') {
-        showMapFallback();
-        return;
-    }
-    
-    const script = document.createElement('script');
-    script.src = `https://api-maps.yandex.ru/2.1/?apikey=${CONFIG.yandexMapsApiKey}&lang=ru_RU`;
-    script.onload = () => ymaps.ready(createMap);
-    script.onerror = () => {
-        console.error('Ошибка загрузки Яндекс Карт');
-        showMapFallback();
-    };
-    document.head.appendChild(script);
-}
-
 function createMap() {
     try {
-        yandexMap = new ymaps.Map('yandexMap', {
+        yandexMap = new ymaps.Map('yandexMapFull', { // Изменил ID
             center: CONFIG.location.coordinates,
             zoom: 16,
             controls: ['zoomControl', 'fullscreenControl', 'typeSelector']
@@ -297,22 +280,6 @@ function createMap() {
             yandexMap.behaviors.disable('scrollZoom');
         }
 
-        // Открываем балун при клике на метку
-        placemark.events.add('click', function() {
-            yandexMap.balloon.open(CONFIG.location.coordinates, {
-                content: `
-                    <div class="map-balloon">
-                        <h3>${CONFIG.location.name}</h3>
-                        <p>${CONFIG.location.address}</p>
-                        <p><strong>Конференция LAB Evolution 2025</strong></p>
-                        <p>📅 21 ноября 2025, 11:00</p>
-                        <p>🚇 Метро "Мякинино" - 5 минут</p>
-                        <p>🚗 Парковка для участников</p>
-                    </div>
-                `
-            });
-        });
-
     } catch (error) {
         console.error('Ошибка создания карты:', error);
         showMapFallback();
@@ -320,7 +287,7 @@ function createMap() {
 }
 
 function showMapFallback() {
-    const mapContainer = document.getElementById('yandexMap');
+    const mapContainer = document.getElementById('yandexMapFull'); // Изменил ID
     if (mapContainer) {
         mapContainer.innerHTML = `
             <div class="map-fallback">
@@ -343,27 +310,9 @@ function showMapFallback() {
     }
 }
 
-function openNavigation() {
-    const { coordinates, address } = CONFIG.location;
-    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-    
-    if (isMobile) {
-        // Пытаемся открыть в Яндекс.Навигаторе
-        window.location.href = `yandexnavi://build_route_on_map?lat_to=${coordinates[0]}&lon_to=${coordinates[1]}`;
-        
-        // Фолбэк через 1 секунду
-        setTimeout(() => {
-            window.open(`https://yandex.ru/maps/?pt=${coordinates[1]},${coordinates[0]}&z=16&l=map`, '_blank');
-        }, 1000);
-    } else {
-        window.open(`https://yandex.ru/maps/?pt=${coordinates[1]},${coordinates[0]}&z=16&l=map&rtext=~${coordinates[0]},${coordinates[1]}`, '_blank');
-    }
-    
-    showNotification('🗺️ Открываю навигацию до БЦ "Новатор"...', 'info');
-}
-
 function initMapFunctions() {
-    const navBtn = document.getElementById('openNavigation');
+    // Обработчик для кнопки на карте
+    const navBtn = document.getElementById('openNavigationMap'); // Изменил ID
     if (navBtn) {
         navBtn.addEventListener('click', function(e) {
             e.preventDefault();
@@ -477,7 +426,25 @@ function closeNotification(notification) {
         }
     }, 300);
 }
+// ==================== ВИДЕО ФОН ====================
 
+function initVideoBackground() {
+    const video = document.querySelector('.video-background');
+    if (!video) return;
+    
+    // Обработка ошибок видео
+    video.addEventListener('error', function() {
+        console.log('Видео не загрузилось, показываем фолбэк');
+        document.querySelector('.video-fallback').style.display = 'block';
+    });
+    
+    // Автовоспроизведение для мобильных
+    video.addEventListener('canplay', function() {
+        video.play().catch(function(error) {
+            console.log('Автовоспроизведение заблокировано:', error);
+        });
+    });
+}
 // ==================== НАВИГАЦИЯ И АНИМАЦИИ ====================
 
 function initBackToTop() {
@@ -678,20 +645,26 @@ document.addEventListener('DOMContentLoaded', function() {
     addCustomStyles();
     
     // Инициализируем все модули
-    initBurgerMenu(); // Добавляем бургер-меню
+    initBurgerMenu();
     initCarousel();
     initCarouselEvents();
     initBackToTop();
     initSmoothScroll();
     initScrollAnimations();
-    initCalendarButtons(); // Обновленная функция календаря
-    initMapFunctions();
+    initCalendarButtons();
+    initMapFunctions(); // Теперь работает с новой картой
+    initVideoBackground(); // Добавляем инициализацию видео
     
     // Обработчики событий
     window.addEventListener('resize', handleResize);
     window.addEventListener('beforeunload', cleanup);
+    
+    // Предзагрузка видео для лучшей производительности
+    const video = document.querySelector('.video-background');
+    if (video) {
+        video.preload = 'auto';
+    }
 });
-
 // Экспортируем функции для глобального использования
 window.openNavigation = openNavigation;
 window.addToCalendar = addToCalendar;
