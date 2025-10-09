@@ -100,16 +100,11 @@
             return;
         }
         
-        const formData = {
-            email: document.getElementById('email').value,
-            phone: document.getElementById('phone').value,
-            name: document.getElementById('name').value,
-            position: document.getElementById('position').value,
-            organization: document.getElementById('organization').value
-        };
+        const email = document.getElementById('email').value;
+        const phone = document.getElementById('phone').value;
         
         // Быстрая локальная проверка
-        if (submittedData.has(formData.email + formData.phone)) {
+        if (submittedData.has(email + phone)) {
             alert('❌ Вы уже отправляли эту форму');
             return;
         }
@@ -120,47 +115,58 @@
         submitBtn.disabled = true;
         
         try {
-            // 🔥 ОТПРАВКА НАПРЯМУЮ В APPS SCRIPT
-            console.log('📤 Отправляем данные...');
-            const success = await submitToGoogleAppsScript(formData);
+            // 🔥 ПРОСТАЯ ОТПРАВКА В GOOGLE FORMS
+            await submitToGoogleForms();
+            submittedData.add(email + phone);
             
-            if (success) {
-                submittedData.add(formData.email + formData.phone);
-                document.getElementById('visible-form').style.display = 'none';
-                document.getElementById('success-message').style.display = 'block';
-            } else {
-                alert('❌ Ошибка отправки. Попробуйте еще раз.');
-            }
+            // ПОКАЗЫВАЕМ УСПЕХ
+            document.getElementById('visible-form').style.display = 'none';
+            document.getElementById('success-message').style.display = 'block';
             
         } catch (error) {
             console.error('Ошибка:', error);
-            alert('❌ Ошибка сети. Проверьте соединение.');
+            alert('❌ Ошибка отправки. Попробуйте еще раз.');
+            submitBtn.textContent = 'Зарегистрироваться';
+            submitBtn.disabled = false;
         }
-        
-        submitBtn.textContent = 'Зарегистрироваться';
-        submitBtn.disabled = false;
     });
 
-    // 🔥 ОТПРАВКА В GOOGLE APPS SCRIPT
-    async function submitToGoogleAppsScript(formData) {
-        try {
-            const response = await fetch('https://script.google.com/macros/s/AKfycbwvDwCEZ9PqBuvvXDdqc6yF6ecpLDA69M6U1tgxjDfYlANO9kUtGtr3oUBuNHnQJW__/exec', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(formData)
+    // 🔥 ПРОСТАЯ ОТПРАВКА В GOOGLE FORMS (РАБОЧИЙ МЕТОД)
+    function submitToGoogleForms() {
+        return new Promise((resolve) => {
+            const iframe = document.createElement('iframe');
+            iframe.name = 'google-form-' + Date.now();
+            iframe.style.display = 'none';
+            document.body.appendChild(iframe);
+            
+            const tempForm = document.createElement('form');
+            tempForm.action = 'https://docs.google.com/forms/u/0/d/e/1FAIpQLSc7urE88w0Y_zM7EBGbhQN8Uw87Uw6eFRBm2d9GvqJT7Q4S0A/formResponse';
+            tempForm.method = 'POST';
+            tempForm.target = iframe.name;
+            tempForm.style.display = 'none';
+            
+            const fields = [
+                { name: 'entry.1277724311', value: document.getElementById('email').value },
+                { name: 'entry.74922399', value: document.getElementById('name').value },
+                { name: 'entry.827511450', value: document.getElementById('position').value },
+                { name: 'entry.1066367767', value: document.getElementById('organization').value },
+                { name: 'entry.362036752', value: document.getElementById('phone').value }
+            ];
+            
+            fields.forEach(field => {
+                const input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = field.name;
+                input.value = field.value;
+                tempForm.appendChild(input);
             });
             
-            const result = await response.json();
-            console.log('📊 Результат:', result);
+            document.body.appendChild(tempForm);
+            tempForm.submit();
             
-            return result.success;
-            
-        } catch (error) {
-            console.error('Ошибка отправки:', error);
-            return false;
-        }
+            // Всегда считаем успехом
+            setTimeout(() => resolve(true), 3000);
+        });
     }
 </script>
 </body>
