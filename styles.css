@@ -26,8 +26,8 @@
   /* Скругления */
   --radius-sm: 6px;
   --radius-md: 12px;
-  --radius-lg: 20px;
-  --radius-xl: 30px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
   
   /* Отступы */
   --space-xs: 0.5rem;
@@ -73,16 +73,16 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 h1 {
-  font-size: clamp(2.5rem, 5vw, 3.5rem);
+  font-size: clamp(2rem, 4vw, 2.5rem);
 }
 
 h2 {
-  font-size: clamp(2rem, 4vw, 2.5rem);
+  font-size: clamp(1.8rem, 3.5vw, 2.2rem);
   text-align: center;
 }
 
 h3 {
-  font-size: 1.5rem;
+  font-size: 1.4rem;
 }
 
 p {
@@ -96,7 +96,7 @@ p {
   align-items: center;
   justify-content: center;
   gap: var(--space-xs);
-  padding: var(--space-sm) var(--space-lg);
+  padding: 0.75rem 1.5rem;
   border: none;
   border-radius: var(--radius-md);
   font-weight: 600;
@@ -104,7 +104,7 @@ p {
   text-align: center;
   transition: all 0.3s ease;
   cursor: pointer;
-  font-size: 1rem;
+  font-size: 0.9rem;
   line-height: 1;
   white-space: nowrap;
 }
@@ -122,10 +122,11 @@ p {
 }
 
 .cta-button.secondary {
-  background: var(--white);
+  background: rgba(255, 255, 255, 0.9);
   color: var(--primary);
   border: 2px solid var(--primary);
   box-shadow: var(--shadow-sm);
+  backdrop-filter: blur(10px);
 }
 
 .cta-button.secondary:hover {
@@ -133,11 +134,6 @@ p {
   color: var(--white);
   transform: translateY(-2px);
   box-shadow: var(--shadow-md);
-}
-
-.cta-button.large {
-  padding: var(--space-md) var(--space-xl);
-  font-size: 1.1rem;
 }
 
 /* ===== HEADER & NAVIGATION ===== */
@@ -156,14 +152,14 @@ p {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: var(--space-sm) 0;
+  padding: 1rem 0;
 }
 
 .logo {
   display: flex;
   align-items: center;
-  gap: var(--space-sm);
-  font-size: 1.3rem;
+  gap: 0.75rem;
+  font-size: 1.2rem;
   font-weight: 700;
   color: var(--white);
   text-decoration: none;
@@ -176,7 +172,7 @@ p {
 }
 
 .logo-icon {
-  font-size: 1.8rem;
+  font-size: 1.5rem;
 }
 
 /* Бургер меню */
@@ -186,7 +182,7 @@ p {
   background: none;
   border: none;
   cursor: pointer;
-  padding: var(--space-xs);
+  padding: 0.5rem;
   gap: 4px;
   z-index: 1001;
   width: 30px;
@@ -204,7 +200,6 @@ p {
   transform-origin: center;
 }
 
-/* Анимация бургера */
 .burger-menu.active span:nth-child(1) {
   transform: rotate(45deg) translate(6px, 6px);
 }
@@ -237,11 +232,12 @@ p {
   color: var(--white);
   text-decoration: none;
   font-weight: 500;
-  padding: var(--space-xs) var(--space-sm);
+  padding: 0.5rem 1rem;
   border-radius: var(--radius-sm);
   transition: all 0.3s ease;
   position: relative;
   white-space: nowrap;
+  font-size: 0.9rem;
 }
 
 .nav-links a:hover {
@@ -263,6 +259,10 @@ p {
 
 .nav-links a:hover::after {
   width: 80%;
+}
+
+.nav-register-btn {
+  white-space: nowrap;
 }
 
 /* ===== PHOTO HERO SECTION ===== */
@@ -329,57 +329,61 @@ p {
   width: 100%;
   height: 100%;
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   z-index: 3;
+  padding: var(--space-xl);
 }
 
+/* ОБНОВЛЕННАЯ ПЛАШКА В ЛЕВОМ НИЖНЕМ УГЛУ */
 .hero-info-card {
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(20px);
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(15px);
   border-radius: var(--radius-lg);
-  padding: var(--space-xl);
-  max-width: 500px;
+  padding: var(--space-lg);
+  max-width: 400px;
   box-shadow: var(--shadow-lg);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  margin-left: var(--space-xl);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  margin: 0;
 }
 
 .hero-info-card h1 {
+  font-size: 1.8rem;
+  margin-bottom: 0.5rem;
   color: var(--primary-dark);
-  margin-bottom: var(--space-sm);
 }
 
-.hero-subtitle {
-  font-size: 1.3rem;
+.hero-info-card .hero-subtitle {
+  font-size: 1rem;
+  margin-bottom: 1rem;
   color: var(--text);
-  margin-bottom: var(--space-lg);
+  line-height: 1.3;
   font-weight: 500;
-  line-height: 1.4;
 }
 
 .event-details {
-  margin-bottom: var(--space-lg);
+  margin-bottom: 1.5rem;
 }
 
 .detail-item {
   display: flex;
   align-items: center;
-  gap: var(--space-sm);
-  margin-bottom: var(--space-sm);
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
   color: var(--text);
   font-weight: 500;
+  font-size: 0.9rem;
 }
 
 .detail-icon {
-  font-size: 1.2rem;
-  width: 24px;
+  font-size: 1.1rem;
+  width: 20px;
   text-align: center;
 }
 
 .hero-buttons {
   display: flex;
-  flex-direction: column;
-  gap: var(--space-sm);
+  gap: 0.75rem;
+  flex-wrap: wrap;
 }
 
 /* Слайдер контролы */
@@ -397,10 +401,10 @@ p {
 .slider-btn {
   background: rgba(255, 255, 255, 0.9);
   border: none;
-  width: 50px;
-  height: 50px;
+  width: 45px;
+  height: 45px;
   border-radius: 50%;
-  font-size: 1.5rem;
+  font-size: 1.3rem;
   cursor: pointer;
   transition: all 0.3s ease;
   display: flex;
@@ -417,12 +421,12 @@ p {
 
 .slider-dots {
   display: flex;
-  gap: var(--space-xs);
+  gap: 0.5rem;
 }
 
 .slider-dot {
-  width: 12px;
-  height: 12px;
+  width: 10px;
+  height: 10px;
   border-radius: 50%;
   border: none;
   background: rgba(255, 255, 255, 0.5);
@@ -457,17 +461,17 @@ p {
 
 .stat-number {
   display: block;
-  font-size: 2.5rem;
+  font-size: 2.2rem;
   font-weight: 800;
   color: var(--primary);
   line-height: 1;
-  margin-bottom: var(--space-xs);
+  margin-bottom: 0.5rem;
 }
 
 .stat-label {
   color: var(--text-light);
   font-weight: 500;
-  font-size: 1.1rem;
+  font-size: 1rem;
 }
 
 /* ===== SECTIONS COMMON STYLES ===== */
@@ -542,6 +546,7 @@ section {
 .feature-desc {
   color: var(--text-light);
   line-height: 1.5;
+  font-size: 0.95rem;
 }
 
 /* ===== PROGRAM SECTION ===== */
@@ -570,11 +575,11 @@ section {
 .block-header h3 {
   color: var(--white);
   margin: 0;
-  font-size: 1.4rem;
+  font-size: 1.3rem;
 }
 
 .block-icon {
-  font-size: 1.2rem;
+  font-size: 1.1rem;
 }
 
 .block-content {
@@ -610,12 +615,12 @@ section {
   font-weight: 500;
   margin-bottom: var(--space-xs);
   color: var(--text);
-  font-size: 1.1rem;
+  font-size: 1.05rem;
 }
 
 .session-desc {
   color: var(--text-light);
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   line-height: 1.5;
 }
 
@@ -656,21 +661,21 @@ section {
 }
 
 .speaker-photo {
-  width: 120px;
-  height: 120px;
+  width: 100px;
+  height: 100px;
   border-radius: 50%;
   margin: 0 auto var(--space-md);
-  border: 4px solid var(--accent);
+  border: 3px solid var(--accent);
   background: linear-gradient(135deg, var(--primary-light), var(--accent));
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 3rem;
+  font-size: 2.5rem;
   box-shadow: var(--shadow-md);
 }
 
 .speaker-name {
-  font-size: 1.3rem;
+  font-size: 1.2rem;
   font-weight: 600;
   color: var(--primary-dark);
   margin-bottom: var(--space-xs);
@@ -682,11 +687,12 @@ section {
   font-weight: 500;
   margin-bottom: var(--space-sm);
   line-height: 1.4;
+  font-size: 0.9rem;
 }
 
 .speaker-topic {
   color: var(--text-light);
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   line-height: 1.4;
 }
 
@@ -697,10 +703,10 @@ section {
   background: var(--primary);
   color: var(--white);
   border: none;
-  width: 50px;
-  height: 50px;
+  width: 45px;
+  height: 45px;
   border-radius: 50%;
-  font-size: 1.5rem;
+  font-size: 1.3rem;
   cursor: pointer;
   z-index: 10;
   transition: all 0.3s ease;
@@ -716,11 +722,11 @@ section {
 }
 
 .carousel-btn-prev {
-  left: 20px;
+  left: 15px;
 }
 
 .carousel-btn-next {
-  right: 20px;
+  right: 15px;
 }
 
 .carousel-dots {
@@ -731,8 +737,8 @@ section {
 }
 
 .carousel-dot {
-  width: 12px;
-  height: 12px;
+  width: 10px;
+  height: 10px;
   border-radius: 50%;
   background: var(--gray-100);
   border: none;
@@ -743,38 +749,6 @@ section {
 .carousel-dot.active {
   background: var(--primary);
   transform: scale(1.2);
-}
-
-/* ===== GALLERY SECTION ===== */
-.gallery-section {
-  background: var(--gray-50);
-}
-
-.gallery-container {
-  position: relative;
-  max-width: 1000px;
-  margin: 0 auto;
-  overflow: hidden;
-  border-radius: var(--radius-md);
-}
-
-.gallery-track {
-  display: flex;
-  transition: transform 0.5s ease-in-out;
-  gap: var(--space-md);
-}
-
-.gallery-slide {
-  min-width: 300px;
-  height: 200px;
-  background: var(--white);
-  border-radius: var(--radius-md);
-  box-shadow: var(--shadow-md);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 3rem;
-  color: var(--text-light);
 }
 
 /* ===== PARTNERS SECTION ===== */
@@ -804,7 +778,7 @@ section {
 }
 
 .partner-name {
-  font-size: 1.3rem;
+  font-size: 1.2rem;
   font-weight: 600;
   color: var(--primary-dark);
   margin-bottom: var(--space-sm);
@@ -812,7 +786,7 @@ section {
 
 .partner-desc {
   color: var(--text-light);
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   line-height: 1.5;
 }
 
@@ -831,56 +805,66 @@ section {
   width: 100%;
   height: 100%;
   border: none;
+  background: var(--gray-50);
 }
 
+/* ОБНОВЛЕННАЯ ПЛАШКА НА КАРТЕ */
 .location-overlay-card {
   position: absolute;
   top: 30px;
   left: 30px;
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(20px);
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(15px);
   border-radius: var(--radius-lg);
-  padding: var(--space-xl);
-  max-width: 350px;
+  padding: var(--space-lg);
+  max-width: 300px;
   box-shadow: var(--shadow-lg);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 .location-overlay-card .location-icon {
-  font-size: 2.5rem;
-  margin-bottom: var(--space-md);
+  font-size: 2rem;
+  margin-bottom: 0.75rem;
 }
 
 .location-overlay-card h3 {
   color: var(--primary-dark);
-  margin-bottom: var(--space-xs);
-  font-size: 1.3rem;
+  margin-bottom: 0.5rem;
+  font-size: 1.2rem;
 }
 
 .location-address {
   color: var(--text-light);
-  margin-bottom: var(--space-lg);
+  margin-bottom: 1rem;
   line-height: 1.4;
+  font-size: 0.9rem;
 }
 
 .location-overlay-card .location-features {
-  margin-bottom: var(--space-lg);
+  margin-bottom: 1.5rem;
 }
 
 .location-overlay-card .feature {
   display: flex;
   align-items: center;
-  gap: var(--space-sm);
-  margin-bottom: var(--space-sm);
-  font-size: 0.9rem;
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
+  font-size: 0.85rem;
+  color: var(--text);
+}
+
+.location-overlay-card .feature-icon {
+  font-size: 1rem;
+  width: 20px;
+  text-align: center;
 }
 
 .map-btn {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: var(--space-xs);
-  padding: var(--space-sm) var(--space-lg);
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
   background: var(--primary);
   color: var(--white);
   border: none;
@@ -889,7 +873,7 @@ section {
   text-decoration: none;
   transition: all 0.3s ease;
   cursor: pointer;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   box-shadow: var(--shadow-md);
   width: 100%;
 }
@@ -900,26 +884,8 @@ section {
   box-shadow: var(--shadow-hover);
 }
 
-/* ===== REGISTRATION SECTION ===== */
-.registration {
-  background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
-  color: var(--white);
-  text-align: center;
-}
-
-.registration .section-title {
-  color: var(--white);
-}
-
-.registration .section-title::after {
-  background: var(--accent);
-}
-
-.registration-info p {
-  font-size: 1.2rem;
-  margin-bottom: var(--space-lg);
-  opacity: 0.9;
-  color: var(--white);
+.btn-icon {
+  font-size: 1rem;
 }
 
 /* ===== FOOTER ===== */
@@ -939,7 +905,7 @@ footer {
 .footer-section h3 {
   color: var(--accent);
   margin-bottom: var(--space-md);
-  font-size: 1.2rem;
+  font-size: 1.1rem;
 }
 
 .footer-links {
@@ -947,7 +913,8 @@ footer {
 }
 
 .footer-links li {
-  margin-bottom: var(--space-sm);
+  margin-bottom: 0.75rem;
+  font-size: 0.9rem;
 }
 
 .footer-links a {
@@ -965,21 +932,21 @@ footer {
   padding-top: var(--space-lg);
   text-align: center;
   color: rgba(255, 255, 255, 0.7);
-  font-size: 0.9rem;
+  font-size: 0.85rem;
 }
 
 /* ===== BACK TO TOP BUTTON ===== */
 .back-to-top {
   position: fixed;
-  bottom: 30px;
-  right: 30px;
-  width: 50px;
-  height: 50px;
+  bottom: 25px;
+  right: 25px;
+  width: 45px;
+  height: 45px;
   background: var(--primary);
   color: var(--white);
   border: none;
   border-radius: 50%;
-  font-size: 1.5rem;
+  font-size: 1.3rem;
   cursor: pointer;
   transition: all 0.3s ease;
   box-shadow: var(--shadow-md);
@@ -1002,7 +969,7 @@ footer {
   box-shadow: var(--shadow-hover);
 }
 
-/* ===== RESPONSIVE DESIGN ===== */
+/* ===== АДАПТИВНОСТЬ ===== */
 
 /* Планшеты */
 @media (max-width: 968px) {
@@ -1056,18 +1023,18 @@ footer {
     overflow: hidden;
   }
   
+  .hero-content {
+    padding: var(--space-lg);
+  }
+  
   .hero-info-card {
-    margin: 0 auto;
-    max-width: 90%;
+    max-width: 350px;
   }
   
   .location-overlay-card {
-    position: relative;
-    top: auto;
-    left: auto;
-    max-width: 100%;
-    margin: 0;
-    border-radius: 0;
+    max-width: 280px;
+    left: 20px;
+    top: 20px;
   }
 }
 
@@ -1087,7 +1054,7 @@ footer {
   }
   
   .stat-number {
-    font-size: 2rem;
+    font-size: 1.8rem;
   }
   
   .features-grid {
@@ -1097,7 +1064,7 @@ footer {
   .carousel-btn {
     width: 40px;
     height: 40px;
-    font-size: 1.2rem;
+    font-size: 1.1rem;
   }
   
   .carousel-btn-prev {
@@ -1116,25 +1083,42 @@ footer {
   .back-to-top {
     bottom: 20px;
     right: 20px;
-    width: 45px;
-    height: 45px;
-    font-size: 1.3rem;
+    width: 40px;
+    height: 40px;
+    font-size: 1.1rem;
+  }
+  
+  .hero-info-card {
+    max-width: 100%;
+    margin: 0;
+  }
+  
+  .location-overlay-card {
+    position: relative;
+    top: auto;
+    left: auto;
+    max-width: 100%;
+    margin: 0;
+    border-radius: 0;
   }
 }
 
 /* Маленькие мобильные */
 @media (max-width: 480px) {
   .hero-info-card {
-    padding: var(--space-lg);
-    margin: var(--space-md);
+    padding: var(--space-md);
   }
   
   .hero-info-card h1 {
-    font-size: 2rem;
+    font-size: 1.5rem;
   }
   
   .hero-subtitle {
-    font-size: 1.1rem;
+    font-size: 0.9rem;
+  }
+  
+  .hero-buttons {
+    flex-direction: column;
   }
   
   .hero-stats {
@@ -1142,7 +1126,7 @@ footer {
   }
   
   .stat-number {
-    font-size: 1.8rem;
+    font-size: 1.6rem;
   }
   
   .carousel-track {
@@ -1168,9 +1152,9 @@ footer {
   .back-to-top {
     bottom: 15px;
     right: 15px;
-    width: 40px;
-    height: 40px;
-    font-size: 1.2rem;
+    width: 35px;
+    height: 35px;
+    font-size: 1rem;
   }
 }
 
@@ -1208,19 +1192,90 @@ footer {
   }
 }
 
-/* Утилитарные классы */
-.text-center {
+/* Стили для уведомлений и карты */
+.notification-close {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 0;
+  margin-left: 1rem;
+  opacity: 0.8;
+  transition: opacity 0.3s;
+}
+
+.notification-close:hover { 
+  opacity: 1; 
+}
+
+.notification-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.notification-message { 
+  flex: 1; 
+}
+
+.map-fallback {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  background: var(--gray-50);
   text-align: center;
 }
 
-.mb-0 {
-  margin-bottom: 0;
+.fallback-content { 
+  padding: 2rem; 
 }
 
-.mt-2 {
-  margin-top: var(--space-sm);
+.fallback-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  display: block;
 }
 
-.opacity-75 {
-  opacity: 0.75;
+.fallback-content h3 {
+  color: var(--primary-dark);
+  margin-bottom: 1rem;
+}
+
+.fallback-content p {
+  color: var(--text-light);
+  margin-bottom: 1.5rem;
+}
+
+.fallback-buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.fallback-btn {
+  padding: 0.75rem 1.5rem;
+  background: var(--primary);
+  color: white;
+  text-decoration: none;
+  border-radius: 6px;
+  font-weight: 500;
+  transition: background 0.3s;
+  border: none;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.fallback-btn.secondary {
+  background: var(--text-light);
+}
+
+.fallback-btn:hover {
+  background: var(--primary-dark);
+}
+
+.fallback-btn.secondary:hover {
+  background: var(--text);
 }
