@@ -128,15 +128,11 @@
             
             console.log('Дубли не найдены, отправляем в Google Forms...');
             
-            // 🔥 ОТПРАВКА ЧЕРЕЗ GOOGLE FORMS
-            const success = await submitToGoogleForms();
-            if (success) {
-                submittedData.add(email + phone);
-                showSuccess();
-            } else {
-                showError('Ошибка отправки. Попробуйте еще раз.');
-                resetButton(submitBtn, originalText);
-            }
+            // 🔥 ОТПРАВКА ЧЕРЕЗ GOOGLE FORMS (ПРОСТОЙ МЕТОД)
+            await submitToGoogleForms();
+            submittedData.add(email + phone);
+            showSuccess();
+            
         } catch (error) {
             console.error('Ошибка:', error);
             showError('Ошибка сети. Проверьте соединение.');
@@ -165,12 +161,12 @@
             
         } catch (error) {
             console.error('Ошибка проверки дублей:', error);
-            return false; // Если сервер недоступен - пропускаем проверку
+            return false;
         }
     }
 
-    // 🔥 ОТПРАВКА В GOOGLE FORMS
-    async function submitToGoogleForms() {
+    // 🔥 ПРОСТАЯ ОТПРАВКА В GOOGLE FORMS
+    function submitToGoogleForms() {
         return new Promise((resolve) => {
             const iframe = document.createElement('iframe');
             iframe.name = 'google-form-' + Date.now();
@@ -179,9 +175,6 @@
             iframe.onload = () => {
                 console.log('✅ Форма успешно отправлена в Google Forms');
                 resolve(true);
-                setTimeout(() => {
-                    if (iframe.parentNode) iframe.parentNode.removeChild(iframe);
-                }, 5000);
             };
             
             document.body.appendChild(iframe);
@@ -211,11 +204,8 @@
             document.body.appendChild(tempForm);
             tempForm.submit();
             
-            // Резервный таймаут
-            setTimeout(() => {
-                if (tempForm.parentNode) tempForm.parentNode.removeChild(tempForm);
-                resolve(true);
-            }, 8000);
+            // Всегда считаем успехом
+            setTimeout(() => resolve(true), 3000);
         });
     }
 
@@ -226,21 +216,7 @@
     }
 
     function showError(message) {
-        let errorDiv = document.getElementById('error-message');
-        if (!errorDiv) {
-            errorDiv = document.createElement('div');
-            errorDiv.id = 'error-message';
-            errorDiv.style.cssText = `
-                background: #ffebee;
-                color: #c62828;
-                padding: 1rem;
-                border-radius: 8px;
-                margin-bottom: 1rem;
-                border: 1px solid #ffcdd2;
-            `;
-            document.querySelector('.registration-form-single').prepend(errorDiv);
-        }
-        errorDiv.textContent = message;
+        alert('❌ ' + message);
     }
 
     function showSuccess() {
