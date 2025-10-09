@@ -9,6 +9,7 @@
 <body>
     <!-- Header -->
     <!-- Header -->
+<!-- Header -->
 <header>
     <div class="container">
         <div class="header-content">
@@ -16,49 +17,60 @@
                 <div class="logo-icon">⚕️</div>
                 <div>LAB Evolution 2025</div>
             </a>
-            <nav>
-                <ul>
+            
+            <!-- Бургер меню -->
+            <button class="burger-menu" id="burgerMenu" aria-label="Открыть меню">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            
+            <nav class="nav-menu" id="navMenu">
+                <ul class="nav-links">
                     <li><a href="#about">О событии</a></li>
                     <li><a href="#program">Программа</a></li>
                     <li><a href="#speakers">Эксперты</a></li>
                     <li><a href="#partners">Технологии</a></li>
+                    <li><a href="#location">Место</a></li>
                     <li><a href="#registration">Участие</a></li>
                     <li><a href="#contacts">Контакты</a></li>
                 </ul>
+                <a href="#registration" class="cta-button nav-register-btn">Регистрация</a>
             </nav>
-            <a href="#registration" class="cta-button">Добавить в календарь</a>
         </div>
     </div>
 </header>
 
     <!-- Hero Section -->
-    <section class="hero">
-        <div class="container">
-            <h1>LAB Evolution 2025</h1>
-            <div class="hero-subtitle">«Современная лабораторная служба: от анализа к качеству»</div>
-            <div class="hero-date">📅 21 ноября 2025 г.</div>
-            <a href="registration.html" class="cta-button">Принять участие</a>
-            
-            <div class="hero-stats">
-                <div class="stat-item">
-                    <span class="stat-number">500+</span>
-                    <span class="stat-label">Участников</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-number">40+</span>
-                    <span class="stat-label">Экспертов</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-number">25+</span>
-                    <span class="stat-label">Технологических компаний</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-number">15+</span>
-                    <span class="stat-label">Практических кейсов</span>
-                </div>
+<section class="hero">
+    <div class="container">
+        <h1>LAB Evolution 2025</h1>
+        <div class="hero-subtitle">«Современная лабораторная служба: от анализа к качеству»</div>
+        <div class="hero-date">📅 21 ноября 2025 г.</div>
+        
+        <!-- Заменяем "Принять участие" на "Добавить в календарь" -->
+        <a href="#" class="cta-button" id="addToCalendarHero">📅 Добавить в календарь</a>
+        
+        <div class="hero-stats">
+            <div class="stat-item">
+                <span class="stat-number">500+</span>
+                <span class="stat-label">Участников</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">40+</span>
+                <span class="stat-label">Экспертов</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">25+</span>
+                <span class="stat-label">Технологических компаний</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">15+</span>
+                <span class="stat-label">Практических кейсов</span>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
     <!-- About -->
     <section id="about">
