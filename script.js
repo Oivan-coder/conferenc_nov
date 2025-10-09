@@ -168,16 +168,32 @@ function initPhotoSlider() {
     photoSlider.innerHTML = '';
     photoDots.innerHTML = '';
 
-    // ПРОСТОЙ МАССИВ С ПУТЯМИ К ФОТО
-    const photos = [];
-    for (let i = 1; i <= 15; i++) {
-        photos.push(`images/hero/${i}.jpg`);
-    }
+    // АБСОЛЮТНЫЕ ПУТИ К 15 ФОТОГРАФИЯМ
+    const photos = [
+        '/images/hero/1.jpg',
+        '/images/hero/2.jpg', 
+        '/images/hero/3.jpg',
+        '/images/hero/4.jpg',
+        '/images/hero/5.jpg',
+        '/images/hero/6.jpg',
+        '/images/hero/7.jpg',
+        '/images/hero/8.jpg',
+        '/images/hero/9.jpg',
+        '/images/hero/10.jpg',
+        '/images/hero/11.jpg',
+        '/images/hero/12.jpg',
+        '/images/hero/13.jpg',
+        '/images/hero/14.jpg',
+        '/images/hero/15.jpg'
+    ];
 
-    console.log('📸 Фото для загрузки:', photos);
+    console.log('📸 Загружаем фото:', photos);
+
+    // Перемешиваем массив для случайного порядка
+    const shuffledPhotos = shuffleArray([...photos]);
 
     // Создаем слайды
-    photos.forEach((photoPath, index) => {
+    shuffledPhotos.forEach((photoPath, index) => {
         // Создаем элемент слайда
         const slide = document.createElement('div');
         slide.className = `photo-slide ${index === 0 ? 'active' : ''}`;
@@ -185,28 +201,34 @@ function initPhotoSlider() {
         // Создаем изображение
         const img = document.createElement('img');
         img.src = photoPath;
-        img.alt = `Фото с конференции ${index + 1}`;
-        img.style.width = '100%';
-        img.style.height = '100%';
-        img.style.objectFit = 'cover';
+        img.alt = `Фото с конференции LAB Evolution ${index + 1}`;
         
         // Обработчик ошибки загрузки
         img.onerror = function() {
-            console.error(`❌ Не удалось загрузить: ${photoPath}`);
+            console.error(`❌ Ошибка загрузки: ${photoPath}`);
             this.style.display = 'none';
             // Показываем заглушку
             const placeholder = document.createElement('div');
             placeholder.className = 'photo-placeholder';
+            placeholder.style.display = 'flex';
+            placeholder.style.flexDirection = 'column';
+            placeholder.style.alignItems = 'center';
+            placeholder.style.justifyContent = 'center';
+            placeholder.style.height = '100%';
+            placeholder.style.background = 'linear-gradient(135deg, #0d47a1, #08306b)';
+            placeholder.style.color = 'white';
+            placeholder.style.textAlign = 'center';
             placeholder.innerHTML = `
-                <span class="photo-icon">📸</span>
-                <p>Фото ${index + 1}</p>
+                <span style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.7;">📸</span>
+                <p>Фото ${index + 1} не загружено</p>
+                <small>${photoPath}</small>
             `;
             slide.appendChild(placeholder);
         };
         
         // Обработчик успешной загрузки
         img.onload = function() {
-            console.log(`✅ Загружено: ${photoPath}`);
+            console.log(`✅ Успешно: ${photoPath}`);
         };
 
         slide.appendChild(img);
@@ -215,11 +237,24 @@ function initPhotoSlider() {
         // Создаем точку навигации
         const dot = document.createElement('button');
         dot.className = `slider-dot ${index === 0 ? 'active' : ''}`;
+        dot.setAttribute('aria-label', `Перейти к фото ${index + 1}`);
         dot.addEventListener('click', () => goToPhotoSlide(index));
         photoDots.appendChild(dot);
     });
 
     console.log(`✅ Создано ${photos.length} слайдов`);
+
+    // Автопрокрутка
+    startPhotoAutoSlide();
+}
+
+// Функция перемешивания массива
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
 }
 
 // Остальные функции оставьте без изменений
@@ -242,6 +277,8 @@ function movePhotoSlide(direction) {
     dots.forEach((dot, index) => {
         dot.classList.toggle('active', index === currentPhotoSlide);
     });
+    
+    resetPhotoAutoSlide();
 }
 
 function goToPhotoSlide(index) {
@@ -257,6 +294,25 @@ function goToPhotoSlide(index) {
     dots.forEach((dot, i) => {
         dot.classList.toggle('active', i === currentPhotoSlide);
     });
+    
+    resetPhotoAutoSlide();
+}
+
+function startPhotoAutoSlide() {
+    autoSlideInterval = setInterval(() => {
+        movePhotoSlide(1);
+    }, 5000);
+}
+
+function stopPhotoAutoSlide() {
+    if (autoSlideInterval) {
+        clearInterval(autoSlideInterval);
+    }
+}
+
+function resetPhotoAutoSlide() {
+    stopPhotoAutoSlide();
+    startPhotoAutoSlide();
 }
 
 // ==================== КАРУСЕЛЬ СПИКЕРОВ ====================
