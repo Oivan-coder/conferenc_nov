@@ -157,8 +157,6 @@ function initPhotoSlider() {
     
     const photoSlider = document.getElementById('photoSlider');
     const photoDots = document.getElementById('photoDots');
-    const prevBtn = document.getElementById('photoPrev');
-    const nextBtn = document.getElementById('photoNext');
     
     if (!photoSlider || !photoDots) {
         console.error('❌ Не найден photoSlider или photoDots');
@@ -169,7 +167,6 @@ function initPhotoSlider() {
     photoSlider.innerHTML = '';
     photoDots.innerHTML = '';
 
-    // ПУТИ ДЛЯ images/hero/
     const photos = [
         'images/hero/1.jpg',
         'images/hero/2.jpg', 
@@ -198,7 +195,9 @@ function initPhotoSlider() {
         slideElement.innerHTML = `
             <img src="${photoPath}" 
                  alt="Фото с конференции LAB Evolution ${index + 1}" 
-                 style="width: 100%; height: 100%; object-fit: cover;">
+                 style="width: 100%; height: 100%; object-fit: cover;"
+                 onload="console.log('✅ Фото ${index + 1} загружено')"
+                 onerror="console.error('❌ Ошибка загрузки фото ${index + 1}:', this.src)">
         `;
         
         photoSlider.appendChild(slideElement);
@@ -212,6 +211,9 @@ function initPhotoSlider() {
     });
 
     // Обработчики кнопок навигации
+    const prevBtn = document.getElementById('photoPrev');
+    const nextBtn = document.getElementById('photoNext');
+    
     if (prevBtn) {
         prevBtn.addEventListener('click', () => movePhotoSlide(-1));
     }
@@ -223,7 +225,8 @@ function initPhotoSlider() {
     // Автопрокрутка
     startPhotoAutoSlide();
     
-    console.log(`✅ Создано 15 слайдов для images/hero/`);
+    console.log(`✅ Создано ${photos.length} слайдов`);
+    console.log('🔍 Проверяем элементы в DOM:', document.querySelectorAll('.photo-slide').length);
 }
 
 // ДОБАВЛЯЕМ ВСЕ НЕОБХОДИМЫЕ ФУНКЦИИ ДЛЯ СЛАЙДЕРА:
