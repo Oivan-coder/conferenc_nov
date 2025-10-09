@@ -296,6 +296,14 @@ p {
   opacity: 1;
 }
 
+.photo-slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
 .photo-placeholder {
   display: flex;
   flex-direction: column;
@@ -969,6 +977,127 @@ footer {
   box-shadow: var(--shadow-hover);
 }
 
+/* ===== УВЕДОМЛЕНИЯ И ДОПОЛНИТЕЛЬНЫЕ СТИЛИ ===== */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideOutRight {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+}
+
+.notification-close {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 0;
+  margin-left: 1rem;
+  opacity: 0.8;
+  transition: opacity 0.3s;
+}
+
+.notification-close:hover { 
+  opacity: 1; 
+}
+
+.notification-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.notification-message { 
+  flex: 1; 
+}
+
+.map-fallback {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  background: var(--gray-50);
+  text-align: center;
+}
+
+.fallback-content { 
+  padding: 2rem; 
+}
+
+.fallback-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  display: block;
+}
+
+.fallback-content h3 {
+  color: var(--primary-dark);
+  margin-bottom: 1rem;
+}
+
+.fallback-content p {
+  color: var(--text-light);
+  margin-bottom: 1.5rem;
+}
+
+.fallback-buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.fallback-btn {
+  padding: 0.75rem 1.5rem;
+  background: var(--primary);
+  color: white;
+  text-decoration: none;
+  border-radius: 6px;
+  font-weight: 500;
+  transition: background 0.3s;
+  border: none;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.fallback-btn.secondary {
+  background: var(--text-light);
+}
+
+.fallback-btn:hover {
+  background: var(--primary-dark);
+}
+
+.fallback-btn.secondary:hover {
+  background: var(--text);
+}
+
 /* ===== АДАПТИВНОСТЬ ===== */
 
 /* Планшеты */
@@ -1156,172 +1285,4 @@ footer {
     height: 35px;
     font-size: 1rem;
   }
-}
-
-/* Анимации */
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes slideInRight {
-  from {
-    transform: translateX(100%);
-    opacity: 0;
-  }
-  to {
-    transform: translateX(0);
-    opacity: 1;
-  }
-}
-
-@keyframes slideOutRight {
-  from {
-    transform: translateX(0);
-    opacity: 1;
-  }
-  to {
-    transform: translateX(100%);
-    opacity: 0;
-  }
-}
-
-/* Стили для уведомлений и карты */
-.notification-close {
-  background: none;
-  border: none;
-  color: white;
-  font-size: 1.2rem;
-  cursor: pointer;
-  padding: 0;
-  margin-left: 1rem;
-  opacity: 0.8;
-  transition: opacity 0.3s;
-}
-
-.notification-close:hover { 
-  opacity: 1; 
-}
-
-.notification-content {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.notification-message { 
-  flex: 1; 
-}
-
-.map-fallback {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  background: var(--gray-50);
-  text-align: center;
-}
-
-.fallback-content { 
-  padding: 2rem; 
-}
-
-.fallback-icon {
-  font-size: 3rem;
-  margin-bottom: 1rem;
-  display: block;
-}
-
-.fallback-content h3 {
-  color: var(--primary-dark);
-  margin-bottom: 1rem;
-}
-
-.fallback-content p {
-  color: var(--text-light);
-  margin-bottom: 1.5rem;
-}
-
-.fallback-buttons {
-  display: flex;
-  gap: 1rem;
-  justify-content: center;
-  flex-wrap: wrap;
-}
-
-.fallback-btn {
-  padding: 0.75rem 1.5rem;
-  background: var(--primary);
-  color: white;
-  text-decoration: none;
-  border-radius: 6px;
-  font-weight: 500;
-  transition: background 0.3s;
-  border: none;
-  cursor: pointer;
-  font-size: 0.9rem;
-}
-
-.fallback-btn.secondary {
-  background: var(--text-light);
-}
-
-.fallback-btn:hover {
-  background: var(--primary-dark);
-}
-
-.fallback-btn.secondary:hover {
-  background: var(--text);
-}
-/* Стили для фото-слайдера */
-.photo-slider {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-}
-
-.photo-slide {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    opacity: 0;
-    transition: opacity 0.5s ease;
-}
-
-.photo-slide.active {
-    opacity: 1;
-}
-
-.photo-slide img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center;
-}
-
-.photo-placeholder {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-    background: linear-gradient(135deg, #0d47a1, #08306b);
-    color: white;
-    text-align: center;
-}
-
-.photo-icon {
-    font-size: 3rem;
-    margin-bottom: 1rem;
-    opacity: 0.7;
 }
