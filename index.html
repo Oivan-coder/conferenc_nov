@@ -277,32 +277,10 @@
                 </div>
             </div>
             <div class="map-container">
+                <!-- Интерактивная карта -->
                 <div class="map-wrapper">
-                    <!-- Статическая карта с ссылкой на Яндекс.Карты -->
-                    <a href="https://yandex.ru/maps/org/bc_novator/1125366325/?ll=37.383687%2C55.817062&z=17" 
-                       target="_blank" class="static-map">
-                        <div class="map-image">
-                            <img src="https://static-maps.yandex.ru/1.x/?ll=37.383687,55.817062&z=16&l=map&size=650,300&pt=37.383687,55.817062,pm2rdm" 
-                                 alt="Карта БЦ Новатор на бульваре Строителей, 7" 
-                                 class="map-img">
-                            <div class="map-overlay">
-                                <span class="map-hint">Нажмите для открытия интерактивной карты</span>
-                            </div>
-                        </div>
-                    </a>
-                    
-                    <!-- Кнопки для навигации -->
-                    <div class="map-buttons">
-                        <a href="https://yandex.ru/maps/org/bc_novator/1125366325/?ll=37.383687%2C55.817062&z=17" 
-                           target="_blank" class="map-btn yandex-btn">
-                            <span class="btn-icon">📍</span>
-                            <span>Яндекс.Карты</span>
-                        </a>
-                        <a href="https://maps.app.goo.gl/example" 
-                           target="_blank" class="map-btn google-btn">
-                            <span class="btn-icon">🗺️</span>
-                            <span>Google Карты</span>
-                        </a>
+                    <div id="yandexMap" class="interactive-map"></div>
+                    <div class="map-controls">
                         <button class="map-btn nav-btn" id="openNavigation">
                             <span class="btn-icon">🚗</span>
                             <span>Проложить маршрут</span>
