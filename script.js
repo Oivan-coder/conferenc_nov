@@ -169,20 +169,32 @@ function initPhotoSlider() {
     photoSlider.innerHTML = '';
     photoDots.innerHTML = '';
 
-    // ПРАВИЛЬНЫЕ ПУТИ К ФОТОГРАФИЯМ
-    const photos = [];
-    for (let i = 1; i <= 15; i++) {
-        photos.push(`images/hero/${i}.jpg`);
-    }
+    // ПУТИ ДЛЯ images/hero/
+    const photos = [
+        'images/hero/1.jpg',
+        'images/hero/2.jpg', 
+        'images/hero/3.jpg',
+        'images/hero/4.jpg',
+        'images/hero/5.jpg',
+        'images/hero/6.jpg',
+        'images/hero/7.jpg',
+        'images/hero/8.jpg',
+        'images/hero/9.jpg',
+        'images/hero/10.jpg',
+        'images/hero/11.jpg',
+        'images/hero/12.jpg',
+        'images/hero/13.jpg',
+        'images/hero/14.jpg',
+        'images/hero/15.jpg'
+    ];
 
-    console.log('📸 Загружаем фото:', photos);
+    console.log('📸 Загружаем фото из images/hero/:', photos);
 
     // Создаем слайды
     photos.forEach((photoPath, index) => {
         const slideElement = document.createElement('div');
         slideElement.className = `photo-slide ${index === 0 ? 'active' : ''}`;
         
-        // ПРОСТО ВСТАВЛЯЕМ IMG С ПРАВИЛЬНЫМ ПУТЕМ
         slideElement.innerHTML = `
             <img src="${photoPath}" 
                  alt="Фото с конференции LAB Evolution ${index + 1}" 
@@ -211,7 +223,61 @@ function initPhotoSlider() {
     // Автопрокрутка
     startPhotoAutoSlide();
     
-    console.log(`✅ Создано 15 слайдов с фотографиями`);
+    console.log(`✅ Создано 15 слайдов для images/hero/`);
+}
+
+// ДОБАВЛЯЕМ ВСЕ НЕОБХОДИМЫЕ ФУНКЦИИ ДЛЯ СЛАЙДЕРА:
+
+function movePhotoSlide(direction) {
+    const slides = document.querySelectorAll('.photo-slide');
+    const totalSlides = slides.length;
+    
+    if (totalSlides === 0) return;
+    
+    currentPhotoSlide = (currentPhotoSlide + direction + totalSlides) % totalSlides;
+    updatePhotoSlides();
+    resetPhotoAutoSlide();
+}
+
+function goToPhotoSlide(index) {
+    const slides = document.querySelectorAll('.photo-slide');
+    const totalSlides = slides.length;
+    
+    if (index >= 0 && index < totalSlides) {
+        currentPhotoSlide = index;
+        updatePhotoSlides();
+        resetPhotoAutoSlide();
+    }
+}
+
+function updatePhotoSlides() {
+    const slides = document.querySelectorAll('.photo-slide');
+    const dots = document.querySelectorAll('.slider-dot');
+    
+    slides.forEach((slide, index) => {
+        slide.classList.toggle('active', index === currentPhotoSlide);
+    });
+    
+    dots.forEach((dot, index) => {
+        dot.classList.toggle('active', index === currentPhotoSlide);
+    });
+}
+
+function startPhotoAutoSlide() {
+    autoSlideInterval = setInterval(() => {
+        movePhotoSlide(1);
+    }, 5000);
+}
+
+function stopPhotoAutoSlide() {
+    if (autoSlideInterval) {
+        clearInterval(autoSlideInterval);
+    }
+}
+
+function resetPhotoAutoSlide() {
+    stopPhotoAutoSlide();
+    startPhotoAutoSlide();
 }
 
 // ==================== КАРУСЕЛЬ СПИКЕРОВ ====================
