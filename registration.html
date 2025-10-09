@@ -37,14 +37,6 @@
         <h2>Регистрация на конференцию</h2>
         <p class="subtitle">Заполните форму для участия в мероприятии</p>
         
-        <form id="google-form" action="https://docs.google.com/forms/d/e/1bs8gMkiMStZgHipFuQPMCqInuS1Z0N2SbjaprMeGKTk/formResponse" method="POST" style="display: none;">
-            <input type="email" name="entry.200207254" id="google-email">
-            <input type="text" name="entry.74922399" id="google-name">
-            <input type="text" name="entry.827511450" id="google-position">
-            <input type="text" name="entry.1066367767" id="google-organization">
-            <input type="text" name="entry.362036752" id="google-phone">
-        </form>
-
         <form id="visible-form" class="registration-form-single">
             <div class="form-group">
                 <label for="email">Email *</label>
@@ -85,7 +77,7 @@
             <button type="submit" class="submit-btn">Зарегистрироваться</button>
         </form>
 
-        <div id="success-message" class="success-message">
+        <div id="success-message" class="success-message" style="display: none;">
             <div class="success-icon">✅</div>
             <h3>Спасибо за регистрацию!</h3>
             <p>На ваш email отправлено подтверждение.</p>
@@ -98,208 +90,158 @@
     </div>
 
     <script>
-        document.getElementById('visible-form').addEventListener('submit', function(e) {
+        // Храним отправленные данные для проверки дублей
+        const submittedData = new Set();
+
+        document.getElementById('visible-form').addEventListener('submit', async function(e) {
             e.preventDefault();
             
             if (!document.getElementById('agreement').checked) {
-                alert('Необходимо дать согласие на обработку персональных данных');
+                showError('Необходимо дать согласие на обработку персональных данных');
                 return;
             }
             
-            document.getElementById('google-email').value = document.getElementById('email').value;
-            document.getElementById('google-name').value = document.getElementById('name').value;
-            document.getElementById('google-position').value = document.getElementById('position').value;
-            document.getElementById('google-organization').value = document.getElementById('organization').value;
-            document.getElementById('google-phone').value = document.getElementById('phone').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
             
+            // Проверка дублей
+            if (isDuplicate(email, phone)) {
+                showError('Регистрация с таким email или телефоном уже выполнена');
+                return;
+            }
+            
+            // Блокируем кнопку
+            const submitBtn = this.querySelector('.submit-btn');
+            const originalText = submitBtn.textContent;
+            submitBtn.textContent = 'Отправляем...';
+            submitBtn.disabled = true;
+            
+            try {
+                const success = await submitToGoogleForms();
+                if (success) {
+                    submittedData.add(email + phone);
+                    showSuccess();
+                } else {
+                    showError('Ошибка отправки. Попробуйте еще раз.');
+                    resetButton(submitBtn, originalText);
+                }
+            } catch (error) {
+                console.error('Ошибка:', error);
+                showError('Ошибка сети. Проверьте соединение.');
+                resetButton(submitBtn, originalText);
+            }
+        });
+
+        function resetButton(button, text) {
+            button.textContent = text;
+            button.disabled = false;
+        }
+
+        function isDuplicate(email, phone) {
+            return submittedData.has(email + phone);
+        }
+
+        async function submitToGoogleForms() {
+            return new Promise((resolve) => {
+                const iframe = document.createElement('iframe');
+                iframe.name = 'google-form-target-' + Date.now();
+                iframe.style.display = 'none';
+                
+                iframe.onload = () => {
+                    console.log('Форма успешно отправлена в Google Forms');
+                    resolve(true);
+                    setTimeout(() => {
+                        if (iframe.parentNode) iframe.parentNode.removeChild(iframe);
+                    }, 5000);
+                };
+                
+                iframe.onerror = () => {
+                    console.warn('Ошибка при отправке формы');
+                    resolve(false);
+                };
+                
+                document.body.appendChild(iframe);
+                
+                const tempForm = document.createElement('form');
+                // 🔥 ВАЖНО: URL без пробелов в конце!
+                tempForm.action = 'https://docs.google.com/forms/d/e/1bs8gMkiMStZgHipFuQPMCqInuS1Z0N2SbjaprMeGKTk/formResponse';
+                tempForm.method = 'POST';
+                tempForm.target = iframe.name;
+                tempForm.style.display = 'none';
+                
+                const fields = [
+                    { name: 'entry.200207254', value: document.getElementById('email').value },
+                    { name: 'entry.74922399', value: document.getElementById('name').value },
+                    { name: 'entry.827511450', value: document.getElementById('position').value },
+                    { name: 'entry.1066367767', value: document.getElementById('organization').value },
+                    { name: 'entry.362036752', value: document.getElementById('phone').value }
+                ];
+                
+                fields.forEach(field => {
+                    const input = document.createElement('input');
+                    input.type = 'hidden';
+                    input.name = field.name;
+                    input.value = field.value;
+                    tempForm.appendChild(input);
+                });
+                
+                document.body.appendChild(tempForm);
+                tempForm.submit();
+                
+                // Таймаут на случай, если iframe не загрузится (но форма всё равно ушла)
+                setTimeout(() => {
+                    if (tempForm.parentNode) tempForm.parentNode.removeChild(tempForm);
+                    resolve(true); // Считаем успешной — Google обычно не возвращает ошибку явно
+                }, 8000);
+            });
+        }
+
+        function showError(message) {
+            let errorDiv = document.getElementById('error-message');
+            if (!errorDiv) {
+                errorDiv = document.createElement('div');
+                errorDiv.id = 'error-message';
+                errorDiv.style.cssText = `
+                    background: #ffebee;
+                    color: #c62828;
+                    padding: 1rem;
+                    border-radius: 8px;
+                    margin-bottom: 1rem;
+                    border: 1px solid #ffcdd2;
+                    transition: opacity 0.3s;
+                `;
+                document.querySelector('.registration-form-single').prepend(errorDiv);
+            }
+            errorDiv.textContent = message;
+            errorDiv.style.display = 'block';
+            
+            setTimeout(() => {
+                if (errorDiv) errorDiv.style.opacity = '0';
+                setTimeout(() => {
+                    if (errorDiv && errorDiv.parentNode) errorDiv.parentNode.removeChild(errorDiv);
+                }, 300);
+            }, 5000);
+        }
+
+        function showSuccess() {
             document.getElementById('visible-form').style.display = 'none';
             document.getElementById('success-message').style.display = 'block';
-            
-            fetch(document.getElementById('google-form').action, {
-                method: 'POST',
-                body: new FormData(document.getElementById('google-form')),
-                mode: 'no-cors'
-            });
+        }
+
+        // Валидация в реальном времени
+        document.getElementById('email').addEventListener('blur', function() {
+            const email = this.value;
+            const valid = email === '' || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+            this.style.borderColor = valid ? '' : '#e53935';
+            if (!valid && email) showError('Введите корректный email');
+        });
+
+        document.getElementById('phone').addEventListener('blur', function() {
+            const phone = this.value.replace(/\D/g, '');
+            const valid = phone === '' || (phone.length === 11 && (phone.startsWith('7') || phone.startsWith('8')));
+            this.style.borderColor = valid ? '' : '#e53935';
+            if (!valid && phone) showError('Телефон должен содержать 11 цифр (например, +79123456789)');
         });
     </script>
 </body>
 </html>
-<script>
-// Храним отправленные данные для проверки дублей
-const submittedData = new Set();
-
-document.getElementById('visible-form').addEventListener('submit', async function(e) {
-    e.preventDefault();
-    
-    if (!document.getElementById('agreement').checked) {
-        showError('Необходимо дать согласие на обработку персональных данных');
-        return;
-    }
-    
-    const email = document.getElementById('email').value;
-    const phone = document.getElementById('phone').value;
-    
-    // Проверка дублей
-    if (isDuplicate(email, phone)) {
-        showError('Регистрация с таким email или телефоном уже выполнена');
-        return;
-    }
-    
-    // Блокируем кнопку
-    const submitBtn = this.querySelector('.submit-btn');
-    const originalText = submitBtn.textContent;
-    submitBtn.textContent = 'Отправляем...';
-    submitBtn.disabled = true;
-    
-    try {
-        // Пытаемся отправить данные
-        const success = await submitToGoogleForms();
-        
-        if (success) {
-            // Добавляем в множество отправленных
-            submittedData.add(email + phone);
-            showSuccess();
-        } else {
-            showError('Ошибка отправки. Попробуйте еще раз');
-            submitBtn.textContent = originalText;
-            submitBtn.disabled = false;
-        }
-    } catch (error) {
-        showError('Ошибка сети. Проверьте соединение');
-        submitBtn.textContent = originalText;
-        submitBtn.disabled = false;
-    }
-});
-
-// Проверка дублей
-function isDuplicate(email, phone) {
-    const key = email + phone;
-    return submittedData.has(key);
-}
-
-// Отправка в Google Forms с подтверждением
-async function submitToGoogleForms() {
-    return new Promise((resolve) => {
-        // Создаем iframe для отслеживания загрузки
-        const iframe = document.createElement('iframe');
-        iframe.name = 'google-form-target-' + Date.now();
-        iframe.style.display = 'none';
-        
-        // Обработчик загрузки iframe
-        iframe.onload = function() {
-            console.log('Форма отправлена успешно');
-            resolve(true);
-            
-            // Чистим через время
-            setTimeout(() => {
-                if (document.body.contains(iframe)) {
-                    document.body.removeChild(iframe);
-                }
-            }, 5000);
-        };
-        
-        iframe.onerror = function() {
-            console.log('Ошибка отправки формы');
-            resolve(false);
-        };
-        
-        document.body.appendChild(iframe);
-        
-        // Создаем временную форму
-        const tempForm = document.createElement('form');
-        tempForm.action = 'https://docs.google.com/forms/d/e/1bs8gMkiMStZgHipFuQPMCqInuS1Z0N2SbjaprMeGKTk/formResponse';
-        tempForm.method = 'POST';
-        tempForm.target = iframe.name;
-        tempForm.style.display = 'none';
-        
-        // Добавляем поля
-        const fields = [
-            { name: 'entry.200207254', value: document.getElementById('email').value },
-            { name: 'entry.74922399', value: document.getElementById('name').value },
-            { name: 'entry.827511450', value: document.getElementById('position').value },
-            { name: 'entry.1066367767', value: document.getElementById('organization').value },
-            { name: 'entry.362036752', value: document.getElementById('phone').value }
-        ];
-        
-        fields.forEach(field => {
-            const input = document.createElement('input');
-            input.type = 'hidden';
-            input.name = field.name;
-            input.value = field.value;
-            tempForm.appendChild(input);
-        });
-        
-        document.body.appendChild(tempForm);
-        tempForm.submit();
-        
-        // Таймаут на случай если iframe не загрузится
-        setTimeout(() => {
-            if (document.body.contains(tempForm)) {
-                document.body.removeChild(tempForm);
-            }
-            resolve(true); // Считаем успехом даже без подтверждения
-        }, 10000);
-    });
-}
-
-// Показ ошибки
-function showError(message) {
-    // Создаем или находим блок ошибки
-    let errorDiv = document.getElementById('error-message');
-    if (!errorDiv) {
-        errorDiv = document.createElement('div');
-        errorDiv.id = 'error-message';
-        errorDiv.style.cssText = `
-            background: #ffebee;
-            color: #c62828;
-            padding: 1rem;
-            border-radius: 8px;
-            margin-bottom: 1rem;
-            border: 1px solid #ffcdd2;
-        `;
-        document.querySelector('.registration-form-single').prepend(errorDiv);
-    }
-    
-    errorDiv.textContent = message;
-    errorDiv.style.display = 'block';
-    
-    // Автоскрытие через 5 секунд
-    setTimeout(() => {
-        errorDiv.style.display = 'none';
-    }, 5000);
-}
-
-// Показ успеха
-function showSuccess() {
-    document.getElementById('visible-form').style.display = 'none';
-    document.getElementById('success-message').style.display = 'block';
-}
-
-// Валидация email и телефона в реальном времени
-document.getElementById('email').addEventListener('blur', validateEmail);
-document.getElementById('phone').addEventListener('blur', validatePhone);
-
-function validateEmail() {
-    const email = this.value;
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    
-    if (email && !emailRegex.test(email)) {
-        this.style.borderColor = '#c62828';
-        showError('Введите корректный email адрес');
-    } else {
-        this.style.borderColor = '#e0e0e0';
-    }
-}
-
-function validatePhone() {
-    const phone = this.value;
-    const phoneRegex = /^\+7\s?\(?\d{3}\)?\s?\d{3}[\s-]?\d{2}[\s-]?\d{2}$/;
-    
-    if (phone && !phoneRegex.test(phone.replace(/\s/g, ''))) {
-        this.style.borderColor = '#c62828';
-        showError('Введите телефон в формате: +7 (XXX) XXX-XX-XX');
-    } else {
-        this.style.borderColor = '#e0e0e0';
-    }
-}
-</script>
