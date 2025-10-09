@@ -1353,3 +1353,35 @@ footer {
         padding: 1rem 1.5rem;
     }
 }
+/* Дополнительные стили для видео фона */
+.video-background {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    z-index: 1;
+    object-fit: cover; /* Важно для заполнения пространства */
+}
+
+/* Оптимизация для мобильных */
+@media (max-width: 768px) {
+    .video-hero {
+        height: 70vh; /* Чуть меньше высота на мобильных */
+    }
+    
+    .video-background {
+        /* На мобильных можно уменьшить качество видео */
+        transform: translate(-50%, -50%) scale(1.1);
+    }
+}
+
+/* Улучшение производительности */
+.video-hero {
+    transform: translateZ(0); /* Аппаратное ускорение */
+    backface-visibility: hidden;
+    perspective: 1000;
+}
