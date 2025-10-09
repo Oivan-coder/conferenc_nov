@@ -120,58 +120,53 @@ document.getElementById('visible-form').addEventListener('submit', function(e) {
         return;
     }
     
-    // Собираем данные
-    const formData = new FormData();
-    formData.append('entry.200207254', document.getElementById('email').value);
-    formData.append('entry.74922399', document.getElementById('name').value);
-    formData.append('entry.827511450', document.getElementById('position').value);
-    formData.append('entry.1066367767', document.getElementById('organization').value);
-    formData.append('entry.362036752', document.getElementById('phone').value);
-    
-    // Показываем успех
+    // Показываем успех сразу
     document.getElementById('visible-form').style.display = 'none';
     document.getElementById('success-message').style.display = 'block';
     
-    // Отправляем данные через скрытый iframe
+    // Создаем iframe для отправки
     const iframe = document.createElement('iframe');
-    iframe.style.display = 'none';
     iframe.name = 'google-form-target';
+    iframe.style.display = 'none';
     document.body.appendChild(iframe);
     
-    // Создаем временную форму для отправки
+    // Создаем временную форму
     const tempForm = document.createElement('form');
     tempForm.action = 'https://docs.google.com/forms/d/e/1bs8gMkiMStZgHipFuQPMCqInuS1Z0N2SbjaprMeGKTk/formResponse';
     tempForm.method = 'POST';
     tempForm.target = 'google-form-target';
-    tempForm.style.display = 'none';
+    tempForm.acceptCharset = 'utf-8';
     
     // Добавляем поля
-    const fields = [
-        { name: 'entry.200207254', value: document.getElementById('email').value },
-        { name: 'entry.74922399', value: document.getElementById('name').value },
-        { name: 'entry.827511450', value: document.getElementById('position').value },
-        { name: 'entry.1066367767', value: document.getElementById('organization').value },
-        { name: 'entry.362036752', value: document.getElementById('phone').value }
-    ];
-    
-    fields.forEach(field => {
+    const addField = (name, value) => {
         const input = document.createElement('input');
         input.type = 'hidden';
-        input.name = field.name;
-        input.value = field.value;
+        input.name = name;
+        input.value = value;
         tempForm.appendChild(input);
-    });
+    };
     
+    addField('entry.200207254', document.getElementById('email').value);
+    addField('entry.74922399', document.getElementById('name').value);
+    addField('entry.827511450', document.getElementById('position').value);
+    addField('entry.1066367767', document.getElementById('organization').value);
+    addField('entry.362036752', document.getElementById('phone').value);
+    
+    // Добавляем и отправляем
     document.body.appendChild(tempForm);
     tempForm.submit();
     
-    // Убираем временные элементы
+    // Чистим через 3 секунды
     setTimeout(() => {
-        document.body.removeChild(tempForm);
-        document.body.removeChild(iframe);
-    }, 1000);
+        if (document.body.contains(tempForm)) {
+            document.body.removeChild(tempForm);
+        }
+        if (document.body.contains(iframe)) {
+            document.body.removeChild(iframe);
+        }
+    }, 3000);
     
-    console.log('Данные отправлены в Google Forms');
+    console.log('Регистрация завершена');
 });
 </script>
 </body>
