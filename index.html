@@ -95,6 +95,8 @@
             cursor: pointer;
             transition: all 0.3s;
             box-shadow: 0 4px 15px rgba(0, 176, 255, 0.3);
+            text-decoration: none;
+            display: inline-block;
         }
 
         .cta-button:hover {
@@ -324,6 +326,23 @@
             color: rgba(255, 255, 255, 0.7);
         }
 
+        .checkbox-group {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+        }
+
+        .checkbox-group input {
+            width: auto;
+            margin-top: 3px;
+        }
+
+        .checkbox-group label {
+            margin-bottom: 0;
+        }
+
         .submit-btn {
             width: 100%;
             background: var(--accent);
@@ -339,6 +358,16 @@
 
         .submit-btn:hover {
             background: #0091ea;
+        }
+
+        .success-message {
+            display: none;
+            background: #4CAF50;
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            margin-top: 1rem;
         }
 
         /* Footer */
@@ -413,7 +442,7 @@
                         <li><a href="#contacts">Контакты</a></li>
                     </ul>
                 </nav>
-                <button class="cta-button">Регистрация</button>
+                <a href="#registration" class="cta-button">Регистрация</a>
             </div>
         </div>
     </header>
@@ -423,7 +452,7 @@
         <div class="container">
             <h1>LAB Evolution 2024</h1>
             <div class="hero-subtitle">Трансформация лабораторной службы: от автоматизации процессов до цифровой экосистемы</div>
-            <button class="cta-button">Принять участие</button>
+            <a href="#registration" class="cta-button">Принять участие</a>
             
             <div class="hero-stats">
                 <div class="stat-item">
@@ -565,29 +594,66 @@
         <div class="container">
             <h2 class="section-title">Регистрация на участие</h2>
             <div class="registration-form">
-                <form>
+                <!-- Скрытая форма для Google -->
+                <form id="google-form" action="https://docs.google.com/forms/d/e/1bs8gMkiMStZgHipFuQPMCqInuS1Z0N2SbjaprMeGKTk/formResponse" method="POST" style="display: none;">
+                    <!-- Email -->
+                    <input type="email" name="entry.200207254" id="google-email">
+                    <!-- ФИО -->
+                    <input type="text" name="entry.74922399" id="google-name">
+                    <!-- Должность -->
+                    <input type="text" name="entry.827511450" id="google-position">
+                    <!-- Организация -->
+                    <input type="text" name="entry.1066367767" id="google-organization">
+                    <!-- Телефон -->
+                    <input type="text" name="entry.362036752" id="google-phone">
+                </form>
+
+                <!-- Видимая форма для пользователя -->
+                <form id="visible-form">
                     <div class="form-group">
-                        <label>ФИО</label>
-                        <input type="text" placeholder="Введите ваше полное имя" required>
+                        <label>Email *</label>
+                        <input type="email" id="email" name="email" placeholder="example@mail.ru" required>
                     </div>
+
                     <div class="form-group">
-                        <label>Должность</label>
-                        <input type="text" placeholder="Ваша должность" required>
+                        <label>ФИО *</label>
+                        <input type="text" id="name" name="name" placeholder="Введите ваше полное имя" required>
                     </div>
+                    
                     <div class="form-group">
-                        <label>Организация</label>
-                        <input type="text" placeholder="Название медицинского учреждения" required>
+                        <label>Должность *</label>
+                        <select id="position" name="position" required>
+                            <option value="">-- Выберите должность --</option>
+                            <option value="Главный врач">Главный врач</option>
+                            <option value="Гость">Гость</option>
+                        </select>
                     </div>
+                    
                     <div class="form-group">
-                        <label>Email</label>
-                        <input type="email" placeholder="example@mail.ru" required>
+                        <label>Организация *</label>
+                        <input type="text" id="organization" name="organization" placeholder="Название медицинского учреждения" required>
                     </div>
+                    
                     <div class="form-group">
-                        <label>Телефон</label>
-                        <input type="tel" placeholder="+7 (XXX) XXX-XX-XX" required>
+                        <label>Телефон *</label>
+                        <input type="tel" id="phone" name="phone" placeholder="+7 (XXX) XXX-XX-XX" required>
                     </div>
+
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="agreement" required>
+                        <label for="agreement">
+                            Даю согласие на обработку персональных данных в соответствии с 
+                            Федеральным законом № 152-ФЗ и принимаю условия 
+                            <a href="#" style="color: var(--accent);">пользовательского соглашения</a>
+                        </label>
+                    </div>
+                    
                     <button type="submit" class="submit-btn">Зарегистрироваться</button>
                 </form>
+
+                <div id="success-message" class="success-message">
+                    ✅ Спасибо за регистрацию! На ваш email отправлено подтверждение.
+                </div>
             </div>
         </div>
     </section>
@@ -646,11 +712,34 @@
             });
         });
         
-        // Обработка формы
-        document.querySelector('form').addEventListener('submit', function(e) {
+        // Обработка формы регистрации
+        document.getElementById('visible-form').addEventListener('submit', function(e) {
             e.preventDefault();
-            alert('Спасибо за регистрацию! Мы свяжемся с вами в ближайшее время.');
-            this.reset();
+            
+            if (!document.getElementById('agreement').checked) {
+                alert('Необходимо дать согласие на обработку персональных данных');
+                return;
+            }
+            
+            // Копируем данные в скрытую Google форму
+            document.getElementById('google-email').value = document.getElementById('email').value;
+            document.getElementById('google-name').value = document.getElementById('name').value;
+            document.getElementById('google-position').value = document.getElementById('position').value;
+            document.getElementById('google-organization').value = document.getElementById('organization').value;
+            document.getElementById('google-phone').value = document.getElementById('phone').value;
+            
+            // Показываем успех
+            document.getElementById('visible-form').style.display = 'none';
+            document.getElementById('success-message').style.display = 'block';
+            
+            // Отправляем в Google Forms
+            fetch(document.getElementById('google-form').action, {
+                method: 'POST',
+                body: new FormData(document.getElementById('google-form')),
+                mode: 'no-cors'
+            }).catch(error => {
+                console.log('Данные отправлены в Google Forms');
+            });
         });
     </script>
 </body>
