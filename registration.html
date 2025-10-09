@@ -100,125 +100,67 @@
             return;
         }
         
-        const email = document.getElementById('email').value;
-        const phone = document.getElementById('phone').value;
+        const formData = {
+            email: document.getElementById('email').value,
+            phone: document.getElementById('phone').value,
+            name: document.getElementById('name').value,
+            position: document.getElementById('position').value,
+            organization: document.getElementById('organization').value
+        };
         
         // Быстрая локальная проверка
-        if (submittedData.has(email + phone)) {
+        if (submittedData.has(formData.email + formData.phone)) {
             alert('❌ Вы уже отправляли эту форму');
             return;
         }
         
         // Блокируем кнопку
         const submitBtn = this.querySelector('.submit-btn');
-        const originalText = submitBtn.textContent;
-        submitBtn.textContent = 'Проверяем...';
+        submitBtn.textContent = 'Отправляем...';
         submitBtn.disabled = true;
         
         try {
-            // ПРОВЕРКА ДУБЛЕЙ ЧЕРЕЗ APPS SCRIPT
-            console.log('🔍 Проверяем дубли для:', email, phone);
-            const isDup = await checkDuplicate(email, phone);
+            // 🔥 ОТПРАВКА НАПРЯМУЮ В APPS SCRIPT
+            console.log('📤 Отправляем данные...');
+            const success = await submitToGoogleAppsScript(formData);
             
-            if (isDup) {
-                alert('❌ Регистрация с таким email или телефоном уже выполнена');
-                resetButton(submitBtn, originalText);
-                return;
+            if (success) {
+                submittedData.add(formData.email + formData.phone);
+                document.getElementById('visible-form').style.display = 'none';
+                document.getElementById('success-message').style.display = 'block';
+            } else {
+                alert('❌ Ошибка отправки. Попробуйте еще раз.');
             }
-            
-            console.log('✅ Дубли не найдены, отправляем в Google Forms...');
-            
-            // ОТПРАВКА В GOOGLE FORMS
-            await submitToGoogleForms();
-            submittedData.add(email + phone);
-            
-            // ПОКАЗЫВАЕМ УСПЕХ
-            document.getElementById('visible-form').style.display = 'none';
-            document.getElementById('success-message').style.display = 'block';
             
         } catch (error) {
             console.error('Ошибка:', error);
             alert('❌ Ошибка сети. Проверьте соединение.');
-            resetButton(submitBtn, originalText);
         }
+        
+        submitBtn.textContent = 'Зарегистрироваться';
+        submitBtn.disabled = false;
     });
 
-    // ПРОВЕРКА ДУБЛЕЙ ЧЕРЕЗ APPS SCRIPT
-    // 🔥 ОБХОД CORS ЧЕРЕЗ CORS-PROXY
-async function checkDuplicate(email, phone) {
-    try {
-        // Используем CORS proxy для обхода блокировки
-        const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
-        const targetUrl = 'https://script.google.com/macros/s/AKfycbyUeZmn1T0bI7mzCLWtXlwBESSPQEFs9VD6Ov4PiOTi4Y_sWe0NPwwKrvNHrhPlrKzO/exec';
-        
-        const response = await fetch(proxyUrl + targetUrl, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ 
-                email: email,
-                phone: phone 
-            })
-        });
-        
-        const result = await response.json();
-        console.log('📊 Результат проверки дублей:', result);
-        
-        return result.isDuplicate;
-        
-    } catch (error) {
-        console.error('Ошибка проверки дублей:', error);
-        return false;
-    }
-}
-
-    // ПРОСТАЯ ОТПРАВКА В GOOGLE FORMS
-    function submitToGoogleForms() {
-        return new Promise((resolve) => {
-            console.log('📤 Отправляем данные в Google Forms...');
-            
-            const iframe = document.createElement('iframe');
-            iframe.name = 'google-form-' + Date.now();
-            iframe.style.display = 'none';
-            document.body.appendChild(iframe);
-            
-            const tempForm = document.createElement('form');
-            tempForm.action = 'https://docs.google.com/forms/u/0/d/e/1FAIpQLSc7urE88w0Y_zM7EBGbhQN8Uw87Uw6eFRBm2d9GvqJT7Q4S0A/formResponse';
-            tempForm.method = 'POST';
-            tempForm.target = iframe.name;
-            tempForm.style.display = 'none';
-            
-            const fields = [
-                { name: 'entry.1277724311', value: document.getElementById('email').value },
-                { name: 'entry.74922399', value: document.getElementById('name').value },
-                { name: 'entry.827511450', value: document.getElementById('position').value },
-                { name: 'entry.1066367767', value: document.getElementById('organization').value },
-                { name: 'entry.362036752', value: document.getElementById('phone').value }
-            ];
-            
-            fields.forEach(field => {
-                const input = document.createElement('input');
-                input.type = 'hidden';
-                input.name = field.name;
-                input.value = field.value;
-                tempForm.appendChild(input);
+    // 🔥 ОТПРАВКА В GOOGLE APPS SCRIPT
+    async function submitToGoogleAppsScript(formData) {
+        try {
+            const response = await fetch('https://script.google.com/macros/s/AKfycbyUeZmn1T0bI7mzCLWtXlwBESSPQEFs9VD6Ov4PiOTi4Y_sWe0NPwwKrvNHrhPlrKzO/exec', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData)
             });
             
-            document.body.appendChild(tempForm);
-            tempForm.submit();
+            const result = await response.json();
+            console.log('📊 Результат:', result);
             
-            console.log('✅ Форма отправлена в Google Forms');
+            return result.success;
             
-            // Всегда считаем успехом через 3 секунды
-            setTimeout(() => resolve(true), 3000);
-        });
-    }
-
-    // Вспомогательная функция
-    function resetButton(button, text) {
-        button.textContent = text;
-        button.disabled = false;
+        } catch (error) {
+            console.error('Ошибка отправки:', error);
+            return false;
+        }
     }
 </script>
 </body>
