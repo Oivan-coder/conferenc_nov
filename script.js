@@ -169,69 +169,26 @@ function initPhotoSlider() {
     photoSlider.innerHTML = '';
     photoDots.innerHTML = '';
 
-    // ПРОБУЕМ РАЗНЫЕ ВАРИАНТЫ ПУТЕЙ К ФОТОГРАФИЯМ
-    const photoVariants = [
-        // Вариант 1: Абсолютные пути
-        'images/hero/1.jpg', 'images/hero/2.jpg', 'images/hero/3.jpg', 'images/hero/4.jpg', 'images/hero/5.jpg',
-        'images/hero/6.jpg', 'images/hero/7.jpg', 'images/hero/8.jpg', 'images/hero/9.jpg', 'images/hero/10.jpg',
-        'images/hero/11.jpg', 'images/hero/12.jpg', 'images/hero/13.jpg', 'images/hero/14.jpg', 'images/hero/15.jpg',
-        
-        // Вариант 2: Относительные пути
-        './images/hero/1.jpg', './images/hero/2.jpg', './images/hero/3.jpg', './images/hero/4.jpg', './images/hero/5.jpg',
-        './images/hero/6.jpg', './images/hero/7.jpg', './images/hero/8.jpg', './images/hero/9.jpg', './images/hero/10.jpg',
-        './images/hero/11.jpg', './images/hero/12.jpg', './images/hero/13.jpg', './images/hero/14.jpg', './images/hero/15.jpg'
-    ];
+    // ПРАВИЛЬНЫЕ ПУТИ К ФОТОГРАФИЯМ
+    const photos = [];
+    for (let i = 1; i <= 15; i++) {
+        photos.push(`images/hero/${i}.jpg`);
+    }
 
-    // Будем использовать только первые 15 путей (абсолютные)
-    const photosToTry = photoVariants.slice(0, 15);
-    
-    console.log('📸 Пробуем загрузить фото:', photosToTry);
+    console.log('📸 Загружаем фото:', photos);
 
     // Создаем слайды
-    let loadedSlidesCount = 0;
-    
-    photosToTry.forEach((photoPath, index) => {
+    photos.forEach((photoPath, index) => {
         const slideElement = document.createElement('div');
         slideElement.className = `photo-slide ${index === 0 ? 'active' : ''}`;
         
-        const img = document.createElement('img');
-        img.src = photoPath;
-        img.alt = `Фото с конференции LAB Evolution ${index + 1}`;
-        img.loading = 'lazy';
+        // ПРОСТО ВСТАВЛЯЕМ IMG С ПРАВИЛЬНЫМ ПУТЕМ
+        slideElement.innerHTML = `
+            <img src="${photoPath}" 
+                 alt="Фото с конференции LAB Evolution ${index + 1}" 
+                 style="width: 100%; height: 100%; object-fit: cover;">
+        `;
         
-        // Обработчик успешной загрузки
-        img.onload = function() {
-            loadedSlidesCount++;
-            console.log(`✅ Загружено: ${photoPath}`);
-            
-            // Если это первая успешно загруженная фотка, делаем ее активной
-            if (loadedSlidesCount === 1) {
-                document.querySelectorAll('.photo-slide').forEach(slide => slide.classList.remove('active'));
-                slideElement.classList.add('active');
-                currentPhotoSlide = index;
-                updatePhotoDots();
-            }
-        };
-        
-        // Обработчик ошибки загрузки
-        img.onerror = function() {
-            console.warn(`❌ Не удалось загрузить: ${photoPath}`);
-            
-            // Создаем красивый placeholder вместо фото
-            const placeholder = document.createElement('div');
-            placeholder.className = 'photo-placeholder';
-            placeholder.innerHTML = `
-                <div class="placeholder-content">
-                    <span class="placeholder-icon">📸</span>
-                    <p>Фото ${index + 1}</p>
-                    <small>LAB Evolution Conference</small>
-                </div>
-            `;
-            
-            slideElement.appendChild(placeholder);
-        };
-
-        slideElement.appendChild(img);
         photoSlider.appendChild(slideElement);
 
         // Создаем точки навигации
@@ -254,61 +211,7 @@ function initPhotoSlider() {
     // Автопрокрутка
     startPhotoAutoSlide();
     
-    console.log(`✅ Создано ${photosToTry.length} слайдов`);
-}
-
-function movePhotoSlide(direction) {
-    const slides = document.querySelectorAll('.photo-slide');
-    const totalSlides = slides.length;
-    
-    if (totalSlides === 0) return;
-    
-    currentPhotoSlide = (currentPhotoSlide + direction + totalSlides) % totalSlides;
-    updatePhotoSlides();
-    resetPhotoAutoSlide();
-}
-
-function goToPhotoSlide(index) {
-    const slides = document.querySelectorAll('.photo-slide');
-    const totalSlides = slides.length;
-    
-    if (index >= 0 && index < totalSlides) {
-        currentPhotoSlide = index;
-        updatePhotoSlides();
-        resetPhotoAutoSlide();
-    }
-}
-
-function updatePhotoSlides() {
-    const slides = document.querySelectorAll('.photo-slide');
-    slides.forEach((slide, index) => {
-        slide.classList.toggle('active', index === currentPhotoSlide);
-    });
-    updatePhotoDots();
-}
-
-function updatePhotoDots() {
-    const dots = document.querySelectorAll('.slider-dot');
-    dots.forEach((dot, index) => {
-        dot.classList.toggle('active', index === currentPhotoSlide);
-    });
-}
-
-function startPhotoAutoSlide() {
-    autoSlideInterval = setInterval(() => {
-        movePhotoSlide(1);
-    }, 5000);
-}
-
-function stopPhotoAutoSlide() {
-    if (autoSlideInterval) {
-        clearInterval(autoSlideInterval);
-    }
-}
-
-function resetPhotoAutoSlide() {
-    stopPhotoAutoSlide();
-    startPhotoAutoSlide();
+    console.log(`✅ Создано 15 слайдов с фотографиями`);
 }
 
 // ==================== КАРУСЕЛЬ СПИКЕРОВ ====================
