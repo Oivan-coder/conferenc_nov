@@ -112,34 +112,67 @@
 
     <script src="script.js"></script>
     <script>
-        // Обработка формы регистрации
-        document.getElementById('visible-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            if (!document.getElementById('agreement').checked) {
-                alert('Необходимо дать согласие на обработку персональных данных');
-                return;
-            }
-            
-            // Копируем данные в скрытую Google форму
-            document.getElementById('google-email').value = document.getElementById('email').value;
-            document.getElementById('google-name').value = document.getElementById('name').value;
-            document.getElementById('google-position').value = document.getElementById('position').value;
-            document.getElementById('google-organization').value = document.getElementById('organization').value;
-            document.getElementById('google-phone').value = document.getElementById('phone').value;
-            
-            document.getElementById('visible-form').style.display = 'none';
-            document.getElementById('success-message').style.display = 'block';
-            
-            // Отправляем в Google Forms
-            fetch(document.getElementById('google-form').action, {
-                method: 'POST',
-                body: new FormData(document.getElementById('google-form')),
-                mode: 'no-cors'
-            }).catch(error => {
-                console.log('Данные отправлены в Google Forms');
-            });
-        });
-    </script>
+document.getElementById('visible-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    if (!document.getElementById('agreement').checked) {
+        alert('Необходимо дать согласие на обработку персональных данных');
+        return;
+    }
+    
+    // Собираем данные
+    const formData = new FormData();
+    formData.append('entry.200207254', document.getElementById('email').value);
+    formData.append('entry.74922399', document.getElementById('name').value);
+    formData.append('entry.827511450', document.getElementById('position').value);
+    formData.append('entry.1066367767', document.getElementById('organization').value);
+    formData.append('entry.362036752', document.getElementById('phone').value);
+    
+    // Показываем успех
+    document.getElementById('visible-form').style.display = 'none';
+    document.getElementById('success-message').style.display = 'block';
+    
+    // Отправляем данные через скрытый iframe
+    const iframe = document.createElement('iframe');
+    iframe.style.display = 'none';
+    iframe.name = 'google-form-target';
+    document.body.appendChild(iframe);
+    
+    // Создаем временную форму для отправки
+    const tempForm = document.createElement('form');
+    tempForm.action = 'https://docs.google.com/forms/d/e/1bs8gMkiMStZgHipFuQPMCqInuS1Z0N2SbjaprMeGKTk/formResponse';
+    tempForm.method = 'POST';
+    tempForm.target = 'google-form-target';
+    tempForm.style.display = 'none';
+    
+    // Добавляем поля
+    const fields = [
+        { name: 'entry.200207254', value: document.getElementById('email').value },
+        { name: 'entry.74922399', value: document.getElementById('name').value },
+        { name: 'entry.827511450', value: document.getElementById('position').value },
+        { name: 'entry.1066367767', value: document.getElementById('organization').value },
+        { name: 'entry.362036752', value: document.getElementById('phone').value }
+    ];
+    
+    fields.forEach(field => {
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = field.name;
+        input.value = field.value;
+        tempForm.appendChild(input);
+    });
+    
+    document.body.appendChild(tempForm);
+    tempForm.submit();
+    
+    // Убираем временные элементы
+    setTimeout(() => {
+        document.body.removeChild(tempForm);
+        document.body.removeChild(iframe);
+    }, 1000);
+    
+    console.log('Данные отправлены в Google Forms');
+});
+</script>
 </body>
 </html>
