@@ -4,142 +4,38 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Регистрация - LAB Evolution 2024</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-        }
-
-        :root {
-            --primary: #0d47a1;
-            --primary-dark: #08306b;
-            --accent: #00b0ff;
-            --light: #e3f2fd;
-            --text: #263238;
-        }
-
-        body {
-            background: linear-gradient(135deg, #f8fdff 0%, #e3f2fd 100%);
-            color: var(--text);
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-
-        .registration-container {
-            background: white;
-            padding: 3rem;
-            border-radius: 16px;
-            box-shadow: 0 10px 40px rgba(13, 71, 161, 0.15);
-            width: 100%;
-            max-width: 500px;
-        }
-
-        .logo {
-            text-align: center;
-            margin-bottom: 2rem;
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--primary-dark);
-        }
-
-        h1 {
-            text-align: center;
-            color: var(--primary-dark);
-            margin-bottom: 0.5rem;
-            font-size: 1.8rem;
-        }
-
-        .subtitle {
-            text-align: center;
-            color: #666;
-            margin-bottom: 2rem;
-        }
-
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 500;
-            color: var(--primary-dark);
-        }
-
-        input, select {
-            width: 100%;
-            padding: 12px 16px;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
-            font-size: 1rem;
-            transition: border-color 0.3s;
-        }
-
-        input:focus, select:focus {
-            outline: none;
-            border-color: var(--accent);
-        }
-
-        .checkbox-group {
-            display: flex;
-            align-items: flex-start;
-            gap: 10px;
-            margin-bottom: 2rem;
-            font-size: 0.9rem;
-        }
-
-        .checkbox-group input {
-            width: auto;
-            margin-top: 3px;
-        }
-
-        .submit-btn {
-            width: 100%;
-            background: var(--primary);
-            color: white;
-            border: none;
-            padding: 14px;
-            border-radius: 8px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background 0.3s;
-        }
-
-        .submit-btn:hover {
-            background: var(--primary-dark);
-        }
-
-        .success-message {
-            display: none;
-            background: #4CAF50;
-            color: white;
-            padding: 20px;
-            border-radius: 8px;
-            text-align: center;
-            margin-top: 1rem;
-        }
-
-        .back-link {
-            text-align: center;
-            margin-top: 2rem;
-        }
-
-        .back-link a {
-            color: var(--primary);
-            text-decoration: none;
-        }
-    </style>
+    <link rel="stylesheet" href="styles.css">
 </head>
-<body>
+<body class="registration-page">
+    <!-- Header для страницы регистрации -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <a href="index.html" class="logo">
+                    <div class="logo-icon">⚕️</div>
+                    <div>LAB Evolution 2024</div>
+                </a>
+                <nav>
+                    <ul>
+                        <li><a href="index.html#about">О событии</a></li>
+                        <li><a href="index.html#program">Программа</a></li>
+                        <li><a href="index.html#speakers">Эксперты</a></li>
+                        <li><a href="index.html#partners">Технологии</a></li>
+                        <li><a href="index.html#registration">Участие</a></li>
+                        <li><a href="index.html#contacts">Контакты</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
     <div class="registration-container">
-        <div class="logo">⚕️ LAB Evolution 2024</div>
-        <h1>Регистрация на конференцию</h1>
+        <div class="logo-section">
+            <div class="logo-icon">⚕️</div>
+            <h1>LAB Evolution 2024</h1>
+        </div>
+        
+        <h2>Регистрация на конференцию</h2>
         <p class="subtitle">Заполните форму для участия в мероприятии</p>
         
         <!-- Скрытая форма для Google -->
@@ -157,15 +53,15 @@
         </form>
 
         <!-- Видимая форма для пользователя -->
-        <form id="visible-form">
+        <form id="visible-form" class="registration-form-single">
             <div class="form-group">
                 <label for="email">Email *</label>
-                <input type="email" id="email" name="email" required>
+                <input type="email" id="email" name="email" placeholder="example@mail.ru" required>
             </div>
 
             <div class="form-group">
                 <label for="name">ФИО *</label>
-                <input type="text" id="name" name="name" required>
+                <input type="text" id="name" name="name" placeholder="Введите ваше полное имя" required>
             </div>
             
             <div class="form-group">
@@ -174,17 +70,20 @@
                     <option value="">-- Выберите должность --</option>
                     <option value="Главный врач">Главный врач</option>
                     <option value="Гость">Гость</option>
+                    <option value="Врач-лаборант">Врач-лаборант</option>
+                    <option value="Заведующий лабораторией">Заведующий лабораторией</option>
+                    <option value="Специалист по лабораторной диагностике">Специалист по лабораторной диагностике</option>
                 </select>
             </div>
             
             <div class="form-group">
                 <label for="organization">Организация *</label>
-                <input type="text" id="organization" name="organization" required>
+                <input type="text" id="organization" name="organization" placeholder="Название медицинского учреждения" required>
             </div>
             
             <div class="form-group">
                 <label for="phone">Телефон *</label>
-                <input type="tel" id="phone" name="phone" required placeholder="+7 (XXX) XXX-XX-XX">
+                <input type="tel" id="phone" name="phone" placeholder="+7 (XXX) XXX-XX-XX" required>
             </div>
 
             <div class="checkbox-group">
@@ -200,15 +99,20 @@
         </form>
 
         <div id="success-message" class="success-message">
-            ✅ Спасибо за регистрацию! На ваш email отправлено подтверждение.
+            <div class="success-icon">✅</div>
+            <h3>Спасибо за регистрацию!</h3>
+            <p>На ваш email отправлено подтверждение. Ждем вас на конференции!</p>
+            <a href="index.html" class="back-home-btn">Вернуться на главную</a>
         </div>
 
         <div class="back-link">
-            <a href="index.html">← Вернуться на главную</a>
+            <a href="index.html">← Вернуться на главную страницу</a>
         </div>
     </div>
 
+    <script src="script.js"></script>
     <script>
+        // Обработка формы регистрации
         document.getElementById('visible-form').addEventListener('submit', function(e) {
             e.preventDefault();
             
