@@ -39,7 +39,7 @@
         
         <form id="visible-form" class="registration-form-single">
             <div class="form-group">
-                <label for="email">Email *</label>
+                <label for="email">Электронная почта *</label>
                 <input type="email" id="email" name="email" placeholder="example@mail.ru" required>
             </div>
 
@@ -163,18 +163,19 @@
                 document.body.appendChild(iframe);
                 
                 const tempForm = document.createElement('form');
-                // 🔥 ВАЖНО: URL без пробелов в конце!
-                tempForm.action = 'https://docs.google.com/forms/d/e/1bs8gMkiMStZgHipFuQPMCqInuS1Z0N2SbjaprMeGKTk/formResponse';
+                // 🔥 ИСПРАВЛЕННЫЙ URL для Google Forms
+                tempForm.action = 'https://docs.google.com/forms/u/0/d/e/1FAIpQLSc7urE88w0Y_zM7EBGbhQN8Uw87Uw6eFRBm2d9GvqJT7Q4S0A/formResponse';
                 tempForm.method = 'POST';
                 tempForm.target = iframe.name;
                 tempForm.style.display = 'none';
                 
+                // 🔥 ИСПРАВЛЕННЫЕ ID полей согласно Google Forms
                 const fields = [
-                    { name: 'entry.200207254', value: document.getElementById('email').value },
-                    { name: 'entry.74922399', value: document.getElementById('name').value },
-                    { name: 'entry.827511450', value: document.getElementById('position').value },
-                    { name: 'entry.1066367767', value: document.getElementById('organization').value },
-                    { name: 'entry.362036752', value: document.getElementById('phone').value }
+                    { name: 'entry.1277724311', value: document.getElementById('email').value },     // Электронная почта
+                    { name: 'entry.74922399', value: document.getElementById('name').value },        // ФИО
+                    { name: 'entry.827511450', value: document.getElementById('position').value },   // Должность
+                    { name: 'entry.1066367767', value: document.getElementById('organization').value }, // Организация
+                    { name: 'entry.362036752', value: document.getElementById('phone').value }       // Телефон
                 ];
                 
                 fields.forEach(field => {
@@ -185,13 +186,29 @@
                     tempForm.appendChild(input);
                 });
                 
+                // Добавляем необходимые скрытые поля для Google Forms
+                const hiddenFields = [
+                    { name: 'fvv', value: '1' },
+                    { name: 'partialResponse', value: '[null,null,"6346499131525776642"]' },
+                    { name: 'pageHistory', value: '0' },
+                    { name: 'fbzx', value: '6346499131525776642' }
+                ];
+                
+                hiddenFields.forEach(field => {
+                    const input = document.createElement('input');
+                    input.type = 'hidden';
+                    input.name = field.name;
+                    input.value = field.value;
+                    tempForm.appendChild(input);
+                });
+                
                 document.body.appendChild(tempForm);
                 tempForm.submit();
                 
-                // Таймаут на случай, если iframe не загрузится (но форма всё равно ушла)
+                // Таймаут на случай, если iframe не загрузится
                 setTimeout(() => {
                     if (tempForm.parentNode) tempForm.parentNode.removeChild(tempForm);
-                    resolve(true); // Считаем успешной — Google обычно не возвращает ошибку явно
+                    resolve(true);
                 }, 8000);
             });
         }
