@@ -1,7 +1,7 @@
 // Конфигурация приложения
 const CONFIG = {
     // Замените на ваш API ключ Яндекс.Карт
-    yandexMapsApiKey: 'YOUR_YANDEX_MAPS_API_KEY',
+    yandexMapsApiKey: '3dd59f10-9dfb-4db3-b374-9e344bee9e00',
     
     // Координаты БЦ "Новатор"
     location: {
