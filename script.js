@@ -1,7 +1,7 @@
 // Конфигурация приложения
 const CONFIG = {
     // Замените на ваш API ключ Яндекс.Карт
-    yandexMapsApiKey: 'ваш_api_ключ',
+    yandexMapsApiKey: '3dd59f10-9dfb-4db3-b374-9e344bee9e00',
     
     // Координаты БЦ "Новатор"
     location: {
@@ -63,7 +63,6 @@ const speakers = [
 // Глобальные переменные
 let currentPhotoSlide = 0;
 let currentSpeakerSlide = 0;
-let currentGallerySlide = 0;
 let autoSlideInterval;
 let yandexMap = null;
 
@@ -72,7 +71,7 @@ let yandexMap = null;
 document.addEventListener('DOMContentLoaded', function() {
     console.log('🚀 Инициализация LAB Evolution 2025');
     
-    // Инициализация всех модулей (без галереи)
+    // Инициализация всех модулей
     initBurgerMenu();
     initPhotoSlider();
     initSpeakersCarousel();
@@ -154,10 +153,12 @@ function initBurgerMenu() {
 // ==================== СЛАЙДЕР ФОТОГРАФИЙ ====================
 
 function initPhotoSlider() {
-    console.log('🔄 Загружаем фотографии...');
+    console.log('🔄 Инициализация фото-слайдера...');
     
     const photoSlider = document.getElementById('photoSlider');
     const photoDots = document.getElementById('photoDots');
+    const prevBtn = document.getElementById('photoPrev');
+    const nextBtn = document.getElementById('photoNext');
     
     if (!photoSlider || !photoDots) {
         console.error('❌ Не найден photoSlider или photoDots');
@@ -168,73 +169,72 @@ function initPhotoSlider() {
     photoSlider.innerHTML = '';
     photoDots.innerHTML = '';
 
-    // АБСОЛЮТНЫЕ ПУТИ К 15 ФОТОГРАФИЯМ
-    const photos = [
-        '/images/hero/1.jpg',
-        '/images/hero/2.jpg', 
-        '/images/hero/3.jpg',
-        '/images/hero/4.jpg',
-        '/images/hero/5.jpg',
-        '/images/hero/6.jpg',
-        '/images/hero/7.jpg',
-        '/images/hero/8.jpg',
-        '/images/hero/9.jpg',
-        '/images/hero/10.jpg',
-        '/images/hero/11.jpg',
-        '/images/hero/12.jpg',
-        '/images/hero/13.jpg',
-        '/images/hero/14.jpg',
-        '/images/hero/15.jpg'
+    // ПРОБУЕМ РАЗНЫЕ ВАРИАНТЫ ПУТЕЙ К ФОТОГРАФИЯМ
+    const photoVariants = [
+        // Вариант 1: Абсолютные пути
+        'images/hero/1.jpg', 'images/hero/2.jpg', 'images/hero/3.jpg', 'images/hero/4.jpg', 'images/hero/5.jpg',
+        'images/hero/6.jpg', 'images/hero/7.jpg', 'images/hero/8.jpg', 'images/hero/9.jpg', 'images/hero/10.jpg',
+        'images/hero/11.jpg', 'images/hero/12.jpg', 'images/hero/13.jpg', 'images/hero/14.jpg', 'images/hero/15.jpg',
+        
+        // Вариант 2: Относительные пути
+        './images/hero/1.jpg', './images/hero/2.jpg', './images/hero/3.jpg', './images/hero/4.jpg', './images/hero/5.jpg',
+        './images/hero/6.jpg', './images/hero/7.jpg', './images/hero/8.jpg', './images/hero/9.jpg', './images/hero/10.jpg',
+        './images/hero/11.jpg', './images/hero/12.jpg', './images/hero/13.jpg', './images/hero/14.jpg', './images/hero/15.jpg'
     ];
 
-    console.log('📸 Загружаем фото:', photos);
-
-    // Перемешиваем массив для случайного порядка
-    const shuffledPhotos = shuffleArray([...photos]);
+    // Будем использовать только первые 15 путей (абсолютные)
+    const photosToTry = photoVariants.slice(0, 15);
+    
+    console.log('📸 Пробуем загрузить фото:', photosToTry);
 
     // Создаем слайды
-    shuffledPhotos.forEach((photoPath, index) => {
-        // Создаем элемент слайда
-        const slide = document.createElement('div');
-        slide.className = `photo-slide ${index === 0 ? 'active' : ''}`;
+    let loadedSlidesCount = 0;
+    
+    photosToTry.forEach((photoPath, index) => {
+        const slideElement = document.createElement('div');
+        slideElement.className = `photo-slide ${index === 0 ? 'active' : ''}`;
         
-        // Создаем изображение
         const img = document.createElement('img');
         img.src = photoPath;
         img.alt = `Фото с конференции LAB Evolution ${index + 1}`;
-        
-        // Обработчик ошибки загрузки
-        img.onerror = function() {
-            console.error(`❌ Ошибка загрузки: ${photoPath}`);
-            this.style.display = 'none';
-            // Показываем заглушку
-            const placeholder = document.createElement('div');
-            placeholder.className = 'photo-placeholder';
-            placeholder.style.display = 'flex';
-            placeholder.style.flexDirection = 'column';
-            placeholder.style.alignItems = 'center';
-            placeholder.style.justifyContent = 'center';
-            placeholder.style.height = '100%';
-            placeholder.style.background = 'linear-gradient(135deg, #0d47a1, #08306b)';
-            placeholder.style.color = 'white';
-            placeholder.style.textAlign = 'center';
-            placeholder.innerHTML = `
-                <span style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.7;">📸</span>
-                <p>Фото ${index + 1} не загружено</p>
-                <small>${photoPath}</small>
-            `;
-            slide.appendChild(placeholder);
-        };
+        img.loading = 'lazy';
         
         // Обработчик успешной загрузки
         img.onload = function() {
-            console.log(`✅ Успешно: ${photoPath}`);
+            loadedSlidesCount++;
+            console.log(`✅ Загружено: ${photoPath}`);
+            
+            // Если это первая успешно загруженная фотка, делаем ее активной
+            if (loadedSlidesCount === 1) {
+                document.querySelectorAll('.photo-slide').forEach(slide => slide.classList.remove('active'));
+                slideElement.classList.add('active');
+                currentPhotoSlide = index;
+                updatePhotoDots();
+            }
+        };
+        
+        // Обработчик ошибки загрузки
+        img.onerror = function() {
+            console.warn(`❌ Не удалось загрузить: ${photoPath}`);
+            
+            // Создаем красивый placeholder вместо фото
+            const placeholder = document.createElement('div');
+            placeholder.className = 'photo-placeholder';
+            placeholder.innerHTML = `
+                <div class="placeholder-content">
+                    <span class="placeholder-icon">📸</span>
+                    <p>Фото ${index + 1}</p>
+                    <small>LAB Evolution Conference</small>
+                </div>
+            `;
+            
+            slideElement.appendChild(placeholder);
         };
 
-        slide.appendChild(img);
-        photoSlider.appendChild(slide);
+        slideElement.appendChild(img);
+        photoSlider.appendChild(slideElement);
 
-        // Создаем точку навигации
+        // Создаем точки навигации
         const dot = document.createElement('button');
         dot.className = `slider-dot ${index === 0 ? 'active' : ''}`;
         dot.setAttribute('aria-label', `Перейти к фото ${index + 1}`);
@@ -242,60 +242,56 @@ function initPhotoSlider() {
         photoDots.appendChild(dot);
     });
 
-    console.log(`✅ Создано ${photos.length} слайдов`);
-
+    // Обработчики кнопок навигации
+    if (prevBtn) {
+        prevBtn.addEventListener('click', () => movePhotoSlide(-1));
+    }
+    
+    if (nextBtn) {
+        nextBtn.addEventListener('click', () => movePhotoSlide(1));
+    }
+    
     // Автопрокрутка
     startPhotoAutoSlide();
+    
+    console.log(`✅ Создано ${photosToTry.length} слайдов`);
 }
 
-// Функция перемешивания массива
-function shuffleArray(array) {
-    for (let i = array.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
-    }
-    return array;
-}
-
-// Остальные функции оставьте без изменений
 function movePhotoSlide(direction) {
     const slides = document.querySelectorAll('.photo-slide');
-    const dots = document.querySelectorAll('.slider-dot');
     const totalSlides = slides.length;
     
-    if (totalSlides === 0) {
-        console.error('❌ Нет слайдов для переключения');
-        return;
-    }
+    if (totalSlides === 0) return;
     
     currentPhotoSlide = (currentPhotoSlide + direction + totalSlides) % totalSlides;
-    
-    slides.forEach((slide, index) => {
-        slide.classList.toggle('active', index === currentPhotoSlide);
-    });
-    
-    dots.forEach((dot, index) => {
-        dot.classList.toggle('active', index === currentPhotoSlide);
-    });
-    
+    updatePhotoSlides();
     resetPhotoAutoSlide();
 }
 
 function goToPhotoSlide(index) {
     const slides = document.querySelectorAll('.photo-slide');
+    const totalSlides = slides.length;
+    
+    if (index >= 0 && index < totalSlides) {
+        currentPhotoSlide = index;
+        updatePhotoSlides();
+        resetPhotoAutoSlide();
+    }
+}
+
+function updatePhotoSlides() {
+    const slides = document.querySelectorAll('.photo-slide');
+    slides.forEach((slide, index) => {
+        slide.classList.toggle('active', index === currentPhotoSlide);
+    });
+    updatePhotoDots();
+}
+
+function updatePhotoDots() {
     const dots = document.querySelectorAll('.slider-dot');
-    
-    currentPhotoSlide = index;
-    
-    slides.forEach((slide, i) => {
-        slide.classList.toggle('active', i === currentPhotoSlide);
+    dots.forEach((dot, index) => {
+        dot.classList.toggle('active', index === currentPhotoSlide);
     });
-    
-    dots.forEach((dot, i) => {
-        dot.classList.toggle('active', i === currentPhotoSlide);
-    });
-    
-    resetPhotoAutoSlide();
 }
 
 function startPhotoAutoSlide() {
@@ -420,8 +416,6 @@ function resetSpeakerAutoSlide() {
     stopSpeakerAutoSlide();
     startSpeakerAutoSlide();
 }
-
-
 
 // ==================== КАРТА ====================
 
@@ -845,6 +839,27 @@ function addCustomStyles() {
             font-size: 0.9rem;
             color: var(--text);
         }
+
+        /* Стили для placeholder'ов фото */
+        .photo-placeholder {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            background: linear-gradient(135deg, #0d47a1, #08306b);
+            color: white;
+        }
+
+        .placeholder-content {
+            text-align: center;
+        }
+
+        .placeholder-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            opacity: 0.7;
+            display: block;
+        }
     `;
     
     document.head.appendChild(styles);
@@ -856,7 +871,6 @@ function addCustomStyles() {
 
 function handleResize() {
     updateSpeakerCarousel();
-    updateGalleryCarousel();
 }
 
 function cleanup() {
