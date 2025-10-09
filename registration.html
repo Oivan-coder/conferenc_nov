@@ -1,3 +1,129 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Регистрация - LAB Evolution 2024</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="registration-page">
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <a href="index.html" class="logo">
+                    <div class="logo-icon">⚕️</div>
+                    <div>LAB Evolution 2024</div>
+                </a>
+                <nav>
+                    <ul>
+                        <li><a href="index.html#about">О событии</a></li>
+                        <li><a href="index.html#program">Программа</a></li>
+                        <li><a href="index.html#speakers">Эксперты</a></li>
+                        <li><a href="index.html#partners">Технологии</a></li>
+                        <li><a href="index.html#registration">Участие</a></li>
+                        <li><a href="index.html#contacts">Контакты</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <div class="registration-container">
+        <div class="logo-section">
+            <div class="logo-icon">⚕️</div>
+            <h1>LAB Evolution 2024</h1>
+        </div>
+        
+        <h2>Регистрация на конференцию</h2>
+        <p class="subtitle">Заполните форму для участия в мероприятии</p>
+        
+        <form id="google-form" action="https://docs.google.com/forms/d/e/1bs8gMkiMStZgHipFuQPMCqInuS1Z0N2SbjaprMeGKTk/formResponse" method="POST" style="display: none;">
+            <input type="email" name="entry.200207254" id="google-email">
+            <input type="text" name="entry.74922399" id="google-name">
+            <input type="text" name="entry.827511450" id="google-position">
+            <input type="text" name="entry.1066367767" id="google-organization">
+            <input type="text" name="entry.362036752" id="google-phone">
+        </form>
+
+        <form id="visible-form" class="registration-form-single">
+            <div class="form-group">
+                <label for="email">Email *</label>
+                <input type="email" id="email" name="email" placeholder="example@mail.ru" required>
+            </div>
+
+            <div class="form-group">
+                <label for="name">ФИО *</label>
+                <input type="text" id="name" name="name" placeholder="Введите ваше полное имя" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="position">Должность *</label>
+                <select id="position" name="position" required>
+                    <option value="">-- Выберите должность --</option>
+                    <option value="Главный врач">Главный врач</option>
+                    <option value="Гость">Гость</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="organization">Организация *</label>
+                <input type="text" id="organization" name="organization" placeholder="Название медицинского учреждения" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="phone">Телефон *</label>
+                <input type="tel" id="phone" name="phone" placeholder="+7 (XXX) XXX-XX-XX" required>
+            </div>
+
+            <div class="checkbox-group">
+                <input type="checkbox" id="agreement" required>
+                <label for="agreement">
+                    Даю согласие на обработку персональных данных
+                </label>
+            </div>
+            
+            <button type="submit" class="submit-btn">Зарегистрироваться</button>
+        </form>
+
+        <div id="success-message" class="success-message">
+            <div class="success-icon">✅</div>
+            <h3>Спасибо за регистрацию!</h3>
+            <p>На ваш email отправлено подтверждение.</p>
+            <a href="index.html" class="back-home-btn">Вернуться на главную</a>
+        </div>
+
+        <div class="back-link">
+            <a href="index.html">← Вернуться на главную страницу</a>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('visible-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            if (!document.getElementById('agreement').checked) {
+                alert('Необходимо дать согласие на обработку персональных данных');
+                return;
+            }
+            
+            document.getElementById('google-email').value = document.getElementById('email').value;
+            document.getElementById('google-name').value = document.getElementById('name').value;
+            document.getElementById('google-position').value = document.getElementById('position').value;
+            document.getElementById('google-organization').value = document.getElementById('organization').value;
+            document.getElementById('google-phone').value = document.getElementById('phone').value;
+            
+            document.getElementById('visible-form').style.display = 'none';
+            document.getElementById('success-message').style.display = 'block';
+            
+            fetch(document.getElementById('google-form').action, {
+                method: 'POST',
+                body: new FormData(document.getElementById('google-form')),
+                mode: 'no-cors'
+            });
+        });
+    </script>
+</body>
+</html>
 <script>
 // Храним отправленные данные для проверки дублей
 const submittedData = new Set();
