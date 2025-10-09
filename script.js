@@ -154,95 +154,99 @@ function initBurgerMenu() {
 // ==================== СЛАЙДЕР ФОТОГРАФИЙ ====================
 
 function initPhotoSlider() {
+    console.log('🔄 Загружаем фотографии...');
+    
     const photoSlider = document.getElementById('photoSlider');
     const photoDots = document.getElementById('photoDots');
-    const prevBtn = document.getElementById('photoPrev');
-    const nextBtn = document.getElementById('photoNext');
     
     if (!photoSlider || !photoDots) {
-        console.warn('Элементы фото-слайдера не найдены');
+        console.error('❌ Не найден photoSlider или photoDots');
         return;
     }
 
-    // МАССИВ ВСЕХ ВАШИХ 15 ФОТОГРАФИЙ
-    const allPhotos = [
-        '1.jpg', '2.jpg', '3.jpg', '4.jpg', '5.jpg', 
-        '6.jpg', '7.jpg', '8.jpg', '9.jpg', '10.jpg',
-        '11.jpg', '12.jpg', '13.jpg', '14.jpg', '15.jpg'
-    ];
+    // Очищаем слайдер
+    photoSlider.innerHTML = '';
+    photoDots.innerHTML = '';
 
-    // Перемешиваем в случайном порядке
-    const shuffledPhotos = shuffleArray([...allPhotos]);
-    
+    // ПРОСТОЙ МАССИВ С ПУТЯМИ К ФОТО
+    const photos = [];
+    for (let i = 1; i <= 15; i++) {
+        photos.push(`images/hero/${i}.jpg`);
+    }
+
+    console.log('📸 Фото для загрузки:', photos);
+
     // Создаем слайды
-    shuffledPhotos.forEach((photoName, index) => {
-        const slideElement = document.createElement('div');
-        slideElement.className = `photo-slide ${index === 0 ? 'active' : ''}`;
-        slideElement.innerHTML = `
-            <img src="images/hero/${photoName}" 
-                 alt="Фото с конференции LAB Evolution" 
-                 loading="lazy"
-                 onerror="this.style.display='none'">
-        `;
-        photoSlider.appendChild(slideElement);
+    photos.forEach((photoPath, index) => {
+        // Создаем элемент слайда
+        const slide = document.createElement('div');
+        slide.className = `photo-slide ${index === 0 ? 'active' : ''}`;
+        
+        // Создаем изображение
+        const img = document.createElement('img');
+        img.src = photoPath;
+        img.alt = `Фото с конференции ${index + 1}`;
+        img.style.width = '100%';
+        img.style.height = '100%';
+        img.style.objectFit = 'cover';
+        
+        // Обработчик ошибки загрузки
+        img.onerror = function() {
+            console.error(`❌ Не удалось загрузить: ${photoPath}`);
+            this.style.display = 'none';
+            // Показываем заглушку
+            const placeholder = document.createElement('div');
+            placeholder.className = 'photo-placeholder';
+            placeholder.innerHTML = `
+                <span class="photo-icon">📸</span>
+                <p>Фото ${index + 1}</p>
+            `;
+            slide.appendChild(placeholder);
+        };
+        
+        // Обработчик успешной загрузки
+        img.onload = function() {
+            console.log(`✅ Загружено: ${photoPath}`);
+        };
 
-        // Создаем точки навигации
+        slide.appendChild(img);
+        photoSlider.appendChild(slide);
+
+        // Создаем точку навигации
         const dot = document.createElement('button');
         dot.className = `slider-dot ${index === 0 ? 'active' : ''}`;
-        dot.setAttribute('aria-label', `Перейти к фото ${index + 1}`);
         dot.addEventListener('click', () => goToPhotoSlide(index));
         photoDots.appendChild(dot);
     });
 
-    // Обработчики кнопок навигации
-    if (prevBtn) {
-        prevBtn.addEventListener('click', () => movePhotoSlide(-1));
-    }
-    
-    if (nextBtn) {
-        nextBtn.addEventListener('click', () => movePhotoSlide(1));
-    }
-    
-    // Автопрокрутка
-    startPhotoAutoSlide();
-    
-    console.log('✅ Фото-слайдер инициализирован с 15 фотографиями');
+    console.log(`✅ Создано ${photos.length} слайдов`);
 }
 
-// Функция перемешивания массива
-function shuffleArray(array) {
-    for (let i = array.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
-    }
-    return array;
-}
-
-// Остальные функции оставьте как есть:
+// Остальные функции оставьте без изменений
 function movePhotoSlide(direction) {
     const slides = document.querySelectorAll('.photo-slide');
     const dots = document.querySelectorAll('.slider-dot');
     const totalSlides = slides.length;
     
+    if (totalSlides === 0) {
+        console.error('❌ Нет слайдов для переключения');
+        return;
+    }
+    
     currentPhotoSlide = (currentPhotoSlide + direction + totalSlides) % totalSlides;
     
-    // Обновляем слайды
     slides.forEach((slide, index) => {
         slide.classList.toggle('active', index === currentPhotoSlide);
     });
     
-    // Обновляем точки
     dots.forEach((dot, index) => {
         dot.classList.toggle('active', index === currentPhotoSlide);
     });
-    
-    resetPhotoAutoSlide();
 }
 
 function goToPhotoSlide(index) {
     const slides = document.querySelectorAll('.photo-slide');
     const dots = document.querySelectorAll('.slider-dot');
-    const totalSlides = slides.length;
     
     currentPhotoSlide = index;
     
@@ -253,25 +257,6 @@ function goToPhotoSlide(index) {
     dots.forEach((dot, i) => {
         dot.classList.toggle('active', i === currentPhotoSlide);
     });
-    
-    resetPhotoAutoSlide();
-}
-
-function startPhotoAutoSlide() {
-    autoSlideInterval = setInterval(() => {
-        movePhotoSlide(1);
-    }, 5000);
-}
-
-function stopPhotoAutoSlide() {
-    if (autoSlideInterval) {
-        clearInterval(autoSlideInterval);
-    }
-}
-
-function resetPhotoAutoSlide() {
-    stopPhotoAutoSlide();
-    startPhotoAutoSlide();
 }
 
 // ==================== КАРУСЕЛЬ СПИКЕРОВ ====================
