@@ -163,27 +163,29 @@ function initPhotoSlider() {
         console.warn('Элементы фото-слайдера не найдены');
         return;
     }
-    
-    // Заглушки для фотографий (в реальном проекте замените на реальные URL)
-    const photoSlides = [
-        { type: 'placeholder', content: '📸 Фотографии с прошлых конференций' },
-        { type: 'placeholder', content: '🎤 Выступления экспертов' },
-        { type: 'placeholder', content: '🤝 Общение участников' },
-        { type: 'placeholder', content: '🏆 Награждение лучших' }
+
+    // МАССИВ ВСЕХ ВАШИХ 15 ФОТОГРАФИЙ
+    const allPhotos = [
+        '1.jpg', '2.jpg', '3.jpg', '4.jpg', '5.jpg', 
+        '6.jpg', '7.jpg', '8.jpg', '9.jpg', '10.jpg',
+        '11.jpg', '12.jpg', '13.jpg', '14.jpg', '15.jpg'
     ];
+
+    // Перемешиваем в случайном порядке
+    const shuffledPhotos = shuffleArray([...allPhotos]);
     
     // Создаем слайды
-    photoSlides.forEach((slide, index) => {
+    shuffledPhotos.forEach((photoName, index) => {
         const slideElement = document.createElement('div');
         slideElement.className = `photo-slide ${index === 0 ? 'active' : ''}`;
         slideElement.innerHTML = `
-            <div class="photo-placeholder">
-                <span class="photo-icon">${slide.content.split(' ')[0]}</span>
-                <p>${slide.content}</p>
-            </div>
+            <img src="images/hero/${photoName}" 
+                 alt="Фото с конференции LAB Evolution" 
+                 loading="lazy"
+                 onerror="this.style.display='none'">
         `;
         photoSlider.appendChild(slideElement);
-        
+
         // Создаем точки навигации
         const dot = document.createElement('button');
         dot.className = `slider-dot ${index === 0 ? 'active' : ''}`;
@@ -191,7 +193,7 @@ function initPhotoSlider() {
         dot.addEventListener('click', () => goToPhotoSlide(index));
         photoDots.appendChild(dot);
     });
-    
+
     // Обработчики кнопок навигации
     if (prevBtn) {
         prevBtn.addEventListener('click', () => movePhotoSlide(-1));
@@ -204,9 +206,19 @@ function initPhotoSlider() {
     // Автопрокрутка
     startPhotoAutoSlide();
     
-    console.log('✅ Фото-слайдер инициализирован');
+    console.log('✅ Фото-слайдер инициализирован с 15 фотографиями');
 }
 
+// Функция перемешивания массива
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+}
+
+// Остальные функции оставьте как есть:
 function movePhotoSlide(direction) {
     const slides = document.querySelectorAll('.photo-slide');
     const dots = document.querySelectorAll('.slider-dot');
