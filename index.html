@@ -17,7 +17,6 @@
         <!-- Слайдер фотографий -->
         <div class="photo-slider" id="photoSlider">
             <!-- Фотографии будут добавлены через JavaScript -->
-            <!-- Можно добавить placeholder пока фото грузятся -->
             <div class="photo-slide active">
                 <div class="photo-placeholder">
                     <span class="photo-icon">📸</span>
@@ -50,7 +49,6 @@
                             <li><a href="#about">О событии</a></li>
                             <li><a href="#program">Программа</a></li>
                             <li><a href="#speakers">Эксперты</a></li>
-                            <li><a href="#gallery">Галерея</a></li>
                             <li><a href="#partners">Технологии</a></li>
                             <li><a href="#location">Место</a></li>
                             <li><a href="#contacts">Контакты</a></li>
@@ -63,30 +61,28 @@
 
         <!-- Информационная плашка поверх фото -->
         <div class="hero-content">
-            <div class="container">
-                <div class="hero-info-card">
-                    <h1>LAB Evolution 2025</h1>
-                    <div class="hero-subtitle">«Современная лабораторная служба: от анализа к качеству»</div>
-                    
-                    <div class="event-details">
-                        <div class="detail-item">
-                            <span class="detail-icon">📅</span>
-                            <span class="detail-text">21 ноября 2025</span>
-                        </div>
-                        <div class="detail-item">
-                            <span class="detail-icon">⏰</span>
-                            <span class="detail-text">11:00 - 18:00</span>
-                        </div>
-                        <div class="detail-item">
-                            <span class="detail-icon">🏢</span>
-                            <span class="detail-text">БЦ "Новатор", Красногорск</span>
-                        </div>
+            <div class="hero-info-card">
+                <h1>LAB Evolution 2025</h1>
+                <div class="hero-subtitle">«Современная лабораторная служба: от анализа к качеству»</div>
+                
+                <div class="event-details">
+                    <div class="detail-item">
+                        <span class="detail-icon">📅</span>
+                        <span class="detail-text">21 ноября 2025</span>
                     </div>
-                    
-                    <div class="hero-buttons">
-                        <a href="registration.html" class="cta-button primary large">Зарегистрироваться</a>
-                        <a href="#" class="cta-button secondary" id="addToCalendarHero">📅 Добавить в календарь</a>
+                    <div class="detail-item">
+                        <span class="detail-icon">⏰</span>
+                        <span class="detail-text">11:00 - 18:00</span>
                     </div>
+                    <div class="detail-item">
+                        <span class="detail-icon">🏢</span>
+                        <span class="detail-text">БЦ "Новатор", Красногорск</span>
+                    </div>
+                </div>
+                
+                <div class="hero-buttons">
+                    <a href="registration.html" class="cta-button primary">Зарегистрироваться</a>
+                    <a href="#" class="cta-button secondary" id="addToCalendarHero">📅 В календарь</a>
                 </div>
             </div>
         </div>
@@ -268,23 +264,6 @@
         </div>
     </section>
 
-    <!-- Gallery -->
-    <section id="gallery" class="gallery-section">
-        <div class="container">
-            <h2 class="section-title">Галерея прошлых событий</h2>
-            <div class="gallery-container">
-                <div class="gallery-track" id="galleryTrack">
-                    <!-- Фотографии будут добавлены через JavaScript -->
-                </div>
-                <button class="carousel-btn carousel-btn-prev gallery-prev">‹</button>
-                <button class="carousel-btn carousel-btn-next gallery-next">›</button>
-            </div>
-            <div class="carousel-dots" id="galleryDots">
-                <!-- Точки будут добавлены через JavaScript -->
-            </div>
-        </div>
-    </section>
-
     <!-- Partners -->
     <section id="partners" class="partners">
         <div class="container">
@@ -310,7 +289,7 @@
         </div>
     </section>
 
-    <!-- Location & Map - растянута на всю ширину -->
+    <!-- Location & Map -->
     <section id="location" class="location-section full-width">
         <div class="map-container-full">
             <div id="yandexMapFull" class="interactive-map-full"></div>
@@ -319,7 +298,7 @@
             <div class="location-overlay-card">
                 <div class="location-icon">🏢</div>
                 <h3>БЦ "Новатор"</h3>
-                <p class="location-address">б-р Строителей, 7, Красногорск, Московская область, 143407</p>
+                <p class="location-address">б-р Строителей, 7, Красногорск</p>
                 
                 <div class="location-features">
                     <div class="feature">
@@ -334,27 +313,12 @@
                         <span class="feature-icon">♿</span>
                         <span>Доступная среда</span>
                     </div>
-                    <div class="feature">
-                        <span class="feature-icon">🕒</span>
-                        <span>21 ноября 2025, 11:00</span>
-                    </div>
                 </div>
                 
                 <button class="map-btn nav-btn" id="openNavigationMap">
                     <span class="btn-icon">🚗</span>
                     <span>Проложить маршрут</span>
                 </button>
-            </div>
-        </div>
-    </section>
-
-    <!-- Registration -->
-    <section id="registration" class="registration">
-        <div class="container">
-            <h2 class="section-title">Участие в конференции</h2>
-            <div class="registration-info">
-                <p>Присоединяйтесь к главному событию года для специалистов медицинских лабораторий</p>
-                <a href="registration.html" class="cta-button primary">Зарегистрироваться</a>
             </div>
         </div>
     </section>
@@ -376,7 +340,6 @@
                     <ul class="footer-links">
                         <li><a href="#program">Программа</a></li>
                         <li><a href="#speakers">Спикеры</a></li>
-                        <li><a href="#gallery">Галерея</a></li>
                         <li><a href="#registration">Регистрация</a></li>
                     </ul>
                 </div>
