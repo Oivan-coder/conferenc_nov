@@ -1,7 +1,7 @@
 // Конфигурация приложения
 const CONFIG = {
     // Замените на ваш API ключ Яндекс.Карт
-    yandexMapsApiKey: '3dd59f10-9dfb-4db3-b374-9e344bee9e00',
+    yandexMapsApiKey: 'ваш_api_ключ',
     
     // Координаты БЦ "Новатор"
     location: {
@@ -20,7 +20,7 @@ const CONFIG = {
     }
 };
 
-// Данные спикеров для карусели
+// Данные спикеров
 const speakers = [
     {
         name: "Фаниль Самуилович Билалов",
@@ -61,9 +61,31 @@ const speakers = [
 ];
 
 // Глобальные переменные
-let currentSlide = 0;
+let currentPhotoSlide = 0;
+let currentSpeakerSlide = 0;
+let currentGallerySlide = 0;
 let autoSlideInterval;
 let yandexMap = null;
+
+// ==================== ИНИЦИАЛИЗАЦИЯ ПРИЛОЖЕНИЯ ====================
+
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('🚀 Инициализация LAB Evolution 2025');
+    
+    // Инициализация всех модулей
+    initBurgerMenu();
+    initPhotoSlider();
+    initSpeakersCarousel();
+    initGalleryCarousel();
+    initBackToTop();
+    initSmoothScroll();
+    initScrollAnimations();
+    initCalendarButtons();
+    initMapFunctions();
+    
+    // Добавляем кастомные стили для уведомлений
+    addCustomStyles();
+});
 
 // ==================== БУРГЕР-МЕНЮ ====================
 
@@ -72,29 +94,42 @@ function initBurgerMenu() {
     const navMenu = document.getElementById('navMenu');
     const body = document.body;
     
-    if (!burgerMenu || !navMenu) return;
+    if (!burgerMenu || !navMenu) {
+        console.warn('Бургер-меню не найдено в DOM');
+        return;
+    }
     
-    burgerMenu.addEventListener('click', function() {
-        // Переключаем классы активности
-        burgerMenu.classList.toggle('active');
-        navMenu.classList.toggle('active');
-        body.classList.toggle('menu-open');
+    // Функция переключения меню
+    function toggleMenu() {
+        const isActive = burgerMenu.classList.contains('active');
         
-        // Обновляем aria-атрибуты для доступности
-        const isExpanded = burgerMenu.classList.contains('active');
-        burgerMenu.setAttribute('aria-expanded', isExpanded);
-        navMenu.setAttribute('aria-hidden', !isExpanded);
-    });
-    
-    // Закрываем меню при клике на ссылку
-    const navLinks = document.querySelectorAll('.nav-links a, .nav-register-btn');
-    navLinks.forEach(link => {
-        link.addEventListener('click', () => {
+        if (!isActive) {
+            // Открываем меню
+            burgerMenu.classList.add('active');
+            navMenu.classList.add('active');
+            body.classList.add('menu-open');
+            burgerMenu.setAttribute('aria-expanded', 'true');
+            navMenu.setAttribute('aria-hidden', 'false');
+        } else {
+            // Закрываем меню
             burgerMenu.classList.remove('active');
             navMenu.classList.remove('active');
             body.classList.remove('menu-open');
             burgerMenu.setAttribute('aria-expanded', 'false');
             navMenu.setAttribute('aria-hidden', 'true');
+        }
+    }
+    
+    // Обработчик клика по бургеру
+    burgerMenu.addEventListener('click', toggleMenu);
+    
+    // Закрываем меню при клике на ссылку
+    const navLinks = document.querySelectorAll('.nav-links a, .nav-register-btn');
+    navLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            if (burgerMenu.classList.contains('active')) {
+                toggleMenu();
+            }
         });
     });
     
@@ -104,39 +139,149 @@ function initBurgerMenu() {
         const isClickOnBurger = burgerMenu.contains(event.target);
         
         if (!isClickInsideMenu && !isClickOnBurger && navMenu.classList.contains('active')) {
-            burgerMenu.classList.remove('active');
-            navMenu.classList.remove('active');
-            body.classList.remove('menu-open');
-            burgerMenu.setAttribute('aria-expanded', 'false');
-            navMenu.setAttribute('aria-hidden', 'true');
+            toggleMenu();
         }
     });
     
     // Закрываем меню при нажатии Escape
     document.addEventListener('keydown', function(event) {
         if (event.key === 'Escape' && navMenu.classList.contains('active')) {
-            burgerMenu.classList.remove('active');
-            navMenu.classList.remove('active');
-            body.classList.remove('menu-open');
-            burgerMenu.setAttribute('aria-expanded', 'false');
-            navMenu.setAttribute('aria-hidden', 'true');
+            toggleMenu();
         }
     });
+    
+    console.log('✅ Бургер-меню инициализировано');
+}
+
+// ==================== СЛАЙДЕР ФОТОГРАФИЙ ====================
+
+function initPhotoSlider() {
+    const photoSlider = document.getElementById('photoSlider');
+    const photoDots = document.getElementById('photoDots');
+    const prevBtn = document.getElementById('photoPrev');
+    const nextBtn = document.getElementById('photoNext');
+    
+    if (!photoSlider || !photoDots) {
+        console.warn('Элементы фото-слайдера не найдены');
+        return;
+    }
+    
+    // Заглушки для фотографий (в реальном проекте замените на реальные URL)
+    const photoSlides = [
+        { type: 'placeholder', content: '📸 Фотографии с прошлых конференций' },
+        { type: 'placeholder', content: '🎤 Выступления экспертов' },
+        { type: 'placeholder', content: '🤝 Общение участников' },
+        { type: 'placeholder', content: '🏆 Награждение лучших' }
+    ];
+    
+    // Создаем слайды
+    photoSlides.forEach((slide, index) => {
+        const slideElement = document.createElement('div');
+        slideElement.className = `photo-slide ${index === 0 ? 'active' : ''}`;
+        slideElement.innerHTML = `
+            <div class="photo-placeholder">
+                <span class="photo-icon">${slide.content.split(' ')[0]}</span>
+                <p>${slide.content}</p>
+            </div>
+        `;
+        photoSlider.appendChild(slideElement);
+        
+        // Создаем точки навигации
+        const dot = document.createElement('button');
+        dot.className = `slider-dot ${index === 0 ? 'active' : ''}`;
+        dot.setAttribute('aria-label', `Перейти к фото ${index + 1}`);
+        dot.addEventListener('click', () => goToPhotoSlide(index));
+        photoDots.appendChild(dot);
+    });
+    
+    // Обработчики кнопок навигации
+    if (prevBtn) {
+        prevBtn.addEventListener('click', () => movePhotoSlide(-1));
+    }
+    
+    if (nextBtn) {
+        nextBtn.addEventListener('click', () => movePhotoSlide(1));
+    }
+    
+    // Автопрокрутка
+    startPhotoAutoSlide();
+    
+    console.log('✅ Фото-слайдер инициализирован');
+}
+
+function movePhotoSlide(direction) {
+    const slides = document.querySelectorAll('.photo-slide');
+    const dots = document.querySelectorAll('.slider-dot');
+    const totalSlides = slides.length;
+    
+    currentPhotoSlide = (currentPhotoSlide + direction + totalSlides) % totalSlides;
+    
+    // Обновляем слайды
+    slides.forEach((slide, index) => {
+        slide.classList.toggle('active', index === currentPhotoSlide);
+    });
+    
+    // Обновляем точки
+    dots.forEach((dot, index) => {
+        dot.classList.toggle('active', index === currentPhotoSlide);
+    });
+    
+    resetPhotoAutoSlide();
+}
+
+function goToPhotoSlide(index) {
+    const slides = document.querySelectorAll('.photo-slide');
+    const dots = document.querySelectorAll('.slider-dot');
+    const totalSlides = slides.length;
+    
+    currentPhotoSlide = index;
+    
+    slides.forEach((slide, i) => {
+        slide.classList.toggle('active', i === currentPhotoSlide);
+    });
+    
+    dots.forEach((dot, i) => {
+        dot.classList.toggle('active', i === currentPhotoSlide);
+    });
+    
+    resetPhotoAutoSlide();
+}
+
+function startPhotoAutoSlide() {
+    autoSlideInterval = setInterval(() => {
+        movePhotoSlide(1);
+    }, 5000);
+}
+
+function stopPhotoAutoSlide() {
+    if (autoSlideInterval) {
+        clearInterval(autoSlideInterval);
+    }
+}
+
+function resetPhotoAutoSlide() {
+    stopPhotoAutoSlide();
+    startPhotoAutoSlide();
 }
 
 // ==================== КАРУСЕЛЬ СПИКЕРОВ ====================
 
-function initCarousel() {
+function initSpeakersCarousel() {
     const carouselTrack = document.getElementById('carouselTrack');
     const carouselDots = document.getElementById('carouselDots');
+    const prevBtn = document.querySelector('.carousel-btn-prev');
+    const nextBtn = document.querySelector('.carousel-btn-next');
     
-    if (!carouselTrack || !carouselDots) return;
+    if (!carouselTrack || !carouselDots) {
+        console.warn('Элементы карусели спикеров не найдены');
+        return;
+    }
     
     // Очищаем существующие элементы
     carouselTrack.innerHTML = '';
     carouselDots.innerHTML = '';
     
-    // Создаем слайды
+    // Создаем слайды спикеров
     speakers.forEach((speaker, index) => {
         const slide = document.createElement('div');
         slide.className = 'speaker-slide';
@@ -153,133 +298,233 @@ function initCarousel() {
         const dot = document.createElement('button');
         dot.className = `carousel-dot ${index === 0 ? 'active' : ''}`;
         dot.setAttribute('aria-label', `Перейти к слайду ${index + 1}`);
-        dot.addEventListener('click', () => goToSlide(index));
+        dot.addEventListener('click', () => goToSpeakerSlide(index));
         carouselDots.appendChild(dot);
     });
     
-    updateCarousel();
-    startAutoSlide();
-}
-
-function moveSlide(direction) {
-    const totalSlides = speakers.length;
-    currentSlide = (currentSlide + direction + totalSlides) % totalSlides;
-    updateCarousel();
-    resetAutoSlide();
-}
-
-function goToSlide(index) {
-    currentSlide = index;
-    updateCarousel();
-    resetAutoSlide();
-}
-
-function updateCarousel() {
-    const carouselTrack = document.getElementById('carouselTrack');
-    const dots = document.querySelectorAll('.carousel-dot');
-    const slideWidth = 320;
-    
-    if (carouselTrack) {
-        carouselTrack.style.transform = `translateX(-${currentSlide * slideWidth}px)`;
+    // Обработчики кнопок навигации
+    if (prevBtn) {
+        prevBtn.addEventListener('click', () => moveSpeakerSlide(-1));
     }
     
+    if (nextBtn) {
+        nextBtn.addEventListener('click', () => moveSpeakerSlide(1));
+    }
+    
+    // Останавливаем автопрокрутку при наведении
+    const carouselContainer = document.querySelector('.carousel-container');
+    if (carouselContainer) {
+        carouselContainer.addEventListener('mouseenter', stopSpeakerAutoSlide);
+        carouselContainer.addEventListener('mouseleave', startSpeakerAutoSlide);
+    }
+    
+    updateSpeakerCarousel();
+    startSpeakerAutoSlide();
+    
+    console.log('✅ Карусель спикеров инициализирована');
+}
+
+function moveSpeakerSlide(direction) {
+    const totalSlides = speakers.length;
+    currentSpeakerSlide = (currentSpeakerSlide + direction + totalSlides) % totalSlides;
+    updateSpeakerCarousel();
+    resetSpeakerAutoSlide();
+}
+
+function goToSpeakerSlide(index) {
+    currentSpeakerSlide = index;
+    updateSpeakerCarousel();
+    resetSpeakerAutoSlide();
+}
+
+function updateSpeakerCarousel() {
+    const carouselTrack = document.getElementById('carouselTrack');
+    const dots = document.querySelectorAll('.carousel-dot');
+    const slideWidth = 320; // Ширина слайда + gap
+    
+    if (carouselTrack) {
+        carouselTrack.style.transform = `translateX(-${currentSpeakerSlide * slideWidth}px)`;
+    }
+    
+    // Обновляем точки
     dots.forEach((dot, index) => {
-        dot.classList.toggle('active', index === currentSlide);
-        dot.setAttribute('aria-current', index === currentSlide ? 'true' : 'false');
+        dot.classList.toggle('active', index === currentSpeakerSlide);
+        dot.setAttribute('aria-current', index === currentSpeakerSlide ? 'true' : 'false');
     });
 }
 
-function startAutoSlide() {
+function startSpeakerAutoSlide() {
     autoSlideInterval = setInterval(() => {
-        moveSlide(1);
-    }, 5000);
+        moveSpeakerSlide(1);
+    }, 4000);
 }
 
-function stopAutoSlide() {
+function stopSpeakerAutoSlide() {
     if (autoSlideInterval) {
         clearInterval(autoSlideInterval);
     }
 }
 
-function resetAutoSlide() {
-    stopAutoSlide();
-    startAutoSlide();
+function resetSpeakerAutoSlide() {
+    stopSpeakerAutoSlide();
+    startSpeakerAutoSlide();
 }
 
-function initCarouselEvents() {
-    const prevBtn = document.querySelector('.carousel-btn-prev');
-    const nextBtn = document.querySelector('.carousel-btn-next');
-    const carousel = document.querySelector('.carousel-container');
+// ==================== ГАЛЕРЕЯ ====================
+
+function initGalleryCarousel() {
+    const galleryTrack = document.getElementById('galleryTrack');
+    const galleryDots = document.getElementById('galleryDots');
+    const prevBtn = document.querySelector('.gallery-prev');
+    const nextBtn = document.querySelector('.gallery-next');
     
-    if (prevBtn) prevBtn.addEventListener('click', () => moveSlide(-1));
-    if (nextBtn) nextBtn.addEventListener('click', () => moveSlide(1));
-    
-    if (carousel) {
-        carousel.addEventListener('mouseenter', stopAutoSlide);
-        carousel.addEventListener('mouseleave', startAutoSlide);
-        carousel.addEventListener('touchstart', stopAutoSlide);
-        carousel.addEventListener('touchend', startAutoSlide);
+    if (!galleryTrack || !galleryDots) {
+        console.warn('Элементы галереи не найдены');
+        return;
     }
+    
+    // Заглушки для галереи
+    const galleryItems = ['📷', '🎥', '📹', '🎬', '📸', '🎞️'];
+    
+    // Создаем слайды галереи
+    galleryItems.forEach((item, index) => {
+        const slide = document.createElement('div');
+        slide.className = 'gallery-slide';
+        slide.innerHTML = `
+            <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 4rem; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 12px; color: white;">
+                ${item}
+            </div>
+        `;
+        galleryTrack.appendChild(slide);
+        
+        // Создаем точки навигации
+        const dot = document.createElement('button');
+        dot.className = `carousel-dot ${index === 0 ? 'active' : ''}`;
+        dot.setAttribute('aria-label', `Перейти к фото ${index + 1}`);
+        dot.addEventListener('click', () => goToGallerySlide(index));
+        galleryDots.appendChild(dot);
+    });
+    
+    // Обработчики кнопок навигации
+    if (prevBtn) {
+        prevBtn.addEventListener('click', () => moveGallerySlide(-1));
+    }
+    
+    if (nextBtn) {
+        nextBtn.addEventListener('click', () => moveGallerySlide(1));
+    }
+    
+    updateGalleryCarousel();
+    
+    console.log('✅ Галерея инициализирована');
 }
 
-// ==================== ИНТЕРАКТИВНАЯ КАРТА ====================
+function moveGallerySlide(direction) {
+    const totalSlides = document.querySelectorAll('.gallery-slide').length;
+    currentGallerySlide = (currentGallerySlide + direction + totalSlides) % totalSlides;
+    updateGalleryCarousel();
+}
+
+function goToGallerySlide(index) {
+    currentGallerySlide = index;
+    updateGalleryCarousel();
+}
+
+function updateGalleryCarousel() {
+    const galleryTrack = document.getElementById('galleryTrack');
+    const dots = document.querySelectorAll('#galleryDots .carousel-dot');
+    const slideWidth = 300 + 16; // Ширина слайда + gap
+    
+    if (galleryTrack) {
+        galleryTrack.style.transform = `translateX(-${currentGallerySlide * slideWidth}px)`;
+    }
+    
+    // Обновляем точки
+    dots.forEach((dot, index) => {
+        dot.classList.toggle('active', index === currentGallerySlide);
+    });
+}
+
+// ==================== КАРТА ====================
+
+function initMapFunctions() {
+    const navBtn = document.getElementById('openNavigationMap');
+    
+    if (navBtn) {
+        navBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            openNavigation();
+        });
+    }
+    
+    // Инициализируем Яндекс.Карты
+    initYandexMap();
+    
+    console.log('✅ Функции карты инициализированы');
+}
 
 function initYandexMap() {
-    const mapContainer = document.getElementById('yandexMapFull'); // Изменил ID
+    const mapContainer = document.getElementById('yandexMapFull');
     
-    if (!mapContainer) return;
-    
-    if (window.ymaps) {
-        createMap();
-    } else {
-        loadYandexMapsAPI();
+    if (!mapContainer) {
+        console.warn('Контейнер карты не найден');
+        return;
     }
-}
-
-function createMap() {
+    
+    // Проверяем, загружена ли библиотека Яндекс.Карт
+    if (typeof ymaps === 'undefined') {
+        console.warn('Библиотека Яндекс.Карт не загружена');
+        showMapFallback();
+        return;
+    }
+    
     try {
-        yandexMap = new ymaps.Map('yandexMapFull', { // Изменил ID
-            center: CONFIG.location.coordinates,
-            zoom: 16,
-            controls: ['zoomControl', 'fullscreenControl', 'typeSelector']
-        });
+        // Инициализируем карту
+        ymaps.ready(() => {
+            yandexMap = new ymaps.Map('yandexMapFull', {
+                center: CONFIG.location.coordinates,
+                zoom: 16,
+                controls: ['zoomControl', 'fullscreenControl']
+            });
 
-        // Создаем метку с кастомным контентом
-        const placemark = new ymaps.Placemark(
-            CONFIG.location.coordinates,
-            {
-                hintContent: CONFIG.location.name,
-                balloonContent: `
-                    <div class="map-balloon">
-                        <h3>${CONFIG.location.name}</h3>
-                        <p>${CONFIG.location.address}</p>
-                        <p><strong>LAB Evolution 2025</strong></p>
-                        <p>21 ноября, 11:00</p>
-                        <button onclick="openNavigation()" style="
-                            background: var(--primary); 
-                            color: white; 
-                            border: none; 
-                            padding: 8px 16px; 
-                            border-radius: 4px; 
-                            cursor: pointer; 
-                            margin-top: 10px;
-                        ">Проложить маршрут</button>
-                    </div>
-                `
-            },
-            {
-                preset: 'islands#blueIcon',
-                iconColor: '#0d47a1'
+            // Создаем метку
+            const placemark = new ymaps.Placemark(
+                CONFIG.location.coordinates,
+                {
+                    hintContent: CONFIG.location.name,
+                    balloonContent: `
+                        <div class="map-balloon">
+                            <h3>${CONFIG.location.name}</h3>
+                            <p>${CONFIG.location.address}</p>
+                            <p><strong>LAB Evolution 2025</strong></p>
+                            <p>21 ноября, 11:00</p>
+                            <button onclick="openNavigation()" style="
+                                background: var(--primary); 
+                                color: white; 
+                                border: none; 
+                                padding: 8px 16px; 
+                                border-radius: 4px; 
+                                cursor: pointer; 
+                                margin-top: 10px;
+                            ">Проложить маршрут</button>
+                        </div>
+                    `
+                },
+                {
+                    preset: 'islands#blueIcon',
+                    iconColor: '#0d47a1'
+                }
+            );
+
+            yandexMap.geoObjects.add(placemark);
+
+            // Оптимизация для мобильных
+            if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+                yandexMap.behaviors.disable('scrollZoom');
             }
-        );
-
-        yandexMap.geoObjects.add(placemark);
-
-        // Оптимизация для мобильных
-        if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
-            yandexMap.behaviors.disable('scrollZoom');
-        }
-
+        });
+        
+        console.log('✅ Яндекс.Карта инициализирована');
     } catch (error) {
         console.error('Ошибка создания карты:', error);
         showMapFallback();
@@ -287,14 +532,14 @@ function createMap() {
 }
 
 function showMapFallback() {
-    const mapContainer = document.getElementById('yandexMapFull'); // Изменил ID
+    const mapContainer = document.getElementById('yandexMapFull');
     if (mapContainer) {
         mapContainer.innerHTML = `
             <div class="map-fallback">
                 <div class="fallback-content">
                     <span class="fallback-icon">🗺️</span>
                     <h3>Интерактивная карта</h3>
-                    <p>Для отображения карты необходим API ключ Яндекс.Карт</p>
+                    <p>БЦ "Новатор", б-р Строителей, 7, Красногорск</p>
                     <div class="fallback-buttons">
                         <a href="https://yandex.ru/maps/org/bc_novator/1125366325/?ll=37.383687%2C55.817062&z=17" 
                            target="_blank" class="fallback-btn">
@@ -310,20 +555,20 @@ function showMapFallback() {
     }
 }
 
-function initMapFunctions() {
-    // Обработчик для кнопки на карте
-    const navBtn = document.getElementById('openNavigationMap'); // Изменил ID
-    if (navBtn) {
-        navBtn.addEventListener('click', function(e) {
+// ==================== КАЛЕНДАРЬ ====================
+
+function initCalendarButtons() {
+    const heroCalendarBtn = document.getElementById('addToCalendarHero');
+    
+    if (heroCalendarBtn) {
+        heroCalendarBtn.addEventListener('click', function(e) {
             e.preventDefault();
-            openNavigation();
+            addToCalendar();
         });
     }
     
-    initYandexMap();
+    console.log('✅ Кнопки календаря инициализированы');
 }
-
-// ==================== КАЛЕНДАРЬ ====================
 
 function addToCalendar() {
     try {
@@ -372,15 +617,90 @@ END:VCALENDAR`;
     }
 }
 
-function initCalendarButtons() {
-    // Обрабатываем кнопку в герое
-    const heroCalendarBtn = document.getElementById('addToCalendarHero');
-    if (heroCalendarBtn) {
-        heroCalendarBtn.addEventListener('click', function(e) {
-            e.preventDefault();
-            addToCalendar();
+// ==================== НАВИГАЦИЯ ====================
+
+function openNavigation() {
+    const url = `https://yandex.ru/maps/?pt=${CONFIG.location.coordinates[1]},${CONFIG.location.coordinates[0]}&z=17&l=map`;
+    window.open(url, '_blank');
+}
+
+// ==================== ПЛАВНАЯ ПРОКРУТКА ====================
+
+function initSmoothScroll() {
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            const href = this.getAttribute('href');
+            
+            if (href === '#' || href === '#top') {
+                e.preventDefault();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                return;
+            }
+            
+            const targetElement = document.querySelector(href);
+            if (targetElement) {
+                e.preventDefault();
+                const headerHeight = document.querySelector('.photo-header').offsetHeight;
+                const targetPosition = targetElement.offsetTop - headerHeight - 20;
+                
+                window.scrollTo({ top: targetPosition, behavior: 'smooth' });
+            }
         });
-    }
+    });
+    
+    console.log('✅ Плавная прокрутка инициализирована');
+}
+
+// ==================== КНОПКА "НАВЕРХ" ====================
+
+function initBackToTop() {
+    const backToTop = document.getElementById('backToTop');
+    
+    if (!backToTop) return;
+    
+    window.addEventListener('scroll', () => {
+        if (window.pageYOffset > 300) {
+            backToTop.classList.add('visible');
+        } else {
+            backToTop.classList.remove('visible');
+        }
+    });
+    
+    backToTop.addEventListener('click', (e) => {
+        e.preventDefault();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+    
+    console.log('✅ Кнопка "Наверх" инициализирована');
+}
+
+// ==================== АНИМАЦИИ ПРИ ПРОКРУТКЕ ====================
+
+function initScrollAnimations() {
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+            }
+        });
+    }, { 
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    });
+
+    const animatedElements = document.querySelectorAll(
+        '.feature-card, .program-block, .partner-card, .speaker-slide, .stat-item, .session-item'
+    );
+    
+    animatedElements.forEach(el => {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(30px)';
+        el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+        observer.observe(el);
+    });
+    
+    console.log('✅ Анимации прокрутки инициализированы');
 }
 
 // ==================== УВЕДОМЛЕНИЯ ====================
@@ -399,11 +719,11 @@ function showNotification(message, type = 'info') {
         position: fixed;
         top: 20px;
         right: 20px;
-        background: ${type === 'success' ? 'var(--success)' : type === 'error' ? 'var(--error)' : 'var(--primary)'};
+        background: ${type === 'success' ? '#2e7d32' : type === 'error' ? '#c62828' : '#0d47a1'};
         color: white;
         padding: 1rem 1.5rem;
         border-radius: 8px;
-        box-shadow: var(--shadow-hover);
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
         z-index: 10000;
         animation: slideInRight 0.3s ease;
         max-width: 400px;
@@ -426,92 +746,8 @@ function closeNotification(notification) {
         }
     }, 300);
 }
-// ==================== ВИДЕО ФОН ====================
 
-function initVideoBackground() {
-    const video = document.querySelector('.video-background');
-    if (!video) return;
-    
-    // Обработка ошибок видео
-    video.addEventListener('error', function() {
-        console.log('Видео не загрузилось, показываем фолбэк');
-        document.querySelector('.video-fallback').style.display = 'block';
-    });
-    
-    // Автовоспроизведение для мобильных
-    video.addEventListener('canplay', function() {
-        video.play().catch(function(error) {
-            console.log('Автовоспроизведение заблокировано:', error);
-        });
-    });
-}
-// ==================== НАВИГАЦИЯ И АНИМАЦИИ ====================
-
-function initBackToTop() {
-    const backToTop = document.getElementById('backToTop');
-    
-    if (!backToTop) return;
-    
-    window.addEventListener('scroll', () => {
-        if (window.pageYOffset > 300) {
-            backToTop.classList.add('visible');
-        } else {
-            backToTop.classList.remove('visible');
-        }
-    });
-    
-    backToTop.addEventListener('click', (e) => {
-        e.preventDefault();
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
-}
-
-function initSmoothScroll() {
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function(e) {
-            const href = this.getAttribute('href');
-            
-            if (href === '#' || href === '#top') {
-                e.preventDefault();
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-                return;
-            }
-            
-            const targetElement = document.querySelector(href);
-            if (targetElement) {
-                e.preventDefault();
-                const headerHeight = document.querySelector('header').offsetHeight;
-                const targetPosition = targetElement.offsetTop - headerHeight - 20;
-                
-                window.scrollTo({ top: targetPosition, behavior: 'smooth' });
-            }
-        });
-    });
-}
-
-function initScrollAnimations() {
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.style.opacity = '1';
-                entry.target.style.transform = 'translateY(0)';
-                entry.target.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-            }
-        });
-    }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
-
-    const animatedElements = document.querySelectorAll(
-        '.feature-card, .program-block, .partner-card, .speaker-slide, .stat-item, .session-item, .location-card'
-    );
-    
-    animatedElements.forEach(el => {
-        el.style.opacity = '0';
-        el.style.transform = 'translateY(30px)';
-        observer.observe(el);
-    });
-}
-
-// ==================== СТИЛИ И УТИЛИТЫ ====================
+// ==================== ДОПОЛНИТЕЛЬНЫЕ СТИЛИ ====================
 
 function addCustomStyles() {
     if (document.getElementById('custom-styles')) return;
@@ -541,7 +777,9 @@ function addCustomStyles() {
             transition: opacity 0.3s;
         }
         
-        .notification-close:hover { opacity: 1; }
+        .notification-close:hover { 
+            opacity: 1; 
+        }
         
         .notification-content {
             display: flex;
@@ -549,7 +787,9 @@ function addCustomStyles() {
             justify-content: space-between;
         }
         
-        .notification-message { flex: 1; }
+        .notification-message { 
+            flex: 1; 
+        }
         
         .map-fallback {
             display: flex;
@@ -560,7 +800,9 @@ function addCustomStyles() {
             text-align: center;
         }
         
-        .fallback-content { padding: 2rem; }
+        .fallback-content { 
+            padding: 2rem; 
+        }
         
         .fallback-icon {
             font-size: 3rem;
@@ -628,43 +870,28 @@ function addCustomStyles() {
     `;
     
     document.head.appendChild(styles);
+    
+    console.log('✅ Кастомные стили добавлены');
 }
 
-// ==================== ОСНОВНАЯ ИНИЦИАЛИЗАЦИЯ ====================
+// ==================== ОБРАБОТЧИКИ СОБЫТИЙ ====================
 
 function handleResize() {
-    updateCarousel();
+    updateSpeakerCarousel();
+    updateGalleryCarousel();
 }
 
 function cleanup() {
-    stopAutoSlide();
+    stopPhotoAutoSlide();
+    stopSpeakerAutoSlide();
 }
 
-document.addEventListener('DOMContentLoaded', function() {
-    // Добавляем кастомные стили
-    addCustomStyles();
-    
-    // Инициализируем все модули
-    initBurgerMenu();
-    initCarousel();
-    initCarouselEvents();
-    initBackToTop();
-    initSmoothScroll();
-    initScrollAnimations();
-    initCalendarButtons();
-    initMapFunctions(); // Теперь работает с новой картой
-    initVideoBackground(); // Добавляем инициализацию видео
-    
-    // Обработчики событий
-    window.addEventListener('resize', handleResize);
-    window.addEventListener('beforeunload', cleanup);
-    
-    // Предзагрузка видео для лучшей производительности
-    const video = document.querySelector('.video-background');
-    if (video) {
-        video.preload = 'auto';
-    }
-});
+// Обработчики событий
+window.addEventListener('resize', handleResize);
+window.addEventListener('beforeunload', cleanup);
+
 // Экспортируем функции для глобального использования
 window.openNavigation = openNavigation;
 window.addToCalendar = addToCalendar;
+
+console.log('🎉 Все модули LAB Evolution 2025 успешно загружены!');
