@@ -12,20 +12,25 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <!-- Video Hero Section -->
-    <section class="video-hero">
-        <!-- Видео фон -->
-        <video class="video-background" autoplay muted loop playsinline>
-            <source src="conference-video.mp4" type="video/mp4">
-            <!-- Фолбэк если видео не загрузится -->
-            <div class="video-fallback"></div>
-        </video>
+    <!-- Photo Hero Slider -->
+    <section class="photo-hero">
+        <!-- Слайдер фотографий -->
+        <div class="photo-slider" id="photoSlider">
+            <!-- Фотографии будут добавлены через JavaScript -->
+            <!-- Можно добавить placeholder пока фото грузятся -->
+            <div class="photo-slide active">
+                <div class="photo-placeholder">
+                    <span class="photo-icon">📸</span>
+                    <p>Фотографии с прошлых конференций</p>
+                </div>
+            </div>
+        </div>
         
         <!-- Затемнение фона -->
-        <div class="video-overlay"></div>
+        <div class="photo-overlay"></div>
         
-        <!-- Header поверх видео -->
-        <header class="video-header">
+        <!-- Header поверх слайдера -->
+        <header class="photo-header">
             <div class="container">
                 <div class="header-content">
                     <a href="#" class="logo">
@@ -56,7 +61,7 @@
             </div>
         </header>
 
-        <!-- Информационная плашка поверх видео -->
+        <!-- Информационная плашка поверх фото -->
         <div class="hero-content">
             <div class="container">
                 <div class="hero-info-card">
@@ -84,6 +89,13 @@
                     </div>
                 </div>
             </div>
+        </div>
+
+        <!-- Навигация слайдера -->
+        <div class="slider-controls">
+            <button class="slider-btn slider-prev" id="photoPrev">‹</button>
+            <button class="slider-btn slider-next" id="photoNext">›</button>
+            <div class="slider-dots" id="photoDots"></div>
         </div>
     </section>
 
@@ -145,7 +157,7 @@
         <div class="container">
             <h2 class="section-title">Программа конференции</h2>
             
-            <!-- Программа остается без изменений -->
+            <!-- Открытие -->
             <div class="program-block">
                 <div class="block-header">
                     <span class="block-icon">🔹</span>
@@ -156,13 +168,147 @@
                 </div>
             </div>
 
-            <!-- Остальные блоки программы... -->
-            
+            <!-- Клинический блок -->
+            <div class="program-block">
+                <div class="block-header">
+                    <span class="block-icon">🔹</span>
+                    <h3>Клинический блок</h3>
+                </div>
+                <div class="sessions-grid">
+                    <div class="session-item">
+                        <div class="session-speaker">Фаниль Самуилович Билалов</div>
+                        <div class="session-topic">Современные подходы в лабораторной онкодиагностике: от маркеров до молекулярных технологий</div>
+                        <div class="session-desc">Роль лаборатории в раннем выявлении онкопатологии, молекулярные методы, контроль качества</div>
+                    </div>
+                    <div class="session-item">
+                        <div class="session-speaker">Гульнара Витальевна Лешкина</div>
+                        <div class="session-topic">Цитология в современной лабораторной диагностике: практика, качество, обучение</div>
+                        <div class="session-desc">Мастер-класс по авторской методике приготовления и интерпретации цитопрепаратов</div>
+                    </div>
+                    <div class="session-item">
+                        <div class="session-speaker">Главные внештатные специалисты по ВИЧ и дерматовенерологии</div>
+                        <div class="session-topic">Маршрутизация пациентов с ВИЧ и сифилисом: взаимодействие лаборатории и клинических служб</div>
+                        <div class="session-desc">Актуальные алгоритмы диагностики и межведомственное взаимодействие</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Управление и обучение -->
+            <div class="program-block">
+                <div class="block-header">
+                    <span class="block-icon">🔹</span>
+                    <h3>Управление и обучение</h3>
+                </div>
+                <div class="sessions-grid">
+                    <div class="session-item">
+                        <div class="session-speaker">Мария Георгиевна Ламбакахар (РМАНПО)</div>
+                        <div class="session-topic">Развитие кадрового потенциала лабораторной службы</div>
+                        <div class="session-desc">Современные форматы обучения, оценка компетенций, роль наставничества в формировании культуры качества</div>
+                    </div>
+                    <div class="session-item">
+                        <div class="session-speaker">Любовь Ивановна Станкевич (LabQuest)</div>
+                        <div class="session-topic">Управление современной лабораторной сетью: стандартизация, цифровизация, качество</div>
+                        <div class="session-desc">Опыт внедрения ISO 15189 и JCI, цифровизация процессов, интеграция с клиническими подразделениями</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Инновации и технологии -->
+            <div class="program-block">
+                <div class="block-header">
+                    <span class="block-icon">🔹</span>
+                    <h3>Инновации и технологии</h3>
+                </div>
+                <div class="block-content">
+                    <p>Секция компаний-партнёров: <strong>БРЕГИС / Вектор-Бест / Диакон</strong></p>
+                    <p>Инновационные решения для лабораторной диагностики. Современные аналитические платформы, автоматизация, искусственный интеллект, новые реагенты.</p>
+                </div>
+            </div>
+
+            <!-- Международные стандарты -->
+            <div class="program-block">
+                <div class="block-header">
+                    <span class="block-icon">🔹</span>
+                    <h3>Международные стандарты и пациент-ориентированный подход</h3>
+                </div>
+                <div class="block-content">
+                    <div class="session-speaker">Представители клиники Hadassah</div>
+                    <p>Международные стандарты качества в лабораторной службе: JCI, ISO, взаимодействие с пациентом. Опыт внедрения систем менеджмента качества и повышение доверия пациентов.</p>
+                </div>
+            </div>
+
+            <!-- Итоговая дискуссия -->
+            <div class="program-block">
+                <div class="block-header">
+                    <span class="block-icon">🔹</span>
+                    <h3>Итоговая дискуссия</h3>
+                </div>
+                <div class="block-content">
+                    <p><strong>Панель «Лабораторная служба будущего: кадры, технологии, пациент»</strong></p>
+                    <p>Участники обсудят ключевые направления развития лабораторной медицины в России и за рубежом.</p>
+                </div>
+            </div>
         </div>
     </section>
 
-    <!-- Остальные секции остаются без изменений -->
-    <!-- Speakers, Gallery, Partners, Registration -->
+    <!-- Speakers Carousel -->
+    <section id="speakers" class="speakers-section">
+        <div class="container">
+            <h2 class="section-title">Наши эксперты</h2>
+            <div class="carousel-container">
+                <div class="carousel-track" id="carouselTrack">
+                    <!-- Спикеры будут добавлены через JavaScript -->
+                </div>
+                <button class="carousel-btn carousel-btn-prev">‹</button>
+                <button class="carousel-btn carousel-btn-next">›</button>
+            </div>
+            <div class="carousel-dots" id="carouselDots">
+                <!-- Точки будут добавлены через JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery -->
+    <section id="gallery" class="gallery-section">
+        <div class="container">
+            <h2 class="section-title">Галерея прошлых событий</h2>
+            <div class="gallery-container">
+                <div class="gallery-track" id="galleryTrack">
+                    <!-- Фотографии будут добавлены через JavaScript -->
+                </div>
+                <button class="carousel-btn carousel-btn-prev gallery-prev">‹</button>
+                <button class="carousel-btn carousel-btn-next gallery-next">›</button>
+            </div>
+            <div class="carousel-dots" id="galleryDots">
+                <!-- Точки будут добавлены через JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Partners -->
+    <section id="partners" class="partners">
+        <div class="container">
+            <h2 class="section-title">Технологические партнеры</h2>
+            <div class="partners-grid">
+                <div class="partner-card">
+                    <div class="partner-name">БРЕГИС</div>
+                    <div class="partner-desc">Инновационные решения для лабораторной диагностики</div>
+                </div>
+                <div class="partner-card">
+                    <div class="partner-name">Вектор-Бест</div>
+                    <div class="partner-desc">Современные диагностические системы и реагенты</div>
+                </div>
+                <div class="partner-card">
+                    <div class="partner-name">Диакон</div>
+                    <div class="partner-desc">Комплексные лабораторные решения</div>
+                </div>
+                <div class="partner-card">
+                    <div class="partner-name">LabQuest</div>
+                    <div class="partner-desc">Управление лабораторной сетью и стандартизация</div>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <!-- Location & Map - растянута на всю ширину -->
     <section id="location" class="location-section full-width">
@@ -198,6 +344,17 @@
                     <span class="btn-icon">🚗</span>
                     <span>Проложить маршрут</span>
                 </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Registration -->
+    <section id="registration" class="registration">
+        <div class="container">
+            <h2 class="section-title">Участие в конференции</h2>
+            <div class="registration-info">
+                <p>Присоединяйтесь к главному событию года для специалистов медицинских лабораторий</p>
+                <a href="registration.html" class="cta-button primary">Зарегистрироваться</a>
             </div>
         </div>
     </section>
