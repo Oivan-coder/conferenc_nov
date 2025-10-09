@@ -142,23 +142,25 @@
         });
 
         // Функция проверки дублей через Apps Script
-        async function checkDuplicate(email, phone) {
-            try {
-                // 🔥 ЗАМЕНИТЕ НА ВАШ URL APPS SCRIPT
-                const response = await fetch('https://script.google.com/macros/s/AKfycbyiCJji5xrJaO5zAdxJm2W7xqRv81LeGOzWIIcktTaCmLB2h2RGE9won9JvsqEJ0Nkr/exec', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ email, phone })
-                });
-                const result = await response.json();
-                return result.isDuplicate;
-            } catch (error) {
-                console.error('Ошибка проверки дублей:', error);
-                return false; // Если сервер недоступен - пропускаем проверку
-            }
-        }
+        // Функция проверки дублей через Apps Script
+async function checkDuplicate(email, phone) {
+    try {
+        // 🔥 ЗАМЕНИТЕ НА НОВЫЙ URL APPS SCRIPT
+        const response = await fetch('https://script.google.com/macros/s/AKfycbyUeZmn1T0bI7mzCLWtXlwBESSPQEFs9VD6Ov4PiOTi4Y_sWe0NPwwKrvNHrhPlrKzO/exec', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ email, phone })
+        });
+        const result = await response.json();
+        console.log('Результат проверки дублей:', result); // Добавьте для отладки
+        return result.isDuplicate;
+    } catch (error) {
+        console.error('Ошибка проверки дублей:', error);
+        return false; // Если сервер недоступен - пропускаем проверку
+    }
+}
 
         // Функция отправки в Google Forms
         async function submitToGoogleForms() {
