@@ -4,37 +4,37 @@ const speakers = [
         name: "Фаниль Самуилович Билалов",
         role: "Эксперт по лабораторной онкодиагностике",
         topic: "Современные подходы в лабораторной онкодиагностике",
-        photo: "https://via.placeholder.com/150/0d47a1/ffffff?text=ФСБ"
+        photo: "🧑‍⚕️"
     },
     {
         name: "Гульнара Витальевна Лешкина",
-        role: "Специалист по цитологической диагностике",
+        role: "Специалист по цитологической диагностике", 
         topic: "Цитология в современной лабораторной диагностике",
-        photo: "https://via.placeholder.com/150/00695c/ffffff?text=ГВЛ"
+        photo: "👩‍⚕️"
     },
     {
         name: "Мария Георгиевна Ламбакахар",
         role: "РМАНПО, эксперт по кадровому развитию",
         topic: "Развитие кадрового потенциала лабораторной службы",
-        photo: "https://via.placeholder.com/150/00b0ff/ffffff?text=МГЛ"
+        photo: "👩‍🏫"
     },
     {
         name: "Любовь Ивановна Станкевич",
         role: "LabQuest, управление лабораторной сетью",
         topic: "Стандартизация и цифровизация лабораторных процессов",
-        photo: "https://via.placeholder.com/150/08306b/ffffff?text=ЛИС"
+        photo: "👨‍💼"
     },
     {
         name: "Представители Hadassah",
-        role: "Клиника Hadassah, международные стандарты",
+        role: "Клиника Hadassah, международные стандарты", 
         topic: "JCI, ISO и пациент-ориентированный подход",
-        photo: "https://via.placeholder.com/150/546e7a/ffffff?text=HAD"
+        photo: "🏥"
     },
     {
         name: "Главные внештатные специалисты",
         role: "По ВИЧ и дерматовенерологии",
         topic: "Маршрутизация пациентов с ВИЧ и сифилисом",
-        photo: "https://via.placeholder.com/150/2e7d32/ffffff?text=ВРА"
+        photo: "👨‍🔬"
     }
 ];
 
@@ -51,7 +51,7 @@ function initCarousel() {
         const slide = document.createElement('div');
         slide.className = 'speaker-slide';
         slide.innerHTML = `
-            <img src="${speaker.photo}" alt="${speaker.name}" class="speaker-photo">
+            <div class="speaker-photo">${speaker.photo}</div>
             <div class="speaker-name">${speaker.name}</div>
             <div class="speaker-role">${speaker.role}</div>
             <div class="speaker-topic">${speaker.topic}</div>
@@ -93,36 +93,63 @@ function updateCarousel() {
     });
 }
 
+// Функция добавления в календарь (простая как в предыдущей конфе)
+function addToCalendar() {
+    const icsContent = `BEGIN:VCALENDAR
+VERSION:2.0
+BEGIN:VEVENT
+SUMMARY:LAB Evolution 2025
+DESCRIPTION:Конференция "Современная лабораторная служба: от анализа к качеству"
+DTSTART:20251121T110000
+DTEND:20251121T180000
+LOCATION:Москва, Конгресс-центр
+END:VEVENT
+END:VCALENDAR`;
+
+    // Создаем и скачиваем файл
+    const blob = new Blob([icsContent], { type: 'text/calendar' });
+    const url = window.URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'LAB_Evolution_2025.ics';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    window.URL.revokeObjectURL(url);
+    
+    // Простое уведомление
+    alert('Файл календаря скачан. Импортируйте его в ваш календарь.');
+}
+
 // Плавная прокрутка и анимации
 document.addEventListener('DOMContentLoaded', function() {
     // Инициализируем карусель
     initCarousel();
     
     // Плавная прокрутка для навигации
-    document.querySelectorAll('nav a, .cta-button').forEach(anchor => {
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function(e) {
-            if (this.getAttribute('href').startsWith('#')) {
-                e.preventDefault();
-                
-                const targetId = this.getAttribute('href');
-                const targetElement = document.querySelector(targetId);
-                
-                if (targetElement) {
-                    window.scrollTo({
-                        top: targetElement.offsetTop - 100,
-                        behavior: 'smooth'
-                    });
-                }
-            }
+            const id = this.getAttribute('href');
+            if (id.length < 2) return;
+            const targetElement = document.querySelector(id);
+            if (!targetElement) return;
+
+            e.preventDefault();
+            targetElement.scrollIntoView({
+                behavior: 'smooth'
+            });
+        });
+    });
+
+    // Обработчики для кнопок календаря
+    document.querySelectorAll('#addToCalendar, #addToCalendarFooter').forEach(button => {
+        button.addEventListener('click', function(e) {
+            e.preventDefault();
+            addToCalendar();
         });
     });
 
     // Анимация появления элементов при скролле
-    const observerOptions = {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
-    };
-
     const observer = new IntersectionObserver(function(entries) {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -130,7 +157,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 entry.target.style.transform = 'translateY(0)';
             }
         });
-    }, observerOptions);
+    }, { 
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    });
 
     // Наблюдаем за карточками и секциями
     document.querySelectorAll('.feature-card, .program-block, .partner-card, .speaker-slide').forEach(el => {
