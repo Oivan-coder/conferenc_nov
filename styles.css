@@ -569,3 +569,25 @@ footer {
         font-size: 1.5rem;
     }
 }
+/* Стили для сообщений об ошибках */
+.error-message {
+    background: #ffebee;
+    color: #c62828;
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    border: 1px solid #ffcdd2;
+    display: none;
+}
+
+/* Стили для невалидных полей */
+input:invalid, select:invalid {
+    border-color: #c62828 !important;
+}
+
+/* Стили для кнопки при загрузке */
+.submit-btn:disabled {
+    background: #ccc !important;
+    cursor: not-allowed;
+    transform: none !important;
+}
