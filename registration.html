@@ -3,151 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Регистрация | LAB Evolution 2025</title>
-    
-    <!-- Favicon -->
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚕️</text></svg>">
-    
-    <!-- CSS -->
+    <title>Регистрация - LAB Evolution 2025</title>
     <link rel="stylesheet" href="styles.css">
-    
-    <style>
-        .registration-page .nav-register-btn {
-            display: none !important;
-        }
-        
-        .registration-hero {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-            color: var(--white);
-            padding: 120px 0 80px;
-            text-align: center;
-        }
-        
-        .registration-container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 0 var(--space-md);
-        }
-        
-        .registration-form {
-            background: var(--white);
-            border-radius: var(--radius-lg);
-            padding: var(--space-xl);
-            box-shadow: var(--shadow-lg);
-            margin-top: var(--space-xl);
-        }
-        
-        .form-group {
-            margin-bottom: var(--space-lg);
-            text-align: left;
-        }
-        
-        .form-label {
-            display: block;
-            margin-bottom: var(--space-xs);
-            font-weight: 600;
-            color: var(--primary-dark);
-        }
-        
-        .form-input, .form-select, .form-textarea {
-            width: 100%;
-            padding: 12px 16px;
-            border: 2px solid var(--gray-100);
-            border-radius: var(--radius-md);
-            font-size: 1rem;
-            transition: all 0.3s ease;
-            background: var(--white);
-        }
-        
-        .form-input:focus, .form-select:focus, .form-textarea:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(13, 71, 161, 0.1);
-        }
-        
-        .form-textarea {
-            resize: vertical;
-            min-height: 100px;
-            font-family: inherit;
-        }
-        
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: var(--space-md);
-        }
-        
-        .form-checkbox {
-            display: flex;
-            align-items: flex-start;
-            gap: var(--space-sm);
-            margin-bottom: var(--space-sm);
-        }
-        
-        .form-checkbox input {
-            margin-top: 4px;
-        }
-        
-        .checkbox-label {
-            font-size: 0.9rem;
-            color: var(--text-light);
-            line-height: 1.4;
-        }
-        
-        .checkbox-label a {
-            color: var(--primary);
-            text-decoration: none;
-        }
-        
-        .checkbox-label a:hover {
-            text-decoration: underline;
-        }
-        
-        .submit-btn {
-            width: 100%;
-            padding: 16px;
-            font-size: 1.1rem;
-            margin-top: var(--space-lg);
-        }
-        
-        .registration-info {
-            background: var(--light);
-            border-radius: var(--radius-md);
-            padding: var(--space-lg);
-            margin-top: var(--space-xl);
-        }
-        
-        .info-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: var(--space-lg);
-            margin-top: var(--space-md);
-        }
-        
-        .info-item {
-            display: flex;
-            align-items: flex-start;
-            gap: var(--space-sm);
-        }
-        
-        .info-icon {
-            font-size: 1.5rem;
-            margin-top: 2px;
-        }
-        
-        @media (max-width: 768px) {
-            .form-row {
-                grid-template-columns: 1fr;
-            }
-            
-            .registration-form {
-                padding: var(--space-lg);
-            }
-        }
-    </style>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚕️</text></svg>">
 </head>
 <body class="registration-page">
-    <!-- Header -->
+    <!-- Хедер из основного стиля -->
     <header class="photo-header">
         <div class="container">
             <div class="header-content">
@@ -156,7 +17,6 @@
                     <div>LAB Evolution 2025</div>
                 </a>
                 
-                <!-- Бургер меню -->
                 <button class="burger-menu" id="burgerMenu" aria-label="Открыть меню">
                     <span></span>
                     <span></span>
@@ -170,267 +30,487 @@
                         <li><a href="index.html#speakers">Эксперты</a></li>
                         <li><a href="index.html#partners">Технологии</a></li>
                         <li><a href="index.html#location">Место</a></li>
+                        <li><a href="#registration">Участие</a></li>
                         <li><a href="index.html#contacts">Контакты</a></li>
                     </ul>
-                    <!-- Кнопка скрыта на странице регистрации -->
-                    <a href="registration.html" class="cta-button primary nav-register-btn" style="display: none;">Регистрация</a>
+                    <a href="#registration" class="cta-button nav-register-btn">Регистрация</a>
                 </nav>
             </div>
         </div>
     </header>
 
-    <!-- Registration Hero -->
-    <section class="registration-hero">
+    <main class="registration-main">
         <div class="container">
-            <h1>Регистрация на конференцию</h1>
-            <p class="section-content">LAB Evolution 2025 • 21 ноября 2025 • БЦ "Новатор", Красногорск</p>
-        </div>
-    </section>
-
-    <!-- Registration Form -->
-    <section style="padding: var(--space-xxl) 0; background: var(--gray-50);">
-        <div class="registration-container">
-            <div class="registration-form">
-                <h2 style="text-align: center; margin-bottom: var(--space-xl);">Форма регистрации</h2>
+            <div class="registration-header">
+                <div class="logo-section">
+                    <div class="logo-icon">⚕️</div>
+                    <h1>LAB Evolution 2025</h1>
+                </div>
                 
-                <form id="registrationForm">
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label class="form-label" for="lastName">Фамилия *</label>
-                            <input type="text" id="lastName" class="form-input" required>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label class="form-label" for="firstName">Имя *</label>
-                            <input type="text" id="firstName" class="form-input" required>
-                        </div>
-                    </div>
-                    
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label class="form-label" for="middleName">Отчество</label>
-                            <input type="text" id="middleName" class="form-input">
-                        </div>
-                        
-                        <div class="form-group">
-                            <label class="form-label" for="position">Должность *</label>
-                            <input type="text" id="position" class="form-input" required>
-                        </div>
-                    </div>
-                    
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label class="form-label" for="organization">Организация *</label>
-                            <input type="text" id="organization" class="form-input" required>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label class="form-label" for="city">Город *</label>
-                            <input type="text" id="city" class="form-input" required>
-                        </div>
-                    </div>
-                    
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label class="form-label" for="email">Email *</label>
-                            <input type="email" id="email" class="form-input" required>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label class="form-label" for="phone">Телефон *</label>
-                            <input type="tel" id="phone" class="form-input" required>
-                        </div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="form-label" for="specialization">Специализация *</label>
-                        <select id="specialization" class="form-select" required>
-                            <option value="">Выберите специализацию</option>
-                            <option value="lab_director">Руководитель лаборатории</option>
-                            <option value="lab_specialist">Врач-лаборант</option>
-                            <option value="researcher">Научный сотрудник</option>
-                            <option value="doctor">Врач-клиницист</option>
-                            <option value="student">Студент</option>
-                            <option value="other">Другое</option>
-                        </select>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="form-label" for="experience">Опыт работы</label>
-                        <select id="experience" class="form-select">
-                            <option value="">Выберите опыт работы</option>
-                            <option value="less_1">Менее 1 года</option>
-                            <option value="1_3">1-3 года</option>
-                            <option value="3_5">3-5 лет</option>
-                            <option value="5_10">5-10 лет</option>
-                            <option value="more_10">Более 10 лет</option>
-                        </select>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="form-label" for="questions">Вопросы к спикерам</label>
-                        <textarea id="questions" class="form-textarea" placeholder="Какие вопросы вы хотели бы задать нашим экспертам?"></textarea>
-                    </div>
-                    
-                    <div class="form-group">
-                        <div class="form-checkbox">
-                            <input type="checkbox" id="consent" required>
-                            <label for="consent" class="checkbox-label">
-                                Я даю согласие на обработку моих персональных данных в соответствии с 
-                                <a href="#">политикой конфиденциальности</a> *
-                            </label>
-                        </div>
-                        
-                        <div class="form-checkbox">
-                            <input type="checkbox" id="newsletter">
-                            <label for="newsletter" class="checkbox-label">
-                                Я хочу получать информацию о будущих мероприятиях и новостях
-                            </label>
-                        </div>
-                    </div>
-                    
-                    <button type="submit" class="cta-button primary submit-btn">
-                        📝 Зарегистрироваться
-                    </button>
-                </form>
+                <h2 class="section-title">Регистрация на конференцию</h2>
+                <p class="section-content">Заполните форму для участия в мероприятии</p>
             </div>
             
-            <!-- Registration Info -->
-            <div class="registration-info">
-                <h3 style="text-align: center; margin-bottom: var(--space-lg);">Важная информация</h3>
-                
-                <div class="info-grid">
-                    <div class="info-item">
-                        <span class="info-icon">📅</span>
-                        <div>
-                            <strong>Дата</strong><br>
-                            21 ноября 2025<br>
-                            11:00 - 18:00
+            <div class="registration-content">
+                <form id="visible-form" class="registration-form">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="email">Электронная почта *</label>
+                            <input type="email" id="email" name="email" placeholder="example@mail.ru" required>
                         </div>
-                    </div>
-                    
-                    <div class="info-item">
-                        <span class="info-icon">🏢</span>
-                        <div>
-                            <strong>Место</strong><br>
-                            БЦ "Новатор"<br>
-                            б-р Строителей, 7, Красногорск
-                        </div>
-                    </div>
-                    
-                    <div class="info-item">
-                        <span class="info-icon">💰</span>
-                        <div>
-                            <strong>Участие</strong><br>
-                            Бесплатное<br>
-                            По предварительной регистрации
-                        </div>
-                    </div>
-                    
-                    <div class="info-item">
-                        <span class="info-icon">📞</span>
-                        <div>
-                            <strong>Контакты</strong><br>
-                            info@labevolution.ru<br>
-                            +7 (495) 123-45-67
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
 
-    <!-- Footer -->
-    <footer id="contacts">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <h3>Контакты</h3>
-                    <ul class="footer-links">
-                        <li>📞 +7 (495) 123-45-67</li>
-                        <li>✉️ info@labevolution.ru</li>
-                        <li>📍 БЦ "Новатор", Красногорск</li>
-                    </ul>
-                </div>
-                <div class="footer-section">
-                    <h3>Участникам</h3>
-                    <ul class="footer-links">
-                        <li><a href="index.html#program">Программа</a></li>
-                        <li><a href="index.html#speakers">Спикеры</a></li>
-                        <li><a href="registration.html">Регистрация</a></li>
-                    </ul>
-                </div>
-                <div class="footer-section">
-                    <h3>Партнерам</h3>
-                    <ul class="footer-links">
-                        <li><a href="#">Условия участия</a></li>
-                        <li><a href="#">Экспонентам</a></li>
-                        <li><a href="#">Спонсорские пакеты</a></li>
-                    </ul>
+                        <div class="form-group">
+                            <label for="name">ФИО *</label>
+                            <input type="text" id="name" name="name" placeholder="Введите ваше полное имя" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="position">Должность *</label>
+                            <select id="position" name="position" required>
+                                <option value="">-- Выберите должность --</option>
+                                <option value="Главный врач">Главный врач</option>
+                                <option value="Заведующий лабораторией">Заведующий лабораторией</option>
+                                <option value="Врач-лаборант">Врач-лаборант</option>
+                                <option value="Медицинский технолог">Медицинский технолог</option>
+                                <option value="Руководитель ЛПУ">Руководитель ЛПУ</option>
+                                <option value="Специалист по качеству">Специалист по качеству</option>
+                                <option value="Гость">Гость</option>
+                                <option value="Другое">Другое</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="organization">Организация *</label>
+                            <input type="text" id="organization" name="organization" placeholder="Название медицинского учреждения" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="phone">Телефон *</label>
+                            <input type="tel" id="phone" name="phone" placeholder="+7 (XXX) XXX-XX-XX" required>
+                        </div>
+
+                        <div class="form-group full-width">
+                            <div class="checkbox-group">
+                                <input type="checkbox" id="agreement" required>
+                                <label for="agreement">
+                                    Даю согласие на обработку персональных данных в соответствии с Федеральным законом № 152-ФЗ
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="cta-button primary submit-btn">Зарегистрироваться</button>
+                </form>
+
+                <div id="success-message" class="success-message">
+                    <div class="success-icon">✅</div>
+                    <h3>Спасибо за регистрацию!</h3>
+                    <p>Ваша заявка принята. На указанную почту будет отправлено подтверждение участия.</p>
+                    <p><strong>Ждем вас на конференции LAB Evolution 2025!</strong></p>
+                    <a href="index.html" class="cta-button primary back-home-btn">Вернуться на главную</a>
                 </div>
             </div>
-            <div class="footer-bottom">
-                <p>© 2025 LAB Evolution Forum. Министерство здравоохранения Московской области.</p>
+
+            <div class="back-link">
+                <a href="index.html">← Вернуться на главную страницу</a>
             </div>
         </div>
-    </footer>
+    </main>
 
     <!-- Кнопка "Наверх" -->
     <button id="backToTop" class="back-to-top">↑</button>
 
     <script>
-        // Инициализация для страницы регистрации
-        document.addEventListener('DOMContentLoaded', function() {
-            // Бургер меню
+        // Бургер-меню для страницы регистрации
+        function initBurgerMenu() {
             const burgerMenu = document.getElementById('burgerMenu');
             const navMenu = document.getElementById('navMenu');
             const body = document.body;
             
-            if (burgerMenu && navMenu) {
-                burgerMenu.addEventListener('click', function() {
-                    const isActive = burgerMenu.classList.contains('active');
-                    
-                    if (!isActive) {
-                        burgerMenu.classList.add('active');
-                        navMenu.classList.add('active');
-                        body.classList.add('menu-open');
-                    } else {
-                        burgerMenu.classList.remove('active');
-                        navMenu.classList.remove('active');
-                        body.classList.remove('menu-open');
-                    }
-                });
-            }
+            if (!burgerMenu || !navMenu) return;
             
-            // Обработка формы
-            const registrationForm = document.getElementById('registrationForm');
-            if (registrationForm) {
-                registrationForm.addEventListener('submit', function(e) {
-                    e.preventDefault();
-                    
-                    // Здесь можно добавить отправку формы
-                    alert('Спасибо за регистрацию! Мы свяжемся с вами в ближайшее время.');
-                    registrationForm.reset();
-                });
-            }
-            
-            // Кнопка "Наверх"
-            const backToTop = document.getElementById('backToTop');
-            if (backToTop) {
-                window.addEventListener('scroll', () => {
-                    if (window.pageYOffset > 300) {
-                        backToTop.classList.add('visible');
-                    } else {
-                        backToTop.classList.remove('visible');
-                    }
-                });
+            burgerMenu.addEventListener('click', function() {
+                burgerMenu.classList.toggle('active');
+                navMenu.classList.toggle('active');
+                body.classList.toggle('menu-open');
                 
-                backToTop.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                const isExpanded = burgerMenu.classList.contains('active');
+                burgerMenu.setAttribute('aria-expanded', isExpanded);
+                navMenu.setAttribute('aria-hidden', !isExpanded);
+            });
+            
+            const navLinks = document.querySelectorAll('.nav-links a, .nav-register-btn');
+            navLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    burgerMenu.classList.remove('active');
+                    navMenu.classList.remove('active');
+                    body.classList.remove('menu-open');
+                    burgerMenu.setAttribute('aria-expanded', 'false');
+                    navMenu.setAttribute('aria-hidden', 'true');
                 });
+            });
+        }
+
+        // Кнопка "Наверх"
+        function initBackToTop() {
+            const backToTop = document.getElementById('backToTop');
+            
+            if (!backToTop) return;
+            
+            window.addEventListener('scroll', () => {
+                if (window.pageYOffset > 300) {
+                    backToTop.classList.add('visible');
+                } else {
+                    backToTop.classList.remove('visible');
+                }
+            });
+            
+            backToTop.addEventListener('click', (e) => {
+                e.preventDefault();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        }
+
+        // Логика формы регистрации
+        const submittedData = new Set();
+
+        document.getElementById('visible-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            if (!document.getElementById('agreement').checked) {
+                showNotification('❌ Необходимо дать согласие на обработку персональных данных', 'error');
+                return;
+            }
+            
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+            
+            // Быстрая локальная проверка
+            if (submittedData.has(email + phone)) {
+                showNotification('❌ Вы уже отправляли эту форму', 'error');
+                return;
+            }
+            
+            // Блокируем кнопку
+            const submitBtn = this.querySelector('.submit-btn');
+            submitBtn.textContent = 'Отправляем...';
+            submitBtn.disabled = true;
+            
+            try {
+                // 🔥 ОТПРАВКА В GOOGLE FORMS
+                await submitToGoogleForms();
+                submittedData.add(email + phone);
+                
+                // ПОКАЗЫВАЕМ УСПЕХ
+                document.getElementById('visible-form').style.display = 'none';
+                document.getElementById('success-message').style.display = 'block';
+                showNotification('✅ Регистрация прошла успешно!', 'success');
+                
+            } catch (error) {
+                console.error('Ошибка:', error);
+                showNotification('❌ Ошибка отправки. Попробуйте еще раз.', 'error');
+                submitBtn.textContent = 'Зарегистрироваться';
+                submitBtn.disabled = false;
             }
         });
+
+        // 🔥 ОТПРАВКА В GOOGLE FORMS
+        function submitToGoogleForms() {
+            return new Promise((resolve) => {
+                const iframe = document.createElement('iframe');
+                iframe.name = 'google-form-' + Date.now();
+                iframe.style.display = 'none';
+                document.body.appendChild(iframe);
+                
+                const tempForm = document.createElement('form');
+                tempForm.action = 'https://docs.google.com/forms/u/0/d/e/1FAIpQLSc7urE88w0Y_zM7EBGbhQN8Uw87Uw6eFRBm2d9GvqJT7Q4S0A/formResponse';
+                tempForm.method = 'POST';
+                tempForm.target = iframe.name;
+                tempForm.style.display = 'none';
+                
+                const fields = [
+                    { name: 'entry.1277724311', value: document.getElementById('email').value },
+                    { name: 'entry.74922399', value: document.getElementById('name').value },
+                    { name: 'entry.827511450', value: document.getElementById('position').value },
+                    { name: 'entry.1066367767', value: document.getElementById('organization').value },
+                    { name: 'entry.362036752', value: document.getElementById('phone').value }
+                ];
+                
+                fields.forEach(field => {
+                    const input = document.createElement('input');
+                    input.type = 'hidden';
+                    input.name = field.name;
+                    input.value = field.value;
+                    tempForm.appendChild(input);
+                });
+                
+                document.body.appendChild(tempForm);
+                tempForm.submit();
+                
+                setTimeout(() => resolve(true), 3000);
+            });
+        }
+
+        // Уведомления
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.className = `notification notification-${type}`;
+            notification.innerHTML = `
+                <div class="notification-content">
+                    <span class="notification-message">${message}</span>
+                    <button class="notification-close" aria-label="Закрыть уведомление">×</button>
+                </div>
+            `;
+            
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: ${type === 'success' ? 'var(--success)' : type === 'error' ? 'var(--error)' : 'var(--primary)'};
+                color: white;
+                padding: 1rem 1.5rem;
+                border-radius: var(--radius-md);
+                box-shadow: var(--shadow-hover);
+                z-index: 10000;
+                animation: slideInRight 0.3s ease;
+                max-width: 400px;
+                min-width: 300px;
+            `;
+            
+            document.body.appendChild(notification);
+            
+            const closeBtn = notification.querySelector('.notification-close');
+            closeBtn.addEventListener('click', () => {
+                notification.style.animation = 'slideOutRight 0.3s ease';
+                setTimeout(() => {
+                    if (notification.parentNode) {
+                        notification.parentNode.removeChild(notification);
+                    }
+                }, 300);
+            });
+            
+            setTimeout(() => {
+                notification.style.animation = 'slideOutRight 0.3s ease';
+                setTimeout(() => {
+                    if (notification.parentNode) {
+                        notification.parentNode.removeChild(notification);
+                    }
+                }, 300);
+            }, 5000);
+        }
+
+        // Инициализация при загрузке
+        document.addEventListener('DOMContentLoaded', function() {
+            initBurgerMenu();
+            initBackToTop();
+            
+            // Скрываем успешное сообщение по умолчанию
+            document.getElementById('success-message').style.display = 'none';
+        });
     </script>
+
+    <style>
+        /* Стили для страницы регистрации - адаптированные под основные стили */
+        .registration-page {
+            background: linear-gradient(135deg, #f8fdff 0%, #e3f2fd 100%);
+            min-height: 100vh;
+        }
+
+        .registration-main {
+            padding: 140px 0 var(--space-xl);
+        }
+
+        .registration-header {
+            text-align: center;
+            margin-bottom: var(--space-xl);
+        }
+
+        .logo-section {
+            text-align: center;
+            margin-bottom: var(--space-lg);
+        }
+
+        .logo-section .logo-icon {
+            font-size: 4rem;
+            margin-bottom: var(--space-md);
+            color: var(--primary);
+        }
+
+        .logo-section h1 {
+            font-size: clamp(2rem, 4vw, 2.5rem);
+            color: var(--primary-dark);
+            margin-bottom: 0;
+        }
+
+        .registration-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .registration-form {
+            background: var(--white);
+            padding: var(--space-xl);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+            margin-bottom: var(--space-lg);
+            border: 1px solid var(--gray-100);
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--space-md);
+            margin-bottom: var(--space-lg);
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            color: var(--primary-dark);
+            margin-bottom: var(--space-xs);
+            font-size: 0.95rem;
+        }
+
+        .form-group input,
+        .form-group select {
+            padding: 12px 16px;
+            border: 2px solid var(--gray-100);
+            border-radius: var(--radius-md);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: var(--white);
+            font-family: inherit;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(0, 176, 255, 0.1);
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: flex-start;
+            gap: var(--space-sm);
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .checkbox-group input {
+            margin-top: 3px;
+            transform: scale(1.1);
+        }
+
+        .checkbox-group label {
+            font-weight: normal;
+            color: var(--text);
+            cursor: pointer;
+        }
+
+        .submit-btn {
+            width: 100%;
+            font-size: 1.1rem;
+            padding: 1rem;
+            margin-top: var(--space-sm);
+        }
+
+        .success-message {
+            background: var(--white);
+            padding: var(--space-xl);
+            border-radius: var(--radius-lg);
+            text-align: center;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--gray-100);
+            display: none;
+        }
+
+        .success-icon {
+            font-size: 4rem;
+            margin-bottom: var(--space-lg);
+        }
+
+        .success-message h3 {
+            color: var(--primary-dark);
+            margin-bottom: var(--space-md);
+            font-size: 1.5rem;
+        }
+
+        .success-message p {
+            color: var(--text-light);
+            margin-bottom: var(--space-md);
+            line-height: 1.5;
+        }
+
+        .back-home-btn {
+            margin-top: var(--space-lg);
+        }
+
+        .back-link {
+            text-align: center;
+            margin-top: var(--space-lg);
+        }
+
+        .back-link a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+            font-size: 0.95rem;
+        }
+
+        .back-link a:hover {
+            color: var(--primary-dark);
+            text-decoration: underline;
+        }
+
+        /* Адаптивность */
+        @media (max-width: 768px) {
+            .registration-main {
+                padding: 120px 0 var(--space-lg);
+            }
+
+            .registration-form {
+                padding: var(--space-lg);
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+                gap: var(--space-sm);
+            }
+
+            .logo-section h1 {
+                font-size: 2rem;
+            }
+
+            .success-message {
+                padding: var(--space-lg);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .registration-form {
+                padding: var(--space-md);
+                margin: 0 var(--space-sm);
+            }
+
+            .logo-section h1 {
+                font-size: 1.7rem;
+            }
+
+            .success-message {
+                padding: var(--space-md);
+                margin: 0 var(--space-sm);
+            }
+        }
+    </style>
 </body>
 </html>
