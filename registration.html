@@ -33,7 +33,6 @@
                         <li><a href="#registration">Участие</a></li>
                         <li><a href="index.html#contacts">Контакты</a></li>
                     </ul>
-                    <a href="#registration" class="cta-button nav-register-btn">Регистрация</a>
                 </nav>
             </div>
         </div>
@@ -139,7 +138,7 @@
                 navMenu.setAttribute('aria-hidden', !isExpanded);
             });
             
-            const navLinks = document.querySelectorAll('.nav-links a, .nav-register-btn');
+            const navLinks = document.querySelectorAll('.nav-links a');
             navLinks.forEach(link => {
                 link.addEventListener('click', () => {
                     burgerMenu.classList.remove('active');
