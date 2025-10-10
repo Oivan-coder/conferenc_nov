@@ -8,7 +8,8 @@
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚕️</text></svg>">
 </head>
 <body class="registration-page">
-    <header>
+    <!-- Хедер из основного стиля -->
+    <header class="photo-header">
         <div class="container">
             <div class="header-content">
                 <a href="index.html" class="logo">
@@ -16,7 +17,6 @@
                     <div>LAB Evolution 2025</div>
                 </a>
                 
-                <!-- Бургер меню -->
                 <button class="burger-menu" id="burgerMenu" aria-label="Открыть меню">
                     <span></span>
                     <span></span>
@@ -30,7 +30,7 @@
                         <li><a href="index.html#speakers">Эксперты</a></li>
                         <li><a href="index.html#partners">Технологии</a></li>
                         <li><a href="index.html#location">Место</a></li>
-                        <li><a href="index.html#registration">Участие</a></li>
+                        <li><a href="#registration">Участие</a></li>
                         <li><a href="index.html#contacts">Контакты</a></li>
                     </ul>
                     <a href="#registration" class="cta-button nav-register-btn">Регистрация</a>
@@ -48,7 +48,7 @@
                 </div>
                 
                 <h2 class="section-title">Регистрация на конференцию</h2>
-                <p class="subtitle">Заполните форму для участия в мероприятии</p>
+                <p class="section-content">Заполните форму для участия в мероприятии</p>
             </div>
             
             <div class="registration-content">
@@ -99,7 +99,7 @@
                         </div>
                     </div>
                     
-                    <button type="submit" class="cta-button submit-btn">Зарегистрироваться</button>
+                    <button type="submit" class="cta-button primary submit-btn">Зарегистрироваться</button>
                 </form>
 
                 <div id="success-message" class="success-message">
@@ -107,7 +107,7 @@
                     <h3>Спасибо за регистрацию!</h3>
                     <p>Ваша заявка принята. На указанную почту будет отправлено подтверждение участия.</p>
                     <p><strong>Ждем вас на конференции LAB Evolution 2025!</strong></p>
-                    <a href="index.html" class="cta-button back-home-btn">Вернуться на главную</a>
+                    <a href="index.html" class="cta-button primary back-home-btn">Вернуться на главную</a>
                 </div>
             </div>
 
@@ -269,7 +269,7 @@
                 background: ${type === 'success' ? 'var(--success)' : type === 'error' ? 'var(--error)' : 'var(--primary)'};
                 color: white;
                 padding: 1rem 1.5rem;
-                border-radius: 8px;
+                border-radius: var(--radius-md);
                 box-shadow: var(--shadow-hover);
                 z-index: 10000;
                 animation: slideInRight 0.3s ease;
@@ -310,42 +310,36 @@
     </script>
 
     <style>
-        /* Стили для страницы регистрации */
+        /* Стили для страницы регистрации - адаптированные под основные стили */
         .registration-page {
             background: linear-gradient(135deg, #f8fdff 0%, #e3f2fd 100%);
             min-height: 100vh;
         }
 
         .registration-main {
-            padding: 140px 0 80px;
+            padding: 140px 0 var(--space-xl);
         }
 
         .registration-header {
             text-align: center;
-            margin-bottom: 3rem;
+            margin-bottom: var(--space-xl);
         }
 
         .logo-section {
             text-align: center;
-            margin-bottom: 2rem;
+            margin-bottom: var(--space-lg);
         }
 
         .logo-section .logo-icon {
             font-size: 4rem;
-            margin-bottom: 1rem;
+            margin-bottom: var(--space-md);
+            color: var(--primary);
         }
 
         .logo-section h1 {
-            font-size: 2.5rem;
+            font-size: clamp(2rem, 4vw, 2.5rem);
             color: var(--primary-dark);
             margin-bottom: 0;
-        }
-
-        .subtitle {
-            text-align: center;
-            color: var(--text-light);
-            font-size: 1.2rem;
-            margin-bottom: 2rem;
         }
 
         .registration-content {
@@ -354,18 +348,19 @@
         }
 
         .registration-form {
-            background: white;
-            padding: 3rem;
-            border-radius: var(--border-radius);
-            box-shadow: var(--shadow);
-            margin-bottom: 2rem;
+            background: var(--white);
+            padding: var(--space-xl);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+            margin-bottom: var(--space-lg);
+            border: 1px solid var(--gray-100);
         }
 
         .form-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1.5rem;
-            margin-bottom: 2rem;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--space-md);
+            margin-bottom: var(--space-lg);
         }
 
         .form-group {
@@ -380,79 +375,88 @@
         .form-group label {
             font-weight: 600;
             color: var(--primary-dark);
-            margin-bottom: 0.5rem;
+            margin-bottom: var(--space-xs);
+            font-size: 0.95rem;
         }
 
         .form-group input,
         .form-group select {
             padding: 12px 16px;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
+            border: 2px solid var(--gray-100);
+            border-radius: var(--radius-md);
             font-size: 1rem;
-            transition: border-color 0.3s;
+            transition: all 0.3s ease;
+            background: var(--white);
+            font-family: inherit;
         }
 
         .form-group input:focus,
         .form-group select:focus {
             outline: none;
             border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(0, 176, 255, 0.1);
         }
 
         .checkbox-group {
             display: flex;
             align-items: flex-start;
-            gap: 12px;
+            gap: var(--space-sm);
             font-size: 0.9rem;
             line-height: 1.4;
         }
 
         .checkbox-group input {
             margin-top: 3px;
+            transform: scale(1.1);
         }
 
         .checkbox-group label {
             font-weight: normal;
             color: var(--text);
+            cursor: pointer;
         }
 
         .submit-btn {
             width: 100%;
             font-size: 1.1rem;
             padding: 1rem;
+            margin-top: var(--space-sm);
         }
 
         .success-message {
-            background: white;
-            padding: 3rem;
-            border-radius: var(--border-radius);
+            background: var(--white);
+            padding: var(--space-xl);
+            border-radius: var(--radius-lg);
             text-align: center;
-            box-shadow: var(--shadow);
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--gray-100);
+            display: none;
         }
 
         .success-icon {
             font-size: 4rem;
-            margin-bottom: 1.5rem;
+            margin-bottom: var(--space-lg);
         }
 
         .success-message h3 {
             color: var(--primary-dark);
-            margin-bottom: 1rem;
+            margin-bottom: var(--space-md);
             font-size: 1.5rem;
         }
 
         .success-message p {
             color: var(--text-light);
-            margin-bottom: 1rem;
+            margin-bottom: var(--space-md);
             line-height: 1.5;
         }
 
         .back-home-btn {
-            margin-top: 1.5rem;
+            margin-top: var(--space-lg);
         }
 
         .back-link {
             text-align: center;
-            margin-top: 2rem;
+            margin-top: var(--space-lg);
         }
 
         .back-link a {
@@ -460,6 +464,7 @@
             text-decoration: none;
             font-weight: 500;
             transition: color 0.3s;
+            font-size: 0.95rem;
         }
 
         .back-link a:hover {
@@ -467,52 +472,19 @@
             text-decoration: underline;
         }
 
-        /* Анимации для уведомлений */
-        @keyframes slideInRight {
-            from { transform: translateX(100%); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
-        }
-        
-        @keyframes slideOutRight {
-            from { transform: translateX(0); opacity: 1; }
-            to { transform: translateX(100%); opacity: 0; }
-        }
-
-        .notification-close {
-            background: none;
-            border: none;
-            color: white;
-            font-size: 1.2rem;
-            cursor: pointer;
-            padding: 0;
-            margin-left: 1rem;
-            opacity: 0.8;
-            transition: opacity 0.3s;
-        }
-
-        .notification-close:hover { opacity: 1; }
-        
-        .notification-content {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-        
-        .notification-message { flex: 1; }
-
         /* Адаптивность */
         @media (max-width: 768px) {
             .registration-main {
-                padding: 120px 0 60px;
+                padding: 120px 0 var(--space-lg);
             }
 
             .registration-form {
-                padding: 2rem;
+                padding: var(--space-lg);
             }
 
             .form-grid {
                 grid-template-columns: 1fr;
-                gap: 1rem;
+                gap: var(--space-sm);
             }
 
             .logo-section h1 {
@@ -520,25 +492,23 @@
             }
 
             .success-message {
-                padding: 2rem;
+                padding: var(--space-lg);
             }
         }
 
         @media (max-width: 480px) {
             .registration-form {
-                padding: 1.5rem;
+                padding: var(--space-md);
+                margin: 0 var(--space-sm);
             }
 
             .logo-section h1 {
                 font-size: 1.7rem;
             }
 
-            .section-title {
-                font-size: 1.5rem;
-            }
-
-            .subtitle {
-                font-size: 1rem;
+            .success-message {
+                padding: var(--space-md);
+                margin: 0 var(--space-sm);
             }
         }
     </style>
