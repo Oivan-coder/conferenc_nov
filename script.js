@@ -894,7 +894,18 @@ function addCustomStyles() {
     
     console.log('✅ Кастомные стили добавлены');
 }
-
+// Аккордеон для программы
+function initProgramAccordion() {
+    const accordionBlocks = document.querySelectorAll('.accordion-block');
+    
+    accordionBlocks.forEach(block => {
+        const header = block.querySelector('.accordion-header');
+        
+        header.addEventListener('click', () => {
+            block.classList.toggle('active');
+        });
+    });
+}
 // ==================== ОБРАБОТЧИКИ СОБЫТИЙ ====================
 
 function handleResize() {
