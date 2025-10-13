@@ -2822,3 +2822,212 @@ footer .contact-link {
     border-color: var(--accent-primary);
     box-shadow: var(--shadow-sm);
 }
+/* ===== ИСПРАВЛЕННЫЕ СТИЛИ ДЛЯ КОНТАКТОВ В КАРТОЧКАХ СПЕЦИАЛИСТОВ ===== */
+
+/* Базовые стили для всех контактных сеток */
+.specialist-contacts {
+    display: grid;
+    gap: 0.75rem;
+    margin-top: auto;
+    position: relative;
+    z-index: 2;
+}
+
+/* Сетка 2x2 для 4 контактов (Щеблыкина-Монастырёва) */
+.contacts-grid-2x2 {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto;
+}
+
+/* Сетка 2+1 для 3 контактов (Денисова) */
+.contacts-grid-2plus1 {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto;
+}
+
+.contacts-grid-2plus1 .contact-link:last-child {
+    grid-column: 1 / -1;
+}
+
+/* Сетка 2 в ряд для 2 контактов (Гольцев, Кондратов, Каплина) */
+.contacts-grid-2 {
+    grid-template-columns: 1fr 1fr;
+}
+
+/* Универсальные стили для контактных ссылок */
+.contact-link {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 0.75rem;
+    padding: 0.875rem 1rem;
+    background: var(--bg-glass);
+    color: var(--text-primary) !important;
+    text-decoration: none;
+    border-radius: var(--radius-md);
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(0, 229, 255, 0.1);
+    backdrop-filter: blur(10px);
+    text-align: left;
+    min-height: 44px;
+    line-height: 1.2;
+}
+
+/* Убедимся, что иконки и текст правильно выровнены */
+.contact-link span {
+    font-size: 1rem;
+    width: 16px;
+    text-align: center;
+    flex-shrink: 0;
+}
+
+.contact-link span:first-child {
+    font-size: 1.1rem;
+}
+
+/* Специфичные стили для мессенджеров */
+.contact-link.telegram {
+    background: linear-gradient(135deg, rgba(0, 136, 204, 0.9) 0%, rgba(0, 172, 237, 0.9) 100%);
+    color: white !important;
+    border: none;
+}
+
+.contact-link.whatsapp {
+    background: linear-gradient(135deg, rgba(37, 211, 102, 0.9) 0%, rgba(18, 140, 126, 0.9) 100%);
+    color: white !important;
+    border: none;
+}
+
+/* Ховер-эффекты */
+.contact-link:hover {
+    background: var(--bg-glass-hover);
+    color: var(--text-primary) !important;
+    transform: translateY(-2px);
+    border-color: var(--accent-primary);
+    box-shadow: var(--shadow-sm);
+}
+
+.contact-link.telegram:hover {
+    background: linear-gradient(135deg, #0077b5 0%, #0088cc 100%);
+    box-shadow: var(--shadow-md);
+    color: white !important;
+}
+
+.contact-link.whatsapp:hover {
+    background: linear-gradient(135deg, #20bd5c 0%, #0e7a60 100%);
+    box-shadow: var(--shadow-md);
+    color: white !important;
+}
+
+/* Адаптивность для мобильных устройств */
+@media (max-width: 768px) {
+    .specialist-contacts {
+        gap: 0.5rem;
+    }
+    
+    .contacts-grid-2x2,
+    .contacts-grid-2plus1,
+    .contacts-grid-2 {
+        grid-template-columns: 1fr;
+    }
+    
+    .contacts-grid-2plus1 .contact-link:last-child {
+        grid-column: 1;
+    }
+    
+    .contact-link {
+        padding: 0.75rem 1rem;
+        font-size: 0.8rem;
+        justify-content: center;
+        text-align: center;
+    }
+    
+    .contact-link span {
+        font-size: 0.9rem;
+    }
+}
+
+/* Для очень маленьких экранов */
+@media (max-width: 480px) {
+    .specialist-card {
+        padding: var(--space-lg);
+    }
+    
+    .contact-link {
+        padding: 0.625rem 0.875rem;
+        font-size: 0.75rem;
+        min-height: 40px;
+    }
+    
+    .contact-link span {
+        font-size: 0.8rem;
+        width: 14px;
+    }
+}
+
+/* Убедимся, что карточки имеют одинаковую высоту и контакты всегда внизу */
+.specialist-card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-height: 500px; /* Минимальная высота для консистентности */
+}
+
+.specialist-desc {
+    flex-grow: 1;
+    margin-bottom: var(--space-lg);
+}
+
+/* Исправляем отступы для лучшего визуального баланса */
+.specialist-name {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+}
+
+.specialist-role {
+    font-size: 0.95rem;
+    margin-bottom: 1rem;
+}
+
+.specialist-desc {
+    font-size: 0.9rem;
+    line-height: 1.4;
+    margin-bottom: 1.5rem;
+}
+
+/* Дополнительные улучшения для карточек */
+.specialist-card {
+    position: relative;
+    overflow: hidden;
+}
+
+.specialist-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--gradient-card);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    z-index: 1;
+}
+
+.specialist-card:hover::before {
+    opacity: 0.05;
+}
+
+.specialist-card > *:not(.specialist-photo) {
+    position: relative;
+    z-index: 2;
+}
+
+/* Улучшаем читаемость текста на карточках */
+.specialist-name,
+.specialist-role,
+.specialist-desc {
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
