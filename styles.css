@@ -1452,24 +1452,31 @@ footer::before {
 
 .specialists-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    grid-template-columns: repeat(3, 1fr);
     gap: var(--space-xl);
     margin-top: var(--space-xl);
 }
 
-/* Первые 3 карточки в одном ряду */
-.specialists-grid .specialist-card:nth-child(-n+3) {
-    grid-column: span 1;
-}
-
-/* Следующие 2 карточки - центрируем */
-.specialists-grid .specialist-card:nth-child(n+4) {
+/* Центрируем последние 2 карточки */
+.specialists-grid .specialist-card:nth-child(4),
+.specialists-grid .specialist-card:nth-child(5) {
     grid-column: 2 / span 1;
 }
 
 @media (max-width: 1024px) {
-    .specialists-grid .specialist-card:nth-child(n+4) {
+    .specialists-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .specialists-grid .specialist-card:nth-child(4),
+    .specialists-grid .specialist-card:nth-child(5) {
         grid-column: span 1;
+    }
+}
+
+@media (max-width: 768px) {
+    .specialists-grid {
+        grid-template-columns: 1fr;
     }
 }
 
