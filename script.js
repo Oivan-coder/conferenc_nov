@@ -91,6 +91,7 @@ document.addEventListener('DOMContentLoaded', function() {
         initCalendarButtons();
         initMapFunctions();
         initProgramAccordion(); // ← ДОБАВЬ ЭТУ СТРОКУ
+        initCustomSelects(); // ← ДОБАВЬ ЭТУ СТРОКУ
     }
     
     addCustomStyles();
