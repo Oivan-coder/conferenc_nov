@@ -85,17 +85,23 @@
                         
                         <div class="form-group">
                             <label for="position">Должность *</label>
-                            <select id="position" name="position" required>
-                                <option value="">-- Выберите должность --</option>
-                                <option value="Главный врач">Главный врач</option>
-                                <option value="Заведующий лабораторией">Заведующий лабораторией</option>
-                                <option value="Врач-лаборант">Врач-лаборант</option>
-                                <option value="Медицинский технолог">Медицинский технолог</option>
-                                <option value="Руководитель ЛПУ">Руководитель ЛПУ</option>
-                                <option value="Специалист по качеству">Специалист по качеству</option>
-                                <option value="Гость">Гость</option>
-                                <option value="Другое">Другое</option>
-                            </select>
+                            <div class="custom-select">
+                                <div class="select-selected">
+                                    <span class="select-text">-- Выберите должность --</span>
+                                    <span class="select-arrow">▼</span>
+                                </div>
+                                <div class="select-items">
+                                    <div data-value="Главный врач">Главный врач</div>
+                                    <div data-value="Заведующий лабораторией">Заведующий лабораторией</div>
+                                    <div data-value="Врач-лаборант">Врач-лаборант</div>
+                                    <div data-value="Медицинский технолог">Медицинский технолог</div>
+                                    <div data-value="Руководитель ЛПУ">Руководитель ЛПУ</div>
+                                    <div data-value="Специалист по качеству">Специалист по качеству</div>
+                                    <div data-value="Гость">Гость</div>
+                                    <div data-value="Другое">Другое</div>
+                                </div>
+                                <input type="hidden" id="position" name="position" required>
+                            </div>
                         </div>
                         
                         <div class="form-group">
