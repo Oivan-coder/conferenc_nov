@@ -364,62 +364,50 @@ function initYandexMap() {
         return;
     }
     
-    // Проверяем, загружена ли библиотека Яндекс.Карт
-    if (typeof ymaps === 'undefined') {
-        console.warn('Библиотека Яндекс.Карт не загружена');
-        showMapFallback();
-        return;
-    }
-    
-    try {
-        // Инициализируем карту
+    // Ждем полной загрузки API
+    if (typeof ymaps !== 'undefined' && ymaps.ready) {
         ymaps.ready(() => {
-            yandexMap = new ymaps.Map('yandexMapFull', {
-                center: CONFIG.location.coordinates,
-                zoom: 16,
-                controls: ['zoomControl', 'fullscreenControl']
-            });
+            try {
+                yandexMap = new ymaps.Map('yandexMapFull', {
+                    center: CONFIG.location.coordinates,
+                    zoom: 16,
+                    controls: ['zoomControl', 'fullscreenControl']
+                });
 
-            // Создаем метку
-            const placemark = new ymaps.Placemark(
-                CONFIG.location.coordinates,
-                {
-                    hintContent: CONFIG.location.name,
-                    balloonContent: `
-                        <div class="map-balloon">
-                            <h3>${CONFIG.location.name}</h3>
-                            <p>${CONFIG.location.address}</p>
-                            <p><strong>LAB Evolution 2025</strong></p>
-                            <p>21 ноября, 11:00</p>
-                            <button onclick="openNavigation()" style="
-                                background: var(--primary); 
-                                color: white; 
-                                border: none; 
-                                padding: 8px 16px; 
-                                border-radius: 4px; 
-                                cursor: pointer; 
-                                margin-top: 10px;
-                            ">Проложить маршрут</button>
-                        </div>
-                    `
-                },
-                {
-                    preset: 'islands#blueIcon',
-                    iconColor: '#0d47a1'
+                const placemark = new ymaps.Placemark(
+                    CONFIG.location.coordinates,
+                    {
+                        hintContent: CONFIG.location.name,
+                        balloonContent: `
+                            <div class="map-balloon">
+                                <h3>${CONFIG.location.name}</h3>
+                                <p>${CONFIG.location.address}</p>
+                                <p><strong>LAB Evolution 2025</strong></p>
+                                <p>21 ноября, 11:00</p>
+                            </div>
+                        `
+                    },
+                    {
+                        preset: 'islands#blueIcon',
+                        iconColor: '#0d47a1'
+                    }
+                );
+
+                yandexMap.geoObjects.add(placemark);
+                
+                // Оптимизация для мобильных
+                if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+                    yandexMap.behaviors.disable('scrollZoom');
                 }
-            );
-
-            yandexMap.geoObjects.add(placemark);
-
-            // Оптимизация для мобильных
-            if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
-                yandexMap.behaviors.disable('scrollZoom');
+                
+                console.log('✅ Яндекс.Карта инициализирована');
+            } catch (error) {
+                console.error('Ошибка создания карты:', error);
+                showMapFallback();
             }
         });
-        
-        console.log('✅ Яндекс.Карта инициализирована');
-    } catch (error) {
-        console.error('Ошибка создания карты:', error);
+    } else {
+        console.warn('API Яндекс.Карт не загружен');
         showMapFallback();
     }
 }
