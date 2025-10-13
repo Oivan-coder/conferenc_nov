@@ -2746,3 +2746,79 @@ footer .contact-link {
     font-size: 3rem;
     color: var(--bg-primary);
 }
+/* ===== РАЗНЫЕ СЕТКИ ДЛЯ КОНТАКТОВ ===== */
+
+/* Базовая сетка (столбиком) */
+.specialist-contacts {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+}
+
+/* 2 контакта в ряд */
+.contacts-grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-sm);
+}
+
+/* 2х2 сетка для 4 контактов */
+.contacts-grid-2x2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-sm);
+}
+
+/* 2 вверху + 1 растянутый внизу */
+.contacts-grid-2plus1 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-sm);
+}
+
+.contacts-grid-2plus1 .full-width {
+    grid-column: 1 / -1;
+}
+
+/* Адаптивность для мобильных */
+@media (max-width: 480px) {
+    .contacts-grid-2,
+    .contacts-grid-2x2,
+    .contacts-grid-2plus1 {
+        grid-template-columns: 1fr;
+    }
+    
+    .contacts-grid-2plus1 .full-width {
+        grid-column: 1;
+    }
+}
+
+/* Убедимся что контакты выглядят одинаково */
+.contact-link {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: var(--space-sm);
+    padding: var(--space-md) var(--space-lg);
+    background: var(--bg-glass);
+    color: var(--text-primary) !important;
+    text-decoration: none;
+    border-radius: var(--radius-md); /* поменял на md для компактности */
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(0, 229, 255, 0.1);
+    backdrop-filter: blur(10px);
+    text-align: center;
+    justify-content: center;
+    min-height: 44px; /* для удобства касания */
+}
+
+/* Ховер эффекты остаются прежними */
+.contact-link:hover {
+    background: var(--bg-glass-hover);
+    color: var(--text-primary) !important;
+    transform: translateY(-2px);
+    border-color: var(--accent-primary);
+    box-shadow: var(--shadow-sm);
+}
