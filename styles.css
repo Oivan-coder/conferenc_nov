@@ -2728,3 +2728,21 @@ footer .contact-link {
 .select-items::-webkit-scrollbar-thumb:hover {
     background: var(--accent-medical);
 }
+/* Стили для фото специалистов */
+.specialist-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    display: block;
+}
+
+/* Фолбэк если фото не загрузилось */
+.specialist-photo:has(img[style*="display: none"]) {
+    background: var(--gradient-medical);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    color: var(--bg-primary);
+}
