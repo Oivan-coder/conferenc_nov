@@ -80,14 +80,11 @@ body {
   min-height: 100vh;
 }
 /* Белый подзаголовок для главной страницы */
-.hero-subtitle-white {
-    color: var(--text-primary) !important;
-    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5) !important;
-}
-
-/* Бирюзовый подзаголовок для страницы "О нас" */
-.about-hero .hero-subtitle {
-    color: var(--accent-primary);
+.hero-subtitle-gradient {
+    background: var(--gradient-medical) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
 }
 
 /* Научный фон с клетками */
