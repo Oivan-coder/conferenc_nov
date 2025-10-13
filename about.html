@@ -118,7 +118,7 @@
             margin-right: auto;
         }
         
-        /* СЕТКА СПЕЦИАЛИСТОВ - 4 КАРТОЧКИ В РЯД */
+        /* СЕТКА СПЕЦИАЛИСТОВ - 5 КАРТОЧЕК В РЯД */
         .specialists-section {
             padding: var(--space-xxl) 0;
             background: var(--gray-50);
@@ -126,7 +126,7 @@
         
         .specialists-grid {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
+            grid-template-columns: repeat(5, 1fr);
             gap: var(--space-lg);
             margin-top: var(--space-xl);
         }
@@ -162,15 +162,15 @@
         }
         
         .specialist-photo {
-            width: 120px;
-            height: 120px;
+            width: 100px;
+            height: 100px;
             border-radius: 50%;
             margin: 0 auto var(--space-md);
             background: linear-gradient(135deg, var(--primary-light), var(--accent));
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 2.5rem;
+            font-size: 2rem;
             color: var(--white);
             box-shadow: var(--shadow-md);
             border: 4px solid var(--white);
@@ -178,7 +178,7 @@
         }
         
         .specialist-name {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             font-weight: 600;
             color: var(--primary-dark);
             margin-bottom: var(--space-xs);
@@ -190,13 +190,13 @@
             font-weight: 500;
             margin-bottom: var(--space-sm);
             line-height: 1.4;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
         }
         
         .specialist-desc {
             color: var(--text-light);
-            font-size: 0.9rem;
-            line-height: 1.5;
+            font-size: 0.85rem;
+            line-height: 1.4;
             margin-bottom: var(--space-md);
             flex-grow: 1;
         }
@@ -204,7 +204,7 @@
         .specialist-contacts {
             display: flex;
             flex-direction: column;
-            gap: 0.5rem;
+            gap: 0.4rem;
             margin-top: auto;
         }
         
@@ -212,23 +212,34 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 0.5rem;
-            padding: 0.6rem 1rem;
+            gap: 0.4rem;
+            padding: 0.5rem 0.8rem;
             background: var(--gray-50);
-            color: var(--text);
+            color: var(--text) !important;
             text-decoration: none;
             border-radius: var(--radius-sm);
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             transition: all 0.3s ease;
             border: 1px solid var(--gray-200);
         }
         
         .contact-link:hover {
             background: var(--primary);
-            color: var(--white);
+            color: var(--white) !important;
             transform: translateY(-2px);
         }
+
+        /* Стили для кнопки Telegram с WhatsApp */
+        .telegram-whatsapp-btn {
+            background: linear-gradient(135deg, #0088cc 0%, #00aced 100%) !important;
+            color: white !important;
+            border: none !important;
+        }
         
+        .telegram-whatsapp-btn:hover {
+            background: linear-gradient(135deg, #0077b5 0%, #0088cc 100%) !important;
+        }
+
         /* СТРУКТУРА ЦЕНТРА */
         .org-structure {
             background: var(--white);
@@ -448,14 +459,73 @@
             color: var(--primary-dark);
             font-size: 1.2rem;
         }
+
+        .contact-links {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+        
+        .contact-main-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            padding: 1rem 1.5rem;
+            background: var(--primary);
+            color: white;
+            text-decoration: none;
+            border-radius: var(--radius-md);
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-md);
+        }
+        
+        .contact-main-link:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-hover);
+        }
+        
+        .contact-secondary-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            padding: 0.8rem 1.2rem;
+            background: var(--gray-100);
+            color: var(--text);
+            text-decoration: none;
+            border-radius: var(--radius-md);
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            border: 1px solid var(--gray-200);
+        }
+        
+        .contact-secondary-link:hover {
+            background: var(--primary-light);
+            color: white;
+        }
         
         /* АДАПТИВНОСТЬ */
         @media (max-width: 1200px) {
-            .specialists-grid,
+            .specialists-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            
             .values-grid,
             .structure-grid {
                 grid-template-columns: repeat(2, 1fr);
                 gap: var(--space-md);
+            }
+        }
+        
+        @media (max-width: 968px) {
+            .specialists-grid {
+                grid-template-columns: repeat(2, 1fr);
             }
         }
         
@@ -504,13 +574,19 @@
                 font-size: 1.1rem;
                 padding: 0.8rem 1.5rem;
             }
+
+            .specialist-photo {
+                width: 90px;
+                height: 90px;
+                font-size: 1.8rem;
+            }
         }
         
         @media (max-width: 480px) {
             .specialist-photo {
-                width: 100px;
-                height: 100px;
-                font-size: 2rem;
+                width: 80px;
+                height: 80px;
+                font-size: 1.6rem;
             }
             
             .department-icon,
@@ -522,6 +598,19 @@
             .mission-section h2,
             .contact-section h2 {
                 font-size: 1.8rem;
+            }
+
+            .specialist-name {
+                font-size: 1rem;
+            }
+
+            .specialist-role {
+                font-size: 0.85rem;
+            }
+
+            .contact-link {
+                font-size: 0.75rem;
+                padding: 0.4rem 0.6rem;
             }
         }
     </style>
@@ -600,8 +689,8 @@
                             <a href="tel:+79958832336" class="contact-link">
                                 <span>📞</span> +7 (995) 883-23-36
                             </a>
-                            <a href="https://t.me/doc_kld" target="_blank" class="contact-link">
-                                <span>✈️</span> @doc_kld
+                            <a href="https://t.me/doc_kld" target="_blank" class="contact-link telegram-whatsapp-btn">
+                                <span>✈️</span> Telegram
                             </a>
                             <a href="mailto:ScheblykinaIV@mosreg.ru" class="contact-link">
                                 <span>📧</span> Email
@@ -619,8 +708,8 @@
                             <a href="tel:+79933521997" class="contact-link">
                                 <span>📞</span> +7 (993) 352-19-97
                             </a>
-                            <a href="https://t.me/lab_docc" target="_blank" class="contact-link">
-                                <span>✈️</span> @lab_docc
+                            <a href="https://t.me/lab_docc" target="_blank" class="contact-link telegram-whatsapp-btn">
+                                <span>✈️</span> Telegram
                             </a>
                         </div>
                     </div>
@@ -635,8 +724,8 @@
                             <a href="tel:+79778290881" class="contact-link">
                                 <span>📞</span> +7 (977) 829-08-81
                             </a>
-                            <a href="https://t.me/ivan_goltsev" target="_blank" class="contact-link">
-                                <span>✈️</span> @ivan_goltsev
+                            <a href="https://t.me/ivan_goltsev" target="_blank" class="contact-link telegram-whatsapp-btn">
+                                <span>✈️</span> Telegram
                             </a>
                         </div>
                     </div>
@@ -651,8 +740,24 @@
                             <a href="tel:+79670252747" class="contact-link">
                                 <span>📞</span> +7 (967) 025-27-47
                             </a>
-                            <a href="https://t.me/ssorf7" target="_blank" class="contact-link">
-                                <span>✈️</span> @ssorf7
+                            <a href="https://t.me/ssorf7" target="_blank" class="contact-link telegram-whatsapp-btn">
+                                <span>✈️</span> Telegram
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Аналитик второй категории -->
+                    <div class="specialist-card">
+                        <div class="specialist-photo">📊</div>
+                        <div class="specialist-name">Каплина Анна</div>
+                        <div class="specialist-role">Аналитик второй категории</div>
+                        <div class="specialist-desc">Специалист по анализу данных и статистической обработке результатов</div>
+                        <div class="specialist-contacts">
+                            <a href="tel:+79637516163" class="contact-link">
+                                <span>📞</span> +7 (963) 751-61-63
+                            </a>
+                            <a href="https://t.me/Annkey" target="_blank" class="contact-link telegram-whatsapp-btn">
+                                <span>✈️</span> Telegram
                             </a>
                         </div>
                     </div>
@@ -736,6 +841,36 @@
                         <h3>Партнерство</h3>
                         <p>Тесное взаимодействие с медицинскими учреждениями, научными центрами и производителями оборудования</p>
                     </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- КОНТАКТНАЯ СЕКЦИЯ -->
+        <section class="contact-section">
+            <div class="container">
+                <h2>Контакты</h2>
+                <div class="contact-info">
+                    <p><strong>Референс-центр лабораторной диагностики Московской области</strong></p>
+                    <p>Учреждение Министерства здравоохранения Московской области</p>
+                    
+                    <div class="contact-links">
+                        <a href="https://t.me/doc_kld" target="_blank" class="contact-main-link">
+                            <span style="font-size: 1.2rem;">✈️</span> 
+                            <strong>Telegram: @doc_kld</strong>
+                        </a>
+                        
+                        <a href="tel:+79958832336" class="contact-secondary-link">
+                            <span style="font-size: 1.1rem;">📞</span> 
+                            <strong>+7 (995) 883-23-36</strong>
+                        </a>
+                        
+                        <a href="mailto:ScheblykinaIV@mosreg.ru" class="contact-secondary-link">
+                            <span style="font-size: 1.1rem;">📧</span> 
+                            <strong>ScheblykinaIV@mosreg.ru</strong>
+                        </a>
+                    </div>
+                    
+                    <p style="color: var(--text-light); font-size: 0.9rem; margin-top: 1rem;">Московская область</p>
                 </div>
             </div>
         </section>
