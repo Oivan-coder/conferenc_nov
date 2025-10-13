@@ -1289,9 +1289,11 @@ footer {
 /* ===== ВЫПАДАЮЩЕЕ МЕНЮ - ИСПРАВЛЕННЫЕ СТИЛИ ===== */
 .menu-dropdown {
     position: relative;
+    display: flex;
+    align-items: center;
 }
 
-.menu-dropdown .dropdown-toggle {
+.dropdown-toggle {
     display: flex;
     align-items: center;
     gap: 5px;
@@ -1301,15 +1303,11 @@ footer {
     padding: 0.5rem 1rem;
     border-radius: var(--radius-sm);
     transition: all 0.3s ease;
-    position: relative;
     white-space: nowrap;
     font-size: 0.9rem;
-    background: none;
-    border: none;
-    cursor: pointer;
 }
 
-.menu-dropdown .dropdown-toggle::after {
+.dropdown-toggle::after {
     content: '▼';
     font-size: 0.7em;
     transition: transform 0.3s ease;
@@ -1325,7 +1323,7 @@ footer {
     color: var(--accent);
 }
 
-.menu-dropdown .dropdown-menu {
+.dropdown-menu {
     position: absolute;
     top: 100%;
     left: 0;
@@ -1350,11 +1348,11 @@ footer {
     transform: translateY(0);
 }
 
-.menu-dropdown .dropdown-menu li {
+.dropdown-menu li {
     margin: 0;
 }
 
-.menu-dropdown .dropdown-menu a {
+.dropdown-menu a {
     padding: 12px 20px;
     display: block;
     color: var(--text);
@@ -1365,13 +1363,13 @@ footer {
     font-weight: 500;
 }
 
-.menu-dropdown .dropdown-menu a:hover {
+.dropdown-menu a:hover {
     background: var(--primary-light);
     color: var(--primary-dark);
     padding-left: 25px;
 }
 
-.menu-dropdown .dropdown-menu a:last-child {
+.dropdown-menu a:last-child {
     border-bottom: none;
 }
 
@@ -1379,9 +1377,11 @@ footer {
 @media (max-width: 768px) {
     .menu-dropdown {
         position: static;
+        flex-direction: column;
+        align-items: stretch;
     }
     
-    .menu-dropdown .dropdown-menu {
+    .dropdown-menu {
         position: static;
         opacity: 1;
         visibility: visible;
@@ -1392,19 +1392,19 @@ footer {
         border: none;
     }
     
-    .menu-dropdown .dropdown-menu a {
+    .dropdown-menu a {
         padding: 10px 15px;
         border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         color: var(--white);
     }
     
-    .menu-dropdown .dropdown-menu a:hover {
+    .dropdown-menu a:hover {
         background: rgba(255, 255, 255, 0.1);
         color: var(--accent);
         padding-left: 20px;
     }
     
-    .menu-dropdown .dropdown-toggle::after {
+    .dropdown-toggle::after {
         display: none;
     }
 }
