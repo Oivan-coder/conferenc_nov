@@ -933,6 +933,73 @@ function initProgramAccordion() {
     
     console.log('✅ Все аккордеоны инициализированы');
 }
+
+// Кастомный select
+function initCustomSelects() {
+    const customSelects = document.querySelectorAll('.custom-select');
+    
+    customSelects.forEach(select => {
+        const selected = select.querySelector('.select-selected');
+        const items = select.querySelector('.select-items');
+        const hiddenInput = select.querySelector('input[type="hidden"]');
+        const options = items.querySelectorAll('div');
+        
+        // Обработчик клика по выбранному элементу
+        selected.addEventListener('click', function(e) {
+            e.stopPropagation();
+            
+            // Закрываем другие открытые select
+            document.querySelectorAll('.select-items.active').forEach(other => {
+                if (other !== items) other.classList.remove('active');
+            });
+            document.querySelectorAll('.select-selected.active').forEach(other => {
+                if (other !== selected) other.classList.remove('active');
+            });
+            
+            // Переключаем текущий
+            items.classList.toggle('active');
+            selected.classList.toggle('active');
+        });
+        
+        // Обработчик выбора опции
+        options.forEach(option => {
+            option.addEventListener('click', function() {
+                const value = this.getAttribute('data-value');
+                const text = this.textContent;
+                
+                // Обновляем отображаемый текст
+                selected.querySelector('.select-text').textContent = text;
+                hiddenInput.value = value;
+                
+                // Помечаем выбранную опцию
+                options.forEach(opt => opt.classList.remove('selected'));
+                this.classList.add('selected');
+                
+                // Закрываем список
+                items.classList.remove('active');
+                selected.classList.remove('active');
+                
+                // Валидация
+                if (value) {
+                    hiddenInput.setCustomValidity('');
+                }
+            });
+        });
+        
+        // Закрытие при клике вне select
+        document.addEventListener('click', function() {
+            items.classList.remove('active');
+            selected.classList.remove('active');
+        });
+        
+        // Предотвращаем закрытие при клике внутри select
+        select.addEventListener('click', function(e) {
+            e.stopPropagation();
+        });
+    });
+    
+    console.log('✅ Кастомные select инициализированы');
+}
 // ==================== ОБРАБОТЧИКИ СОБЫТИЙ ====================
 
 function handleResize() {
