@@ -850,7 +850,175 @@ function cleanup() {
     stopPhotoAutoSlide();
     stopSpeakerAutoSlide();
 }
+// ===== ABOUT PAGE JAVASCRIPT =====
 
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('🚀 Инициализация страницы "О нас"');
+    
+    initBurgerMenu();
+    initSmoothScroll();
+    initScrollAnimations();
+    
+    console.log('✅ Страница "О нас" инициализирована');
+});
+
+// ===== БУРГЕР-МЕНЮ =====
+
+function initBurgerMenu() {
+    const burgerMenu = document.getElementById('burgerMenu');
+    const navMenu = document.getElementById('navMenu');
+    const body = document.body;
+    
+    if (!burgerMenu || !navMenu) {
+        console.warn('Бургер-меню не найдено в DOM');
+        return;
+    }
+    
+    function toggleMenu() {
+        const isActive = burgerMenu.classList.contains('active');
+        
+        if (!isActive) {
+            // Открываем меню
+            burgerMenu.classList.add('active');
+            navMenu.classList.add('active');
+            body.classList.add('menu-open');
+            burgerMenu.setAttribute('aria-expanded', 'true');
+            navMenu.setAttribute('aria-hidden', 'false');
+        } else {
+            // Закрываем меню
+            burgerMenu.classList.remove('active');
+            navMenu.classList.remove('active');
+            body.classList.remove('menu-open');
+            burgerMenu.setAttribute('aria-expanded', 'false');
+            navMenu.setAttribute('aria-hidden', 'true');
+        }
+    }
+    
+    // Обработчик клика по бургеру
+    burgerMenu.addEventListener('click', toggleMenu);
+    
+    // Закрываем меню при клике на ссылку
+    const navLinks = document.querySelectorAll('.nav-links a');
+    navLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            if (burgerMenu.classList.contains('active')) {
+                toggleMenu();
+            }
+        });
+    });
+    
+    // Закрываем меню при клике вне его области
+    document.addEventListener('click', function(event) {
+        const isClickInsideMenu = navMenu.contains(event.target);
+        const isClickOnBurger = burgerMenu.contains(event.target);
+        
+        if (!isClickInsideMenu && !isClickOnBurger && navMenu.classList.contains('active')) {
+            toggleMenu();
+        }
+    });
+    
+    // Закрываем меню при нажатии Escape
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'Escape' && navMenu.classList.contains('active')) {
+            toggleMenu();
+        }
+    });
+    
+    // Инициализация кнопки перехода к контактам
+    const contactsButton = document.querySelector('.contacts-button');
+    if (contactsButton) {
+        contactsButton.addEventListener('click', function(e) {
+            e.preventDefault();
+            const specialistsSection = document.querySelector('.specialists-section');
+            if (specialistsSection) {
+                const headerHeight = document.querySelector('.photo-header').offsetHeight;
+                const targetPosition = specialistsSection.offsetTop - headerHeight - 20;
+                
+                window.scrollTo({ 
+                    top: targetPosition, 
+                    behavior: 'smooth' 
+                });
+            }
+        });
+    }
+    
+    console.log('✅ Бургер-меню инициализировано');
+}
+
+// ===== ПЛАВНАЯ ПРОКРУТКА =====
+
+function initSmoothScroll() {
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            const href = this.getAttribute('href');
+            
+            if (href === '#' || href === '#top') {
+                e.preventDefault();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                return;
+            }
+            
+            const targetElement = document.querySelector(href);
+            if (targetElement) {
+                e.preventDefault();
+                const headerHeight = document.querySelector('.photo-header').offsetHeight;
+                const targetPosition = targetElement.offsetTop - headerHeight - 20;
+                
+                window.scrollTo({ 
+                    top: targetPosition, 
+                    behavior: 'smooth' 
+                });
+            }
+        });
+    });
+    
+    console.log('✅ Плавная прокрутка инициализирована');
+}
+
+// ===== АНИМАЦИИ ПРИ ПРОКРУТКЕ =====
+
+function initScrollAnimations() {
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+            }
+        });
+    }, { 
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    });
+
+    const animatedElements = document.querySelectorAll(
+        '.specialist-card, .department-card, .value-card'
+    );
+    
+    animatedElements.forEach(el => {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(30px)';
+        el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+        observer.observe(el);
+    });
+    
+    console.log('✅ Анимации прокрутки инициализированы');
+}
+
+// ===== ОБРАБОТЧИКИ СОБЫТИЙ =====
+
+function handleResize() {
+    // Дополнительные обработчики ресайза при необходимости
+}
+
+function cleanup() {
+    // Очистка при необходимости
+}
+
+// Обработчики событий
+window.addEventListener('resize', handleResize);
+window.addEventListener('beforeunload', cleanup);
+
+console.log('🎉 Модуль страницы "О нас" успешно загружен!');
 // Обработчики событий
 window.addEventListener('resize', handleResize);
 window.addEventListener('beforeunload', cleanup);
