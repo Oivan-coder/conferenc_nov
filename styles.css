@@ -2223,7 +2223,7 @@ footer::before {
     background: var(--bg-glass);
     color: var(--text-primary) !important;
     text-decoration: none;
-    border-radius: var(--radius-lg);
+    border-radius: var(--radius-sm);
     font-size: 0.9rem;
     font-weight: 500;
     transition: all 0.3s ease;
