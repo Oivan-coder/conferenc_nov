@@ -27,11 +27,11 @@
             min-height: 100vh;
         }
         
-        /* ГЕРОЙ СЕКЦИЯ - УЛУЧШЕННАЯ */
+        /* ГЕРОЙ СЕКЦИЯ - В СТИЛЕ APPLE */
         .about-hero {
             background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
             color: white;
-            padding: 140px 0 80px;
+            padding: 160px 0 100px;
             text-align: center;
             position: relative;
             overflow: hidden;
@@ -44,41 +44,28 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="rgba(255,255,255,0.05)"><polygon points="50,0 100,50 50,100 0,50"/></svg>');
-            background-size: 120px 120px;
-            animation: float 25s infinite linear;
-        }
-        
-        @keyframes float {
-            0% { transform: translateY(0px) rotate(0deg); }
-            100% { transform: translateY(-120px) rotate(360deg); }
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(255,255,255,0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255,255,255,0.05) 0%, transparent 50%);
         }
         
         .about-hero h1 {
             color: white;
-            font-size: clamp(2rem, 4vw, 3rem);
+            font-size: clamp(2.5rem, 5vw, 4rem);
             margin-bottom: 1.5rem;
-            text-shadow: 0 2px 20px rgba(0,0,0,0.3);
-            position: relative;
-            z-index: 2;
             font-weight: 700;
+            letter-spacing: -0.02em;
+            line-height: 1.1;
         }
         
         .hero-subtitle {
-            font-size: 1.3rem;
-            opacity: 0.95;
+            font-size: 1.4rem;
+            opacity: 0.9;
             margin-bottom: 0;
-            position: relative;
-            z-index: 2;
             font-weight: 400;
-            background: rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(10px);
-            padding: 1rem 2rem;
-            border-radius: 50px;
-            display: inline-block;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            color: white;
-            text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+            line-height: 1.4;
+            max-width: 600px;
+            margin: 0 auto;
         }
         
         /* ОСНОВНОЙ КОНТЕНТ */
@@ -89,61 +76,54 @@
         
         .text-content h2 {
             color: var(--primary-dark);
-            font-size: 2.2rem;
+            font-size: 3rem;
             margin-bottom: 2rem;
             text-align: center;
-            position: relative;
-        }
-        
-        .text-content h2::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 80px;
-            height: 4px;
-            background: linear-gradient(135deg, var(--accent) 0%, var(--primary-light) 100%);
-            border-radius: 2px;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            line-height: 1.1;
         }
         
         .text-content p {
-            font-size: 1.1rem;
-            line-height: 1.7;
-            margin-bottom: 1.5rem;
+            font-size: 1.3rem;
+            line-height: 1.6;
+            margin-bottom: 2rem;
             color: var(--text);
             text-align: center;
-            max-width: 900px;
+            max-width: 800px;
             margin-left: auto;
             margin-right: auto;
+            font-weight: 400;
         }
         
-        /* СЕТКА СПЕЦИАЛИСТОВ - 5 КАРТОЧЕК В РЯД */
+        /* КАРТОЧКИ СПЕЦИАЛИСТОВ В СТИЛЕ APPLE */
         .specialists-section {
             padding: var(--space-xxl) 0;
-            background: var(--gray-50);
+            background: var(--white);
         }
         
         .specialists-grid {
             display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: var(--space-lg);
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: var(--space-xl);
             margin-top: var(--space-xl);
         }
         
         .specialist-card {
             background: var(--white);
             padding: var(--space-xl);
-            border-radius: var(--radius-lg);
+            border-radius: 20px;
             text-align: center;
-            box-shadow: var(--shadow-md);
-            transition: all 0.3s ease;
-            border: 1px solid var(--gray-100);
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            border: 1px solid rgba(0, 0, 0, 0.05);
             position: relative;
             overflow: hidden;
             display: flex;
             flex-direction: column;
             height: 100%;
+            box-shadow: 
+                0 4px 20px rgba(0, 0, 0, 0.08),
+                0 1px 4px rgba(0, 0, 0, 0.04);
         }
         
         .specialist-card::before {
@@ -152,59 +132,78 @@
             top: 0;
             left: 0;
             right: 0;
-            height: 4px;
-            background: linear-gradient(135deg, var(--accent) 0%, var(--primary-light) 100%);
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(13, 71, 161, 0.02) 0%, rgba(0, 176, 255, 0.02) 100%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
         }
         
         .specialist-card:hover {
             transform: translateY(-8px);
-            box-shadow: var(--shadow-hover);
+            box-shadow: 
+                0 25px 50px rgba(0, 0, 0, 0.12),
+                0 8px 20px rgba(0, 0, 0, 0.06);
+        }
+        
+        .specialist-card:hover::before {
+            opacity: 1;
         }
         
         .specialist-photo {
-            width: 100px;
-            height: 100px;
+            width: 140px;
+            height: 140px;
             border-radius: 50%;
-            margin: 0 auto var(--space-md);
+            margin: 0 auto var(--space-lg);
             background: linear-gradient(135deg, var(--primary-light), var(--accent));
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 2rem;
+            font-size: 3rem;
             color: var(--white);
-            box-shadow: var(--shadow-md);
-            border: 4px solid var(--white);
-            flex-shrink: 0;
+            border: 6px solid var(--white);
+            box-shadow: 
+                0 8px 25px rgba(13, 71, 161, 0.15),
+                0 2px 8px rgba(13, 71, 161, 0.1);
+            transition: all 0.4s ease;
+        }
+        
+        .specialist-card:hover .specialist-photo {
+            transform: scale(1.05);
+            box-shadow: 
+                0 12px 35px rgba(13, 71, 161, 0.2),
+                0 4px 15px rgba(13, 71, 161, 0.15);
         }
         
         .specialist-name {
-            font-size: 1.1rem;
-            font-weight: 600;
+            font-size: 1.4rem;
+            font-weight: 700;
             color: var(--primary-dark);
             margin-bottom: var(--space-xs);
-            line-height: 1.3;
+            line-height: 1.2;
+            letter-spacing: -0.01em;
         }
         
         .specialist-role {
             color: var(--primary);
-            font-weight: 500;
-            margin-bottom: var(--space-sm);
-            line-height: 1.4;
-            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: var(--space-md);
+            line-height: 1.3;
+            font-size: 1rem;
+            letter-spacing: -0.01em;
         }
         
         .specialist-desc {
             color: var(--text-light);
-            font-size: 0.85rem;
-            line-height: 1.4;
-            margin-bottom: var(--space-md);
+            font-size: 0.95rem;
+            line-height: 1.5;
+            margin-bottom: var(--space-xl);
             flex-grow: 1;
         }
         
         .specialist-contacts {
             display: flex;
             flex-direction: column;
-            gap: 0.4rem;
+            gap: var(--space-sm);
             margin-top: auto;
         }
         
@@ -212,169 +211,174 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 0.4rem;
-            padding: 0.5rem 0.8rem;
-            background: var(--gray-50);
-            color: var(--text) !important;
+            gap: var(--space-sm);
+            padding: var(--space-md) var(--space-lg);
+            background: rgba(13, 71, 161, 0.05);
+            color: var(--primary-dark) !important;
             text-decoration: none;
-            border-radius: var(--radius-sm);
-            font-size: 0.8rem;
+            border-radius: 12px;
+            font-size: 0.95rem;
+            font-weight: 600;
             transition: all 0.3s ease;
-            border: 1px solid var(--gray-200);
+            border: 1px solid rgba(13, 71, 161, 0.1);
+            backdrop-filter: blur(10px);
         }
         
         .contact-link:hover {
             background: var(--primary);
             color: var(--white) !important;
             transform: translateY(-2px);
-        }
-
-        /* Стили для кнопки Telegram с WhatsApp */
-        .telegram-whatsapp-btn {
-            background: linear-gradient(135deg, #0088cc 0%, #00aced 100%) !important;
-            color: white !important;
-            border: none !important;
+            box-shadow: 0 8px 20px rgba(13, 71, 161, 0.2);
+            border-color: var(--primary);
         }
         
-        .telegram-whatsapp-btn:hover {
-            background: linear-gradient(135deg, #0077b5 0%, #0088cc 100%) !important;
+        .contact-link.telegram {
+            background: linear-gradient(135deg, #0088cc 0%, #00aced 100%);
+            color: white !important;
+            border: none;
         }
-
-        /* СТРУКТУРА ЦЕНТРА */
+        
+        .contact-link.telegram:hover {
+            background: linear-gradient(135deg, #0077b5 0%, #0088cc 100%);
+            box-shadow: 0 8px 20px rgba(0, 136, 204, 0.3);
+        }
+        
+        /* СТРУКТУРА ЦЕНТРА В СТИЛЕ APPLE */
         .org-structure {
             background: var(--white);
-            padding: var(--space-xl);
-            border-radius: var(--radius-lg);
+            padding: var(--space-xxl) 0;
             margin: var(--space-xxl) 0;
-            box-shadow: var(--shadow-md);
-            border: 1px solid var(--gray-100);
         }
         
         .org-structure h3 {
             color: var(--primary-dark);
-            margin-bottom: var(--space-xl);
+            margin-bottom: var(--space-xxl);
             text-align: center;
-            font-size: 1.8rem;
-            position: relative;
-        }
-        
-        .org-structure h3::after {
-            content: '';
-            position: absolute;
-            bottom: -8px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 60px;
-            height: 3px;
-            background: var(--accent);
-            border-radius: 2px;
+            font-size: 3rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            line-height: 1.1;
         }
         
         .structure-grid {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: var(--space-lg);
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: var(--space-xl);
         }
         
         .department-card {
-            background: var(--gray-50);
-            padding: var(--space-lg);
-            border-radius: var(--radius-md);
+            background: var(--white);
+            padding: var(--space-xl);
+            border-radius: 20px;
             text-align: center;
-            transition: all 0.3s ease;
-            border-left: 4px solid var(--accent);
-            height: 100%;
-            display: flex;
-            flex-direction: column;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 
+                0 4px 20px rgba(0, 0, 0, 0.08),
+                0 1px 4px rgba(0, 0, 0, 0.04);
+        }
+        
+        .department-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(13, 71, 161, 0.02) 0%, rgba(0, 176, 255, 0.02) 100%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
         }
         
         .department-card:hover {
-            transform: translateY(-5px);
-            box-shadow: var(--shadow-md);
+            transform: translateY(-8px);
+            box-shadow: 
+                0 25px 50px rgba(0, 0, 0, 0.12),
+                0 8px 20px rgba(0, 0, 0, 0.06);
+        }
+        
+        .department-card:hover::before {
+            opacity: 1;
         }
         
         .department-icon {
-            font-size: 2.5rem;
-            margin-bottom: var(--space-md);
+            font-size: 3.5rem;
+            margin-bottom: var(--space-lg);
             display: block;
-            flex-shrink: 0;
+            transition: transform 0.4s ease;
+        }
+        
+        .department-card:hover .department-icon {
+            transform: scale(1.1);
         }
         
         .department-title {
             color: var(--primary-dark);
-            font-size: 1.2rem;
-            font-weight: 600;
-            margin-bottom: var(--space-sm);
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: var(--space-md);
+            letter-spacing: -0.01em;
         }
         
         .department-desc {
             color: var(--text-light);
             line-height: 1.5;
-            font-size: 0.9rem;
-            flex-grow: 1;
+            font-size: 1rem;
         }
         
-        /* МИССИЯ И ЦЕННОСТИ - УЛУЧШЕННЫЕ */
+        /* МИССИЯ И ЦЕННОСТИ В СТИЛЕ APPLE */
         .mission-section {
-            background: linear-gradient(135deg, #f5f9ff 0%, #e8f4ff 100%);
+            background: linear-gradient(135deg, #f8fbff 0%, #f0f7ff 100%);
             padding: var(--space-xxl) 0;
         }
         
         .mission-section h2 {
             color: var(--primary-dark);
             text-align: center;
-            font-size: 2.2rem;
-            margin-bottom: var(--space-lg);
-            position: relative;
-        }
-        
-        .mission-section h2::after {
-            content: '';
-            position: absolute;
-            bottom: -8px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 80px;
-            height: 3px;
-            background: var(--accent);
-            border-radius: 2px;
+            font-size: 3rem;
+            margin-bottom: var(--space-xl);
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            line-height: 1.1;
         }
         
         .mission-text {
-            font-size: 1.2rem;
+            font-size: 1.4rem;
             line-height: 1.6;
             text-align: center;
             color: var(--text);
-            max-width: 800px;
+            max-width: 900px;
             margin: 0 auto var(--space-xxl);
             font-weight: 400;
             background: var(--white);
-            padding: var(--space-xl);
-            border-radius: var(--radius-lg);
-            box-shadow: var(--shadow-md);
-            border-left: 4px solid var(--accent);
-            position: relative;
+            padding: var(--space-xxl);
+            border-radius: 24px;
+            box-shadow: 
+                0 8px 30px rgba(0, 0, 0, 0.08),
+                0 2px 8px rgba(0, 0, 0, 0.04);
+            border: 1px solid rgba(0, 0, 0, 0.05);
         }
         
         .values-grid {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: var(--space-lg);
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: var(--space-xl);
         }
         
         .value-card {
             background: var(--white);
             padding: var(--space-xl);
-            border-radius: var(--radius-lg);
-            box-shadow: var(--shadow-md);
+            border-radius: 20px;
             text-align: center;
-            transition: all 0.3s ease;
-            border: 1px solid var(--gray-100);
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            border: 1px solid rgba(0, 0, 0, 0.05);
             position: relative;
             overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            height: 100%;
+            box-shadow: 
+                0 4px 20px rgba(0, 0, 0, 0.08),
+                0 1px 4px rgba(0, 0, 0, 0.04);
         }
         
         .value-card::before {
@@ -383,234 +387,103 @@
             top: 0;
             left: 0;
             right: 0;
-            height: 4px;
-            background: linear-gradient(135deg, var(--accent) 0%, var(--primary-light) 100%);
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(13, 71, 161, 0.02) 0%, rgba(0, 176, 255, 0.02) 100%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
         }
         
         .value-card:hover {
             transform: translateY(-8px);
-            box-shadow: var(--shadow-hover);
+            box-shadow: 
+                0 25px 50px rgba(0, 0, 0, 0.12),
+                0 8px 20px rgba(0, 0, 0, 0.06);
+        }
+        
+        .value-card:hover::before {
+            opacity: 1;
         }
         
         .value-icon {
-            font-size: 3rem;
-            margin-bottom: var(--space-md);
+            font-size: 3.5rem;
+            margin-bottom: var(--space-lg);
             display: block;
-            flex-shrink: 0;
+            transition: transform 0.4s ease;
+        }
+        
+        .value-card:hover .value-icon {
+            transform: scale(1.1);
         }
         
         .value-card h3 {
             color: var(--primary-dark);
-            font-size: 1.2rem;
-            margin-bottom: var(--space-sm);
+            font-size: 1.4rem;
+            margin-bottom: var(--space-md);
+            font-weight: 700;
+            letter-spacing: -0.01em;
         }
         
         .value-card p {
             color: var(--text-light);
             line-height: 1.5;
-            font-size: 0.9rem;
-            flex-grow: 1;
-        }
-        
-        /* КОНТАКТНАЯ СЕКЦИЯ */
-        .contact-section {
-            padding: var(--space-xxl) 0;
-            background: var(--white);
-        }
-        
-        .contact-section h2 {
-            color: var(--primary-dark);
-            text-align: center;
-            font-size: 2.2rem;
-            margin-bottom: var(--space-xl);
-            position: relative;
-        }
-        
-        .contact-section h2::after {
-            content: '';
-            position: absolute;
-            bottom: -8px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 80px;
-            height: 3px;
-            background: var(--accent);
-            border-radius: 2px;
-        }
-        
-        .contact-info {
-            max-width: 600px;
-            margin: 0 auto;
-            background: var(--gray-50);
-            padding: var(--space-xl);
-            border-radius: var(--radius-lg);
-            text-align: center;
-            box-shadow: var(--shadow-md);
-            border: 1px solid var(--gray-200);
-        }
-        
-        .contact-info p {
-            font-size: 1.1rem;
-            margin-bottom: var(--space-md);
-            color: var(--text);
-        }
-        
-        .contact-info strong {
-            color: var(--primary-dark);
-            font-size: 1.2rem;
-        }
-
-        .contact-links {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-            margin: 2rem 0;
-        }
-        
-        .contact-main-link {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.75rem;
-            padding: 1rem 1.5rem;
-            background: var(--primary);
-            color: white;
-            text-decoration: none;
-            border-radius: var(--radius-md);
-            font-weight: 600;
             font-size: 1rem;
-            transition: all 0.3s ease;
-            box-shadow: var(--shadow-md);
-        }
-        
-        .contact-main-link:hover {
-            background: var(--primary-dark);
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-hover);
-        }
-        
-        .contact-secondary-link {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.75rem;
-            padding: 0.8rem 1.2rem;
-            background: var(--gray-100);
-            color: var(--text);
-            text-decoration: none;
-            border-radius: var(--radius-md);
-            font-weight: 500;
-            font-size: 0.9rem;
-            transition: all 0.3s ease;
-            border: 1px solid var(--gray-200);
-        }
-        
-        .contact-secondary-link:hover {
-            background: var(--primary-light);
-            color: white;
+            margin: 0;
         }
         
         /* АДАПТИВНОСТЬ */
-        @media (max-width: 1200px) {
-            .specialists-grid {
-                grid-template-columns: repeat(3, 1fr);
-            }
-            
-            .values-grid,
-            .structure-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: var(--space-md);
-            }
-        }
-        
-        @media (max-width: 968px) {
-            .specialists-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-        
         @media (max-width: 768px) {
             .about-hero {
-                padding: 120px 0 60px;
+                padding: 140px 0 80px;
             }
             
             .about-content,
             .mission-section,
-            .contact-section,
+            .org-structure,
             .specialists-section {
                 padding: var(--space-xl) 0;
             }
             
-            .specialists-grid,
-            .values-grid,
-            .structure-grid {
-                grid-template-columns: 1fr;
-                gap: var(--space-md);
+            .text-content h2,
+            .org-structure h3,
+            .mission-section h2 {
+                font-size: 2.2rem;
             }
             
-            .org-structure {
-                padding: var(--space-lg);
-                margin: var(--space-xl) 0;
+            .text-content p,
+            .mission-text {
+                font-size: 1.1rem;
+            }
+            
+            .specialist-photo {
+                width: 120px;
+                height: 120px;
+                font-size: 2.5rem;
             }
             
             .mission-text {
-                font-size: 1.1rem;
-                padding: var(--space-lg);
-                margin-bottom: var(--space-xl);
-            }
-            
-            .specialist-card,
-            .value-card,
-            .department-card {
-                padding: var(--space-lg);
-            }
-            
-            .contact-info {
-                padding: var(--space-lg);
-                margin: 0 var(--space-sm);
-            }
-            
-            .hero-subtitle {
-                font-size: 1.1rem;
-                padding: 0.8rem 1.5rem;
-            }
-
-            .specialist-photo {
-                width: 90px;
-                height: 90px;
-                font-size: 1.8rem;
+                padding: var(--space-xl);
             }
         }
         
         @media (max-width: 480px) {
             .specialist-photo {
-                width: 80px;
-                height: 80px;
-                font-size: 1.6rem;
+                width: 100px;
+                height: 100px;
+                font-size: 2rem;
+            }
+            
+            .specialist-name {
+                font-size: 1.2rem;
+            }
+            
+            .contact-link {
+                padding: var(--space-sm) var(--space-md);
+                font-size: 0.9rem;
             }
             
             .department-icon,
             .value-icon {
-                font-size: 2rem;
-            }
-            
-            .text-content h2,
-            .mission-section h2,
-            .contact-section h2 {
-                font-size: 1.8rem;
-            }
-
-            .specialist-name {
-                font-size: 1rem;
-            }
-
-            .specialist-role {
-                font-size: 0.85rem;
-            }
-
-            .contact-link {
-                font-size: 0.75rem;
-                padding: 0.4rem 0.6rem;
+                font-size: 2.5rem;
             }
         }
     </style>
@@ -689,7 +562,7 @@
                             <a href="tel:+79958832336" class="contact-link">
                                 <span>📞</span> +7 (995) 883-23-36
                             </a>
-                            <a href="https://t.me/doc_kld" target="_blank" class="contact-link telegram-whatsapp-btn">
+                            <a href="https://t.me/doc_kld" target="_blank" class="contact-link telegram">
                                 <span>✈️</span> Telegram
                             </a>
                             <a href="mailto:ScheblykinaIV@mosreg.ru" class="contact-link">
@@ -708,7 +581,7 @@
                             <a href="tel:+79933521997" class="contact-link">
                                 <span>📞</span> +7 (993) 352-19-97
                             </a>
-                            <a href="https://t.me/lab_docc" target="_blank" class="contact-link telegram-whatsapp-btn">
+                            <a href="https://t.me/lab_docc" target="_blank" class="contact-link telegram">
                                 <span>✈️</span> Telegram
                             </a>
                         </div>
@@ -724,7 +597,7 @@
                             <a href="tel:+79778290881" class="contact-link">
                                 <span>📞</span> +7 (977) 829-08-81
                             </a>
-                            <a href="https://t.me/ivan_goltsev" target="_blank" class="contact-link telegram-whatsapp-btn">
+                            <a href="https://t.me/ivan_goltsev" target="_blank" class="contact-link telegram">
                                 <span>✈️</span> Telegram
                             </a>
                         </div>
@@ -740,7 +613,7 @@
                             <a href="tel:+79670252747" class="contact-link">
                                 <span>📞</span> +7 (967) 025-27-47
                             </a>
-                            <a href="https://t.me/ssorf7" target="_blank" class="contact-link telegram-whatsapp-btn">
+                            <a href="https://t.me/ssorf7" target="_blank" class="contact-link telegram">
                                 <span>✈️</span> Telegram
                             </a>
                         </div>
@@ -756,7 +629,7 @@
                             <a href="tel:+79637516163" class="contact-link">
                                 <span>📞</span> +7 (963) 751-61-63
                             </a>
-                            <a href="https://t.me/Annkey" target="_blank" class="contact-link telegram-whatsapp-btn">
+                            <a href="https://t.me/Annkey" target="_blank" class="contact-link telegram">
                                 <span>✈️</span> Telegram
                             </a>
                         </div>
@@ -766,49 +639,29 @@
         </section>
 
         <!-- СТРУКТУРА ЦЕНТРА -->
-        <section class="about-content">
+        <section class="org-structure">
             <div class="container">
-                <div class="org-structure">
-                    <h3>Структура и ключевые направления</h3>
-                    <div class="structure-grid">
-                        <div class="department-card">
-                            <span class="department-icon">🔬</span>
-                            <div class="department-title">Методический центр</div>
-                            <div class="department-desc">Разработка клинических рекомендаций, методических указаний и стандартов операционных процедур для лабораторий МО</div>
-                        </div>
-                        <div class="department-card">
-                            <span class="department-icon">💻</span>
-                            <div class="department-title">Отдел ИТ-решений и оборудования</div>
-                            <div class="department-desc">Внедрение и сопровождение информационных систем, автоматизация процессов, техническая поддержка лабораторного оборудования</div>
-                        </div>
-                        <div class="department-card">
-                            <span class="department-icon">📊</span>
-                            <div class="department-title">Экономический отдел</div>
-                            <div class="department-desc">Анализ экономической эффективности, оптимизация затрат, расчет себестоимости исследований, бюджетирование лабораторной службы</div>
-                        </div>
-                        <div class="department-card">
-                            <span class="department-icon">🎯</span>
-                            <div class="department-title">Контроль качества</div>
-                            <div class="department-desc">Внешняя оценка качества исследований, валидация методов, аккредитация лабораторий по международным стандартам</div>
-                        </div>
+                <h3>Структура и ключевые направления</h3>
+                <div class="structure-grid">
+                    <div class="department-card">
+                        <span class="department-icon">🔬</span>
+                        <div class="department-title">Методический центр</div>
+                        <div class="department-desc">Разработка клинических рекомендаций, методических указаний и стандартов операционных процедур для лабораторий МО</div>
                     </div>
-                </div>
-
-                <div class="text-content">
-                    <h3>Основные функции и задачи</h3>
-                    <div class="structure-grid" style="grid-template-columns: 1fr; gap: 1rem;">
-                        <div style="background: var(--gray-50); padding: 1.5rem; border-radius: var(--radius-md); border-left: 4px solid var(--accent);">
-                            <strong>Методическое руководство</strong> - разработка и внедрение единых стандартов лабораторной диагностики
-                        </div>
-                        <div style="background: var(--gray-50); padding: 1.5rem; border-radius: var(--radius-md); border-left: 4px solid var(--accent);">
-                            <strong>Контроль качества</strong> - организация внешней оценки качества во всех лабораториях МО
-                        </div>
-                        <div style="background: var(--gray-50); padding: 1.5rem; border-radius: var(--radius-md); border-left: 4px solid var(--accent);">
-                            <strong>Техническое сопровождение</strong> - внедрение ИТ-решений и поддержка лабораторного оборудования
-                        </div>
-                        <div style="background: var(--gray-50); padding: 1.5rem; border-radius: var(--radius-md); border-left: 4px solid var(--accent);">
-                            <strong>Экономический анализ</strong> - оптимизация финансовых потоков и расчет эффективности лабораторной службы
-                        </div>
+                    <div class="department-card">
+                        <span class="department-icon">💻</span>
+                        <div class="department-title">Отдел ИТ-решений и оборудования</div>
+                        <div class="department-desc">Внедрение и сопровождение информационных систем, автоматизация процессов, техническая поддержка лабораторного оборудования</div>
+                    </div>
+                    <div class="department-card">
+                        <span class="department-icon">📊</span>
+                        <div class="department-title">Экономический отдел</div>
+                        <div class="department-desc">Анализ экономической эффективности, оптимизация затрат, расчет себестоимости исследований, бюджетирование лабораторной службы</div>
+                    </div>
+                    <div class="department-card">
+                        <span class="department-icon">🎯</span>
+                        <div class="department-title">Контроль качества</div>
+                        <div class="department-desc">Внешняя оценка качества исследований, валидация методов, аккредитация лабораторий по международным стандартам</div>
                     </div>
                 </div>
             </div>
@@ -841,36 +694,6 @@
                         <h3>Партнерство</h3>
                         <p>Тесное взаимодействие с медицинскими учреждениями, научными центрами и производителями оборудования</p>
                     </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- КОНТАКТНАЯ СЕКЦИЯ -->
-        <section class="contact-section">
-            <div class="container">
-                <h2>Контакты</h2>
-                <div class="contact-info">
-                    <p><strong>Референс-центр лабораторной диагностики Московской области</strong></p>
-                    <p>Учреждение Министерства здравоохранения Московской области</p>
-                    
-                    <div class="contact-links">
-                        <a href="https://t.me/doc_kld" target="_blank" class="contact-main-link">
-                            <span style="font-size: 1.2rem;">✈️</span> 
-                            <strong>Telegram: @doc_kld</strong>
-                        </a>
-                        
-                        <a href="tel:+79958832336" class="contact-secondary-link">
-                            <span style="font-size: 1.1rem;">📞</span> 
-                            <strong>+7 (995) 883-23-36</strong>
-                        </a>
-                        
-                        <a href="mailto:ScheblykinaIV@mosreg.ru" class="contact-secondary-link">
-                            <span style="font-size: 1.1rem;">📧</span> 
-                            <strong>ScheblykinaIV@mosreg.ru</strong>
-                        </a>
-                    </div>
-                    
-                    <p style="color: var(--text-light); font-size: 0.9rem; margin-top: 1rem;">Московская область</p>
                 </div>
             </div>
         </section>
