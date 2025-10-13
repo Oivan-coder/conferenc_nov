@@ -356,29 +356,6 @@ function initMapFunctions() {
     console.log('✅ Функции карты инициализированы');
 }
 
-/* Добавьте в styles.css */
-.interactive-map-full {
-    width: 100%;
-    height: 500px;
-    position: relative;
-}
-
-#yandexMapFull {
-    width: 100%;
-    height: 100%;
-}
-
-/* Фолбэк если карта не загрузилась */
-.map-fallback {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: #f5f5f5;
-    text-align: center;
-}
-
 function showMapFallback() {
     const mapContainer = document.getElementById('yandexMapFull');
     if (mapContainer) {
