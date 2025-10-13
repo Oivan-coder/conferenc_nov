@@ -24,6 +24,24 @@
     
     <!-- Яндекс.Карты API -->
     <script src="https://api-maps.yandex.ru/2.1/?apikey=3dd59f10-9dfb-4db3-b374-9e344bee9e00&lang=ru_RU" type="text/javascript"></script>
+    <!-- После подключения Яндекс.Карт -->
+<script>
+    // Проверка загрузки API
+    setTimeout(function() {
+        if (typeof ymaps === 'undefined') {
+            console.error('❌ Яндекс.Карты не загрузились');
+            document.getElementById('yandexMapFull').innerHTML = `
+                <div style="padding: 20px; text-align: center; color: #666;">
+                    <p>🗺️ Карта временно недоступна</p>
+                    <a href="https://yandex.ru/maps/org/bc_novator/1125366325/" 
+                       target="_blank" style="color: #0066cc;">
+                        Открыть в Яндекс.Картах
+                    </a>
+                </div>
+            `;
+        }
+    }, 5000);
+</script>
 </head>
 <body>
     <!-- Photo Hero Slider -->
