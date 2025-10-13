@@ -90,6 +90,7 @@ document.addEventListener('DOMContentLoaded', function() {
         initScrollAnimations();
         initCalendarButtons();
         initMapFunctions();
+        initProgramAccordion(); // ← ДОБАВЬ ЭТУ СТРОКУ
     }
     
     addCustomStyles();
