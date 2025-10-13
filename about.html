@@ -60,12 +60,14 @@
         
         .hero-subtitle {
             font-size: 1.4rem;
-            opacity: 0.9;
+            opacity: 0.95;
             margin-bottom: 0;
             font-weight: 400;
             line-height: 1.4;
             max-width: 600px;
             margin: 0 auto;
+            color: rgba(255, 255, 255, 0.95);
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
         }
         
         /* ОСНОВНОЙ КОНТЕНТ */
@@ -107,6 +109,22 @@
             grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
             gap: var(--space-xl);
             margin-top: var(--space-xl);
+        }
+        
+        /* Первые 3 карточки в одном ряду */
+        .specialists-grid .specialist-card:nth-child(-n+3) {
+            grid-column: span 1;
+        }
+        
+        /* Следующие 2 карточки - центрируем */
+        .specialists-grid .specialist-card:nth-child(n+4) {
+            grid-column: 2 / span 1;
+        }
+        
+        @media (max-width: 1024px) {
+            .specialists-grid .specialist-card:nth-child(n+4) {
+                grid-column: span 1;
+            }
         }
         
         .specialist-card {
@@ -243,6 +261,17 @@
             box-shadow: 0 8px 20px rgba(0, 136, 204, 0.3);
         }
         
+        .contact-link.whatsapp {
+            background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+            color: white !important;
+            border: none;
+        }
+        
+        .contact-link.whatsapp:hover {
+            background: linear-gradient(135deg, #20bd5c 0%, #0e7a60 100%);
+            box-shadow: 0 8px 20px rgba(37, 211, 102, 0.3);
+        }
+        
         /* СТРУКТУРА ЦЕНТРА В СТИЛЕ APPLE */
         .org-structure {
             background: var(--white);
@@ -262,8 +291,20 @@
         
         .structure-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-template-columns: repeat(4, 1fr);
             gap: var(--space-xl);
+        }
+        
+        @media (max-width: 1200px) {
+            .structure-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .structure-grid {
+                grid-template-columns: 1fr;
+            }
         }
         
         .department-card {
@@ -363,8 +404,20 @@
         
         .values-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-template-columns: repeat(4, 1fr);
             gap: var(--space-xl);
+        }
+        
+        @media (max-width: 1200px) {
+            .values-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .values-grid {
+                grid-template-columns: 1fr;
+            }
         }
         
         .value-card {
@@ -430,6 +483,92 @@
             margin: 0;
         }
         
+        /* КНОПКА ПЕРЕХОДА К КОНТАКТАМ */
+        .contacts-button {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-sm);
+            padding: var(--space-md) var(--space-xl);
+            background: var(--primary);
+            color: var(--white) !important;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: 2px solid var(--primary);
+            margin-top: var(--space-md);
+        }
+        
+        .contacts-button:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(13, 71, 161, 0.3);
+        }
+        
+        /* ФУТЕР */
+        footer {
+            background: var(--primary-dark);
+            color: var(--white);
+            padding: var(--space-xxl) 0 var(--space-xl);
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--space-xl);
+            margin-bottom: var(--space-xl);
+        }
+        
+        .footer-section h3 {
+            color: var(--white);
+            margin-bottom: var(--space-lg);
+            font-size: 1.2rem;
+        }
+        
+        .footer-links {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .footer-links li {
+            margin-bottom: var(--space-sm);
+        }
+        
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.8) !important;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-links a:hover {
+            color: var(--white) !important;
+        }
+        
+        .partners-logos {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-md);
+        }
+        
+        .partner-logo {
+            color: rgba(255, 255, 255, 0.9) !important;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+        
+        .partner-logo:hover {
+            color: var(--white) !important;
+        }
+        
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: var(--space-lg);
+            text-align: center;
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
         /* АДАПТИВНОСТЬ */
         @media (max-width: 768px) {
             .about-hero {
@@ -462,6 +601,11 @@
             
             .mission-text {
                 padding: var(--space-xl);
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: var(--space-lg);
             }
         }
         
@@ -562,6 +706,9 @@
                             <a href="tel:+79958832336" class="contact-link">
                                 <span>📞</span> +7 (995) 883-23-36
                             </a>
+                            <a href="https://wa.me/79958832336" target="_blank" class="contact-link whatsapp">
+                                <span>💬</span> WhatsApp
+                            </a>
                             <a href="https://t.me/doc_kld" target="_blank" class="contact-link telegram">
                                 <span>✈️</span> Telegram
                             </a>
@@ -581,6 +728,9 @@
                             <a href="tel:+79933521997" class="contact-link">
                                 <span>📞</span> +7 (993) 352-19-97
                             </a>
+                            <a href="https://wa.me/79933521997" target="_blank" class="contact-link whatsapp">
+                                <span>💬</span> WhatsApp
+                            </a>
                             <a href="https://t.me/lab_docc" target="_blank" class="contact-link telegram">
                                 <span>✈️</span> Telegram
                             </a>
@@ -596,6 +746,9 @@
                         <div class="specialist-contacts">
                             <a href="tel:+79778290881" class="contact-link">
                                 <span>📞</span> +7 (977) 829-08-81
+                            </a>
+                            <a href="https://wa.me/79778290881" target="_blank" class="contact-link whatsapp">
+                                <span>💬</span> WhatsApp
                             </a>
                             <a href="https://t.me/ivan_goltsev" target="_blank" class="contact-link telegram">
                                 <span>✈️</span> Telegram
@@ -613,6 +766,9 @@
                             <a href="tel:+79670252747" class="contact-link">
                                 <span>📞</span> +7 (967) 025-27-47
                             </a>
+                            <a href="https://wa.me/79670252747" target="_blank" class="contact-link whatsapp">
+                                <span>💬</span> WhatsApp
+                            </a>
                             <a href="https://t.me/ssorf7" target="_blank" class="contact-link telegram">
                                 <span>✈️</span> Telegram
                             </a>
@@ -628,6 +784,9 @@
                         <div class="specialist-contacts">
                             <a href="tel:+79637516163" class="contact-link">
                                 <span>📞</span> +7 (963) 751-61-63
+                            </a>
+                            <a href="https://wa.me/79637516163" target="_blank" class="contact-link whatsapp">
+                                <span>💬</span> WhatsApp
                             </a>
                             <a href="https://t.me/Annkey" target="_blank" class="contact-link telegram">
                                 <span>✈️</span> Telegram
@@ -704,15 +863,6 @@
         <div class="container">
             <div class="footer-content">
                 <div class="footer-section">
-                    <h3>Контакты</h3>
-                    <ul class="footer-links">
-                        <li><a href="tel:+79958832336" class="contact-link">📞 +7 (995) 883-23-36</a></li>
-                        <li><a href="https://t.me/doc_kld" target="_blank" class="contact-link">✈️ Telegram: @doc_kld</a></li>
-                        <li><a href="mailto:ScheblykinaIV@mosreg.ru" class="contact-link">📧 ScheblykinaIV@mosreg.ru</a></li>
-                        <li>📍 Московская область</li>
-                    </ul>
-                </div>
-                <div class="footer-section">
                     <h3>Участникам</h3>
                     <ul class="footer-links">
                         <li><a href="index.html#program">Программа</a></li>
@@ -731,6 +881,13 @@
                             <span>🔬 ЦВИ МЗ</span>
                         </a>
                     </div>
+                </div>
+                <div class="footer-section">
+                    <h3>Контакты</h3>
+                    <p>Все контакты нашей команды вы найдете в разделе "Наша команда" выше.</p>
+                    <a href="#team" class="contacts-button">
+                        <span>👥</span> Перейти к контактам
+                    </a>
                 </div>
             </div>
             <div class="footer-bottom">
@@ -760,6 +917,17 @@
                     body.classList.remove('menu-open');
                 });
             });
+            
+            // Добавляем якорь для кнопки перехода к контактам
+            const contactsButton = document.querySelector('.contacts-button');
+            if (contactsButton) {
+                contactsButton.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    document.querySelector('.specialists-section').scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            }
         }
 
         document.addEventListener('DOMContentLoaded', function() {
