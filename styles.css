@@ -2559,3 +2559,60 @@ footer .contact-link {
   min-height: 48px;
   gap: 0.875rem;
 }
+/* ===== АККОРДЕОН ДЛЯ ПРОГРАММЫ ===== */
+.accordion-block {
+    cursor: pointer;
+    margin-bottom: var(--space-md);
+}
+
+.accordion-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    padding: var(--space-lg) var(--space-xl);
+}
+
+.accordion-header:hover {
+    background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-medical) 100%);
+}
+
+.accordion-icon {
+    font-size: 0.8rem;
+    transition: transform 0.3s ease;
+}
+
+.accordion-block.active .accordion-icon {
+    transform: rotate(180deg);
+}
+
+.accordion-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease;
+    background: var(--bg-tertiary);
+}
+
+.accordion-block.active .accordion-content {
+    max-height: 2000px;
+}
+
+/* 4 КАРТОЧКИ ПАРТНЕРОВ В РЯД */
+.partners-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-lg);
+}
+
+@media (max-width: 1200px) {
+    .partners-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .partners-grid {
+        grid-template-columns: 1fr;
+    }
+}
