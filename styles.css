@@ -10,7 +10,9 @@
   
   /* Медицинские акцентные цвета */
   --accent-primary: #00e5ff;
-  --accent-secondary: #00ff88;
+  --accent-secondary: #4fc3f7; /* Заменяем салатовый на голубой */
+  --gradient-medical: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+  /* Будет: #00e5ff → #4fc3f7 */
   --accent-medical: #4fc3f7;
   --accent-laboratory: #00bcd4;
   --accent-emergency: #ff4081;
