@@ -1674,3 +1674,303 @@ footer::before {
   background: var(--accent-primary);
   color: var(--bg-primary);
 }
+/* ===== СТИЛИ ДЛЯ СТРАНИЦЫ РЕГИСТРАЦИИ ===== */
+.registration-page {
+    background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 50%, var(--bg-primary) 100%);
+    min-height: 100vh;
+}
+
+.registration-main {
+    padding: 140px 0 var(--space-xl);
+}
+
+.registration-header {
+    text-align: center;
+    margin-bottom: var(--space-xl);
+}
+
+.logo-section {
+    text-align: center;
+    margin-bottom: var(--space-lg);
+}
+
+.logo-section .logo-icon {
+    font-size: 4rem;
+    margin-bottom: var(--space-md);
+    background: var(--gradient-medical);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.logo-section h1 {
+    font-size: clamp(2rem, 4vw, 2.5rem);
+    background: var(--gradient-medical);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 0;
+}
+
+.registration-content {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.registration-form {
+    background: var(--bg-card);
+    padding: var(--space-xl);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg), var(--glow-card);
+    margin-bottom: var(--space-lg);
+    border: 1px solid rgba(0, 229, 255, 0.2);
+    backdrop-filter: blur(10px);
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: var(--space-md);
+    margin-bottom: var(--space-lg);
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group.full-width {
+    grid-column: 1 / -1;
+}
+
+.form-group label {
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: var(--space-xs);
+    font-size: 0.95rem;
+}
+
+.form-group input,
+.form-group select {
+    padding: 12px 16px;
+    border: 2px solid rgba(0, 229, 255, 0.2);
+    border-radius: var(--radius-md);
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    background: var(--bg-glass);
+    color: var(--text-primary);
+    font-family: inherit;
+}
+
+.form-group input::placeholder {
+    color: var(--text-muted);
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: var(--accent-primary);
+    background: var(--bg-glass-hover);
+    box-shadow: 0 0 0 3px rgba(0, 229, 255, 0.1);
+}
+
+.checkbox-group {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-sm);
+    font-size: 0.9rem;
+    line-height: 1.4;
+}
+
+.checkbox-group input {
+    margin-top: 3px;
+    transform: scale(1.1);
+    accent-color: var(--accent-primary);
+}
+
+.checkbox-group label {
+    font-weight: normal;
+    color: var(--text-secondary);
+    cursor: pointer;
+}
+
+.submit-btn {
+    width: 100%;
+    font-size: 1.1rem;
+    padding: 1rem;
+    margin-top: var(--space-sm);
+}
+
+.success-message {
+    background: var(--bg-card);
+    padding: var(--space-xl);
+    border-radius: var(--radius-lg);
+    text-align: center;
+    box-shadow: var(--shadow-lg), var(--glow-card);
+    border: 1px solid rgba(0, 229, 255, 0.2);
+    display: none;
+    backdrop-filter: blur(10px);
+}
+
+.success-icon {
+    font-size: 4rem;
+    margin-bottom: var(--space-lg);
+}
+
+.success-message h3 {
+    color: var(--text-primary);
+    margin-bottom: var(--space-md);
+    font-size: 1.5rem;
+}
+
+.success-message p {
+    color: var(--text-secondary);
+    margin-bottom: var(--space-md);
+    line-height: 1.5;
+}
+
+.back-home-btn {
+    margin-top: var(--space-lg);
+}
+
+.back-link {
+    text-align: center;
+    margin-top: var(--space-lg);
+}
+
+.back-link a {
+    color: var(--accent-primary);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s;
+    font-size: 0.95rem;
+}
+
+.back-link a:hover {
+    color: var(--text-primary);
+    text-decoration: underline;
+}
+
+/* Стили для уведомлений */
+.notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 1rem 1.5rem;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-hover);
+    z-index: 10000;
+    animation: slideInRight 0.3s ease;
+    max-width: 400px;
+    min-width: 300px;
+    backdrop-filter: blur(10px);
+}
+
+.notification-success {
+    background: rgba(0, 255, 136, 0.9);
+    color: var(--bg-primary);
+    border: 1px solid rgba(0, 255, 136, 0.3);
+}
+
+.notification-error {
+    background: rgba(255, 82, 82, 0.9);
+    color: var(--text-primary);
+    border: 1px solid rgba(255, 82, 82, 0.3);
+}
+
+.notification-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-sm);
+}
+
+.notification-close {
+    background: none;
+    border: none;
+    color: inherit;
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 0;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Анимации для уведомлений */
+@keyframes slideInRight {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideOutRight {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+}
+
+/* Адаптивность для страницы регистрации */
+@media (max-width: 968px) {
+    .registration-main {
+        padding: 120px 0 var(--space-lg);
+    }
+}
+
+@media (max-width: 768px) {
+    .registration-main {
+        padding: 120px 0 var(--space-lg);
+    }
+
+    .registration-form {
+        padding: var(--space-lg);
+        margin: 0 var(--space-md);
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+        gap: var(--space-sm);
+    }
+
+    .logo-section h1 {
+        font-size: 2rem;
+    }
+
+    .success-message {
+        padding: var(--space-lg);
+        margin: 0 var(--space-md);
+    }
+}
+
+@media (max-width: 480px) {
+    .registration-form {
+        padding: var(--space-md);
+        margin: 0 var(--space-sm);
+    }
+
+    .logo-section h1 {
+        font-size: 1.7rem;
+    }
+
+    .success-message {
+        padding: var(--space-md);
+        margin: 0 var(--space-sm);
+    }
+
+    .notification {
+        right: 10px;
+        left: 10px;
+        max-width: none;
+        min-width: auto;
+    }
+}
