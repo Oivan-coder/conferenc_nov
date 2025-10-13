@@ -2549,3 +2549,11 @@ footer .contact-link {
         grid-template-columns: 1fr;
     }
 }
+/* Улучшенные кнопки контактов в футере */
+footer .contact-link {
+  padding: 0.875rem 1.5rem; /* чуть больше воздуха по бокам */
+  border-radius: var(--radius-md);
+  justify-content: flex-start;
+  min-height: 48px;
+  gap: 0.875rem;
+}
