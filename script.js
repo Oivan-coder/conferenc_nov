@@ -351,9 +351,66 @@ function initMapFunctions() {
     }
     
     // Инициализируем Яндекс.Карты
-    initYandexMap();  // ← Вызываем функцию правильно
+    initYandexMap();
     
     console.log('✅ Функции карты инициализированы');
+}
+
+// ★★★★ ДОБАВЬТЕ ЭТУ ФУНКЦИЮ ★★★★
+function initYandexMap() {
+    const mapContainer = document.getElementById('yandexMapFull');
+    
+    if (!mapContainer) {
+        console.warn('Контейнер карты не найден');
+        return;
+    }
+    
+    // Ждем полной загрузки API
+    if (typeof ymaps !== 'undefined' && ymaps.ready) {
+        ymaps.ready(() => {
+            try {
+                yandexMap = new ymaps.Map('yandexMapFull', {
+                    center: CONFIG.location.coordinates,
+                    zoom: 16,
+                    controls: ['zoomControl', 'fullscreenControl']
+                });
+
+                const placemark = new ymaps.Placemark(
+                    CONFIG.location.coordinates,
+                    {
+                        hintContent: CONFIG.location.name,
+                        balloonContent: `
+                            <div class="map-balloon">
+                                <h3>${CONFIG.location.name}</h3>
+                                <p>${CONFIG.location.address}</p>
+                                <p><strong>LAB Evolution 2025</strong></p>
+                                <p>21 ноября, 11:00</p>
+                            </div>
+                        `
+                    },
+                    {
+                        preset: 'islands#blueIcon',
+                        iconColor: '#0d47a1'
+                    }
+                );
+
+                yandexMap.geoObjects.add(placemark);
+                
+                // Оптимизация для мобильных
+                if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+                    yandexMap.behaviors.disable('scrollZoom');
+                }
+                
+                console.log('✅ Яндекс.Карта инициализирована');
+            } catch (error) {
+                console.error('Ошибка создания карты:', error);
+                showMapFallback();
+            }
+        });
+    } else {
+        console.warn('API Яндекс.Карт не загружен');
+        showMapFallback();
+    }
 }
 
 function showMapFallback() {
