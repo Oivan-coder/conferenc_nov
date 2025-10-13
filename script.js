@@ -899,13 +899,39 @@ function addCustomStyles() {
 function initProgramAccordion() {
     const accordionBlocks = document.querySelectorAll('.accordion-block');
     
-    accordionBlocks.forEach(block => {
+    console.log('🎯 Найдено блоков аккордеона:', accordionBlocks.length);
+    
+    accordionBlocks.forEach((block, index) => {
         const header = block.querySelector('.accordion-header');
         
+        if (!header) {
+            console.warn('❌ Не найден .accordion-header в блоке:', block);
+            return;
+        }
+        
         header.addEventListener('click', () => {
+            console.log('🔄 Клик по аккордеону:', block.querySelector('h3')?.textContent);
+            
+            // Закрываем все остальные блоки
+            accordionBlocks.forEach(otherBlock => {
+                if (otherBlock !== block && otherBlock.classList.contains('active')) {
+                    otherBlock.classList.remove('active');
+                }
+            });
+            
+            // Переключаем текущий блок
             block.classList.toggle('active');
         });
+        
+        console.log('✅ Аккордеон инициализирован:', block.querySelector('h3')?.textContent);
     });
+    
+    // Первый блок открыт по умолчанию
+    if (accordionBlocks[0]) {
+        accordionBlocks[0].classList.add('active');
+    }
+    
+    console.log('✅ Все аккордеоны инициализированы');
 }
 // ==================== ОБРАБОТЧИКИ СОБЫТИЙ ====================
 
