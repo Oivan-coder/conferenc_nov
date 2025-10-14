@@ -145,8 +145,15 @@
     </section>
 
     <!-- Program -->
-    <section id="program" class="program-section">
-        <div class="container">
+<section id="program" class="program-section">
+    <div class="container">
+        <div class="program-notice" style="background: #fff9e6; border-left: 4px solid #ffc107; padding: 20px; margin-bottom: 30px; border-radius: 4px;">
+            <h3 style="margin-top: 0; color: #856404;">🚧 Программа находится в разработке</h3>
+            <p style="margin-bottom: 0; color: #856404;">Скоро мы опубликуем подробную программу конференции. Следите за обновлениями!</p>
+        </div>
+        
+        <div class="program-content" style="display: none;">
+            <!-- УБРАТЬ этот лишний div: <div class="container"> -->
             <h2 class="section-title">Программа конференции</h2>
             
             <!-- ОТКРЫТИЕ -->
@@ -258,8 +265,10 @@
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
+            <!-- УБРАТЬ лишний закрывающий </div> здесь -->
+        </div> <!-- закрываем program-content -->
+    </div>
+</section>
 
     <!-- Speakers Carousel -->
     <section id="speakers" class="speakers-section">
