@@ -1,0 +1,151 @@
+/* ===== PAGES STYLES ===== */
+/* Registration Page */
+.registration-page {
+    background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 50%, var(--bg-primary) 100%);
+    min-height: 100vh;
+}
+
+.registration-main {
+    padding: 140px 0 var(--space-xl);
+}
+
+.registration-header {
+    text-align: center;
+    margin-bottom: var(--space-xl);
+}
+
+.logo-section {
+    text-align: center;
+    margin-bottom: var(--space-lg);
+}
+
+.logo-section .logo-icon {
+    font-size: 4rem;
+    margin-bottom: var(--space-md);
+    background: var(--gradient-medical);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.logo-section h1 {
+    font-size: clamp(2rem, 4vw, 2.5rem);
+    background: var(--gradient-medical);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 0;
+}
+
+.registration-content {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.back-home-btn {
+    margin-top: var(--space-lg);
+}
+
+/* About Page */
+.about-page {
+    background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 50%, var(--bg-primary) 100%);
+    min-height: 100vh;
+}
+
+.about-content,
+.mission-section,
+.org-structure,
+.specialists-section {
+    padding: var(--space-xxl) 0;
+}
+
+/* Pages Mobile Responsive */
+@media (max-width: 968px) {
+    .registration-main {
+        padding: 120px 0 var(--space-lg);
+    }
+}
+
+@media (max-width: 768px) {
+    .registration-main {
+        padding: 120px 0 var(--space-lg);
+    }
+
+    .registration-form {
+        padding: var(--space-lg);
+        margin: 0 var(--space-md);
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+        gap: var(--space-sm);
+    }
+
+    .logo-section h1 {
+        font-size: 2rem;
+    }
+
+    .success-message {
+        padding: var(--space-lg);
+        margin: 0 var(--space-md);
+    }
+    
+    .about-content,
+    .mission-section,
+    .org-structure,
+    .specialists-section {
+        padding: var(--space-xl) 0;
+    }
+    
+    .text-content h2,
+    .org-structure h3,
+    .mission-section h2,
+    .specialists-section .section-title {
+        font-size: 2rem;
+    }
+    
+    .text-content p,
+    .mission-text {
+        font-size: 1.1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .registration-form {
+        padding: var(--space-md);
+        margin: 0 var(--space-sm);
+    }
+
+    .logo-section h1 {
+        font-size: 1.7rem;
+    }
+
+    .success-message {
+        padding: var(--space-md);
+        margin: 0 var(--space-sm);
+    }
+    
+    .about-hero h1 {
+        font-size: 2rem;
+    }
+    
+    .hero-subtitle {
+        font-size: 1.1rem;
+    }
+    
+    .specialist-card {
+        padding: var(--space-lg);
+        margin: 0 var(--space-sm);
+    }
+    
+    .contact-link {
+        padding: var(--space-sm) var(--space-md);
+        font-size: 0.9rem;
+    }
+    
+    .contacts-button {
+        padding: var(--space-sm) var(--space-lg);
+        font-size: 0.9rem;
+        width: 100%;
+        text-align: center;
+        justify-content: center;
+    }
+}

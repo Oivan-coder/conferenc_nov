@@ -1,0 +1,60 @@
+/* ===== CSS VARIABLES ===== */
+:root {
+  /* Основная цветовая палитра */
+  --bg-primary: #0a1525;
+  --bg-secondary: #111f32;
+  --bg-tertiary: #1a2a40;
+  --bg-card: rgba(26, 42, 64, 0.9);
+  --bg-glass: rgba(255, 255, 255, 0.06);
+  --bg-glass-hover: rgba(255, 255, 255, 0.1);
+  
+  /* Медицинские акцентные цвета */
+  --accent-primary: #00e5ff;
+  --accent-secondary: #4fc3f7;
+  --accent-medical: #4fc3f7;
+  --accent-laboratory: #00bcd4;
+  --accent-emergency: #ff4081;
+  --accent-gold: #ffd700;
+  
+  /* Градиенты */
+  --gradient-medical: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+  --gradient-hero: linear-gradient(135deg, #00e5ff 0%, #00bcd4 50%, #0097a7 100%);
+  --gradient-card: linear-gradient(135deg, rgba(0, 229, 255, 0.1) 0%, rgba(0, 255, 136, 0.05) 100%);
+  
+  /* Свечения */
+  --glow-primary: 0 0 25px rgba(0, 229, 255, 0.3);
+  --glow-secondary: 0 0 25px rgba(0, 255, 136, 0.2);
+  --glow-card: 0 0 30px rgba(0, 229, 255, 0.15);
+  
+  /* Текст */
+  --text-primary: #e3f2fd;
+  --text-secondary: #b0bec5;
+  --text-muted: #78909c;
+  --text-accent: #00e5ff;
+  
+  /* Функциональные цвета */
+  --success: #00ff88;
+  --warning: #ffb300;
+  --error: #ff5252;
+  --info: #40c4ff;
+  
+  /* Тени */
+  --shadow-sm: 0 2px 15px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 4px 30px rgba(0, 0, 0, 0.5);
+  --shadow-lg: 0 8px 50px rgba(0, 0, 0, 0.6);
+  --shadow-hover: 0 12px 60px rgba(0, 0, 0, 0.7);
+  
+  /* Скругления */
+  --radius-sm: 10px;
+  --radius-md: 16px;
+  --radius-lg: 20px;
+  --radius-xl: 24px;
+  
+  /* Отступы */
+  --space-xs: 0.5rem;
+  --space-sm: 1rem;
+  --space-md: 1.5rem;
+  --space-lg: 2rem;
+  --space-xl: 3rem;
+  --space-xxl: 5rem;
+}
