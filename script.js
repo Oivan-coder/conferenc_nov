@@ -1022,7 +1022,155 @@ function cleanup() {
     stopPhotoAutoSlide();
     stopSpeakerAutoSlide();
 }
+// === ИНТЕРАКТИВНЫЕ КАРТОЧКИ КОМАНДЫ ===
+function initInteractiveCards() {
+    const cards = document.querySelectorAll('.specialist-card');
+    const grid = document.querySelector('.specialists-grid');
+    
+    if (!grid || cards.length === 0) return;
+    
+    // Проверяем, мобильное ли устройство
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || 
+                    window.innerWidth <= 768;
+    
+    cards.forEach((card, index) => {
+        // Добавляем направление сдвига для анимации
+        card.style.setProperty('--shift-direction', index % 2 === 0 ? '1' : '-1');
+        
+        // Добавляем tabindex для доступности
+        card.setAttribute('tabindex', '0');
+        card.setAttribute('role', 'button');
+        card.setAttribute('aria-expanded', 'false');
+        
+        // Обработчик для десктопа (ховер)
+        if (!isMobile) {
+            card.addEventListener('mouseenter', () => {
+                // Сбрасываем все активные карточки
+                cards.forEach(c => c.classList.remove('active'));
+                
+                // Анимируем соседние карточки
+                cards.forEach(otherCard => {
+                    if (otherCard !== card) {
+                        const rect = otherCard.getBoundingClientRect();
+                        const cardRect = card.getBoundingClientRect();
+                        const direction = rect.left < cardRect.left ? -1 : 1;
+                        otherCard.style.setProperty('--shift-direction', direction);
+                    }
+                });
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                // Не сбрасываем сразу, чтобы не было мерцания
+                setTimeout(() => {
+                    if (!card.matches(':hover')) {
+                        card.classList.remove('active');
+                    }
+                }, 100);
+            });
+        }
+        
+        // Обработчик клика/тапа (универсальный)
+        card.addEventListener('click', function(e) {
+            e.stopPropagation();
+            
+            const wasActive = this.classList.contains('active');
+            
+            // Сбрасываем все карточки
+            cards.forEach(c => {
+                c.classList.remove('active');
+                c.setAttribute('aria-expanded', 'false');
+            });
+            
+            // Если карточка не была активна - активируем её
+            if (!wasActive) {
+                this.classList.add('active');
+                this.setAttribute('aria-expanded', 'true');
+                
+                // Анимируем соседние карточки
+                cards.forEach(otherCard => {
+                    if (otherCard !== this) {
+                        const rect = otherCard.getBoundingClientRect();
+                        const cardRect = this.getBoundingClientRect();
+                        const direction = rect.left < cardRect.left ? -1 : 1;
+                        otherCard.style.setProperty('--shift-direction', direction);
+                    }
+                });
+                
+                // Прокручиваем к карточке если нужно (на мобильных)
+                if (isMobile) {
+                    setTimeout(() => {
+                        this.scrollIntoView({ 
+                            behavior: 'smooth', 
+                            block: 'center',
+                            inline: 'center'
+                        });
+                    }, 300);
+                }
+            }
+        });
+        
+        // Обработчик клавиатуры для доступности
+        card.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                this.click();
+            }
+        });
+    });
+    
+    // Закрытие карточек при клике вне их области
+    document.addEventListener('click', function(e) {
+        if (!e.target.closest('.specialist-card')) {
+            cards.forEach(card => {
+                card.classList.remove('active');
+                card.setAttribute('aria-expanded', 'false');
+            });
+        }
+    });
+    
+    // Обработчик Escape для закрытия
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            cards.forEach(card => {
+                card.classList.remove('active');
+                card.setAttribute('aria-expanded', 'false');
+            });
+        }
+    });
+    
+    console.log('✅ Интерактивные карточки инициализированы');
+}
 
+// Добавьте вызов функции в вашу основную инициализацию
+function initAboutPageAnimations() {
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+            }
+        });
+    }, { 
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    });
+
+    const animatedElements = document.querySelectorAll(
+        '.specialist-card, .department-card, .value-card'
+    );
+    
+    animatedElements.forEach(el => {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(30px)';
+        el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+        observer.observe(el);
+    });
+    
+    // Инициализируем интерактивные карточки
+    initInteractiveCards();
+    
+    console.log('✅ Анимации страницы "О нас" инициализированы');
+}
 // Обработчики событий
 window.addEventListener('resize', handleResize);
 window.addEventListener('beforeunload', cleanup);
