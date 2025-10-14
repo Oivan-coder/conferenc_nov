@@ -3081,3 +3081,246 @@ footer .contact-link {
     text-align: center;
     color: var(--text-primary);
 }
+/* === ИНТЕРАКТИВНЫЕ КАРТОЧКИ КОМАНДЫ === */
+.specialists-grid {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    padding: 40px 0;
+    transition: gap 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.specialist-card {
+    flex: 0 1 300px;
+    min-height: 420px;
+    background: var(--bg-card);
+    border-radius: var(--radius-xl);
+    padding: var(--space-lg);
+    text-align: center;
+    transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    border: 1px solid rgba(0, 229, 255, 0.1);
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    backdrop-filter: blur(10px);
+    box-shadow: var(--shadow-md);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    touch-action: manipulation; /* Улучшает отзывчивость на тач-устройствах */
+}
+
+/* Состояние по умолчанию (свернутое) */
+.specialist-card {
+    max-height: 420px;
+}
+
+.specialist-card .specialist-desc,
+.specialist-card .specialist-contacts {
+    opacity: 0;
+    max-height: 0;
+    overflow: hidden;
+    transition: all 0.4s ease;
+}
+
+/* Состояние при наведении (развернутое) - только для десктопа */
+@media (hover: hover) and (pointer: fine) {
+    .specialist-card:hover {
+        flex: 0 1 400px;
+        max-height: 600px;
+        transform: translateY(-10px);
+        border-color: var(--accent-primary);
+        box-shadow: var(--shadow-hover), var(--glow-card);
+        z-index: 10;
+    }
+
+    .specialist-card:hover .specialist-desc,
+    .specialist-card:hover .specialist-contacts {
+        opacity: 1;
+        max-height: 200px;
+        margin-top: var(--space-md);
+    }
+
+    /* Анимация для остальных карточек при ховере */
+    .specialists-grid:hover .specialist-card:not(:hover) {
+        transform: translateX(calc(var(--shift-direction, 0) * 20px)) scale(0.95);
+        opacity: 0.7;
+        filter: blur(1px);
+    }
+}
+
+/* Состояние активной карточки (для мобильных и кликов) */
+.specialist-card.active {
+    flex: 0 1 400px;
+    max-height: 600px;
+    transform: translateY(-5px);
+    border-color: var(--accent-primary);
+    box-shadow: var(--shadow-hover), var(--glow-card);
+    z-index: 10;
+}
+
+.specialist-card.active .specialist-desc,
+.specialist-card.active .specialist-contacts {
+    opacity: 1;
+    max-height: 200px;
+    margin-top: var(--space-md);
+}
+
+/* Анимация для остальных карточек при активной */
+.specialist-card.active ~ .specialist-card {
+    transform: translateX(calc(var(--shift-direction, 0) * 15px)) scale(0.97);
+    opacity: 0.8;
+    filter: blur(0.5px);
+}
+
+/* Индикатор кликабельности для мобильных */
+.specialist-card::after {
+    content: '';
+    position: absolute;
+    bottom: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 30px;
+    height: 4px;
+    background: var(--accent-primary);
+    border-radius: 2px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+/* Показываем индикатор только на мобильных */
+@media (max-width: 768px) {
+    .specialist-card::after {
+        opacity: 0.5;
+    }
+    
+    .specialist-card.active::after {
+        opacity: 1;
+        background: var(--accent-emergency);
+    }
+}
+
+/* Улучшенная анимация фото */
+.specialist-photo {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    margin: 0 auto var(--space-lg);
+    background: var(--gradient-medical);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.5rem;
+    color: var(--bg-primary);
+    border: 4px solid var(--bg-card);
+    box-shadow: var(--shadow-md), var(--glow-primary);
+    transition: all 0.4s ease;
+    position: relative;
+    z-index: 2;
+}
+
+.specialist-card:hover .specialist-photo,
+.specialist-card.active .specialist-photo {
+    transform: scale(1.15);
+    box-shadow: var(--shadow-hover), var(--glow-primary);
+}
+
+/* Адаптивность */
+@media (max-width: 1200px) {
+    .specialists-grid {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    
+    .specialist-card {
+        flex: 0 1 calc(33.333% - 20px);
+        min-width: 280px;
+    }
+    
+    .specialist-card.active {
+        flex: 0 1 calc(33.333% - 20px);
+    }
+}
+
+@media (max-width: 968px) {
+    .specialist-card {
+        flex: 0 1 calc(50% - 20px);
+    }
+    
+    .specialist-card.active {
+        flex: 0 1 calc(50% - 20px);
+    }
+}
+
+@media (max-width: 768px) {
+    .specialists-grid {
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+    }
+    
+    .specialist-card {
+        flex: 0 1 100%;
+        max-width: 400px;
+        width: 100%;
+        min-height: 380px; /* Чуть меньше на мобильных */
+    }
+    
+    .specialist-card.active {
+        flex: 0 1 100%;
+        max-width: 400px;
+        min-height: 500px;
+    }
+    
+    /* На мобильных убираем сложные анимации соседних карточек */
+    .specialist-card.active ~ .specialist-card {
+        transform: translateY(-5px) scale(0.98);
+        opacity: 0.9;
+    }
+    
+    /* Увеличиваем область клика */
+    .specialist-card {
+        padding: var(--space-md);
+    }
+}
+
+/* Для очень маленьких экранов */
+@media (max-width: 480px) {
+    .specialist-card {
+        min-height: 350px;
+        padding: var(--space-sm);
+    }
+    
+    .specialist-card.active {
+        min-height: 480px;
+    }
+    
+    .specialist-photo {
+        width: 100px;
+        height: 100px;
+        font-size: 2rem;
+    }
+}
+
+/* Анимация для плавного разворачивания */
+@keyframes cardExpand {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.specialist-card .specialist-desc,
+.specialist-card .specialist-contacts {
+    animation: cardExpand 0.4s ease forwards;
+}
+
+/* Улучшаем доступность для фокуса */
+.specialist-card:focus {
+    outline: 2px solid var(--accent-primary);
+    outline-offset: 2px;
+}
