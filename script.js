@@ -483,7 +483,6 @@ function initMapFunctions() {
     const navBtn = document.getElementById('openNavigationMap');
     if (navBtn) navBtn.addEventListener('click', (e) => { e.preventDefault(); openNavigation(); });
     initYandexMap();
-    initMobileMapCard();
 }
 
 function initYandexMap() {
@@ -805,54 +804,10 @@ function cleanup() {
     stopPhotoAutoSlide();
     stopSpeakerAutoSlide();
 }
+
 window.addEventListener('resize', handleResize);
 window.addEventListener('beforeunload', cleanup);
 window.openNavigation = openNavigation;
 window.addToCalendar = addToCalendar;
 
-// ==================== МОБИЛЬНАЯ КАРТА С ПЕРЕКЛЮЧАТЕЛЕМ ====================
-
-// ==================== МОБИЛЬНАЯ КАРТА С ПЕРЕКЛЮЧАТЕЛЕМ ====================
-
-function initMobileMapCard() {
-    // Работает только на мобильных
-    if (window.innerWidth > 768) return;
-    
-    const mapContainer = document.querySelector('.map-container-full');
-    const overlayCard = document.querySelector('.location-overlay-card');
-    
-    // Проверяем, что элементы существуют
-    if (!mapContainer || !overlayCard) {
-        console.log('❌ Элементы карты не найдены');
-        return;
-    }
-    
-    console.log('📱 Инициализация мобильной карты с переключателем...');
-    
-    // Создаем кнопку
-    const toggleBtn = document.createElement('button');
-    toggleBtn.className = 'location-toggle-btn';
-    toggleBtn.innerHTML = '🏢 Информация о месте';
-    toggleBtn.setAttribute('type', 'button');
-    toggleBtn.setAttribute('aria-label', 'Показать информацию о месте проведения');
-    
-    // Добавляем кнопку в контейнер карты
-    mapContainer.appendChild(toggleBtn);
-    
-    // При клике на кнопку показываем/скрываем плашку
-    toggleBtn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        overlayCard.classList.toggle('active');
-    });
-    
-    // Закрытие по клику вне плашки
-    document.addEventListener('click', (e) => {
-        if (!e.target.closest('.location-overlay-card') && 
-            !e.target.closest('.location-toggle-btn')) {
-            overlayCard.classList.remove('active');
-        }
-    });
-    
-    console.log('✅ Мобильная карта настроена!');
-}
 console.log('🎉 Все модули LAB Evolution 2025 успешно загружены!');
