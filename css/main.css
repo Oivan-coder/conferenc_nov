@@ -66,3 +66,8 @@
     font-size: 1.1rem;
   }
 }
+/* ===== TEMPORARY HIDDEN SECTIONS ===== */
+/* Временно скрываем секцию спикеров до готовности */
+.speakers-section {
+  display: none !important;
+}
