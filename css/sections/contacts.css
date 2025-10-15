@@ -512,3 +512,59 @@ footer .contact-link {
     padding: var(--space-lg);
   }
 }
+/* Для мобильных - компактная плашка поверх */
+@media (max-width: 768px) {
+    .location-overlay-card {
+        position: absolute;
+        bottom: 10px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 95%;
+        max-width: 350px;
+        padding: 12px;
+        background: rgba(10, 21, 37, 0.95); /* Полупрозрачный фон */
+        backdrop-filter: blur(10px);
+    }
+    
+    /* Упрощаем контент */
+    .location-header {
+        flex-direction: row;
+        gap: 10px;
+        margin-bottom: 10px;
+    }
+    
+    .location-title-block h3 {
+        font-size: 1.1rem;
+        margin-bottom: 2px;
+    }
+    
+    .location-badge {
+        font-size: 0.7rem;
+        padding: 2px 6px;
+    }
+    
+    .location-address-block {
+        margin-bottom: 8px;
+    }
+    
+    .location-address {
+        font-size: 0.9rem;
+    }
+    
+    .location-features {
+        display: none; /* Скрываем на мобильных */
+    }
+    
+    .location-actions {
+        margin-top: 10px;
+    }
+    
+    .map-btn {
+        padding: 8px 12px;
+        font-size: 0.8rem;
+    }
+    
+    #yandexMapFull {
+        height: 350px; /* Увеличиваем высоту карты */
+    }
+}
