@@ -343,89 +343,118 @@
   }
 }
 
-/* Мобильные устройства */
+/* Мобильные устройства (768px и меньше) */
 @media (max-width: 768px) {
+  .specialists-section {
+    padding: var(--space-xl) 0;
+  }
+  
   .specialists-grid {
     grid-template-columns: 1fr;
     gap: 20px;
     padding: 30px 15px;
+    max-width: 400px;
+    margin: 0 auto;
   }
   
   .specialist-card {
-    min-height: 300px !important;
+    min-height: 280px;
     padding: 25px 20px 20px;
   }
   
   .specialist-card:hover,
   .specialist-card.active {
     transform: translateY(-5px);
-    min-height: auto !important;
+    box-shadow: 
+      0 15px 30px rgba(0, 229, 255, 0.2),
+      0 5px 15px rgba(0, 0, 0, 0.1);
   }
   
   .specialist-photo {
     width: 100px;
     height: 100px;
     font-size: 2.2rem;
+    border: 3px solid var(--bg-card);
+    box-shadow: 
+      0 8px 20px rgba(0, 229, 255, 0.2),
+      0 0 0 6px rgba(0, 229, 255, 0.08);
   }
   
   .specialist-card:hover .specialist-photo,
   .specialist-card.active .specialist-photo {
     transform: scale(1.05);
+    box-shadow: 
+      0 12px 25px rgba(0, 229, 255, 0.3),
+      0 0 0 8px rgba(0, 229, 255, 0.12);
   }
   
-  /* На мобильных всегда показываем весь контент */
-  .specialist-desc,
-  .specialist-contacts {
-    opacity: 1 !important;
-    max-height: none !important;
-    transform: none !important;
-    display: block !important;
-  }
-  
-  .specialist-desc {
-    max-height: 120px;
-    overflow-y: auto;
-    margin-bottom: 10px;
-  }
-  
-  /* Скрываем индикатор на мобильных */
-  .specialist-expand-indicator {
-    display: none;
+  .specialist-name {
+    font-size: 1.3rem;
   }
   
   .specialist-role {
-    padding-bottom: 15px;
-    margin-bottom: 15px;
+    font-size: 0.95rem;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
   }
   
-  /* Адаптивные контакты */
+  /* Адаптивные контакты для мобильных */
   .contacts-grid-2x2,
-  .contacts-grid-2plus1,
-  .contacts-grid-2 {
+  .contacts-grid-2plus1 {
     grid-template-columns: 1fr;
-    gap: 8px;
+    grid-template-rows: auto;
+    gap: 10px;
+  }
+  
+  .contacts-grid-2 {
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  
+  .contacts-grid-2plus1 .full-width {
+    grid-column: 1;
   }
   
   .contact-link {
     padding: 12px 16px;
     font-size: 0.85rem;
     min-height: 44px;
+    justify-content: flex-start;
   }
   
-  /* Убираем сложные эффекты на мобильных */
-  .specialists-grid:hover .specialist-card:not(:hover):not(.active),
-  .specialist-card.active ~ .specialist-card:not(.active) {
-    transform: none;
-    opacity: 1;
-    filter: none;
+  /* Сохраняем анимации контента на мобильных */
+  .specialist-desc {
+    font-size: 0.9rem;
+    max-height: 80px;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .specialist-contacts {
+    max-height: 150px;
+  }
+  
+  /* Упрощаем индикатор на мобильных */
+  .specialist-expand-indicator {
+    opacity: 0.5;
+    bottom: 8px;
+  }
+  
+  .specialist-expand-pulse {
+    width: 25px;
   }
 }
 
-/* Маленькие мобильные */
+/* Маленькие мобильные устройства (480px и меньше) */
 @media (max-width: 480px) {
+  .specialists-grid {
+    padding: 20px 12px;
+    gap: 16px;
+  }
+  
   .specialist-card {
-    min-height: 280px !important;
-    padding: 20px 15px 15px;
+    min-height: 260px;
+    padding: 22px 16px 16px;
     border-radius: 18px;
   }
   
@@ -433,31 +462,37 @@
     width: 90px;
     height: 90px;
     font-size: 2rem;
-    margin-bottom: 15px;
+    margin-bottom: 18px;
   }
   
   .specialist-name {
-    font-size: 1.25rem;
+    font-size: 1.2rem;
   }
   
   .specialist-role {
-    font-size: 0.92rem;
-    margin-bottom: 12px;
+    font-size: 0.9rem;
+    margin-bottom: 18px;
+    padding-bottom: 18px;
   }
   
   .specialist-desc {
     font-size: 0.85rem;
-    max-height: 100px;
+    max-height: 70px;
+    margin-bottom: 5px;
+  }
+  
+  .contacts-grid-2 {
+    grid-template-columns: 1fr;
   }
   
   .contact-link {
-    padding: 10px 14px;
-    font-size: 0.82rem;
+    padding: 11px 14px;
+    font-size: 0.83rem;
     min-height: 42px;
   }
   
   .contact-link span {
-    font-size: 1rem;
+    font-size: 1.05rem;
   }
 }
 
@@ -524,19 +559,18 @@
 /* Touch device optimizations */
 @media (hover: none) and (pointer: coarse) {
   .specialist-card {
-    cursor: default;
+    cursor: pointer;
   }
   
-  .specialist-card:hover {
-    transform: none;
+  /* Улучшаем feedback для тапов */
+  .specialist-card:active {
+    transform: translateY(-2px);
+    transition: transform 0.1s ease;
   }
   
-  .specialist-card.active {
-    transform: translateY(-5px);
-  }
-  
-  .contact-link:hover {
-    transform: none;
+  .contact-link:active {
+    transform: scale(0.98);
+    background: rgba(255, 255, 255, 0.15);
   }
 }
 
@@ -544,6 +578,7 @@
 @supports (-webkit-touch-callout: none) {
   .specialist-card {
     -webkit-overflow-scrolling: touch;
+    -webkit-tap-highlight-color: transparent;
   }
   
   .specialist-desc {
