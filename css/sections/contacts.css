@@ -1,3 +1,4 @@
+
 /* ===== CONTACTS & LOCATION SECTION ===== */
 .partners {
   background: var(--bg-tertiary);
@@ -512,44 +513,59 @@ footer .contact-link {
     padding: var(--space-lg);
   }
 }
-/* Для мобильных - плашка по клику */
+/* Для мобильных - компактная плашка поверх */
 @media (max-width: 768px) {
     .location-overlay-card {
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        transform: translateY(100%);
-        transition: transform 0.3s ease;
-        z-index: 1000;
-        margin: 0;
-        border-radius: 20px 20px 0 0;
-        max-width: none;
-        width: 100%;
-    }
-    
-    .location-overlay-card.active {
-        transform: translateY(0);
-    }
-    
-    /* Кнопка для открытия плашки */
-    .location-toggle-btn {
         position: absolute;
-        bottom: 20px;
+        bottom: 10px;
         left: 50%;
         transform: translateX(-50%);
-        background: var(--bg-card);
-        border: none;
-        padding: 12px 20px;
-        border-radius: 25px;
-        color: var(--text-primary);
-        font-weight: 600;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-        z-index: 999;
-        cursor: pointer;
+        width: 95%;
+        max-width: 350px;
+        padding: 12px;
+        background: rgba(10, 21, 37, 0.95); /* Полупрозрачный фон */
+        backdrop-filter: blur(10px);
+    }
+    
+    /* Упрощаем контент */
+    .location-header {
+        flex-direction: row;
+        gap: 10px;
+        margin-bottom: 10px;
+    }
+    
+    .location-title-block h3 {
+        font-size: 1.1rem;
+        margin-bottom: 2px;
+    }
+    
+    .location-badge {
+        font-size: 0.7rem;
+        padding: 2px 6px;
+    }
+    
+    .location-address-block {
+        margin-bottom: 8px;
+    }
+    
+    .location-address {
+        font-size: 0.9rem;
+    }
+    
+    .location-features {
+        display: none; /* Скрываем на мобильных */
+    }
+    
+    .location-actions {
+        margin-top: 10px;
+    }
+    
+    .map-btn {
+        padding: 8px 12px;
+        font-size: 0.8rem;
     }
     
     #yandexMapFull {
-        height: 400px;
+        height: 350px; /* Увеличиваем высоту карты */
     }
 }
