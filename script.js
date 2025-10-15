@@ -804,7 +804,25 @@ function cleanup() {
     stopPhotoAutoSlide();
     stopSpeakerAutoSlide();
 }
-
+// Для мобильного переключения плашки
+if (window.innerWidth <= 768px) {
+    const toggleBtn = document.createElement('button');
+    toggleBtn.className = 'location-toggle-btn';
+    toggleBtn.innerHTML = '🏢 Информация о месте';
+    toggleBtn.addEventListener('click', () => {
+        document.querySelector('.location-overlay-card').classList.toggle('active');
+    });
+    
+    document.querySelector('.map-container-full').appendChild(toggleBtn);
+    
+    // Закрытие по клику вне плашки
+    document.addEventListener('click', (e) => {
+        if (!e.target.closest('.location-overlay-card') && 
+            !e.target.closest('.location-toggle-btn')) {
+            document.querySelector('.location-overlay-card').classList.remove('active');
+        }
+    });
+}
 window.addEventListener('resize', handleResize);
 window.addEventListener('beforeunload', cleanup);
 window.openNavigation = openNavigation;
