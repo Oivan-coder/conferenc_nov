@@ -918,3 +918,123 @@
         font-size: 0.95rem;
     }
 }
+/* ===== BEAUTIFUL CTA TEXT STYLES ===== */
+
+.cta-content h3 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin: 0 0 var(--space-md) 0;
+    background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-medical) 50%, var(--accent-primary) 100%);
+    background-size: 200% 200%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: ctaTitleShimmer 3s ease-in-out infinite;
+    position: relative;
+    line-height: 1.3;
+}
+
+@keyframes ctaTitleShimmer {
+    0%, 100% { 
+        background-position: 0% 50%;
+        filter: brightness(1) drop-shadow(0 0 15px rgba(0, 229, 255, 0.2));
+    }
+    50% { 
+        background-position: 100% 50%;
+        filter: brightness(1.2) drop-shadow(0 0 25px rgba(0, 229, 255, 0.4));
+    }
+}
+
+.cta-content p {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    margin: 0;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    color: var(--text-secondary);
+    position: relative;
+    transition: all 0.4s ease;
+    opacity: 0.9;
+}
+
+.about-cta-modern:hover .cta-content p {
+    color: var(--text-primary);
+    opacity: 1;
+    transform: translateY(-2px);
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Добавляем свечение для всего CTA блока */
+.about-cta-modern {
+    position: relative;
+}
+
+.about-cta-modern::after {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg, 
+        transparent, 
+        rgba(0, 229, 255, 0.1), 
+        rgba(0, 229, 255, 0.05), 
+        transparent
+    );
+    border-radius: 26px;
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.6s ease;
+}
+
+.about-cta-modern:hover::after {
+    opacity: 1;
+    animation: ctaBorderPulse 2s ease-in-out infinite;
+}
+
+@keyframes ctaBorderPulse {
+    0%, 100% { 
+        opacity: 0.7;
+        filter: hue-rotate(0deg);
+    }
+    50% { 
+        opacity: 1;
+        filter: hue-rotate(20deg);
+    }
+}
+
+/* Адаптивность для CTA текста */
+@media (max-width: 768px) {
+    .cta-content h3 {
+        font-size: 1.5rem;
+        animation: ctaTitleShimmerMobile 3s ease-in-out infinite;
+    }
+    
+    @keyframes ctaTitleShimmerMobile {
+        0%, 100% { 
+            background-position: 0% 50%;
+            filter: brightness(1) drop-shadow(0 0 10px rgba(0, 229, 255, 0.2));
+        }
+        50% { 
+            background-position: 100% 50%;
+            filter: brightness(1.1) drop-shadow(0 0 15px rgba(0, 229, 255, 0.3));
+        }
+    }
+    
+    .cta-content p {
+        font-size: 1.1rem;
+        line-height: 1.5;
+    }
+}
+
+@media (max-width: 480px) {
+    .cta-content h3 {
+        font-size: 1.3rem;
+    }
+    
+    .cta-content p {
+        font-size: 1rem;
+    }
+}
