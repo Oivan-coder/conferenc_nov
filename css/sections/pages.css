@@ -833,3 +833,88 @@
 .direction-content {
     text-align: left; /* Контент внутри выравниваем по левому краю */
 }
+/* Центрирование заголовков с эмодзи */
+.direction-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-md);
+    margin-bottom: var(--space-lg);
+    position: relative;
+    z-index: 2;
+    text-align: center;
+}
+
+.direction-icon {
+    font-size: 2rem;
+    transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+    display: inline-block;
+    filter: grayscale(0.3);
+    flex-shrink: 0;
+}
+
+.direction-card h4 {
+    font-size: 1.5rem;
+    font-weight: 800;
+    margin: 0;
+    color: var(--text-primary);
+    position: relative;
+    transition: all 0.4s ease;
+    line-height: 1.3;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* Центрируем весь контент карточки */
+.direction-card {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.direction-card p {
+    text-align: center;
+    max-width: 100%;
+}
+
+/* АДАПТИВНОСТЬ ДЛЯ МОБИЛЬНЫХ */
+@media (max-width: 768px) {
+    .direction-header {
+        flex-direction: column; /* Эмодзи и текст в столбик */
+        gap: var(--space-sm);
+        margin-bottom: var(--space-md);
+    }
+    
+    .direction-icon {
+        font-size: 2.5rem; /* Увеличиваем эмодзи на мобильных */
+        margin-bottom: var(--space-sm);
+    }
+    
+    .direction-card h4 {
+        font-size: 1.3rem;
+        line-height: 1.2;
+    }
+    
+    .direction-card p {
+        font-size: 1rem;
+        line-height: 1.5;
+    }
+}
+
+@media (max-width: 480px) {
+    .direction-header {
+        gap: var(--space-xs);
+    }
+    
+    .direction-icon {
+        font-size: 2.2rem;
+    }
+    
+    .direction-card h4 {
+        font-size: 1.2rem;
+    }
+    
+    .direction-card p {
+        font-size: 0.95rem;
+    }
+}
