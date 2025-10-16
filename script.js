@@ -626,8 +626,11 @@ function initProgramAccordion() {
         });
     });
     
-    const blocksToAutoOpen = document.querySelectorAll('.accordion-block:not(.speaker-requirements)');
-    if (blocksToAutoOpen[0]) blocksToAutoOpen[0].classList.add('active');
+    // ⭐ НОВЫЙ КОД - игнорируем блоки с data-auto-open="false"
+    const blocksToAutoOpen = document.querySelectorAll('.accordion-block:not([data-auto-open="false"])');
+    if (blocksToAutoOpen[0]) {
+        blocksToAutoOpen[0].classList.add('active');
+    }
 }
 
 function showNotification(message, type = 'info') {
