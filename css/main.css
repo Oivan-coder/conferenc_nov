@@ -18,6 +18,7 @@
 @import url('sections/specialists.css');  /* Наша команда (О нас) */
 @import url('sections/contacts.css');
 @import url('sections/pages.css');
+@import url('sections/footer.css'); 
 
 /* ===== RESPONSIVE DESIGN ===== */
 /* Global responsive styles that don't fit elsewhere */
