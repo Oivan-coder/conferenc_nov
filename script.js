@@ -626,7 +626,8 @@ function initProgramAccordion() {
         });
     });
     
-    if (accordionBlocks[0]) accordionBlocks[0].classList.add('active');
+    const blocksToAutoOpen = document.querySelectorAll('.accordion-block:not(.speaker-requirements)');
+    if (blocksToAutoOpen[0]) blocksToAutoOpen[0].classList.add('active');
 }
 
 function showNotification(message, type = 'info') {
