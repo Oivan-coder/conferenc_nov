@@ -5,14 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <!-- 🔥 SEO МЕТА-ТЕГИ -->
-    <title>Регистрация - LAB Evolution 2025</title>
-    <meta name="description" content="Регистрация на конференцию LAB Evolution 2025. Заполните форму для участия в мероприятии по лабораторной диагностике.">
-    <meta name="keywords" content="регистрация на конференцию, LAB Evolution 2025, заявка на участие, медицинская конференция">
+    <title>Регистрация - Форум лабораторных инноваций 2025</title>
+    <meta name="description" content="Регистрация на Форум лабораторных инноваций 2025. Заполните форму для участия в мероприятии по лабораторной диагностике.">
+    <meta name="keywords" content="регистрация на форум, Форум лабораторных инноваций 2025, заявка на участие, медицинский форум">
     <link rel="canonical" href="https://rclsmo.ru/registration.html" />
     
     <!-- Open Graph для соцсетей -->
-    <meta property="og:title" content="Регистрация - LAB Evolution 2025">
-    <meta property="og:description" content="Зарегистрируйтесь на конференцию по лабораторной диагностике LAB Evolution 2025">
+    <meta property="og:title" content="Регистрация - Форум лабораторных инноваций 2025">
+    <meta property="og:description" content="Зарегистрируйтесь на Форум лабораторных инноваций 2025">
     <meta property="og:url" content="https://rclsmo.ru/registration.html">
     <meta property="og:type" content="website">
     
@@ -21,6 +21,300 @@
     
     <!-- CSS -->
     <link rel="stylesheet" href="css/main.css">
+    <style>
+        /* Стили модального окна */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 21, 37, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, #1a2a4f 0%, #2a5298 100%);
+            border-radius: 20px;
+            padding: 2.5rem;
+            max-width: 600px;
+            width: 100%;
+            position: relative;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.4);
+            transform: translateY(30px);
+            transition: transform 0.3s ease;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal.active .modal-content {
+            transform: translateY(0);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1.2rem;
+            right: 1.2rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            z-index: 1;
+        }
+
+        .modal-close:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: rotate(90deg);
+        }
+
+        .modal-header {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding-right: 2rem;
+        }
+
+        .modal-icon {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .modal-header h3 {
+            color: white;
+            margin: 0 0 0.5rem 0;
+            font-size: 1.6rem;
+            font-weight: 600;
+        }
+
+        .modal-subtitle {
+            color: #00e5ff;
+            font-size: 1rem;
+            margin: 0;
+            opacity: 0.9;
+        }
+
+        .modal-body {
+            color: white;
+        }
+
+        .parking-benefits {
+            background: rgba(0, 229, 255, 0.1);
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin: 1.5rem 0;
+            border-left: 4px solid #00e5ff;
+        }
+
+        .parking-benefits h4 {
+            margin-top: 0;
+            color: #00e5ff;
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+        }
+
+        .requirements-list {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin: 1.5rem 0;
+        }
+
+        .requirements-list h4 {
+            color: #4fc3f7;
+            margin-top: 0;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .requirements-list ul {
+            margin: 0;
+            padding-left: 1.2rem;
+        }
+
+        .requirements-list li {
+            margin-bottom: 0.6rem;
+            position: relative;
+            padding-left: 0.5rem;
+        }
+
+        .contact-info {
+            text-align: center;
+            margin: 2rem 0 1.5rem 0;
+            padding: 1.5rem;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+        }
+
+        .car-data-form {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin: 1.5rem 0;
+        }
+
+        .car-data-form h4 {
+            color: #4fc3f7;
+            margin-top: 0;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+            text-align: center;
+        }
+
+        .form-grid-modal {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .form-group-modal {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group-modal.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .form-group-modal label {
+            color: white;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .form-group-modal input {
+            padding: 0.75rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-group-modal input:focus {
+            outline: none;
+            border-color: #00e5ff;
+            box-shadow: 0 0 0 2px rgba(0, 229, 255, 0.2);
+        }
+
+        .form-group-modal input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .required-field::after {
+            content: " *";
+            color: #ff6b6b;
+        }
+
+        .modal-note {
+            text-align: center;
+            margin-top: 1.5rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .modal-note small {
+            opacity: 0.8;
+            color: #4fc3f7;
+        }
+
+        .confirm-button {
+            background: linear-gradient(135deg, #00c853 0%, #64dd17 100%);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+            width: 100%;
+        }
+
+        .confirm-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0, 200, 83, 0.3);
+        }
+
+        /* Анимации */
+        @keyframes slideInRight {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        
+        @keyframes slideOutRight {
+            from { transform: translateX(0); opacity: 1; }
+            to { transform: translateX(100%); opacity: 0; }
+        }
+
+        .notification-close {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 0;
+            margin-left: 1rem;
+            opacity: 0.8;
+            transition: opacity 0.3s;
+        }
+        
+        .notification-close:hover {
+            opacity: 1;
+        }
+        
+        .notification-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .notification-message {
+            flex: 1;
+        }
+
+        /* Стили для активного селекта */
+        .select-items.active {
+            max-height: 300px !important;
+            overflow-y: auto !important;
+            display: block !important;
+        }
+        
+        .select-selected.active .select-arrow {
+            transform: rotate(180deg) !important;
+        }
+        
+        .select-items div.selected {
+            background: linear-gradient(135deg, #00e5ff 0%, #4fc3f7 100%) !important;
+            color: #0a1525 !important;
+            font-weight: 600 !important;
+        }
+    </style>
 </head>
 <body class="registration-page">
     <!-- Хедер из основного стиля -->
@@ -29,7 +323,7 @@
             <div class="header-content">
                 <a href="index.html" class="logo">
                     <div class="logo-icon">⚕️</div>
-                    <div>LAB Evolution 2025</div>
+                    <div>Форум лабораторных инноваций 2025</div>
                 </a>
                 
                 <button class="burger-menu" id="burgerMenu" aria-label="Открыть меню">
@@ -42,7 +336,7 @@
                     <ul class="nav-links">
                         <li><a href="about.html">О нас</a></li>
                         <li class="menu-dropdown">
-                            <a href="index.html#about" class="dropdown-toggle">Конференция</a>
+                            <a href="index.html#about" class="dropdown-toggle">Форум</a>
                             <ul class="dropdown-menu">
                                 <li><a href="index.html#about">О событии</a></li>
                                 <li><a href="index.html#program">Программа</a></li>
@@ -63,7 +357,7 @@
             <div class="registration-header">
                 <div class="logo-section">
                     <div class="logo-icon">⚕️</div>
-                    <h1>LAB Evolution 2025</h1>
+                    <h1>Форум лабораторных инноваций 2025</h1>
                 </div>
                 
                 <h2 class="section-title">Регистрация на конференцию</h2>
@@ -133,7 +427,7 @@
                     <div class="success-icon">✅</div>
                     <h3>Спасибо за регистрацию!</h3>
                     <p>Ваша заявка принята. На указанную почту будет отправлено подтверждение участия.</p>
-                    <p><strong>Ждем вас на конференции LAB Evolution 2025!</strong></p>
+                    <p><strong>Ждем вас на Форуме лабораторных инноваций 2025!</strong></p>
                     <a href="index.html" class="cta-button primary back-home-btn">Вернуться на главную</a>
                 </div>
             </div>
@@ -143,6 +437,78 @@
             </div>
         </div>
     </main>
+
+    <!-- Модальное окно для парковки -->
+    <div id="parkingModal" class="modal">
+        <div class="modal-content">
+            <button class="modal-close" id="modalClose">×</button>
+            
+            <div class="modal-header">
+                <div class="modal-icon">🚗</div>
+                <h3>Бесплатная парковка</h3>
+                <p class="modal-subtitle">Для главных врачей</p>
+            </div>
+            
+            <div class="modal-body">
+                <div class="parking-benefits">
+                    <h4>🎁 Специальное предложение</h4>
+                    <p>Вам доступна бесплатная парковка в бизнес-центре на время форума!</p>
+                </div>
+                
+                <div class="requirements-list">
+                    <h4>📋 Для получения пропуска предоставьте данные:</h4>
+                    <ul>
+                        <li><strong>ФИО водителя</strong> (только паспорт РФ)</li>
+                        <li><strong>Марка и модель автомобиля</strong></li>
+                        <li><strong>Государственный номер</strong></li>
+                    </ul>
+                </div>
+
+                <div class="car-data-form">
+                    <h4>🚗 Заполните данные для парковки</h4>
+                    <div class="form-grid-modal">
+                        <div class="form-group-modal full-width">
+                            <label for="applicantName" class="required-field">ФИО заявителя</label>
+                            <input type="text" id="applicantName" placeholder="Иванов Иван Иванович" required readonly>
+                        </div>
+                        
+                        <div class="form-group-modal full-width">
+                            <label for="driverName" class="required-field">ФИО водителя</label>
+                            <input type="text" id="driverName" placeholder="Петров Петр Петрович" required>
+                        </div>
+                        
+                        <div class="form-group-modal">
+                            <label for="carBrand" class="required-field">Марка автомобиля</label>
+                            <input type="text" id="carBrand" placeholder="Toyota" required>
+                        </div>
+                        
+                        <div class="form-group-modal">
+                            <label for="carModel" class="required-field">Модель автомобиля</label>
+                            <input type="text" id="carModel" placeholder="Camry" required>
+                        </div>
+                        
+                        <div class="form-group-modal full-width">
+                            <label for="carNumber" class="required-field">Гос. номер</label>
+                            <input type="text" id="carNumber" placeholder="A123BC777" required>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="contact-info">
+                    <p>✅ Данные о парковке будут отправлены автоматически</p>
+                    <p><small>Пожалуйста, заполните все поля формы и нажмите "Подтвердить"</small></p>
+                </div>
+                
+                <button class="confirm-button" id="confirmParking">
+                    Подтвердить данные о парковке
+                </button>
+                
+                <div class="modal-note">
+                    <small>✅ Все данные будут сохранены в отдельной форме</small>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Кнопка "Наверх" -->
     <button id="backToTop" class="back-to-top">↑</button>
@@ -154,8 +520,9 @@
             
             initBurgerMenu();
             initBackToTop();
-            initCustomSelects(); // ← ВАЖНО: эта функция должна быть вызвана
+            initCustomSelects();
             initRegistrationForm();
+            initParkingModal();
             
             // Скрываем успешное сообщение по умолчанию
             document.getElementById('success-message').style.display = 'none';
@@ -293,27 +660,6 @@
                 select.addEventListener('click', function(e) {
                     e.stopPropagation();
                 });
-
-                // Добавляем стили для активного состояния
-                const style = document.createElement('style');
-                style.textContent = `
-                    .select-items.active {
-                        max-height: 300px !important;
-                        overflow-y: auto !important;
-                        display: block !important;
-                    }
-                    
-                    .select-selected.active .select-arrow {
-                        transform: rotate(180deg) !important;
-                    }
-                    
-                    .select-items div.selected {
-                        background: linear-gradient(135deg, #00e5ff 0%, #4fc3f7 100%) !important;
-                        color: #0a1525 !important;
-                        font-weight: 600 !important;
-                    }
-                `;
-                document.head.appendChild(style);
             });
             
             console.log('✅ Кастомные select инициализированы');
@@ -356,33 +702,126 @@
                 
                 // Блокируем кнопку
                 const submitBtn = this.querySelector('.submit-btn');
+                const originalText = submitBtn.textContent;
                 submitBtn.textContent = 'Отправляем...';
                 submitBtn.disabled = true;
                 
                 try {
-                    // 🔥 ОТПРАВКА В GOOGLE FORMS
+                    // 🔥 ОТПРАВКА В СТАРУЮ GOOGLE FORM (РЕГИСТРАЦИЯ)
                     await submitToGoogleForms();
                     submittedData.add(email + phone);
                     
-                    // ПОКАЗЫВАЕМ УСПЕХ
-                    document.getElementById('visible-form').style.display = 'none';
-                    document.getElementById('success-message').style.display = 'block';
-                    showNotification('✅ Регистрация прошла успешно!', 'success');
+                    // 🔥 ЕСЛИ ГЛАВНЫЙ ВРАЧ - ПОКАЗЫВАЕМ МОДАЛКУ ДЛЯ ПАРКОВКИ
+                    const position = positionInput.value;
+                    if (position === 'Главный врач') {
+                        // Даем небольшую задержку перед показом модалки
+                        setTimeout(() => {
+                            showParkingModal();
+                        }, 500);
+                    } else {
+                        // Если не главный врач - сразу показываем успех
+                        document.getElementById('visible-form').style.display = 'none';
+                        document.getElementById('success-message').style.display = 'block';
+                        showNotification('✅ Регистрация прошла успешно!', 'success');
+                    }
                     
                 } catch (error) {
                     console.error('Ошибка:', error);
                     showNotification('❌ Ошибка отправки. Попробуйте еще раз.', 'error');
-                    submitBtn.textContent = 'Зарегистрироваться';
+                    submitBtn.textContent = originalText;
                     submitBtn.disabled = false;
                 }
             });
         }
 
-        // 🔥 ОТПРАВКА В GOOGLE FORMS
+        // ==================== МОДАЛЬНОЕ ОКНО ДЛЯ ПАРКОВКИ ====================
+        function initParkingModal() {
+            const modal = document.getElementById('parkingModal');
+            const closeBtn = document.getElementById('modalClose');
+            const confirmBtn = document.getElementById('confirmParking');
+            
+            if (!modal) {
+                console.error('❌ Модальное окно не найдено');
+                return;
+            }
+            
+            // Закрытие по кнопке
+            closeBtn.addEventListener('click', hideParkingModal);
+            
+            // Закрытие по клику вне окна
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    hideParkingModal();
+                }
+            });
+            
+            // Закрытие по Escape
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && modal.classList.contains('active')) {
+                    hideParkingModal();
+                }
+            });
+            
+            // Подтверждение данных о парковке
+            if (confirmBtn) {
+                confirmBtn.addEventListener('click', async function() {
+                    const driverName = document.getElementById('driverName').value;
+                    const carBrand = document.getElementById('carBrand').value;
+                    const carModel = document.getElementById('carModel').value;
+                    const carNumber = document.getElementById('carNumber').value;
+                    
+                    // Проверка заполнения всех полей
+                    if (!driverName || !carBrand || !carModel || !carNumber) {
+                        showNotification('❌ Пожалуйста, заполните все поля формы', 'error');
+                        return;
+                    }
+                    
+                    try {
+                        // 🔥 ОТПРАВКА В НОВУЮ GOOGLE FORM (ПАРКОВКА)
+                        await submitToParkingForm();
+                        
+                        // Закрываем модалку и показываем успех
+                        hideParkingModal();
+                        document.getElementById('visible-form').style.display = 'none';
+                        document.getElementById('success-message').style.display = 'block';
+                        showNotification('✅ Данные о парковке отправлены!', 'success');
+                        
+                    } catch (error) {
+                        console.error('Ошибка отправки данных о парковке:', error);
+                        showNotification('❌ Ошибка отправки данных о парковке', 'error');
+                    }
+                });
+            }
+        }
+        
+        function showParkingModal() {
+            const modal = document.getElementById('parkingModal');
+            if (modal) {
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+                
+                // Автозаполнение ФИО заявителя из основной формы
+                const userName = document.getElementById('name').value;
+                const applicantNameInput = document.getElementById('applicantName');
+                if (userName && applicantNameInput) {
+                    applicantNameInput.value = userName;
+                }
+            }
+        }
+        
+        function hideParkingModal() {
+            const modal = document.getElementById('parkingModal');
+            if (modal) {
+                modal.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        }
+
+        // 🔥 ОТПРАВКА В СТАРУЮ GOOGLE FORM (РЕГИСТРАЦИЯ)
         function submitToGoogleForms() {
             return new Promise((resolve) => {
                 const iframe = document.createElement('iframe');
-                iframe.name = 'google-form-' + Date.now();
+                iframe.name = 'google-form-reg-' + Date.now();
                 iframe.style.display = 'none';
                 document.body.appendChild(iframe);
                 
@@ -411,7 +850,128 @@
                 document.body.appendChild(tempForm);
                 tempForm.submit();
                 
-                setTimeout(() => resolve(true), 3000);
+                setTimeout(() => {
+                    document.body.removeChild(tempForm);
+                    document.body.removeChild(iframe);
+                    resolve(true);
+                }, 3000);
+            });
+        }
+
+        // 🔥 ИСПРАВЛЕННАЯ ОТПРАВКА В GOOGLE FORM (ПАРКОВКА)
+        function submitToParkingForm() {
+            return new Promise((resolve, reject) => {
+                console.log('🚗 Начало отправки данных о парковке...');
+                
+                // Валидация данных
+                const name = document.getElementById('name').value;
+                const phone = document.getElementById('phone').value;
+                const organization = document.getElementById('organization').value;
+                const driverName = document.getElementById('driverName').value;
+                const carBrand = document.getElementById('carBrand').value;
+                const carModel = document.getElementById('carModel').value;
+                const carNumber = document.getElementById('carNumber').value;
+
+                if (!name || !phone || !organization || !driverName || !carBrand || !carModel || !carNumber) {
+                    console.error('❌ Не все поля заполнены');
+                    reject(new Error('Не все поля заполнены'));
+                    return;
+                }
+
+                const iframe = document.createElement('iframe');
+                iframe.name = 'google-form-parking-' + Date.now();
+                iframe.style.display = 'none';
+                document.body.appendChild(iframe);
+                
+                const tempForm = document.createElement('form');
+                tempForm.action = 'https://docs.google.com/forms/u/0/d/e/1FAIpQLSdqWPsNvO-ChMYLqP-yoAq-bcQkNkKxQIZv_M5XLeqwDST-LA/formResponse';
+                tempForm.method = 'POST';
+                tempForm.target = iframe.name;
+                tempForm.style.display = 'none';
+                tempForm.acceptCharset = 'UTF-8';
+                
+                // 🔥 ВАЖНО: Используем правильные имена полей из Google Forms
+                const fields = [
+                    // ФИО участника (основной формы)
+                    { name: 'entry.605665455', value: name },
+                    // Телефон
+                    { name: 'entry.291221646', value: phone },
+                    // Организация
+                    { name: 'entry.2091275462', value: organization },
+                    // ФИО водителя
+                    { name: 'entry.348419824', value: driverName },
+                    // Марка и модель автомобиля
+                    { name: 'entry.476370448', value: `${carBrand} ${carModel}`.trim() },
+                    // Гос. номер
+                    { name: 'entry.543331021', value: carNumber }
+                ];
+                
+                console.log('📤 Отправляемые данные парковки:', fields);
+
+                fields.forEach(field => {
+                    const input = document.createElement('input');
+                    input.type = 'hidden';
+                    input.name = field.name;
+                    input.value = field.value || '';
+                    tempForm.appendChild(input);
+                    console.log(`✅ Добавлено поле: ${field.name} = ${field.value}`);
+                });
+
+                // Добавляем технические поля
+                const technicalFields = [
+                    { name: 'fvv', value: '1' },
+                    { name: 'draftResponse', value: '[null,null,"1086212582490002909"]' },
+                    { name: 'pageHistory', value: '0' },
+                    { name: 'fbzx', value: '1086212582490002909' }
+                ];
+
+                technicalFields.forEach(field => {
+                    const input = document.createElement('input');
+                    input.type = 'hidden';
+                    input.name = field.name;
+                    input.value = field.value;
+                    tempForm.appendChild(input);
+                });
+
+                document.body.appendChild(tempForm);
+                
+                // Добавляем обработчик загрузки iframe для отслеживания статуса
+                iframe.onload = function() {
+                    console.log('✅ IFrame загружен - форма отправлена');
+                    setTimeout(() => {
+                        cleanup();
+                        resolve(true);
+                    }, 1000);
+                };
+
+                iframe.onerror = function() {
+                    console.error('❌ Ошибка загрузки IFrame');
+                    cleanup();
+                    reject(new Error('Ошибка отправки формы'));
+                };
+
+                function cleanup() {
+                    if (tempForm.parentNode) {
+                        document.body.removeChild(tempForm);
+                    }
+                    if (iframe.parentNode) {
+                        document.body.removeChild(iframe);
+                    }
+                }
+
+                console.log('🔄 Отправка формы парковки...');
+                try {
+                    tempForm.submit();
+                    // Резервный таймаут на случай если onload не сработает
+                    setTimeout(() => {
+                        cleanup();
+                        resolve(true);
+                    }, 5000);
+                } catch (error) {
+                    console.error('❌ Ошибка при submit:', error);
+                    cleanup();
+                    reject(error);
+                }
             });
         }
 
@@ -435,7 +995,7 @@
                 padding: 1rem 1.5rem;
                 border-radius: 8px;
                 box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
-                z-index: 10000;
+                z-index: 10001;
                 animation: slideInRight 0.3s ease;
                 max-width: 400px;
                 min-width: 300px;
@@ -462,64 +1022,6 @@
                 }, 300);
             }, 5000);
         }
-
-        // ==================== CSS АНИМАЦИИ ====================
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes slideInRight {
-                from { transform: translateX(100%); opacity: 0; }
-                to { transform: translateX(0); opacity: 1; }
-            }
-            
-            @keyframes slideOutRight {
-                from { transform: translateX(0); opacity: 1; }
-                to { transform: translateX(100%); opacity: 0; }
-            }
-            
-            .notification-close {
-                background: none;
-                border: none;
-                color: white;
-                font-size: 1.2rem;
-                cursor: pointer;
-                padding: 0;
-                margin-left: 1rem;
-                opacity: 0.8;
-                transition: opacity 0.3s;
-            }
-            
-            .notification-close:hover { 
-                opacity: 1; 
-            }
-            
-            .notification-content {
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-            }
-            
-            .notification-message { 
-                flex: 1; 
-            }
-
-            /* Стили для активного селекта */
-            .select-items.active {
-                max-height: 300px !important;
-                overflow-y: auto !important;
-                display: block !important;
-            }
-            
-            .select-selected.active .select-arrow {
-                transform: rotate(180deg) !important;
-            }
-            
-            .select-items div.selected {
-                background: linear-gradient(135deg, #00e5ff 0%, #4fc3f7 100%) !important;
-                color: #0a1525 !important;
-                font-weight: 600 !important;
-            }
-        `;
-        document.head.appendChild(style);
     </script>
 </body>
 </html>
