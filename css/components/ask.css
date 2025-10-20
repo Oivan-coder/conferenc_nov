@@ -1,0 +1,439 @@
+/* components/forms.css */
+.form-container {
+  max-width: 800px;
+  margin: 0 auto;
+  background: rgba(10, 25, 47, 0.95); /* Темный фон как в основном стиле */
+  backdrop-filter: blur(10px);
+  padding: var(--space-xl);
+  border-radius: 20px;
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(0, 229, 255, 0.2);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Научный фон для формы */
+.form-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image:
+    radial-gradient(circle at 20% 80%, rgba(0, 229, 255, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(0, 255, 136, 0.08) 0%, transparent 50%),
+    linear-gradient(45deg, transparent 48%, rgba(0, 229, 255, 0.05) 50%, transparent 52%);
+  background-size: 100% 100%, 100% 100%, 60px 60px;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.form-header {
+  text-align: center;
+  margin-bottom: var(--space-xl);
+  padding-bottom: var(--space-lg);
+  border-bottom: 2px solid;
+  border-image: var(--gradient-medical) 1;
+  position: relative;
+}
+
+.form-header h1 {
+  background: var(--gradient-medical);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: var(--space-md);
+  font-size: clamp(2rem, 4vw, 2.5rem);
+  font-weight: 700;
+  text-shadow: var(--glow-primary);
+}
+
+.form-header p {
+  color: #b0b8c5; /* Светло-серый для лучшей читаемости на темном фоне */
+  font-size: clamp(1rem, 2vw, 1.1rem);
+  line-height: 1.6;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.form-section {
+  margin-bottom: var(--space-xl);
+  padding: var(--space-lg);
+  background: rgba(23, 42, 70, 0.8); /* Темный фон секций */
+  border-radius: 16px;
+  border-left: 4px solid;
+  border-image: var(--gradient-medical) 1;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.form-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(0, 229, 255, 0.1), transparent);
+  transition: left 0.6s ease;
+}
+
+.form-section:hover::before {
+  left: 100%;
+}
+
+.form-section:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 229, 255, 0.2);
+  background: rgba(23, 42, 70, 0.9);
+}
+
+.form-section h3 {
+  color: #00e5ff; /* Яркий акцентный цвет */
+  margin-bottom: var(--space-lg);
+  font-size: clamp(1.2rem, 3vw, 1.4rem);
+  font-weight: 600;
+  line-height: 1.3;
+  position: relative;
+  display: inline-block;
+}
+
+.form-section h3::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 0;
+  width: 40px;
+  height: 2px;
+  background: var(--gradient-medical);
+  border-radius: 1px;
+}
+
+.question-group {
+  margin-bottom: var(--space-lg);
+  position: relative;
+}
+
+.question-group label {
+  display: block;
+  margin-bottom: var(--space-sm);
+  font-weight: 600;
+  color: #e2e8f0; /* Яркий белый для текста */
+  font-size: clamp(0.95rem, 2vw, 1rem);
+  line-height: 1.4;
+}
+
+.required::after {
+  content: " *";
+  color: #ff6b6b; /* Яркий красный для обязательных полей */
+  font-weight: bold;
+}
+
+/* Стили для полей ввода */
+input[type="text"],
+input[type="email"],
+textarea,
+select {
+  width: 100%;
+  padding: var(--space-md);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  font-size: clamp(0.95rem, 2vw, 1rem);
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff; /* Белый текст */
+  transition: all 0.3s ease;
+  -webkit-appearance: none;
+  appearance: none;
+  font-family: inherit;
+}
+
+input[type="text"]::placeholder,
+input[type="email"]::placeholder,
+textarea::placeholder,
+select::placeholder {
+  color: rgba(255, 255, 255, 0.6); /* Полупрозрачный плейсхолдер */
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  border-color: #00e5ff;
+  box-shadow:
+    0 0 0 4px rgba(0, 229, 255, 0.2),
+    0 4px 15px rgba(0, 229, 255, 0.3);
+  background: rgba(255, 255, 255, 0.15);
+}
+
+textarea {
+  resize: vertical;
+  min-height: 120px;
+  line-height: 1.5;
+}
+
+/* Улучшенные стили для радио-кнопок и рейтингов */
+.rating-scale,
+.radio-group {
+  display: flex;
+  gap: var(--space-sm);
+  flex-wrap: wrap;
+  margin-top: var(--space-sm);
+}
+
+.rating-scale input[type="radio"],
+.radio-group input[type="radio"] {
+  display: none;
+}
+
+.rating-scale label,
+.radio-group label {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-sm) var(--space-md);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff; /* Белый текст */
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 600;
+  min-width: 50px;
+  min-height: 50px;
+  text-align: center;
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+}
+
+.rating-scale label {
+  min-width: 50px;
+  min-height: 50px;
+  border-radius: 8px;
+  font-size: 1.1rem;
+}
+
+/* Яркие стили для выбранных элементов */
+.rating-scale input[type="radio"]:checked + label,
+.radio-group input[type="radio"]:checked + label {
+  background: var(--gradient-medical);
+  color: #0a192f; /* Темный текст для контраста */
+  border-color: transparent;
+  transform: scale(1.05);
+  box-shadow:
+    0 6px 20px rgba(0, 229, 255, 0.4),
+    0 2px 8px rgba(0, 255, 136, 0.3);
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.5);
+}
+
+/* Индикатор выбора */
+.rating-scale input[type="radio"]:checked + label::after,
+.radio-group input[type="radio"]:checked + label::after {
+  content: "✓";
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  font-size: 0.8rem;
+  background: rgba(10, 25, 47, 0.9);
+  color: #00ff88;
+  border-radius: 50%;
+  width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.rating-scale label:hover,
+.radio-group label:hover {
+  border-color: #00e5ff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 229, 255, 0.3);
+  background: rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+}
+
+/* Кнопки формы */
+.form-actions {
+  display: flex;
+  gap: var(--space-md);
+  justify-content: center;
+  margin-top: var(--space-xl);
+  padding-top: var(--space-lg);
+  border-top: 1px solid rgba(0, 229, 255, 0.3);
+  flex-wrap: wrap;
+}
+
+.btn {
+  padding: var(--space-md) var(--space-xl);
+  border: none;
+  border-radius: 12px;
+  font-size: clamp(1rem, 2vw, 1.1rem);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-height: 56px;
+  min-width: 160px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s ease;
+}
+
+.btn:hover::before {
+  left: 100%;
+}
+
+.btn-primary {
+  background: var(--gradient-medical);
+  color: #0a192f;
+  box-shadow: 0 4px 15px rgba(0, 229, 255, 0.4);
+  font-weight: 700;
+}
+
+.btn-primary:hover {
+  transform: translateY(-3px);
+  box-shadow:
+    0 8px 25px rgba(0, 229, 255, 0.5),
+    0 2px 10px rgba(0, 255, 136, 0.4);
+}
+
+.btn-secondary {
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+  border: 2px solid rgba(0, 229, 255, 0.4);
+  backdrop-filter: blur(10px);
+}
+
+.btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: #00e5ff;
+  transform: translateY(-3px);
+  box-shadow: 0 4px 15px rgba(0, 229, 255, 0.3);
+  color: #ffffff;
+}
+
+.form-footer {
+  text-align: center;
+  margin-top: var(--space-lg);
+  padding-top: var(--space-md);
+  border-top: 1px solid rgba(0, 229, 255, 0.3);
+}
+
+.form-footer p {
+  color: #b0b8c5;
+  font-size: clamp(0.85rem, 2vw, 0.9rem);
+  line-height: 1.4;
+}
+
+/* Анимации */
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.form-section {
+  animation: slideIn 0.6s ease-out;
+}
+
+.form-section:nth-child(2) {
+  animation-delay: 0.1s;
+}
+
+.form-section:nth-child(3) {
+  animation-delay: 0.2s;
+}
+
+.form-section:nth-child(4) {
+  animation-delay: 0.3s;
+}
+
+/* Адаптивность для мобильных устройств */
+@media (max-width: 768px) {
+  .form-container {
+    padding: var(--space-md);
+    margin: var(--space-sm);
+    border-radius: 16px;
+  }
+  
+  .form-header {
+    margin-bottom: var(--space-lg);
+    padding-bottom: var(--space-md);
+  }
+  
+  .form-section {
+    padding: var(--space-md);
+    margin-bottom: var(--space-lg);
+  }
+  
+  .rating-scale,
+  .radio-group {
+    gap: var(--space-xs);
+    justify-content: space-between;
+  }
+  
+  .rating-scale label,
+  .radio-group label {
+    min-width: 44px;
+    min-height: 44px;
+    padding: var(--space-xs);
+    font-size: 1rem;
+    flex: 0 1 calc(20% - 6px);
+  }
+  
+  .form-actions {
+    flex-direction: column;
+    gap: var(--space-sm);
+  }
+  
+  .btn {
+    width: 100%;
+    min-width: auto;
+  }
+}
+
+/* Улучшение доступности для тач-устройств */
+@media (hover: none) and (pointer: coarse) {
+  .rating-scale label:hover,
+  .radio-group label:hover,
+  .btn:hover {
+    transform: none;
+  }
+  
+  .rating-scale label:active,
+  .radio-group label:active,
+  .btn:active {
+    transform: scale(0.95);
+  }
+  
+  .rating-scale input[type="radio"]:checked + label,
+  .radio-group input[type="radio"]:checked + label {
+    transform: scale(1.02);
+  }
+}
