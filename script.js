@@ -96,7 +96,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 function initFeedbackSystem() {
     // Проверяем дату - отзывы только после 21 ноября 2025
-    const conferenceDate = new Date('2025-01-20');
+    const conferenceDate = new Date('2025-11-21');
     const currentDate = new Date();
     
     if (currentDate < conferenceDate) {
