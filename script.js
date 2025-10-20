@@ -122,16 +122,22 @@ function initFeedbackPopup() {
     
     let popupShown = false;
 
-    // Проверяем, показывали ли уже попап в этой сессии
-    if (sessionStorage.getItem('feedbackPopupShown')) {
-        return;
+    // 🔥 ПРОВЕРЯЕМ ПРОШЛО ЛИ УЖЕ 1 ЧАС
+    const lastShownTime = sessionStorage.getItem('feedbackPopupLastShown');
+    if (lastShownTime) {
+        const timePassed = Date.now() - parseInt(lastShownTime);
+        const oneHour = 60 * 60 * 1000; // 1 час в миллисекундах
+        if (timePassed < oneHour) {
+            return; // Еще не прошло 1 час - не показываем
+        }
     }
 
     function showPopup() {
         if (!popupShown) {
             popup.classList.add('active');
             popupShown = true;
-            sessionStorage.setItem('feedbackPopupShown', 'true');
+            // 🔥 СОХРАНЯЕМ ВРЕМЯ КОГДА ПОКАЗАЛИ
+            sessionStorage.setItem('feedbackPopupLastShown', Date.now().toString());
         }
     }
 
@@ -139,10 +145,20 @@ function initFeedbackPopup() {
         popup.classList.remove('active');
     }
 
+    // 🔥 ФУНКЦИЯ ДЛЯ "НАПОМНИТЬ ПОЗЖЕ"
+    function remindLater() {
+        closePopup();
+        // 🔥 УСТАНАВЛИВАЕМ ТАЙМЕР НА 1 ЧАС
+        setTimeout(() => {
+            // Через час сбрасываем время показа
+            sessionStorage.removeItem('feedbackPopupLastShown');
+        }, 60 * 60 * 1000); // 1 час
+    }
+
     // Показ через 10 секунд
     setTimeout(showPopup, 10000);
 
-    // Показ при уходе курсора за верхний край
+    // Exit-intent
     document.addEventListener('mouseout', (e) => {
         if (e.clientY < 50 && !popupShown) {
             showPopup();
@@ -152,7 +168,7 @@ function initFeedbackPopup() {
     // Обработчики кнопок
     closeBtn.addEventListener('click', closePopup);
     if (laterBtn) {
-        laterBtn.addEventListener('click', closePopup);
+        laterBtn.addEventListener('click', remindLater); // 🔥 ИСПОЛЬЗУЕМ НОВУЮ ФУНКЦИЮ
     }
 
     // Закрытие по клику на оверлей
