@@ -71,6 +71,9 @@ document.addEventListener('DOMContentLoaded', function() {
     initSmoothScroll();
     initBackToTop();
     
+    // 🔥 ДОБАВИЛ ЭТУ СТРОКУ - проверяем дату и включаем отзывы если нужно
+    initFeedbackSystem();
+    
     if (isAboutPage) {
         initAboutPageAnimations();
         initAboutPageContacts();
@@ -88,6 +91,84 @@ document.addEventListener('DOMContentLoaded', function() {
     
     addCustomStyles();
 });
+
+// ==================== СИСТЕМА ОТЗЫВОВ ====================
+
+function initFeedbackSystem() {
+    // Проверяем дату - отзывы только после 21 ноября 2025
+    const conferenceDate = new Date('2025-01-20');
+    const currentDate = new Date();
+    
+    if (currentDate < conferenceDate) {
+        console.log('📅 Конференция еще не прошла - отзывы отключены');
+        // Скрываем кнопку отзыва
+        const floatingBtn = document.querySelector('.floating-feedback-btn');
+        if (floatingBtn) {
+            floatingBtn.style.display = 'none';
+        }
+        return;
+    }
+    
+    console.log('💬 Система отзывов активирована');
+    initFeedbackPopup();
+}
+
+function initFeedbackPopup() {
+    const popup = document.getElementById('feedbackPopup');
+    const closeBtn = document.getElementById('popupClose');
+    const laterBtn = document.getElementById('popupLater');
+    
+    if (!popup || !closeBtn) return;
+    
+    let popupShown = false;
+
+    // Проверяем, показывали ли уже попап в этой сессии
+    if (sessionStorage.getItem('feedbackPopupShown')) {
+        return;
+    }
+
+    function showPopup() {
+        if (!popupShown) {
+            popup.classList.add('active');
+            popupShown = true;
+            sessionStorage.setItem('feedbackPopupShown', 'true');
+        }
+    }
+
+    function closePopup() {
+        popup.classList.remove('active');
+    }
+
+    // Показ через 10 секунд
+    setTimeout(showPopup, 10000);
+
+    // Показ при уходе курсора за верхний край
+    document.addEventListener('mouseout', (e) => {
+        if (e.clientY < 50 && !popupShown) {
+            showPopup();
+        }
+    });
+
+    // Обработчики кнопок
+    closeBtn.addEventListener('click', closePopup);
+    if (laterBtn) {
+        laterBtn.addEventListener('click', closePopup);
+    }
+
+    // Закрытие по клику на оверлей
+    popup.addEventListener('click', (e) => {
+        if (e.target === popup) {
+            closePopup();
+        }
+    });
+
+    // Закрытие по Escape
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && popup.classList.contains('active')) {
+            closePopup();
+        }
+    });
+}
 
 // ==================== ОСНОВНЫЕ ФУНКЦИИ ====================
 
@@ -342,7 +423,7 @@ function initAboutPageContacts() {
     }
 }
 
-// ==================== ОСТАЛЬНЫЕ ФУНКЦИИ (без изменений) ====================
+// ==================== ОСТАЛЬНЫЕ ФУНКЦИИ ====================
 
 function initPhotoSlider() {
     const photoSlider = document.getElementById('photoSlider');
@@ -626,7 +707,6 @@ function initProgramAccordion() {
         });
     });
     
-    // ⭐ НОВЫЙ КОД - игнорируем блоки с data-auto-open="false"
     const blocksToAutoOpen = document.querySelectorAll('.accordion-block:not([data-auto-open="false"])');
     if (blocksToAutoOpen[0]) {
         blocksToAutoOpen[0].classList.add('active');
