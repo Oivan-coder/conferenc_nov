@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Отзыв о конференции</title>
+    <!-- Подключите ваши CSS файлы -->
+    <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+    <div class="form-container">
+        <div class="form-header">
+            <h1>Отзыв о конференции</h1>
+            <p>Пожалуйста, поделитесь вашими впечатлениями о мероприятии. Ваше мнение поможет нам стать лучше!</p>
+        </div>
+
+        <!-- Сообщение об успешной отправке (изначально скрыто) -->
+        <div id="success-message" class="success-message" style="display: none;">
+            <div class="success-content">
+                <h2>Спасибо за ваш отзыв! ✅</h2>
+                <p>Ваши ответы успешно отправлены. Мы ценим ваше мнение и обязательно учтем его при организации будущих мероприятий.</p>
+                <button onclick="resetForm()" class="btn btn-primary">Заполнить еще один отзыв</button>
+            </div>
+        </div>
+
+        <form id="conference-feedback-form">
+
+            <!-- Блок 1: Общее впечатление -->
+            <div class="form-section">
+                <h3>Общее впечатление</h3>
+                
+                <div class="question-group">
+                    <label class="required">Оцените конференцию в целом (1 - Плохо, 5 - Отлично)</label>
+                    <div class="rating-scale">
+                        <input type="radio" id="rating-1" name="conference_rating" value="1" required>
+                        <label for="rating-1">1</label>
+                        
+                        <input type="radio" id="rating-2" name="conference_rating" value="2">
+                        <label for="rating-2">2</label>
+                        
+                        <input type="radio" id="rating-3" name="conference_rating" value="3">
+                        <label for="rating-3">3</label>
+                        
+                        <input type="radio" id="rating-4" name="conference_rating" value="4">
+                        <label for="rating-4">4</label>
+                        
+                        <input type="radio" id="rating-5" name="conference_rating" value="5">
+                        <label for="rating-5">5</label>
+                    </div>
+                </div>
+
+                <div class="question-group">
+                    <label class="required">Насколько вероятно, что вы порекомендуете нашу конференцию коллеге? (1 - Точно нет, 5 - Обязательно)</label>
+                    <div class="rating-scale">
+                        <input type="radio" id="recommend-1" name="recommendation" value="1" required>
+                        <label for="recommend-1">1</label>
+                        
+                        <input type="radio" id="recommend-2" name="recommendation" value="2">
+                        <label for="recommend-2">2</label>
+                        
+                        <input type="radio" id="recommend-3" name="recommendation" value="3">
+                        <label for="recommend-3">3</label>
+                        
+                        <input type="radio" id="recommend-4" name="recommendation" value="4">
+                        <label for="recommend-4">4</label>
+                        
+                        <input type="radio" id="recommend-5" name="recommendation" value="5">
+                        <label for="recommend-5">5</label>
+                    </div>
+                </div>
+
+                <div class="question-group">
+                    <label class="required">Что вам понравилось больше всего?</label>
+                    <textarea name="liked_most" rows="3" placeholder="Опишите самые сильные стороны конференции..." required></textarea>
+                </div>
+
+                <div class="question-group">
+                    <label class="required">Что можно было улучшить? Главное предложение</label>
+                    <textarea name="improvements" rows="3" placeholder="Ваши предложения по улучшению..." required></textarea>
+                </div>
+            </div>
+
+            <!-- Блок 2: Содержание и докладчики -->
+            <div class="form-section">
+                <h3>Содержание и докладчики</h3>
+                
+                <div class="question-group">
+                    <label class="required">Оцените общий уровень докладов (1 - Плохо, 5 - Отлично)</label>
+                    <div class="rating-scale">
+                        <input type="radio" id="talks-1" name="talks_rating" value="1" required>
+                        <label for="talks-1">1</label>
+                        
+                        <input type="radio" id="talks-2" name="talks_rating" value="2">
+                        <label for="talks-2">2</label>
+                        
+                        <input type="radio" id="talks-3" name="talks_rating" value="3">
+                        <label for="talks-3">3</label>
+                        
+                        <input type="radio" id="talks-4" name="talks_rating" value="4">
+                        <label for="talks-4">4</label>
+                        
+                        <input type="radio" id="talks-5" name="talks_rating" value="5">
+                        <label for="talks-5">5</label>
+                    </div>
+                </div>
+
+                <div class="question-group">
+                    <label>Какой доклад/спикер вам запомнился больше всего и почему?</label>
+                    <textarea name="memorable_talk" rows="3" placeholder="Опишите самый запомнившийся доклад или спикера..."></textarea>
+                </div>
+
+                <div class="question-group">
+                    <label>Какой доклад, на ваш взгляд, был наименее полезным и почему?</label>
+                    <textarea name="least_useful" rows="3" placeholder="Поделитесь конструктивной критикой..."></textarea>
+                </div>
+
+                <div class="question-group">
+                    <label class="required">Соответствовал ли контент вашим ожиданиям?</label>
+                    <div class="radio-group">
+                        <input type="radio" id="expectations-yes" name="expectations" value="Да" required>
+                        <label for="expectations-yes">Да</label>
+                        
+                        <input type="radio" id="expectations-no" name="expectations" value="Нет">
+                        <label for="expectations-no">Нет</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Блок 3: Организация -->
+            <div class="form-section">
+                <h3>Организация</h3>
+                
+                <div class="question-group">
+                    <label class="required">Оцените работу организаторов (1 - Плохо, 5 - Отлично)</label>
+                    <div class="rating-scale">
+                        <input type="radio" id="org-1" name="organization_rating" value="1" required>
+                        <label for="org-1">1</label>
+                        
+                        <input type="radio" id="org-2" name="organization_rating" value="2">
+                        <label for="org-2">2</label>
+                        
+                        <input type="radio" id="org-3" name="organization_rating" value="3">
+                        <label for="org-3">3</label>
+                        
+                        <input type="radio" id="org-4" name="organization_rating" value="4">
+                        <label for="org-4">4</label>
+                        
+                        <input type="radio" id="org-5" name="organization_rating" value="5">
+                        <label for="org-5">5</label>
+                    </div>
+                </div>
+
+                <div class="question-group">
+                    <label class="required">Насколько удобным был процесс регистрации? (1 - Плохо, 5 - Отлично)</label>
+                    <div class="rating-scale">
+                        <input type="radio" id="reg-1" name="registration" value="1" required>
+                        <label for="reg-1">1</label>
+                        
+                        <input type="radio" id="reg-2" name="registration" value="2">
+                        <label for="reg-2">2</label>
+                        
+                        <input type="radio" id="reg-3" name="registration" value="3">
+                        <label for="reg-3">3</label>
+                        
+                        <input type="radio" id="reg-4" name="registration" value="4">
+                        <label for="reg-4">4</label>
+                        
+                        <input type="radio" id="reg-5" name="registration" value="5">
+                        <label for="reg-5">5</label>
+                    </div>
+                </div>
+
+                <div class="question-group">
+                    <label>Что еще хотели бы сказать об организации?</label>
+                    <textarea name="organization_comments" rows="3" placeholder="Дополнительные комментарии об организации..."></textarea>
+                </div>
+            </div>
+
+            <!-- Блок 4: Пожелания на будущее -->
+            <div class="form-section">
+                <h3>Пожелания на будущее</h3>
+                
+                <div class="question-group">
+                    <label>На какую тему вы хотели бы услышать доклад в будущем?</label>
+                    <textarea name="future_topics" rows="3" placeholder="Какие медицинские темы вас интересуют?"></textarea>
+                </div>
+
+                <div class="question-group">
+                    <label class="required">Хотели бы вы получить презентации спикеров?</label>
+                    <div class="radio-group">
+                        <input type="radio" id="slides-yes" name="presentations" value="Да" required>
+                        <label for="slides-yes">Да</label>
+                        
+                        <input type="radio" id="slides-no" name="presentations" value="Нет">
+                        <label for="slides-no">Нет</label>
+                    </div>
+                </div>
+
+                <div class="question-group">
+                    <label>Ваши общие пожелания и комментарии</label>
+                    <textarea name="general_comments" rows="4" placeholder="Любые другие мысли и предложения..."></textarea>
+                </div>
+            </div>
+
+            <!-- Кнопка отправки -->
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">Отправить отзыв</button>
+                <button type="reset" class="btn btn-secondary">Очистить форму</button>
+            </div>
+        </form>
+
+        <div class="form-footer">
+            <p><small>Спасибо за ваше время! Ваши ответы помогут нам улучшить будущие мероприятия.</small></p>
+        </div>
+    </div>
+
+    <style>
+        .success-message {
+            background: rgba(23, 42, 70, 0.9);
+            border-radius: 16px;
+            padding: var(--space-xl);
+            text-align: center;
+            border: 2px solid var(--accent-primary);
+            margin-bottom: var(--space-xl);
+        }
+
+        .success-content h2 {
+            color: #00ff88;
+            margin-bottom: var(--space-md);
+        }
+
+        .success-content p {
+            color: #b0b8c5;
+            margin-bottom: var(--space-lg);
+            font-size: 1.1rem;
+        }
+    </style>
+
+    <script>
+        document.getElementById('conference-feedback-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Простая валидация перед отправкой
+            const requiredFields = this.querySelectorAll('[required]');
+            let allValid = true;
+            
+            requiredFields.forEach(field => {
+                if (!field.value) {
+                    allValid = false;
+                    field.style.borderColor = '#ff6b6b';
+                } else {
+                    field.style.borderColor = '';
+                }
+            });
+
+            if (!allValid) {
+                alert('Пожалуйста, заполните все обязательные поля (отмечены *)');
+                return;
+            }
+
+            // Показываем анимацию загрузки
+            const submitBtn = this.querySelector('button[type="submit"]');
+            const originalText = submitBtn.textContent;
+            submitBtn.textContent = 'Отправка...';
+            submitBtn.disabled = true;
+
+            // Собираем данные формы
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData);
+
+            // Отправляем данные в Google Forms через iframe (как в регистрации)
+            submitToGoogleForms(data)
+                .then(() => {
+                    // Показываем сообщение об успехе
+                    document.getElementById('success-message').style.display = 'block';
+                    document.getElementById('conference-feedback-form').style.display = 'none';
+                })
+                .catch((error) => {
+                    console.error('Ошибка отправки:', error);
+                    alert('Произошла ошибка при отправке. Пожалуйста, попробуйте еще раз.');
+                    submitBtn.textContent = originalText;
+                    submitBtn.disabled = false;
+                });
+        });
+
+        function submitToGoogleForms(data) {
+            return new Promise((resolve, reject) => {
+                console.log('📤 Начало отправки отзыва...');
+                
+                const iframe = document.createElement('iframe');
+                iframe.name = 'google-form-feedback-' + Date.now();
+                iframe.style.display = 'none';
+                document.body.appendChild(iframe);
+                
+                const tempForm = document.createElement('form');
+                tempForm.action = 'https://docs.google.com/forms/u/0/d/e/1FAIpQLSdPfYv6OYfr3FwPhMc7tDGlrWaI2-5h18d2U-wvfKv7xkpimg/formResponse';
+                tempForm.method = 'POST';
+                tempForm.target = iframe.name;
+                tempForm.style.display = 'none';
+                tempForm.acceptCharset = 'UTF-8';
+                
+                // 🔥 МАППИНГ ПОЛЕЙ - замени на свои entry IDs из Google Forms
+                const fieldMapping = {
+                    'conference_rating': 'entry.366840391',
+                    'recommendation': 'entry.1378767434',
+                    'liked_most': 'entry.27075933',
+                    'improvements': 'entry.1809066757',
+                    'talks_rating': 'entry.256338816',
+                    'memorable_talk': 'entry.224769568',
+                    'least_useful': 'entry.1056338071',
+                    'expectations': 'entry.1741999085',
+                    'organization_rating': 'entry.720212809',
+                    'registration': 'entry.1096344390',
+                    'organization_comments': 'entry.81766776',
+                    'future_topics': 'entry.836816812',
+                    'presentations': 'entry.2126581959',
+                    'general_comments': 'entry.981084731'
+                };
+
+                console.log('📋 Отправляемые данные:', data);
+
+                // Добавляем поля в форму
+                Object.keys(data).forEach(key => {
+                    if (fieldMapping[key]) {
+                        const input = document.createElement('input');
+                        input.type = 'hidden';
+                        input.name = fieldMapping[key];
+                        input.value = data[key] || '';
+                        tempForm.appendChild(input);
+                        console.log(`✅ Добавлено поле: ${fieldMapping[key]} = ${data[key]}`);
+                    }
+                });
+
+                // Добавляем технические поля Google Forms
+                const technicalFields = [
+                    { name: 'fvv', value: '1' },
+                    { name: 'draftResponse', value: '[null,null,"116253351361056603"]' },
+                    { name: 'pageHistory', value: '0' },
+                    { name: 'fbzx', value: '116253351361056603' }
+                ];
+
+                technicalFields.forEach(field => {
+                    const input = document.createElement('input');
+                    input.type = 'hidden';
+                    input.name = field.name;
+                    input.value = field.value;
+                    tempForm.appendChild(input);
+                });
+
+                document.body.appendChild(tempForm);
+                
+                // Обработчики для отслеживания статуса отправки
+                iframe.onload = function() {
+                    console.log('✅ IFrame загружен - форма отправлена');
+                    setTimeout(() => {
+                        cleanup();
+                        resolve(true);
+                    }, 1000);
+                };
+
+                iframe.onerror = function() {
+                    console.error('❌ Ошибка загрузки IFrame');
+                    cleanup();
+                    reject(new Error('Ошибка отправки формы'));
+                };
+
+                function cleanup() {
+                    if (tempForm.parentNode) {
+                        document.body.removeChild(tempForm);
+                    }
+                    if (iframe.parentNode) {
+                        document.body.removeChild(iframe);
+                    }
+                }
+
+                console.log('🔄 Отправка формы отзыва...');
+                try {
+                    tempForm.submit();
+                    // Резервный таймаут на случай если onload не сработает
+                    setTimeout(() => {
+                        cleanup();
+                        resolve(true);
+                    }, 5000);
+                } catch (error) {
+                    console.error('❌ Ошибка при submit:', error);
+                    cleanup();
+                    reject(error);
+                }
+            });
+        }
+
+        function resetForm() {
+            document.getElementById('success-message').style.display = 'none';
+            document.getElementById('conference-feedback-form').style.display = 'block';
+            document.getElementById('conference-feedback-form').reset();
+            
+            const submitBtn = document.querySelector('button[type="submit"]');
+            submitBtn.textContent = 'Отправить отзыв';
+            submitBtn.disabled = false;
+        }
+
+        // Уведомления как в регистрационной форме
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.className = `notification notification-${type}`;
+            notification.innerHTML = `
+                <div class="notification-content">
+                    <span class="notification-message">${message}</span>
+                    <button class="notification-close" aria-label="Закрыть уведомление">×</button>
+                </div>
+            `;
+            
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: ${type === 'success' ? '#2e7d32' : type === 'error' ? '#c62828' : '#0d47a1'};
+                color: white;
+                padding: 1rem 1.5rem;
+                border-radius: 8px;
+                box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+                z-index: 10001;
+                animation: slideInRight 0.3s ease;
+                max-width: 400px;
+                min-width: 300px;
+            `;
+            
+            document.body.appendChild(notification);
+            
+            const closeBtn = notification.querySelector('.notification-close');
+            closeBtn.addEventListener('click', () => {
+                notification.style.animation = 'slideOutRight 0.3s ease';
+                setTimeout(() => {
+                    if (notification.parentNode) {
+                        notification.parentNode.removeChild(notification);
+                    }
+                }, 300);
+            });
+            
+            setTimeout(() => {
+                notification.style.animation = 'slideOutRight 0.3s ease';
+                setTimeout(() => {
+                    if (notification.parentNode) {
+                        notification.parentNode.removeChild(notification);
+                    }
+                }, 300);
+            }, 5000);
+        }
+    </script>
+</body>
+</html>
