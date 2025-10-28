@@ -6,8 +6,8 @@ const CONFIG = {
         name: 'БЦ "Новатор"'
     },
     event: {
-        title: 'LAB Evolution 2025',
-        description: 'Конференция "Современная лабораторная служба: от анализа к качеству"',
+        title: 'Форум лабораторных инноваций',
+        description: 'Лабораторная служба будущего: практика и перспективы',
         date: '2025-11-21',
         time: '11:00',
         duration: 7
@@ -16,43 +16,110 @@ const CONFIG = {
 
 const speakers = [
     {
-        name: "Фаниль Самуилович Билалов",
-        role: "Эксперт по лабораторной онкодиагностике",
-        topic: "Современные подходы в лабораторной онкодиагностике",
-        photo: "🧑‍⚕️"
+        id: 1,
+        name: "Вербенкин Александр Валерьевич",
+        role: "Главный врач клиники Вербенкина, врач-эндокринолог",
+        photo: "images/speakers/verbenkin.jpg",
+        topic: "Анализы под вопросом: кто отвечает за неверный результат?",
+        bio: "Главный врач клиники Вербенкина, врач-эндокринолог",
+        details: [
+            "Главный врач клиники Вербенкина",
+            "Врач-эндокринолог"
+        ]
     },
     {
-        name: "Гульнара Витальевна Лешкина",
-        role: "Специалист по цитологической диагностике",
-        topic: "Цитология в современной лабораторной диагностике",
-        photo: "👩‍⚕️"
+        id: 2,
+        name: "Жилина Светлана Владимировна",
+        role: "Специалист по микробиологической диагностике",
+        photo: "images/speakers/zhilina.jpg",
+        topic: "Синтез классики и новых технологий в комплексной микробиологической диагностике гастроэнтеритов. Возможности микробиологических лабораторий",
+        bio: "Специалист по микробиологической диагностике",
+        details: []
     },
     {
-        name: "Мария Георгиевна Ламбакахар",
-        role: "РМАНПО, эксперт по кадровому развитию",
-        topic: "Развитие кадрового потенциала лабораторной службы",
-        photo: "👩‍🏫"
+        id: 3,
+        name: "Лешкина Гульнара Витальевна",
+        role: "Врач-цитолог КДЛ ФБУН ЦНИИ эпидемиологии Роспотребнадзора",
+        photo: "images/speakers/leshkina.jpg",
+        topic: "Возможности цитологического исследования в современной лабораторной диагностике: практика, качество, обучение + Мастер-класс",
+        bio: "Врач-цитолог КДЛ ФБУН ЦНИИ эпидемиологии Роспотребнадзора",
+        details: [
+            "Врач-цитолог КДЛ ФБУН ЦНИИ эпидемиологии Роспотребнадзора",
+            "Мастер-класс по цитологическим исследованиям"
+        ]
     },
     {
-        name: "Любовь Ивановна Станкевич",
-        role: "LabQuest, управление лабораторной сетью",
-        topic: "Стандартизация и цифровизация лабораторных процессов",
-        photo: "👨‍💼"
+        id: 4,
+        name: "Денисов Дмитрий Геннадьевич",
+        role: "Медицинский директор Лабораторной службы «Хеликс»",
+        photo: "images/speakers/denisov.jpg",
+        topic: "Персональный медицинский ИИ-навигатор: как современные сервисы лаборатории помогают заботиться о здоровье",
+        bio: "Медицинский директор Лабораторной службы «Хеликс»",
+        details: [
+            "Медицинский директор Лабораторной службы «Хеликс»"
+        ]
     },
     {
-        name: "Представители Hadassah",
-        role: "Клиника Hadassah, международные стандарты",
-        topic: "JCI, ISO и пациент-ориентированный подход",
-        photo: "🏥"
+        id: 5,
+        name: "Станкевич Любовь Ивановна",
+        role: "Кандидат медицинских наук, Директор по лабораторной медицине и производству ЛабКвест",
+        photo: "images/speakers/stankevich.jpg",
+        topic: "Практические аспекты скрининга рака шейки матки: нюансы рекомендаций и новые тренды",
+        bio: "Кандидат медицинских наук, Директор по лабораторной медицине и производству ЛабКвест",
+        details: [
+            "Кандидат медицинских наук",
+            "Директор по лабораторной медицине и производству ЛабКвест",
+            "Доцент кафедры клинической лабораторной диагностики",
+            "Вице-президент Российской ассоциации медицинской лабораторной диагностики (РАМЛД)",
+            "Дополнительный доклад: Повреждения печени: лабораторные решения при поддержке искусственного интеллекта"
+        ]
     },
     {
-        name: "Главные внештатные специалисты",
-        role: "По ВИЧ и дерматовенерологии",
-        topic: "Маршрутизация пациентов с ВИЧ и сифилисом",
-        photo: "👨‍🔬"
+        id: 6,
+        name: "Карасев Александр Владимирович",
+        role: "Врач-педиатр, специалист клинической лабораторной диагностики, Медицинский директор Большая тройка-Медицина",
+        photo: "images/speakers/karasev.jpg",
+        topic: "ИИ и результаты лабораторных исследований - внимание на ошибки",
+        bio: "Врач-педиатр, специалист клинической лабораторной диагностики, Медицинский директор Большая тройка-Медицина",
+        details: [
+            "Врач-педиатр",
+            "Специалист клинической лабораторной диагностики",
+            "Медицинский директор Большая тройка-Медицина",
+            "Член Федерации Лабораторной Медицины",
+            "Член European Society Human Genetics"
+        ]
+    },
+    {
+        id: 7,
+        name: "Владимир",
+        role: "Представитель компании Вектор Бест",
+        photo: "images/speakers/vladimir.jpg",
+        topic: "Технологические решения для лабораторной диагностики от ведущего российского производителя",
+        bio: "Представитель компании Вектор Бест",
+        details: [
+            "Представитель компании Вектор Бест",
+            "Дополнительный доклад: Технологические решения в области ПЦР-диагностики для централизованных лабораторий"
+        ]
+    },
+    {
+        id: 8,
+        name: "Буллих Артем Владимирович",
+        role: "Представитель ПАО",
+        photo: "images/speakers/bullikh.jpg",
+        topic: "Тема выступления уточняется",
+        bio: "Представитель ПАО",
+        details: []
+    },
+    {
+        id: 9,
+        name: "Владислав",
+        role: "Эксперт по лабораторной диагностике",
+        photo: "images/speakers/vladislav.jpg",
+        topic: "Операционная эффективность лабораторных исследований в условиях централизованной лаборатории",
+        bio: "Эксперт по лабораторной диагностике",
+        details: []
     }
 ];
-
 let currentPhotoSlide = 0;
 let currentSpeakerSlide = 0;
 let photoAutoSlideInterval;
@@ -62,7 +129,7 @@ let yandexMap = null;
 // ==================== ИНИЦИАЛИЗАЦИЯ ====================
 
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('🚀 Инициализация LAB Evolution 2025');
+    console.log('🚀 Инициализация Форума лабораторных инноваций');
     
     const isAboutPage = document.body.classList.contains('about-page');
     const isRegistrationPage = document.body.classList.contains('registration-page');
@@ -71,7 +138,6 @@ document.addEventListener('DOMContentLoaded', function() {
     initSmoothScroll();
     initBackToTop();
     
-    // 🔥 ДОБАВИЛ ЭТУ СТРОКУ - проверяем дату и включаем отзывы если нужно
     initFeedbackSystem();
     
     if (isAboutPage) {
@@ -92,98 +158,268 @@ document.addEventListener('DOMContentLoaded', function() {
     addCustomStyles();
 });
 
-// ==================== СИСТЕМА ОТЗЫВОВ ====================
-
-function initFeedbackSystem() {
-    // Проверяем дату - отзывы только после 21 ноября 2025
-    const conferenceDate = new Date('2025-11-21');
-    const currentDate = new Date();
-    
-    if (currentDate < conferenceDate) {
-        console.log('📅 Конференция еще не прошла - отзывы отключены');
-        // Скрываем кнопку отзыва
-        const floatingBtn = document.querySelector('.floating-feedback-btn');
-        if (floatingBtn) {
-            floatingBtn.style.display = 'none';
-        }
+function initSpeakersCarousel() {
+    const speakersSection = document.getElementById('speakers');
+    if (!speakersSection) {
+        console.log('❌ Не найдена секция спикеров');
         return;
     }
     
-    console.log('💬 Система отзывов активирована');
-    initFeedbackPopup();
+    console.log('🎯 Инициализация карусели спикеров...');
+    
+    // Создаем структуру карусели
+    const carouselHTML = `
+        <div class="carousel-wrapper">
+            <button class="carousel-btn carousel-btn-prev" aria-label="Предыдущий спикер">‹</button>
+            <div class="carousel-track" id="carouselTrack">
+                <!-- Слайды будут добавлены через JavaScript -->
+            </div>
+            <button class="carousel-btn carousel-btn-next" aria-label="Следующий спикер">›</button>
+        </div>
+        <div class="carousel-dots" id="carouselDots">
+            <!-- Точки навигации будут добавлены через JavaScript -->
+        </div>
+    `;
+    
+    speakersSection.querySelector('.container').insertAdjacentHTML('beforeend', carouselHTML);
+    
+    const carouselTrack = document.getElementById('carouselTrack');
+    const carouselDots = document.getElementById('carouselDots');
+    
+    // Создаем слайды
+    speakers.forEach((speaker, index) => {
+        const slide = document.createElement('div');
+        slide.className = `speaker-slide`; // Убираем active класс здесь
+        slide.setAttribute('data-speaker-id', speaker.id);
+        slide.setAttribute('tabindex', '0');
+        slide.setAttribute('role', 'button');
+        slide.setAttribute('aria-label', `Подробнее о спикере ${speaker.name}`);
+        
+        slide.innerHTML = `
+            <div class="speaker-photo" style="background-image: url('${speaker.photo}')"></div>
+            <h3 class="speaker-name">${speaker.name}</h3>
+            <div class="speaker-role">${speaker.role}</div>
+            <div class="speaker-more">Нажмите для подробностей</div>
+        `;
+        
+        slide.addEventListener('click', () => openSpeakerModal(speaker));
+        slide.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                openSpeakerModal(speaker);
+            }
+        });
+        
+        carouselTrack.appendChild(slide);
+        
+        // Создаем точки навигации
+        const dot = document.createElement('button');
+        dot.className = `carousel-dot`; // Убираем active класс здесь
+        dot.setAttribute('aria-label', `Перейти к слайду ${index + 1}`);
+        dot.addEventListener('click', () => goToSpeakerSlide(index));
+        carouselDots.appendChild(dot);
+    });
+    
+    // Устанавливаем начальный слайд как центральный
+    currentSpeakerSlide = Math.floor(speakers.length / 2);
+    
+    // Добавляем обработчики событий
+    const prevBtn = document.querySelector('.carousel-btn-prev');
+    const nextBtn = document.querySelector('.carousel-btn-next');
+    
+    prevBtn.addEventListener('click', () => moveSpeakerSlide(-1));
+    nextBtn.addEventListener('click', () => moveSpeakerSlide(1));
+    
+    // Инициализируем модальное окно
+    initSpeakerModal();
+    
+    // Обновляем карусель и запускаем автопрокрутку
+    updateSpeakerCarousel();
+    startSpeakerAutoSlide();
+    
+    console.log('✅ Карусель спикеров создана, начинаем с центрального слайда:', currentSpeakerSlide);
 }
 
-function initFeedbackPopup() {
-    const popup = document.getElementById('feedbackPopup');
-    const closeBtn = document.getElementById('popupClose');
-    const laterBtn = document.getElementById('popupLater');
+function moveSpeakerSlide(direction) {
+    const slides = document.querySelectorAll('.speaker-slide');
+    if (slides.length === 0) return;
     
-    if (!popup || !closeBtn) return;
+    currentSpeakerSlide = (currentSpeakerSlide + direction + slides.length) % slides.length;
+    updateSpeakerCarousel();
+    resetSpeakerAutoSlide();
+}
+
+function goToSpeakerSlide(index) {
+    const slides = document.querySelectorAll('.speaker-slide');
+    if (index >= 0 && index < slides.length) {
+        currentSpeakerSlide = index;
+        updateSpeakerCarousel();
+        resetSpeakerAutoSlide();
+    }
+}
+
+function updateSpeakerCarousel() {
+    const carouselTrack = document.getElementById('carouselTrack');
+    const slides = document.querySelectorAll('.speaker-slide');
+    const dots = document.querySelectorAll('.carousel-dot');
     
-    let popupShown = false;
-
-    // 🔥 ПРОВЕРЯЕМ ПРОШЛО ЛИ УЖЕ 1 ЧАС
-    const lastShownTime = sessionStorage.getItem('feedbackPopupLastShown');
-    if (lastShownTime) {
-        const timePassed = Date.now() - parseInt(lastShownTime);
-        const oneHour = 60 * 60 * 1000; // 1 час в миллисекундах
-        if (timePassed < oneHour) {
-            return; // Еще не прошло 1 час - не показываем
-        }
-    }
-
-    function showPopup() {
-        if (!popupShown) {
-            popup.classList.add('active');
-            popupShown = true;
-            // 🔥 СОХРАНЯЕМ ВРЕМЯ КОГДА ПОКАЗАЛИ
-            sessionStorage.setItem('feedbackPopupLastShown', Date.now().toString());
-        }
-    }
-
-    function closePopup() {
-        popup.classList.remove('active');
-    }
-
-    // 🔥 ФУНКЦИЯ ДЛЯ "НАПОМНИТЬ ПОЗЖЕ"
-    function remindLater() {
-        closePopup();
-        // 🔥 УСТАНАВЛИВАЕМ ТАЙМЕР НА 1 ЧАС
-        setTimeout(() => {
-            // Через час сбрасываем время показа
-            sessionStorage.removeItem('feedbackPopupLastShown');
-        }, 60 * 60 * 1000); // 1 час
-    }
-
-    // Показ через 10 секунд
-    setTimeout(showPopup, 10000);
-
-    // Exit-intent
-    document.addEventListener('mouseout', (e) => {
-        if (e.clientY < 50 && !popupShown) {
-            showPopup();
-        }
+    if (!carouselTrack || slides.length === 0) return;
+    
+    // Рассчитываем смещение для центрирования активного слайда
+    const slideWidth = slides[0].offsetWidth + 24; // + gap
+    const containerWidth = carouselTrack.parentElement.offsetWidth;
+    const offset = (containerWidth / 2) - (slideWidth / 2) - (currentSpeakerSlide * slideWidth);
+    
+    carouselTrack.style.transform = `translateX(${offset}px)`;
+    
+    // Обновляем активные классы
+    slides.forEach((slide, index) => {
+        slide.classList.toggle('active', index === currentSpeakerSlide);
     });
-
-    // Обработчики кнопок
-    closeBtn.addEventListener('click', closePopup);
-    if (laterBtn) {
-        laterBtn.addEventListener('click', remindLater); // 🔥 ИСПОЛЬЗУЕМ НОВУЮ ФУНКЦИЮ
-    }
-
-    // Закрытие по клику на оверлей
-    popup.addEventListener('click', (e) => {
-        if (e.target === popup) {
-            closePopup();
-        }
+    
+    dots.forEach((dot, index) => {
+        dot.classList.toggle('active', index === currentSpeakerSlide);
     });
+}
 
+function startSpeakerAutoSlide() {
+    speakerAutoSlideInterval = setInterval(() => {
+        moveSpeakerSlide(1);
+    }, 5000);
+}
+
+function stopSpeakerAutoSlide() {
+    if (speakerAutoSlideInterval) {
+        clearInterval(speakerAutoSlideInterval);
+    }
+}
+
+function resetSpeakerAutoSlide() {
+    stopSpeakerAutoSlide();
+    startSpeakerAutoSlide();
+}
+
+function initSpeakerModal() {
+    // Создаем модальное окно если его нет
+    if (!document.getElementById('speakerModal')) {
+        const modalHTML = `
+            <div id="speakerModal" class="speaker-modal">
+                <div class="modal-overlay"></div>
+                <div class="modal-content">
+                    <button class="modal-close" id="modalClose" aria-label="Закрыть окно">×</button>
+                    <div class="modal-body" id="modalBody">
+                        <!-- Контент будет заполнен динамически -->
+                    </div>
+                </div>
+            </div>
+        `;
+        document.body.insertAdjacentHTML('beforeend', modalHTML);
+    }
+    
+    const modal = document.getElementById('speakerModal');
+    const closeBtn = document.getElementById('modalClose');
+    const overlay = modal.querySelector('.modal-overlay');
+    
+    // Обработчики закрытия
+    closeBtn.addEventListener('click', closeSpeakerModal);
+    overlay.addEventListener('click', closeSpeakerModal);
+    
     // Закрытие по Escape
     document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && popup.classList.contains('active')) {
-            closePopup();
+        if (e.key === 'Escape' && modal.classList.contains('active')) {
+            closeSpeakerModal();
         }
     });
+    
+    // Предотвращаем закрытие при клике на контент
+    modal.querySelector('.modal-content').addEventListener('click', (e) => {
+        e.stopPropagation();
+    });
+}
+
+function openSpeakerModal(speaker) {
+    const modal = document.getElementById('speakerModal');
+    const modalBody = document.getElementById('modalBody');
+    
+    if (!modal || !modalBody) return;
+    
+    // Создаем HTML для модального окна
+    let modalHTML = `
+        <div class="modal-speaker-header">
+            <div class="modal-speaker-photo" style="background-image: url('${speaker.photo}')"></div>
+            <h2 class="modal-speaker-name">${speaker.name}</h2>
+            <div class="modal-speaker-role">${speaker.role}</div>
+        </div>
+    `;
+    
+    // Основной доклад
+    modalHTML += `
+        <div class="modal-speaker-topic">
+            <div class="modal-topic-title">Тема выступления:</div>
+            <div class="modal-topic-text">${speaker.topic}</div>
+    `;
+    
+    // Второй доклад если есть
+    const secondSpeech = speaker.details.find(detail => detail.includes('Дополнительный доклад:'));
+    if (secondSpeech) {
+        modalHTML += `
+            <div class="modal-topic-desc" style="margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(0, 229, 255, 0.2);">
+                <div class="modal-topic-title" style="font-size: 1rem;">Вторая тема выступления:</div>
+                <div class="modal-topic-text">${secondSpeech.replace('Дополнительный доклад: ', '')}</div>
+            </div>
+        `;
+    }
+    
+    modalHTML += `</div>`;
+    
+    // Добавляем биографию
+    modalHTML += `
+        <div class="modal-speaker-bio">
+            <div class="modal-bio-title">Биография:</div>
+            <div class="modal-bio-text">${speaker.bio}</div>
+        </div>
+    `;
+    
+    // Добавляем детали (убираем второй доклад из списка)
+    if (speaker.details && speaker.details.length > 0) {
+        const filteredDetails = speaker.details.filter(detail => !detail.includes('Дополнительный доклад:'));
+        
+        if (filteredDetails.length > 0) {
+            modalHTML += `
+                <div class="modal-speaker-details">
+                    <div class="modal-details-title">Ключевые направления и достижения:</div>
+                    <ul class="modal-details-list">
+                        ${filteredDetails.map(detail => `<li class="modal-details-item">${detail}</li>`).join('')}
+                    </ul>
+                </div>
+            `;
+        }
+    }
+    
+    modalBody.innerHTML = modalHTML;
+    
+    // Показываем модальное окно
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+    
+    // Фокусируемся на кнопке закрытия для доступности
+    setTimeout(() => {
+        document.getElementById('modalClose').focus();
+    }, 100);
+}
+
+function closeSpeakerModal() {
+    const modal = document.getElementById('speakerModal');
+    if (!modal) return;
+    
+    modal.classList.remove('active');
+    document.body.style.overflow = '';
+    
+    // Возвращаем фокус на активный слайд
+    const activeSlide = document.querySelector('.speaker-slide.active');
+    if (activeSlide) {
+        activeSlide.focus();
+    }
 }
 
 // ==================== ОСНОВНЫЕ ФУНКЦИИ ====================
@@ -250,196 +486,7 @@ function initBackToTop() {
     });
 }
 
-// ==================== КАРТОЧКИ СПЕЦИАЛИСТОВ ====================
-
-function initSpecialistsCards() {
-    const cards = document.querySelectorAll('.specialist-card');
-    const grid = document.querySelector('.specialists-grid');
-    
-    if (!grid || cards.length === 0) return;
-    
-    console.log('🎯 Инициализация карточек специалистов...');
-    
-    const isMobile = window.innerWidth <= 768;
-    
-    cards.forEach((card, index) => {
-        card.style.setProperty('--shift-direction', index % 2 === 0 ? '1' : '-1');
-        card.setAttribute('tabindex', '0');
-        card.setAttribute('role', 'button');
-        card.setAttribute('aria-expanded', 'false');
-        
-        if (!isMobile) {
-            card.addEventListener('mouseenter', handleCardHover);
-            card.addEventListener('mouseleave', handleCardLeave);
-        }
-        
-        card.addEventListener('click', handleCardClick);
-        card.addEventListener('keydown', handleCardKeydown);
-        card.style.animationDelay = `${0.1 + index * 0.1}s`;
-    });
-    
-    document.addEventListener('click', handleOutsideClick);
-    document.addEventListener('keydown', handleEscapeKey);
-}
-
-function handleCardHover(e) {
-    const card = e.currentTarget;
-    const allCards = document.querySelectorAll('.specialist-card');
-    
-    allCards.forEach(c => c.classList.remove('card-active'));
-    card.classList.add('card-hover');
-    
-    allCards.forEach(otherCard => {
-        if (otherCard !== card) {
-            const rect = otherCard.getBoundingClientRect();
-            const cardRect = card.getBoundingClientRect();
-            const direction = rect.left < cardRect.left ? -1 : 1;
-            otherCard.style.setProperty('--neighbor-shift', direction);
-        }
-    });
-}
-
-function handleCardLeave(e) {
-    const card = e.currentTarget;
-    setTimeout(() => {
-        if (!card.matches(':hover')) {
-            card.classList.remove('card-hover');
-        }
-    }, 100);
-}
-
-function handleCardClick(e) {
-    e.stopPropagation();
-    const card = e.currentTarget;
-    const allCards = document.querySelectorAll('.specialist-card');
-    const wasActive = card.classList.contains('card-active');
-    
-    allCards.forEach(c => {
-        c.classList.remove('card-active', 'card-hover');
-        c.setAttribute('aria-expanded', 'false');
-    });
-    
-    if (!wasActive) {
-        card.classList.add('card-active');
-        card.setAttribute('aria-expanded', 'true');
-        
-        allCards.forEach(otherCard => {
-            if (otherCard !== card) {
-                const rect = otherCard.getBoundingClientRect();
-                const cardRect = card.getBoundingClientRect();
-                const direction = rect.left < cardRect.left ? -1 : 1;
-                otherCard.style.setProperty('--neighbor-shift', direction);
-            }
-        });
-        
-        if (window.innerWidth <= 768) {
-            setTimeout(() => {
-                card.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'center',
-                    inline: 'nearest'
-                });
-            }, 300);
-        }
-    }
-}
-
-function handleCardKeydown(e) {
-    if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        e.currentTarget.click();
-    }
-}
-
-function handleOutsideClick(e) {
-    if (!e.target.closest('.specialist-card')) {
-        const allCards = document.querySelectorAll('.specialist-card');
-        allCards.forEach(card => {
-            card.classList.remove('card-active', 'card-hover');
-            card.setAttribute('aria-expanded', 'false');
-        });
-    }
-}
-
-function handleEscapeKey(e) {
-    if (e.key === 'Escape') {
-        const allCards = document.querySelectorAll('.specialist-card');
-        allCards.forEach(card => {
-            card.classList.remove('card-active', 'card-hover');
-            card.setAttribute('aria-expanded', 'false');
-        });
-    }
-}
-
-function initResponsiveContacts() {
-    const contactLinks = document.querySelectorAll('.contact-link');
-    
-    contactLinks.forEach(link => {
-        link.addEventListener('mouseenter', function() {
-            this.style.transform = 'translateY(-2px) scale(1.02)';
-        });
-        
-        link.addEventListener('mouseleave', function() {
-            this.style.transform = 'translateY(0) scale(1)';
-        });
-        
-        link.addEventListener('focus', function() {
-            this.style.outline = '2px solid var(--accent-primary)';
-            this.style.outlineOffset = '2px';
-        });
-        
-        link.addEventListener('blur', function() {
-            this.style.outline = 'none';
-        });
-    });
-}
-
-// ==================== СТРАНИЦА "О НАС" ====================
-
-function initAboutPageAnimations() {
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.style.opacity = '1';
-                entry.target.style.transform = 'translateY(0)';
-            }
-        });
-    }, {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
-    });
-
-    const animatedElements = document.querySelectorAll(
-        '.specialist-card, .department-card, .value-card'
-    );
-    
-    animatedElements.forEach(el => {
-        el.style.opacity = '0';
-        el.style.transform = 'translateY(30px)';
-        el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-        observer.observe(el);
-    });
-    
-    initSpecialistsCards();
-    initResponsiveContacts();
-}
-
-function initAboutPageContacts() {
-    const contactsButton = document.querySelector('.contacts-button');
-    if (contactsButton) {
-        contactsButton.addEventListener('click', function(e) {
-            e.preventDefault();
-            const specialistsSection = document.querySelector('.specialists-section');
-            if (specialistsSection) {
-                const headerHeight = document.querySelector('.photo-header')?.offsetHeight || 80;
-                const targetPosition = specialistsSection.offsetTop - headerHeight - 20;
-                window.scrollTo({ top: targetPosition, behavior: 'smooth' });
-            }
-        });
-    }
-}
-
-// ==================== ОСТАЛЬНЫЕ ФУНКЦИИ ====================
+// ==================== СЛАЙДЕР ФОТО ====================
 
 function initPhotoSlider() {
     const photoSlider = document.getElementById('photoSlider');
@@ -456,7 +503,7 @@ function initPhotoSlider() {
         const slideElement = document.createElement('div');
         slideElement.className = `photo-slide ${index === 0 ? 'active' : ''}`;
         slideElement.innerHTML = `
-            <img src="${photoPath}" alt="Фото с конференции LAB Evolution ${index + 1}"
+            <img src="${photoPath}" alt="Фото с конференции ${index + 1}"
                  style="width: 100%; height: 100%; object-fit: cover;"
                  onerror="this.style.display='none';">
         `;
@@ -513,68 +560,7 @@ function resetPhotoAutoSlide() {
     startPhotoAutoSlide();
 }
 
-function initSpeakersCarousel() {
-    const carouselTrack = document.getElementById('carouselTrack');
-    const carouselDots = document.getElementById('carouselDots');
-    if (!carouselTrack || !carouselDots) return;
-    
-    speakers.forEach((speaker, index) => {
-        const slide = document.createElement('div');
-        slide.className = 'speaker-slide';
-        slide.innerHTML = `
-            <div class="speaker-photo">${speaker.photo}</div>
-            <div class="speaker-name">${speaker.name}</div>
-            <div class="speaker-role">${speaker.role}</div>
-            <div class="speaker-topic">${speaker.topic}</div>
-        `;
-        carouselTrack.appendChild(slide);
-        
-        const dot = document.createElement('button');
-        dot.className = `carousel-dot ${index === 0 ? 'active' : ''}`;
-        dot.addEventListener('click', () => goToSpeakerSlide(index));
-        carouselDots.appendChild(dot);
-    });
-    
-    const prevBtn = document.querySelector('.carousel-btn-prev');
-    const nextBtn = document.querySelector('.carousel-btn-next');
-    if (prevBtn) prevBtn.addEventListener('click', () => moveSpeakerSlide(-1));
-    if (nextBtn) nextBtn.addEventListener('click', () => moveSpeakerSlide(1));
-    
-    updateSpeakerCarousel();
-    startSpeakerAutoSlide();
-}
-
-function moveSpeakerSlide(direction) {
-    currentSpeakerSlide = (currentSpeakerSlide + direction + speakers.length) % speakers.length;
-    updateSpeakerCarousel();
-    resetSpeakerAutoSlide();
-}
-
-function goToSpeakerSlide(index) {
-    currentSpeakerSlide = index;
-    updateSpeakerCarousel();
-    resetSpeakerAutoSlide();
-}
-
-function updateSpeakerCarousel() {
-    const carouselTrack = document.getElementById('carouselTrack');
-    const dots = document.querySelectorAll('.carousel-dot');
-    if (carouselTrack) carouselTrack.style.transform = `translateX(-${currentSpeakerSlide * 320}px)`;
-    dots.forEach((dot, index) => dot.classList.toggle('active', index === currentSpeakerSlide));
-}
-
-function startSpeakerAutoSlide() {
-    speakerAutoSlideInterval = setInterval(() => moveSpeakerSlide(1), 4000);
-}
-
-function stopSpeakerAutoSlide() {
-    if (speakerAutoSlideInterval) clearInterval(speakerAutoSlideInterval);
-}
-
-function resetSpeakerAutoSlide() {
-    stopSpeakerAutoSlide();
-    startSpeakerAutoSlide();
-}
+// ==================== КАРТЫ И НАВИГАЦИЯ ====================
 
 function initMapFunctions() {
     const navBtn = document.getElementById('openNavigationMap');
@@ -605,7 +591,7 @@ function initYandexMap() {
                     <div class="map-balloon">
                         <h3>${CONFIG.location.name}</h3>
                         <p>${CONFIG.location.address}</p>
-                        <p><strong>LAB Evolution 2025</strong></p>
+                        <p><strong>Форум лабораторных инноваций</strong></p>
                         <p>21 ноября, 11:00</p>
                     </div>
                 `
@@ -652,16 +638,16 @@ function addToCalendar() {
 
         const icsContent = `BEGIN:VCALENDAR
 VERSION:2.0
-PRODID:-//LAB Evolution//Conference 2025//RU
+PRODID:-//Форум лабораторных инноваций//Conference 2025//RU
 BEGIN:VEVENT
-UID:${Date.now()}@labevolution2025.ru
+UID:${Date.now()}@labforum2025.ru
 DTSTAMP:${formatDate(new Date())}
 DTSTART:${formatDate(startDate)}
 DTEND:${formatDate(endDate)}
 SUMMARY:${CONFIG.event.title}
 DESCRIPTION:${CONFIG.event.description}\\\\n\\\\n📅 Дата: 21 ноября 2025 г.\\\\n⏰ Время: 11:00\\\\n📍 Место: ${CONFIG.location.address}
 LOCATION:${CONFIG.location.address}
-ORGANIZER;CN="LAB Evolution":mailto:info@labevolution.ru
+ORGANIZER;CN="Форум лабораторных инноваций":mailto:info@rclsmo.ru
 STATUS:CONFIRMED
 END:VEVENT
 END:VCALENDAR`;
@@ -670,7 +656,7 @@ END:VCALENDAR`;
         const url = window.URL.createObjectURL(blob);
         const link = document.createElement('a');
         link.href = url;
-        link.download = 'LAB_Evolution_2025.ics';
+        link.download = 'Форум_лабораторных_инноваций_2025.ics';
         link.style.display = 'none';
         document.body.appendChild(link);
         link.click();
@@ -687,6 +673,8 @@ function openNavigation() {
     const url = `https://yandex.ru/maps/?pt=${CONFIG.location.coordinates[1]},${CONFIG.location.coordinates[0]}&z=17&l=map`;
     window.open(url, '_blank');
 }
+
+// ==================== АНИМАЦИИ И УТИЛИТЫ ====================
 
 function initScrollAnimations() {
     const observer = new IntersectionObserver((entries) => {
@@ -824,80 +812,88 @@ function addCustomStyles() {
     document.head.appendChild(styles);
 }
 
-function initCustomSelects() {
-    const customSelects = document.querySelectorAll('.custom-select');
-    customSelects.forEach(select => {
-        const selected = select.querySelector('.select-selected');
-        const items = select.querySelector('.select-items');
-        const hiddenInput = select.querySelector('input[type="hidden"]');
-        const options = items.querySelectorAll('div');
-        
-        selected.addEventListener('click', function(e) {
-            e.stopPropagation();
-            document.querySelectorAll('.select-items.active').forEach(other => other.classList.remove('active'));
-            document.querySelectorAll('.select-selected.active').forEach(other => other.classList.remove('active'));
-            items.classList.toggle('active');
-            selected.classList.toggle('active');
-        });
-        
-        options.forEach(option => {
-            option.addEventListener('click', function() {
-                const value = this.getAttribute('data-value');
-                const text = this.textContent;
-                selected.querySelector('.select-text').textContent = text;
-                hiddenInput.value = value;
-                options.forEach(opt => opt.classList.remove('selected'));
-                this.classList.add('selected');
-                items.classList.remove('active');
-                selected.classList.remove('active');
-                if (value) hiddenInput.setCustomValidity('');
-            });
-        });
-        
-        document.addEventListener('click', function() {
-            items.classList.remove('active');
-            selected.classList.remove('active');
-        });
-        
-        select.addEventListener('click', function(e) {
-            e.stopPropagation();
-        });
-    });
+// ==================== СИСТЕМА ОТЗЫВОВ ====================
+
+function initFeedbackSystem() {
+    const conferenceDate = new Date('2025-11-21');
+    const currentDate = new Date();
+    
+    if (currentDate < conferenceDate) {
+        console.log('📅 Конференция еще не прошла - отзывы отключены');
+        return;
+    }
+    
+    console.log('💬 Система отзывов активирована');
+    initFeedbackPopup();
 }
 
-function initRegistrationForm() {
-    const form = document.getElementById('registrationForm');
-    if (!form) return;
+function initFeedbackPopup() {
+    const popup = document.getElementById('feedbackPopup');
+    const closeBtn = document.getElementById('popupClose');
+    const laterBtn = document.getElementById('popupLater');
     
-    form.addEventListener('submit', function(e) {
-        e.preventDefault();
-        const requiredFields = form.querySelectorAll('[required]');
-        let isValid = true;
-        
-        requiredFields.forEach(field => {
-            if (!field.value.trim()) {
-                isValid = false;
-                field.style.borderColor = 'var(--error)';
-            } else {
-                field.style.borderColor = '';
-            }
-        });
-        
-        if (isValid) {
-            const successMessage = document.querySelector('.success-message');
-            if (successMessage) {
-                form.style.display = 'none';
-                successMessage.style.display = 'block';
-            }
-            showNotification('✅ Регистрация прошла успешно!', 'success');
-        } else {
-            showNotification('❌ Пожалуйста, заполните все обязательные поля', 'error');
+    if (!popup || !closeBtn) return;
+    
+    let popupShown = false;
+
+    const lastShownTime = sessionStorage.getItem('feedbackPopupLastShown');
+    if (lastShownTime) {
+        const timePassed = Date.now() - parseInt(lastShownTime);
+        const oneHour = 60 * 60 * 1000;
+        if (timePassed < oneHour) {
+            return;
+        }
+    }
+
+    function showPopup() {
+        if (!popupShown) {
+            popup.classList.add('active');
+            popupShown = true;
+            sessionStorage.setItem('feedbackPopupLastShown', Date.now().toString());
+        }
+    }
+
+    function closePopup() {
+        popup.classList.remove('active');
+    }
+
+    function remindLater() {
+        closePopup();
+        setTimeout(() => {
+            sessionStorage.removeItem('feedbackPopupLastShown');
+        }, 60 * 60 * 1000);
+    }
+
+    setTimeout(showPopup, 10000);
+
+    document.addEventListener('mouseout', (e) => {
+        if (e.clientY < 50 && !popupShown) {
+            showPopup();
+        }
+    });
+
+    closeBtn.addEventListener('click', closePopup);
+    if (laterBtn) {
+        laterBtn.addEventListener('click', remindLater);
+    }
+
+    popup.addEventListener('click', (e) => {
+        if (e.target === popup) {
+            closePopup();
+        }
+    });
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && popup.classList.contains('active')) {
+            closePopup();
         }
     });
 }
 
+// ==================== ОБРАБОТЧИКИ СОБЫТИЙ ====================
+
 function handleResize() {
-    if (typeof updateSpeakerCarousel === 'function') updateSpeakerCarousel();
+    updateSpeakerCarousel();
 }
 
 function cleanup() {
@@ -910,4 +906,4 @@ window.addEventListener('beforeunload', cleanup);
 window.openNavigation = openNavigation;
 window.addToCalendar = addToCalendar;
 
-console.log('🎉 Все модули LAB Evolution 2025 успешно загружены!');
+console.log('🎉 Все модули Форума лабораторных инноваций успешно загружены!');
