@@ -2,6 +2,9 @@
 .speakers-section {
     background: var(--bg-secondary);
     padding: var(--space-xxl) 0;
+    overflow-x: hidden; /* 🔥 ФИКС: предотвращаем горизонтальный скролл */
+    width: 100%; /* 🔥 ФИКС: ограничиваем ширину */
+    box-sizing: border-box; /* 🔥 ФИКС: учитываем padding в ширине */
 }
 
 /* ===== КОМПАКТНЫЕ КАРТОЧКИ СПИКЕРОВ ===== */
@@ -10,6 +13,9 @@
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: var(--space-md);
     margin-top: var(--space-lg);
+    max-width: 100%; /* 🔥 ФИКС: ограничиваем ширину */
+    overflow: hidden; /* 🔥 ФИКС: скрываем переполнение */
+    box-sizing: border-box; /* 🔥 ФИКС: учитываем padding */
 }
 
 .speaker-card {
@@ -26,6 +32,8 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
+    max-width: 100%; /* 🔥 ФИКС: не даем растягиваться */
+    box-sizing: border-box; /* 🔥 ФИКС: учитываем padding */
 }
 
 .speaker-card:hover {
@@ -99,6 +107,8 @@
     align-items: center;
     justify-content: center;
     padding: var(--space-lg);
+    box-sizing: border-box; /* 🔥 ФИКС: учитываем padding */
+    overflow: hidden; /* 🔥 ФИКС: предотвращаем скролл */
 }
 
 .speaker-modal.active {
@@ -126,6 +136,7 @@
     box-shadow: var(--shadow-2xl);
     border: 1px solid rgba(0, 229, 255, 0.2);
     animation: modalSlideIn 0.3s ease;
+    box-sizing: border-box; /* 🔥 ФИКС: учитываем padding */
 }
 
 @keyframes modalSlideIn {
@@ -166,6 +177,7 @@
 
 .modal-body {
     padding: var(--space-xxl);
+    box-sizing: border-box; /* 🔥 ФИКС: учитываем padding */
 }
 
 /* Контент модального окна */
@@ -224,6 +236,7 @@
     padding: var(--space-lg);
     margin-bottom: var(--space-lg);
     border-left: 4px solid var(--accent-primary);
+    box-sizing: border-box; /* 🔥 ФИКС: учитываем padding */
 }
 
 .modal-topic-title {
@@ -293,14 +306,21 @@
 
 /* Планшеты (768px и меньше) */
 @media (max-width: 768px) {
+    .speakers-section {
+        padding: var(--space-xl) 0;
+    }
+    
     .speakers-grid {
         grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
         gap: var(--space-sm);
+        padding: 0 var(--space-sm); /* 🔥 ФИКС: добавляем боковые отступы */
     }
     
     .speaker-card {
         padding: var(--space-sm);
         min-height: 160px;
+        margin: 0 auto; /* 🔥 ФИКС: центрируем карточки */
+        max-width: calc(100% - var(--space-sm)); /* 🔥 ФИКС: учитываем отступы */
     }
     
     .speaker-photo {
@@ -335,18 +355,22 @@
 @media (max-width: 480px) {
     .speakers-section {
         padding: var(--space-xl) 0;
+        overflow-x: hidden; /* 🔥 ФИКС: дублируем для мобильных */
     }
     
     .speakers-grid {
         grid-template-columns: 1fr;
         gap: var(--space-sm);
         margin-top: var(--space-md);
+        padding: 0 var(--space-sm); /* 🔥 ФИКС: обязательные отступы */
     }
     
     .speaker-card {
         padding: var(--space-md);
         min-height: 140px;
         border-radius: var(--radius-md);
+        margin: 0 auto; /* 🔥 ФИКС: центрируем карточки */
+        max-width: calc(100% - var(--space-sm)); /* 🔥 ФИКС: точная ширина */
     }
     
     .speaker-photo {
@@ -381,6 +405,7 @@
         max-height: 80vh;
         border-radius: var(--radius-xl) var(--radius-xl) 0 0;
         animation: modalSlideUp 0.3s ease;
+        width: 100%; /* 🔥 ФИКС: полная ширина на мобильных */
     }
     
     @keyframes modalSlideUp {
@@ -459,9 +484,18 @@
 
 /* Очень маленькие телефоны (360px и меньше) */
 @media (max-width: 360px) {
+    .speakers-section {
+        padding: var(--space-md) 0;
+    }
+    
+    .speakers-grid {
+        padding: 0 var(--space-xs); /* 🔥 ФИКС: меньшие отступы */
+    }
+    
     .speaker-card {
         padding: var(--space-sm);
         min-height: 130px;
+        max-width: calc(100% - var(--space-xs)); /* 🔥 ФИКС: точная ширина */
     }
     
     .speaker-photo {
