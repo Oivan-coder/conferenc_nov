@@ -10,8 +10,8 @@
 /* ===== КОМПАКТНЫЕ КАРТОЧКИ СПИКЕРОВ ===== */
 .speakers-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: var(--space-md);
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* 🔥 УВЕЛИЧИЛИ: минимальную ширину карточек */
+    gap: var(--space-lg); /* 🔥 УВЕЛИЧИЛИ: расстояние между карточками */
     margin-top: var(--space-lg);
     max-width: 100%; /* 🔥 ФИКС: ограничиваем ширину */
     overflow: hidden; /* 🔥 ФИКС: скрываем переполнение */
@@ -21,14 +21,14 @@
 .speaker-card {
     background: var(--bg-card);
     border-radius: var(--radius-lg);
-    padding: var(--space-md);
+    padding: var(--space-lg); /* 🔥 УВЕЛИЧИЛИ: внутренние отступы */
     text-align: center;
     transition: all 0.3s ease;
     border: 1px solid rgba(0, 229, 255, 0.1);
     cursor: pointer;
     position: relative;
     overflow: hidden;
-    min-height: 180px;
+    min-height: 220px; /* 🔥 УВЕЛИЧИЛИ: минимальную высоту */
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -37,38 +37,38 @@
 }
 
 .speaker-card:hover {
-    transform: translateY(-3px);
+    transform: translateY(-5px); /* 🔥 УВЕЛИЧИЛИ: эффект при наведении */
     border-color: var(--accent-primary);
     box-shadow: var(--shadow-hover);
 }
 
-/* АВАТАРКИ - РЕАЛЬНЫЕ ФОТО */
+/* АВАТАРКИ - РЕАЛЬНЫЕ ФОТО (УВЕЛИЧЕНЫ ДЛЯ ПК) */
 .speaker-photo {
-    width: 60px;
-    height: 60px;
+    width: 200px; /* 🔥 УВЕЛИЧИЛИ: с 60px до 90px */
+    height: 200px; /* 🔥 УВЕЛИЧИЛИ: с 60px до 90px */
     border-radius: 50%;
-    margin: 0 auto var(--space-sm);
+    margin: 0 auto var(--space-md); /* 🔥 УВЕЛИЧИЛИ: отступ снизу */
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    box-shadow: var(--shadow-sm);
-    border: 2px solid var(--accent-primary);
+    box-shadow: var(--shadow-md); /* 🔥 УВЕЛИЧИЛИ: тень */
+    border: 3px solid var(--accent-primary); /* 🔥 УВЕЛИЧИЛИ: обводку */
 }
 
 .speaker-name {
-    font-size: 1rem;
+    font-size: 1.2rem; /* 🔥 УВЕЛИЧИЛИ: с 1rem до 1.2rem */
     font-weight: 700;
     color: var(--text-primary);
-    margin-bottom: var(--space-xs);
+    margin-bottom: var(--space-sm); /* 🔥 УВЕЛИЧИЛИ: отступ */
     line-height: 1.3;
 }
 
 .speaker-role {
     color: var(--accent-primary);
     font-weight: 600;
-    font-size: 0.8rem;
-    margin-bottom: var(--space-sm);
-    line-height: 1.3;
+    font-size: 0.9rem; /* 🔥 УВЕЛИЧИЛИ: с 0.8rem до 0.9rem */
+    margin-bottom: var(--space-md); /* 🔥 УВЕЛИЧИЛИ: отступ */
+    line-height: 1.4;
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
@@ -78,7 +78,7 @@
 .speaker-more {
     display: inline-block;
     color: var(--text-secondary);
-    font-size: 0.75rem;
+    font-size: 0.85rem; /* 🔥 УВЕЛИЧИЛИ: с 0.75rem до 0.85rem */
     font-weight: 500;
     text-decoration: none;
     opacity: 0.8;
@@ -95,7 +95,7 @@
     display: none !important;
 }
 
-/* ===== МОДАЛЬНОЕ ОКНО СПИКЕРА ===== */
+/* ===== МОДАЛЬНОЕ ОКНО СПИКЕРА (УВЕЛИЧЕНО ДЛЯ ПК) ===== */
 .speaker-modal {
     position: fixed;
     top: 0;
@@ -106,9 +106,9 @@
     display: none;
     align-items: center;
     justify-content: center;
-    padding: var(--space-lg);
-    box-sizing: border-box; /* 🔥 ФИКС: учитываем padding */
-    overflow: hidden; /* 🔥 ФИКС: предотвращаем скролл */
+    padding: var(--space-xl); /* 🔥 УВЕЛИЧИЛИ: отступы */
+    box-sizing: border-box;
+    overflow: hidden;
 }
 
 .speaker-modal.active {
@@ -129,14 +129,14 @@
     position: relative;
     background: var(--bg-card);
     border-radius: var(--radius-xl);
-    max-width: 600px;
+    max-width: 700px; /* 🔥 УВЕЛИЧИЛИ: с 600px до 700px */
     width: 100%;
     max-height: 90vh;
     overflow-y: auto;
     box-shadow: var(--shadow-2xl);
     border: 1px solid rgba(0, 229, 255, 0.2);
     animation: modalSlideIn 0.3s ease;
-    box-sizing: border-box; /* 🔥 ФИКС: учитываем padding */
+    box-sizing: border-box;
 }
 
 @keyframes modalSlideIn {
@@ -152,15 +152,15 @@
 
 .modal-close {
     position: absolute;
-    top: 15px;
-    right: 15px;
+    top: 20px; /* 🔥 УВЕЛИЧИЛИ: отступ сверху */
+    right: 20px; /* 🔥 УВЕЛИЧИЛИ: отступ справа */
     background: var(--bg-glass);
     border: 1px solid rgba(0, 229, 255, 0.3);
     color: var(--accent-primary);
-    width: 40px;
-    height: 40px;
+    width: 45px; /* 🔥 УВЕЛИЧИЛИ: с 40px до 45px */
+    height: 45px; /* 🔥 УВЕЛИЧИЛИ: с 40px до 45px */
     border-radius: 50%;
-    font-size: 1.5rem;
+    font-size: 1.6rem; /* 🔥 УВЕЛИЧИЛИ: с 1.5rem до 1.6rem */
     cursor: pointer;
     z-index: 10;
     transition: all 0.3s ease;
@@ -176,97 +176,97 @@
 }
 
 .modal-body {
-    padding: var(--space-xxl);
-    box-sizing: border-box; /* 🔥 ФИКС: учитываем padding */
+    padding: 20px 10px; /* 🔥 УВЕЛИЧИЛИ: внутренние отступы */
+    box-sizing: border-box;
 }
 
 /* Контент модального окна */
 .modal-speaker-header {
     text-align: center;
-    margin-bottom: var(--space-xl);
+    margin-bottom: var(--space-xxl); /* 🔥 УВЕЛИЧИЛИ: отступ снизу */
 }
 
-/* АВАТАРКИ В МОДАЛЬНОМ ОКНЕ - РЕАЛЬНЫЕ ФОТО */
+/* АВАТАРКИ В МОДАЛЬНОМ ОКНЕ - РЕАЛЬНЫЕ ФОТО (УВЕЛИЧЕНЫ) */
 .modal-speaker-photo {
-    width: 120px;
-    height: 120px;
+    width: 200px; /* 🔥 УВЕЛИЧИЛИ: с 120px до 150px */
+    height: 200px; /* 🔥 УВЕЛИЧИЛИ: с 120px до 150px */
     border-radius: 50%;
-    margin: 0 auto var(--space-lg);
+    margin: 0 auto var(--space-xl); /* 🔥 УВЕЛИЧИЛИ: отступ снизу */
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    box-shadow: var(--shadow-lg);
-    border: 3px solid var(--accent-primary);
+    box-shadow: var(--shadow-xl); /* 🔥 УВЕЛИЧИЛИ: тень */
+    border: 4px solid var(--accent-primary); /* 🔥 УВЕЛИЧИЛИ: обводку */
 }
 
 .modal-speaker-name {
-    font-size: 1.5rem;
+    font-size: 1.8rem; /* 🔥 УВЕЛИЧИЛИ: с 1.5rem до 1.8rem */
     font-weight: 700;
     color: var(--text-primary);
-    margin-bottom: var(--space-xs);
+    margin-bottom: var(--space-sm); /* 🔥 УВЕЛИЧИЛИ: отступ */
 }
 
 .modal-speaker-role {
     color: var(--accent-primary);
     font-weight: 600;
-    font-size: 1.1rem;
-    margin-bottom: var(--space-md);
+    font-size: 1.3rem; /* 🔥 УВЕЛИЧИЛИ: с 1.1rem до 1.3rem */
+    margin-bottom: var(--space-lg); /* 🔥 УВЕЛИЧИЛИ: отступ */
 }
 
 .modal-speaker-badges {
     display: flex;
-    gap: var(--space-xs);
+    gap: var(--space-sm); /* 🔥 УВЕЛИЧИЛИ: расстояние между бейджами */
     justify-content: center;
-    margin-bottom: var(--space-lg);
+    margin-bottom: var(--space-xl); /* 🔥 УВЕЛИЧИЛИ: отступ снизу */
     flex-wrap: wrap;
 }
 
 .modal-badge {
     background: var(--accent-primary);
     color: var(--bg-primary);
-    padding: 6px 16px;
+    padding: 8px 20px; /* 🔥 УВЕЛИЧИЛИ: внутренние отступы */
     border-radius: 20px;
-    font-size: 0.85rem;
+    font-size: 1rem; /* 🔥 УВЕЛИЧИЛИ: с 0.85rem до 1rem */
     font-weight: 600;
 }
 
 .modal-speaker-topic {
     background: rgba(0, 229, 255, 0.05);
     border-radius: var(--radius-lg);
-    padding: var(--space-lg);
-    margin-bottom: var(--space-lg);
+    padding: var(--space-xl); /* 🔥 УВЕЛИЧИЛИ: внутренние отступы */
+    margin-bottom: var(--space-xl); /* 🔥 УВЕЛИЧИЛИ: отступ снизу */
     border-left: 4px solid var(--accent-primary);
-    box-sizing: border-box; /* 🔥 ФИКС: учитываем padding */
+    box-sizing: border-box;
 }
 
 .modal-topic-title {
     color: var(--accent-primary);
     font-weight: 600;
-    margin-bottom: var(--space-sm);
-    font-size: 1.1rem;
+    margin-bottom: var(--space-md); /* 🔥 УВЕЛИЧИЛИ: отступ */
+    font-size: 1.3rem; /* 🔥 УВЕЛИЧИЛИ: с 1.1rem до 1.3rem */
 }
 
 .modal-topic-text {
     color: var(--text-primary);
     line-height: 1.6;
-    font-size: 1rem;
+    font-size: 1.1rem; /* 🔥 УВЕЛИЧИЛИ: с 1rem до 1.1rem */
 }
 
 .modal-speaker-bio {
-    margin-bottom: var(--space-lg);
+    margin-bottom: var(--space-xl); /* 🔥 УВЕЛИЧИЛИ: отступ снизу */
 }
 
 .modal-bio-title {
     color: var(--accent-primary);
     font-weight: 600;
-    margin-bottom: var(--space-sm);
-    font-size: 1.1rem;
+    margin-bottom: var(--space-md); /* 🔥 УВЕЛИЧИЛИ: отступ */
+    font-size: 1.3rem; /* 🔥 УВЕЛИЧИЛИ: с 1.1rem до 1.3rem */
 }
 
 .modal-bio-text {
     color: var(--text-secondary);
     line-height: 1.6;
-    font-size: 0.95rem;
+    font-size: 1.05rem; /* 🔥 УВЕЛИЧИЛИ: с 0.95rem до 1.05rem */
 }
 
 .modal-speaker-details {
@@ -276,8 +276,8 @@
 .modal-details-title {
     color: var(--accent-primary);
     font-weight: 600;
-    margin-bottom: var(--space-md);
-    font-size: 1.1rem;
+    margin-bottom: var(--space-lg); /* 🔥 УВЕЛИЧИЛИ: отступ */
+    font-size: 1.3rem; /* 🔥 УВЕЛИЧИЛИ: с 1.1rem до 1.3rem */
 }
 
 .modal-details-list {
@@ -288,10 +288,11 @@
 
 .modal-details-item {
     position: relative;
-    padding-left: var(--space-lg);
-    margin-bottom: var(--space-sm);
+    padding-left: var(--space-xl); /* 🔥 УВЕЛИЧИЛИ: отступ слева */
+    margin-bottom: var(--space-md); /* 🔥 УВЕЛИЧИЛИ: отступ снизу */
     color: var(--text-secondary);
     line-height: 1.5;
+    font-size: 1rem; /* 🔥 УВЕЛИЧИЛИ: размер шрифта */
 }
 
 .modal-details-item:before {
@@ -313,32 +314,33 @@
     .speakers-grid {
         grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
         gap: var(--space-sm);
-        padding: 0 var(--space-sm); /* 🔥 ФИКС: добавляем боковые отступы */
+        padding: 0 var(--space-sm);
     }
     
     .speaker-card {
-        padding: var(--space-sm);
-        min-height: 160px;
-        margin: 0 auto; /* 🔥 ФИКС: центрируем карточки */
-        max-width: calc(100% - var(--space-sm)); /* 🔥 ФИКС: учитываем отступы */
+        padding: var(--space-md);
+        min-height: 180px; /* 🔥 УМЕНЬШИЛИ: с 220px до 180px */
+        margin: 0 auto;
+        max-width: calc(100% - var(--space-sm));
     }
     
     .speaker-photo {
-        width: 50px;
-        height: 50px;
+        width: 70px; /* 🔥 УМЕНЬШИЛИ: с 90px до 70px */
+        height: 70px; /* 🔥 УМЕНЬШИЛИ: с 90px до 70px */
     }
     
     .speaker-name {
-        font-size: 0.9rem;
+        font-size: 1.1rem; /* 🔥 УМЕНЬШИЛИ: с 1.2rem до 1.1rem */
     }
     
     .speaker-role {
-        font-size: 0.75rem;
+        font-size: 0.85rem; /* 🔥 УМЕНЬШИЛИ: с 0.9rem до 0.85rem */
     }
     
     .modal-content {
         margin: var(--space-md);
         max-height: 85vh;
+        max-width: 600px; /* 🔥 ВОССТАНОВИЛИ: оригинальную ширину */
     }
     
     .modal-body {
@@ -346,8 +348,16 @@
     }
     
     .modal-speaker-photo {
-        width: 100px;
-        height: 100px;
+        width: 120px; /* 🔥 УМЕНЬШИЛИ: с 150px до 120px */
+        height: 120px; /* 🔥 УМЕНЬШИЛИ: с 150px до 120px */
+    }
+    
+    .modal-speaker-name {
+        font-size: 1.5rem; /* 🔥 УМЕНЬШИЛИ: с 1.8rem до 1.5rem */
+    }
+    
+    .modal-speaker-role {
+        font-size: 1.1rem; /* 🔥 УМЕНЬШИЛИ: с 1.3rem до 1.1rem */
     }
 }
 
@@ -355,43 +365,43 @@
 @media (max-width: 480px) {
     .speakers-section {
         padding: var(--space-xl) 0;
-        overflow-x: hidden; /* 🔥 ФИКС: дублируем для мобильных */
+        overflow-x: hidden;
     }
     
     .speakers-grid {
         grid-template-columns: 1fr;
         gap: var(--space-sm);
         margin-top: var(--space-md);
-        padding: 0 var(--space-sm); /* 🔥 ФИКС: обязательные отступы */
+        padding: 0 var(--space-sm);
     }
     
     .speaker-card {
         padding: var(--space-md);
-        min-height: 140px;
+        min-height: 160px; /* 🔥 УМЕНЬШИЛИ: с 180px до 160px */
         border-radius: var(--radius-md);
-        margin: 0 auto; /* 🔥 ФИКС: центрируем карточки */
-        max-width: calc(100% - var(--space-sm)); /* 🔥 ФИКС: точная ширина */
+        margin: 0 auto;
+        max-width: calc(100% - var(--space-sm));
     }
     
     .speaker-photo {
-        width: 45px;
-        height: 45px;
+        width: 60px; /* 🔥 УМЕНЬШИЛИ: с 70px до 60px */
+        height: 60px; /* 🔥 УМЕНЬШИЛИ: с 70px до 60px */
         margin-bottom: var(--space-xs);
     }
     
     .speaker-name {
-        font-size: 0.85rem;
+        font-size: 1rem; /* 🔥 УМЕНЬШИЛИ: с 1.1rem до 1rem */
         margin-bottom: var(--space-xxs);
     }
     
     .speaker-role {
-        font-size: 0.7rem;
+        font-size: 0.8rem; /* 🔥 УМЕНЬШИЛИ: с 0.85rem до 0.8rem */
         margin-bottom: var(--space-xs);
         -webkit-line-clamp: 3;
     }
     
     .speaker-more {
-        font-size: 0.7rem;
+        font-size: 0.75rem; /* 🔥 УМЕНЬШИЛИ: с 0.85rem до 0.75rem */
     }
     
     /* Модальное окно для мобильных */
@@ -401,11 +411,18 @@
     }
     
     .modal-content {
-        margin: 0;
-        max-height: 80vh;
-        border-radius: var(--radius-xl) var(--radius-xl) 0 0;
-        animation: modalSlideUp 0.3s ease;
-        width: 100%; /* 🔥 ФИКС: полная ширина на мобильных */
+        position: relative;
+        background: var(--bg-card);
+        border-radius: var(--radius-xl);
+        max-width: 700px;
+        width: 90%;
+        max-height: 85vh;
+        margin: 80px auto 20px; /* 🔥 ОТСТУПЫ: сверху 80px, снизу 20px, авто по бокам */
+        overflow-y: auto;
+        box-shadow: var(--shadow-2xl);
+        border: 1px solid rgba(0, 229, 255, 0.2);
+        animation: modalSlideIn 0.3s ease;
+        box-sizing: border-box;
     }
     
     @keyframes modalSlideUp {
@@ -437,17 +454,17 @@
     }
     
     .modal-speaker-photo {
-        width: 80px;
-        height: 80px;
+        width: 100px; /* 🔥 УМЕНЬШИЛИ: с 120px до 100px */
+        height: 100px; /* 🔥 УМЕНЬШИЛИ: с 120px до 100px */
         margin-bottom: var(--space-md);
     }
     
     .modal-speaker-name {
-        font-size: 1.2rem;
+        font-size: 1.3rem; /* 🔥 УМЕНЬШИЛИ: с 1.5rem до 1.3rem */
     }
     
     .modal-speaker-role {
-        font-size: 0.9rem;
+        font-size: 1rem; /* 🔥 УМЕНЬШИЛИ: с 1.1rem до 1rem */
     }
     
     .modal-speaker-badges {
@@ -455,8 +472,8 @@
     }
     
     .modal-badge {
-        font-size: 0.75rem;
-        padding: 4px 12px;
+        font-size: 0.85rem; /* 🔥 УМЕНЬШИЛИ: с 1rem до 0.85rem */
+        padding: 6px 16px; /* 🔥 УМЕНЬШИЛИ: внутренние отступы */
     }
     
     .modal-speaker-topic,
@@ -468,17 +485,17 @@
     .modal-topic-title,
     .modal-bio-title,
     .modal-details-title {
-        font-size: 1rem;
+        font-size: 1.1rem; /* 🔥 УМЕНЬШИЛИ: с 1.3rem до 1.1rem */
     }
     
     .modal-topic-text,
     .modal-bio-text {
-        font-size: 0.9rem;
+        font-size: 0.95rem; /* 🔥 УМЕНЬШИЛИ: с 1.05rem до 0.95rem */
     }
     
     .modal-details-item {
-        font-size: 0.85rem;
-        padding-left: var(--space-md);
+        font-size: 0.9rem; /* 🔥 УМЕНЬШИЛИ: с 1rem до 0.9rem */
+        padding-left: var(--space-lg); /* 🔥 УМЕНЬШИЛИ: отступ слева */
     }
 }
 
@@ -489,26 +506,26 @@
     }
     
     .speakers-grid {
-        padding: 0 var(--space-xs); /* 🔥 ФИКС: меньшие отступы */
+        padding: 0 var(--space-xs);
     }
     
     .speaker-card {
         padding: var(--space-sm);
-        min-height: 130px;
-        max-width: calc(100% - var(--space-xs)); /* 🔥 ФИКС: точная ширина */
+        min-height: 140px; /* 🔥 УМЕНЬШИЛИ: с 160px до 140px */
+        max-width: calc(100% - var(--space-xs));
     }
     
     .speaker-photo {
-        width: 40px;
-        height: 40px;
+        width: 50px; /* 🔥 УМЕНЬШИЛИ: с 60px до 50px */
+        height: 50px; /* 🔥 УМЕНЬШИЛИ: с 60px до 50px */
     }
     
     .speaker-name {
-        font-size: 0.8rem;
+        font-size: 0.9rem; /* 🔥 УМЕНЬШИЛИ: с 1rem до 0.9rem */
     }
     
     .speaker-role {
-        font-size: 0.65rem;
+        font-size: 0.75rem; /* 🔥 УМЕНЬШИЛИ: с 0.8rem до 0.75rem */
     }
     
     .modal-body {
@@ -516,11 +533,11 @@
     }
     
     .modal-speaker-photo {
-        width: 70px;
-        height: 70px;
+        width: 80px; /* 🔥 УМЕНЬШИЛИ: с 100px до 80px */
+        height: 80px; /* 🔥 УМЕНЬШИЛИ: с 100px до 80px */
     }
     
     .modal-speaker-name {
-        font-size: 1.1rem;
+        font-size: 1.1rem; /* 🔥 УМЕНЬШИЛИ: с 1.3rem до 1.1rem */
     }
 }
