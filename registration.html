@@ -526,6 +526,7 @@
         initCustomSelects();
         initRegistrationForm();
         initParkingModal();
+        initNameValidation(); 
         
         // Скрываем успешное сообщение по умолчанию
         document.getElementById('success-message').style.display = 'none';
@@ -1036,6 +1037,114 @@
             }, 300);
         }, 5000);
     }
+        // ==================== ПРОВЕРКА ФИО ====================
+function validateFullName(name) {
+    // Удаляем лишние пробелы и проверяем количество слов
+    const trimmedName = name.trim().replace(/\s+/g, ' ');
+    const words = trimmedName.split(' ');
+    
+    // Должно быть минимум 2 слова (Фамилия Имя) или 3 слова (Фамилия Имя Отчество)
+    if (words.length < 2) {
+        return {
+            isValid: false,
+            message: '❌ Введите полное ФИО (минимум Фамилию и Имя)'
+        };
+    }
+    
+    // Проверяем, что каждое слово достаточно длинное (не инициалы)
+    for (let word of words) {
+        if (word.length === 1) {
+            return {
+                isValid: false,
+                message: '❌ Используйте полные фамилию, имя и отчество, а не инициалы'
+            };
+        }
+    }
+    
+    // Проверяем на наличие типичных сокращений и инициалов
+    const invalidPatterns = [
+        /\s[А-ЯЁ]\.?\s?[А-ЯЁ]?\.?$/, // Инициалы в конце
+        /^[А-ЯЁ]\.?\s?[А-ЯЁ]?\.?$/, // Только инициалы
+        /\s[А-ЯЁ]\s/, // Одиночные буквы между пробелами
+        /[А-ЯЁ]{1}\./, // Сокращения с точкой
+    ];
+    
+    for (let pattern of invalidPatterns) {
+        if (pattern.test(name)) {
+            return {
+                isValid: false,
+                message: '❌ Используйте полные фамилию, имя и отчество'
+            };
+        }
+    }
+    
+    return {
+        isValid: true,
+        message: '✅ Корректное ФИО'
+    };
+}
+
+// ==================== ИНИЦИАЛИЗАЦИЯ ПРОВЕРКИ ФИО ====================
+function initNameValidation() {
+    const nameInput = document.getElementById('name');
+    if (!nameInput) return;
+    
+    // Создаем элемент для отображения сообщений
+    const errorMessage = document.createElement('div');
+    errorMessage.style.cssText = `
+        font-size: 0.8rem;
+        margin-top: 0.3rem;
+        padding: 0.3rem 0.5rem;
+        border-radius: 4px;
+        display: none;
+    `;
+    nameInput.parentNode.appendChild(errorMessage);
+    
+    // Проверка при вводе
+    nameInput.addEventListener('blur', function() {
+        const value = this.value.trim();
+        if (value === '') return;
+        
+        const validation = validateFullName(value);
+        
+        if (!validation.isValid) {
+            errorMessage.textContent = validation.message;
+            errorMessage.style.display = 'block';
+            errorMessage.style.background = '#ffebee';
+            errorMessage.style.color = '#c62828';
+            errorMessage.style.border = '1px solid #ffcdd2';
+            this.style.borderColor = '#f44336';
+        } else {
+            errorMessage.style.display = 'none';
+            this.style.borderColor = '#4caf50';
+        }
+    });
+    
+    // Скрываем сообщение при фокусе
+    nameInput.addEventListener('focus', function() {
+        errorMessage.style.display = 'none';
+        this.style.borderColor = '';
+    });
+    
+    // Проверка перед отправкой формы
+    const form = document.getElementById('visible-form');
+    form.addEventListener('submit', function(e) {
+        const nameValue = nameInput.value.trim();
+        if (nameValue) {
+            const validation = validateFullName(nameValue);
+            if (!validation.isValid) {
+                e.preventDefault();
+                errorMessage.textContent = validation.message;
+                errorMessage.style.display = 'block';
+                errorMessage.style.background = '#ffebee';
+                errorMessage.style.color = '#c62828';
+                nameInput.style.borderColor = '#f44336';
+                nameInput.focus();
+                showNotification(validation.message, 'error');
+            }
+        }
+    });
+}
 </script>
 </body>
 </html>
