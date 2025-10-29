@@ -360,6 +360,58 @@
     font-size: 4rem;
     margin-bottom: 1.5rem;
 }
+        .unique-data-warning {
+    background: linear-gradient(135deg, #fff3e0 0%, #ffecb3 100%);
+    border: 2px solid #ff9800;
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin: 1.5rem 0;
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+}
+
+.warning-icon {
+    font-size: 2rem;
+    flex-shrink: 0;
+}
+
+.warning-content h4 {
+    color: #e65100;
+    margin: 0 0 0.8rem 0;
+    font-size: 1.2rem;
+}
+
+.warning-content p {
+    margin: 0.5rem 0;
+    color: #5d4037;
+}
+
+.warning-content ul {
+    margin: 0.8rem 0;
+    padding-left: 1.2rem;
+}
+
+.warning-content li {
+    margin-bottom: 0.5rem;
+    color: #5d4037;
+}
+
+.warning-content strong {
+    color: #e65100;
+}
+
+/* Адаптивность для мобильных */
+@media (max-width: 768px) {
+    .unique-data-warning {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .warning-icon {
+        align-self: center;
+    }
+}
     </style>
 </head>
 <body class="registration-page">
@@ -408,6 +460,20 @@
                 
                 <h2 class="section-title">Регистрация на конференцию</h2>
                 <p class="section-content">Заполните форму для участия в мероприятии</p>
+                <!-- 🔥 ДОБАВЛЯЕМ ПРЕДУПРЕЖДЕНИЕ О УНИКАЛЬНОСТИ ДАННЫХ -->
+    <div class="unique-data-warning">
+        <div class="warning-icon">⚠️</div>
+        <div class="warning-content">
+            <h4>Важная информация о регистрации</h4>
+            <p>Каждый участник должен регистрироваться с <strong>уникальными данными</strong>:</p>
+            <ul>
+                <li>📧 <strong>Уникальный email</strong> - на него придет QR-код</li>
+                <li>📞 <strong>Уникальный номер телефона</strong> - для идентификации</li>
+                <li>👤 <strong>Личные данные</strong> - ФИО, должность, организация</li>
+            </ul>
+            <p><strong>Если несколько участников используют одинаковые email или телефон - QR-код придет только первому!</strong></p>
+        </div>
+    </div>
             </div>
             
             <div class="registration-content">
