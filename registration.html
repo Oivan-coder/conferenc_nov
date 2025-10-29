@@ -734,137 +734,174 @@
 
     // ==================== ФОРМА РЕГИСТРАЦИИ ====================
     function initRegistrationForm() {
-        const form = document.getElementById('visible-form');
-        const submittedData = new Set();
+    const form = document.getElementById('visible-form');
+    const submittedData = new Set();
 
-        if (!form) {
-            console.error('❌ Форма не найдена');
+    if (!form) {
+        console.error('❌ Форма не найдена');
+        return;
+    }
+
+    // 🔥 ДОБАВЛЯЕМ ФУНКЦИЮ ПОКАЗА УСПЕШНОГО СООБЩЕНИЯ
+    function showSuccessMessage() {
+        document.getElementById('visible-form').style.display = 'none';
+        document.getElementById('success-message').style.display = 'block';
+        showNotification('✅ Регистрация прошла успешно!', 'success');
+        
+        // Прокручиваем к успешному сообщению
+        document.getElementById('success-message').scrollIntoView({ 
+            behavior: 'smooth', 
+            block: 'center' 
+        });
+    }
+
+    // 🔥 ДЕЛАЕМ ФУНКЦИЮ ДОСТУПНОЙ ИЗ МОДАЛКИ
+    window.showSuccessMessage = showSuccessMessage;
+
+    form.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        // Проверка согласия
+        if (!document.getElementById('agreement').checked) {
+            showNotification('❌ Необходимо дать согласие на обработку персональных данных', 'error');
             return;
         }
 
-        form.addEventListener('submit', async function(e) {
-            e.preventDefault();
+        // Проверка выбора должности
+        const positionInput = document.getElementById('position');
+        if (!positionInput || !positionInput.value) {
+            showNotification('❌ Пожалуйста, выберите должность', 'error');
+            return;
+        }
+        
+        const email = document.getElementById('email').value;
+        const phone = document.getElementById('phone').value;
+        
+        // Быстрая локальная проверка
+        if (submittedData.has(email + phone)) {
+            showNotification('❌ Вы уже отправляли эту форму', 'error');
+            return;
+        }
+        
+        // Блокируем кнопку
+        const submitBtn = this.querySelector('.submit-btn');
+        const originalText = submitBtn.textContent;
+        submitBtn.textContent = 'Отправляем...';
+        submitBtn.disabled = true;
+        
+        try {
+            // 🔥 ОТПРАВКА В СТАРУЮ GOOGLE FORM (РЕГИСТРАЦИЯ)
+            await submitToGoogleForms();
+            submittedData.add(email + phone);
             
-            // Проверка согласия
-            if (!document.getElementById('agreement').checked) {
-                showNotification('❌ Необходимо дать согласие на обработку персональных данных', 'error');
-                return;
+            // 🔥 ЕСЛИ ГЛАВНЫЙ ВРАЧ - ПОКАЗЫВАЕМ МОДАЛКУ ДЛЯ ПАРКОВКИ
+            const position = positionInput.value;
+            console.log('🎯 Проверка должности:', position);
+            
+            if (position === 'Главный врач') {
+                console.log('🚗 Показываем модалку для главного врача');
+                // Даем небольшую задержку перед показом модалки
+                setTimeout(() => {
+                    showParkingModal();
+                }, 500);
+            } else {
+                // Если не главный врач - сразу показываем успех
+                showSuccessMessage();
             }
-
-            // Проверка выбора должности
-            const positionInput = document.getElementById('position');
-            if (!positionInput || !positionInput.value) {
-                showNotification('❌ Пожалуйста, выберите должность', 'error');
-                return;
-            }
             
-            const email = document.getElementById('email').value;
-            const phone = document.getElementById('phone').value;
-            
-            // Быстрая локальная проверка
-            if (submittedData.has(email + phone)) {
-                showNotification('❌ Вы уже отправляли эту форму', 'error');
-                return;
-            }
-            
-            // Блокируем кнопку
-            const submitBtn = this.querySelector('.submit-btn');
-            const originalText = submitBtn.textContent;
-            submitBtn.textContent = 'Отправляем...';
-            submitBtn.disabled = true;
-            
-            try {
-                // 🔥 ОТПРАВКА В СТАРУЮ GOOGLE FORM (РЕГИСТРАЦИЯ)
-                await submitToGoogleForms();
-                submittedData.add(email + phone);
-                
-                // 🔥 ЕСЛИ ГЛАВНЫЙ ВРАЧ - ПОКАЗЫВАЕМ МОДАЛКУ ДЛЯ ПАРКОВКИ
-                const position = positionInput.value;
-                console.log('🎯 Проверка должности:', position);
-                
-                if (position === 'Главный врач') {
-                    console.log('🚗 Показываем модалку для главного врача');
-                    // Даем небольшую задержку перед показом модалки
-                    setTimeout(() => {
-                        showParkingModal();
-                    }, 500);
-                } else {
-                    // Если не главный врач - сразу показываем успех
-                    document.getElementById('visible-form').style.display = 'none';
-                    document.getElementById('success-message').style.display = 'block';
-                    showNotification('✅ Регистрация прошла успешно!', 'success');
-                }
-                
-            } catch (error) {
-                console.error('Ошибка:', error);
-                showNotification('❌ Ошибка отправки. Попробуйте еще раз.', 'error');
-                submitBtn.textContent = originalText;
-                submitBtn.disabled = false;
-            }
-        });
-    }
+        } catch (error) {
+            console.error('Ошибка:', error);
+            showNotification('❌ Ошибка отправки. Попробуйте еще раз.', 'error');
+            submitBtn.textContent = originalText;
+            submitBtn.disabled = false;
+        }
+    });
+}
 
     // ==================== МОДАЛЬНОЕ ОКНО ДЛЯ ПАРКОВКИ ====================
     function initParkingModal() {
-        const modal = document.getElementById('parkingModal');
-        const closeBtn = document.getElementById('modalClose');
-        const confirmBtn = document.getElementById('confirmParking');
-        
-        console.log('🔍 Инициализация модального окна:', modal);
-        
-        if (!modal) {
-            console.error('❌ Модальное окно не найдено');
-            return;
-        }
-        
-        // Закрытие по кнопке
-        closeBtn.addEventListener('click', hideParkingModal);
-        
-        // Закрытие по клику вне окна
-        modal.addEventListener('click', function(e) {
-            if (e.target === modal) {
-                hideParkingModal();
-            }
-        });
-        
-        // Закрытие по Escape
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape' && modal.classList.contains('active')) {
-                hideParkingModal();
-            }
-        });
-        
-        // Подтверждение данных о парковке
-        if (confirmBtn) {
-            confirmBtn.addEventListener('click', async function() {
-                const driverName = document.getElementById('driverName').value;
-                const carBrand = document.getElementById('carBrand').value;
-                const carModel = document.getElementById('carModel').value;
-                const carNumber = document.getElementById('carNumber').value;
-                
-                // Проверка заполнения всех полей
-                if (!driverName || !carBrand || !carModel || !carNumber) {
-                    showNotification('❌ Пожалуйста, заполните все поля формы', 'error');
-                    return;
-                }
-                
-                try {
-                    // 🔥 ОТПРАВКА В НОВУЮ GOOGLE FORM (ПАРКОВКА)
-                    await submitToParkingForm();
-                    
-                    // Закрываем модалку и показываем успех
-                    hideParkingModal();
-                    document.getElementById('visible-form').style.display = 'none';
-                    document.getElementById('success-message').style.display = 'block';
-                    showNotification('✅ Данные о парковке отправлены!', 'success');
-                    
-                } catch (error) {
-                    console.error('Ошибка отправки данных о парковке:', error);
-                    showNotification('❌ Ошибка отправки данных о парковке', 'error');
-                }
-            });
-        }
+    const modal = document.getElementById('parkingModal');
+    const closeBtn = document.getElementById('modalClose');
+    const confirmBtn = document.getElementById('confirmParking');
+    
+    console.log('🔍 Инициализация модального окна:', modal);
+    
+    if (!modal) {
+        console.error('❌ Модальное окно не найдено');
+        return;
     }
+    
+    // 🔥 ОБНОВЛЯЕМ ЗАКРЫТИЕ - ПОСЛЕ ОСНОВНОЙ РЕГИСТРАЦИИ ПОКАЗЫВАЕМ УСПЕХ
+    closeBtn.addEventListener('click', function() {
+        hideParkingModal();
+        // 🔥 ПОКАЗЫВАЕМ УСПЕХ ПОСЛЕ ЗАКРЫТИЯ МОДАЛКИ
+        if (window.showSuccessMessage) {
+            window.showSuccessMessage();
+        }
+    });
+    
+    // 🔥 ТАКЖЕ ДЛЯ КЛИКА ВНЕ ОКНА
+    modal.addEventListener('click', function(e) {
+        if (e.target === modal) {
+            hideParkingModal();
+            // 🔥 ПОКАЗЫВАЕМ УСПЕХ ПОСЛЕ ЗАКРЫТИЯ МОДАЛКИ
+            if (window.showSuccessMessage) {
+                window.showSuccessMessage();
+            }
+        }
+    });
+    
+    // 🔥 И ДЛЯ ESCAPE
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && modal.classList.contains('active')) {
+            hideParkingModal();
+            // 🔥 ПОКАЗЫВАЕМ УСПЕХ ПОСЛЕ ЗАКРЫТИЯ МОДАЛКИ
+            if (window.showSuccessMessage) {
+                window.showSuccessMessage();
+            }
+        }
+    });
+    
+    // Подтверждение данных о парковке
+    if (confirmBtn) {
+        confirmBtn.addEventListener('click', async function() {
+            const driverName = document.getElementById('driverName').value;
+            const carBrand = document.getElementById('carBrand').value;
+            const carModel = document.getElementById('carModel').value;
+            const carNumber = document.getElementById('carNumber').value;
+            
+            // Проверка заполнения всех полей
+            if (!driverName || !carBrand || !carModel || !carNumber) {
+                showNotification('❌ Пожалуйста, заполните все поля формы', 'error');
+                return;
+            }
+            
+            // 🔥 БЛОКИРУЕМ КНОПКУ НА ВРЕМЯ ОТПРАВКИ
+            const originalText = confirmBtn.textContent;
+            confirmBtn.textContent = 'Отправляем...';
+            confirmBtn.disabled = true;
+            
+            try {
+                // 🔥 ОТПРАВКА В НОВУЮ GOOGLE FORM (ПАРКОВКА)
+                await submitToParkingForm();
+                
+                // Закрываем модалку и показываем успех
+                hideParkingModal();
+                if (window.showSuccessMessage) {
+                    window.showSuccessMessage();
+                }
+                showNotification('✅ Данные о парковке отправлены!', 'success');
+                
+            } catch (error) {
+                console.error('Ошибка отправки данных о парковке:', error);
+                showNotification('❌ Ошибка отправки данных о парковке', 'error');
+                // 🔥 РАЗБЛОКИРУЕМ КНОПКУ ПРИ ОШИБКЕ
+                confirmBtn.textContent = originalText;
+                confirmBtn.disabled = false;
+            }
+        });
+    }
+}
     
     function showParkingModal() {
         const modal = document.getElementById('parkingModal');
