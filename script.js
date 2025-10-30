@@ -849,7 +849,97 @@ function initFeedbackPopup() {
         }
     });
 }
+// Функционал фильтрации программы
+function initProgramFilters() {
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const timeBlocks = document.querySelectorAll('.time-block');
+    
+    filterButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            // Убираем активный класс у всех кнопок
+            filterButtons.forEach(btn => btn.classList.remove('active'));
+            // Добавляем активный класс текущей кнопке
+            this.classList.add('active');
+            
+            const filter = this.getAttribute('data-filter');
+            
+            timeBlocks.forEach(block => {
+                if (filter === 'all' || block.getAttribute('data-block') === filter) {
+                    block.style.display = 'block';
+                    setTimeout(() => {
+                        block.style.opacity = '1';
+                        block.style.transform = 'translateY(0)';
+                    }, 50);
+                } else {
+                    block.style.opacity = '0';
+                    block.style.transform = 'translateY(20px)';
+                    setTimeout(() => {
+                        block.style.display = 'none';
+                    }, 300);
+                }
+            });
+        });
+    });
+}
 
+// Анимация появления блоков
+function initProgramAnimations() {
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
+    
+    const observer = new IntersectionObserver(function(entries) {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+            }
+        });
+    }, observerOptions);
+    
+    const timeBlocks = document.querySelectorAll('.time-block');
+    timeBlocks.forEach(block => {
+        block.style.opacity = '0';
+        block.style.transform = 'translateY(30px)';
+        block.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+        observer.observe(block);
+    });
+}
+
+// Инициализация при загрузке
+document.addEventListener('DOMContentLoaded', function() {
+    initProgramFilters();
+    initProgramAnimations();
+});
+// Переключение программы
+document.addEventListener('DOMContentLoaded', function() {
+    const toggleBtn = document.getElementById('toggleProgram');
+    const programFull = document.getElementById('programFull');
+    
+    if (toggleBtn && programFull) {
+        toggleBtn.addEventListener('click', function() {
+            const isExpanded = programFull.style.display === 'block';
+            
+            if (isExpanded) {
+                programFull.style.display = 'none';
+                toggleBtn.classList.remove('expanded');
+                toggleBtn.querySelector('.btn-text').textContent = 'Показать программу';
+            } else {
+                programFull.style.display = 'block';
+                toggleBtn.classList.add('expanded');
+                toggleBtn.querySelector('.btn-text').textContent = 'Скрыть программу';
+                
+                // Инициализируем фильтры при первом открытии
+                if (!window.programFiltersInitialized) {
+                    initProgramFilters();
+                    initProgramAnimations();
+                    window.programFiltersInitialized = true;
+                }
+            }
+        });
+    }
+});
 // ==================== ОБРАБОТЧИКИ СОБЫТИЙ ====================
 
 function handleResize() {
