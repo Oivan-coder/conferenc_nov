@@ -198,15 +198,15 @@
     <div style="font-size: 3rem; margin-bottom: 15px;">🎨</div>
     <div style="font-size: 1.1rem; font-weight: bold; color: var(--text-primary); margin-bottom: 15px;">Шаблон презентации</div>
     <div style="display: flex; gap: 8px; justify-content: center;">
-        <a href="https://github.com/Oivan-coder/conferenc_nov/releases/download/presentation-v1.0/default.pptx" 
-           class="cta-button primary" 
-           style="min-width: 80px;" 
+        <a href="https://github.com/Oivan-coder/conferenc_nov/releases/download/presentation-v1.0/default.pptx"
+           class="cta-button primary"
+           style="min-width: 80px;"
            download="presentation-template.pptx">
             PPTX
         </a>
-        <a href="downloads/presentation-template.pdf" 
-           class="cta-button secondary" 
-           style="min-width: 80px;" 
+        <a href="downloads/presentation-template.pdf"
+           class="cta-button secondary"
+           style="min-width: 80px;"
            target="_blank">
             PDF
         </a>
@@ -224,123 +224,347 @@
                 </div>
             </div>
         </div>
-        <div class="program-content" style="display: none;">
-            <!-- УБРАТЬ этот лишний div: <div class="container"> -->
-            <h2 class="section-title">Программа конференции</h2>
-            
-            <!-- ОТКРЫТИЕ -->
-            <div class="program-block accordion-block active">
-                <div class="block-header accordion-header">
-                    <span class="block-icon">🔹</span>
-                    <h3>Открытие конференции</h3>
-                    <span class="accordion-icon">▼</span>
-                </div>
-                <div class="accordion-content">
-                    <div class="block-content">
-                        <p>Приветственное слово организаторов. Цели и задачи конференции — обмен опытом по развитию лабораторной службы, внедрению стандартов качества и инновационных технологий.</p>
-                    </div>
-                </div>
-            </div>
+        <!-- Program -->
+        <section id="program" class="program-section">
+            <div class="container">
+                <h2 class="section-title">Программа конференции</h2>
+                <p class="section-subtitle">21 ноября 2025 | Полное расписание выступлений</p>
 
-            <!-- КЛИНИЧЕСКИЙ БЛОК -->
-            <div class="program-block accordion-block">
-                <div class="block-header accordion-header">
-                    <span class="block-icon">🔹</span>
-                    <h3>Клинический блок</h3>
-                    <span class="accordion-icon">▼</span>
-                </div>
-                <div class="accordion-content">
-                    <div class="sessions-grid">
-                        <div class="session-item">
-                            <div class="session-speaker">Фаниль Самуилович Билалов</div>
-                            <div class="session-topic">Современные подходы в лабораторной онкодиагностике: от маркеров до молекулярных технологий</div>
-                            <div class="session-desc">Роль лаборатории в раннем выявлении онкопатологии, молекулярные методы, контроль качества</div>
+                <!-- Компактный вид программы -->
+                <div class="program-compact">
+                    <div class="compact-header">
+                        <div class="compact-summary">
+                        
+                            <div class="summary-item">
+                                <span class="summary-icon">🎤</span>
+                                <span class="summary-text">16 докладов</span>
+                            </div>
+                            <div class="summary-item">
+                                <span class="summary-icon">⏱️</span>
+                                <span class="summary-text">4 тематических блока</span>
+                            </div>
+                            <div class="summary-item">
+                                <span class="summary-icon">👥</span>
+                                <span class="summary-text">14 спикеров</span>
+                            </div>
                         </div>
-                        <div class="session-item">
-                            <div class="session-speaker">Гульнара Витальевна Лешкина</div>
-                            <div class="session-topic">Цитология в современной лабораторной диагностике: практика, качество, обучение</div>
-                            <div class="session-desc">Мастер-класс по авторской методике приготовления и интерпретации цитопрепаратов</div>
-                        </div>
-                        <div class="session-item">
-                            <div class="session-speaker">Главные внештатные специалисты по ВИЧ и дерматовенерологии</div>
-                            <div class="session-topic">Маршрутизация пациентов с ВИЧ и сифилисом: взаимодействие лаборатории и клинических служб</div>
-                            <div class="session-desc">Актуальные алгоритмы диагностики и межведомственное взаимодействие</div>
-                        </div>
+                        <button class="cta-button primary" id="toggleProgram">
+                            <span class="btn-text">Показать программу</span>
+                            <span class="btn-icon">▼</span>
+                        </button>
                     </div>
-                </div>
-            </div>
 
-            <!-- УПРАВЛЕНИЕ И ОБУЧЕНИЕ -->
-            <div class="program-block accordion-block">
-                <div class="block-header accordion-header">
-                    <span class="block-icon">🔹</span>
-                    <h3>Управление и обучение</h3>
-                    <span class="accordion-icon">▼</span>
-                </div>
-                <div class="accordion-content">
-                    <div class="sessions-grid">
-                        <div class="session-item">
-                            <div class="session-speaker">Мария Георгиевна Ламбакахар (РМАНПО)</div>
-                            <div class="session-topic">Развитие кадрового потенциала лабораторной службы</div>
-                            <div class="session-desc">Современные форматы обучения, оценка компетенций, роль наставничества в формировании культуры качества</div>
+                    <!-- Полная программа (скрыта по умолчанию) -->
+                    <div class="program-full" id="programFull" style="display: none;">
+                        <!-- Фильтры по блокам -->
+                        <div class="program-filters">
+                            <button class="filter-btn active" data-filter="all">Все блоки</button>
+                            <button class="filter-btn" data-filter="block0">Открытие</button>
+                            <button class="filter-btn" data-filter="block1">ИИ и автоматизация</button>
+                            <button class="filter-btn" data-filter="block2">Образование</button>
+                            <button class="filter-btn" data-filter="block3">Клиническая диагностика</button>
+                            <button class="filter-btn" data-filter="block4">Стандарты качества</button>
+                            <button class="filter-btn" data-filter="block5">Закрытие</button>
                         </div>
-                        <div class="session-item">
-                            <div class="session-speaker">Любовь Ивановна Станкевич (LabQuest)</div>
-                            <div class="session-topic">Управление современной лабораторной сетью: стандартизация, цифровизация, качество</div>
-                            <div class="session-desc">Опыт внедрения ISO 15189 и JCI, цифровизация процессов, интеграция с клиническими подразделениями</div>
+
+                        <!-- Таймлайн программы -->
+                        <div class="program-timeline">
+                            <!-- ОТКРЫТИЕ -->
+                            <div class="time-block" data-block="block0">
+                                <div class="time-header">
+                                    <div class="time-marker">
+                                        <span class="time">11:30</span>
+                                        <span class="block-badge" style="background: #10b981;">ОТКРЫТИЕ</span>
+                                    </div>
+                                    <h3 class="block-title">Приветственное слово</h3>
+                                </div>
+                                
+                                <div class="sessions-container">
+                                    <div class="session-card" style="border-left-color: #10b981;">
+                                        <div class="session-time">30 мин</div>
+                                        <div class="session-content">
+                                            <h4 class="session-title">Официальное открытие конференции</h4>
+                                            <p class="session-speaker">Забелин МВ, Бирюков АЮ, Легостаев ГВ, Максимов Максим Андреевич</p>
+                                            <p class="session-desc">Приветственное слово организаторов и почетных гостей</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- БЛОК 1 -->
+                            <div class="time-block" data-block="block1">
+                                <div class="time-header">
+                                    <div class="time-marker">
+                                        <span class="time">12:00</span>
+                                        <span class="block-badge">БЛОК 1</span>
+                                    </div>
+                                    <h3 class="block-title">Искусственный интеллект и автоматизация</h3>
+                                </div>
+                                
+                                <div class="sessions-container">
+                                    <!-- Доклад 1 -->
+                                    <div class="session-card">
+                                        <div class="session-time">12:00</div>
+                                        <div class="session-content">
+                                            <h4 class="session-title">Персональный медицинский ИИ-навигатор: как современные сервисы лаборатории помогают заботиться о здоровье</h4>
+                                            <p class="session-speaker">Денисов Дмитрий Геннадьевич</p>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Доклад 2 -->
+                                    <div class="session-card">
+                                        <div class="session-time">12:15</div>
+                                        <div class="session-content">
+                                            <h4 class="session-title">ИИ и результаты лабораторных исследований - внимание на ошибки</h4>
+                                            <p class="session-speaker">Карасев Александр Владимирович</p>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Доклад 3 -->
+                                    <div class="session-card">
+                                        <div class="session-time">12:30</div>
+                                        <div class="session-content">
+                                            <h4 class="session-title">Анализы под вопросом: кто отвечает за неверный результат?</h4>
+                                            <p class="session-speaker">Вербенкин Александр Валерьевич</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- ПЕРЕРЫВ -->
+                            <div class="time-break">
+                                <div class="break-content">
+                                    <div class="break-icon">☕</div>
+                                    <div class="break-info">
+                                        <span class="break-time">12:45</span>
+                                        <h4 class="break-title">Кофе-брейк</h4>
+                                        <p class="break-desc">Неформальное общение</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- БЛОК 2 -->
+                            <div class="time-block" data-block="block2">
+                                <div class="time-header">
+                                    <div class="time-marker">
+                                        <span class="time">13:00</span>
+                                        <span class="block-badge" style="background: #8b5cf6;">БЛОК 2</span>
+                                    </div>
+                                    <h3 class="block-title">Образовательный блок и микробиология</h3>
+                                </div>
+                                
+                                <div class="sessions-container">
+                                    <!-- Мастер-класс -->
+                                    <div class="session-card highlight">
+                                        <div class="session-badge">Мастер-класс</div>
+                                        <div class="session-time">13:00</div>
+                                        <div class="session-content">
+                                            <h4 class="session-title">Возможности цитологического исследования в современной лабораторной диагностике: практика, качество, обучение</h4>
+                                            <p class="session-speaker">Лешкина Гульнара Витальевна</p>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Доклад -->
+                                    <div class="session-card">
+                                        <div class="session-time">13:40</div>
+                                        <div class="session-content">
+                                            <h4 class="session-title">Синтез классики и новых технологий в комплексной микробиологической диагностике гастроэнтеритов. Возможности микробиологических лабораторий.</h4>
+                                            <p class="session-speaker">Жилина Светлана Владимировна</p>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Доклад -->
+                                    <div class="session-card">
+                                        <div class="session-time">13:55</div>
+                                        <div class="session-content">
+                                            <h4 class="session-title">Технологические решения в области ПЦР-диагностики для централизованных лабораторий</h4>
+                                            <p class="session-speaker">Владимир</p>
+                                            <p class="session-company">Вектор Бест</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- ПЕРЕРЫВ -->
+                            <div class="time-break">
+                                <div class="break-content">
+                                    <div class="break-icon">🍽️</div>
+                                    <div class="break-info">
+                                        <span class="break-time">14:10</span>
+                                        <h4 class="break-title">Обеденный перерыв</h4>
+                                        <p class="break-desc">Отдых и неформальное общение</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- БЛОК 3 -->
+                            <div class="time-block" data-block="block3">
+                                <div class="time-header">
+                                    <div class="time-marker">
+                                        <span class="time">15:10</span>
+                                        <span class="block-badge" style="background: #ef4444;">БЛОК 3</span>
+                                    </div>
+                                    <h3 class="block-title">Клинический блок и современная диагностика</h3>
+                                </div>
+                                
+                                <div class="sessions-container">
+                                    <!-- Доклад 1 -->
+                                    <div class="session-card">
+                                        <div class="session-time">15:10</div>
+                                        <div class="session-content">
+                                            <h4 class="session-title">Практические аспекты скрининга рака шейки матки: нюансы рекомендаций и новые тренды</h4>
+                                            <p class="session-speaker">Станкевич Любовь Ивановна</p>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Доклад 2 -->
+                                    <div class="session-card">
+                                        <div class="session-time">15:25</div>
+                                        <div class="session-content">
+                                            <h4 class="session-title">Доклад уточняется</h4>
+                                            <p class="session-speaker">Буллих Артем Владимирович</p>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Доклад 3 -->
+                                    <div class="session-card">
+                                        <div class="session-time">15:40</div>
+                                        <div class="session-content">
+                                            <h4 class="session-title">Повреждения печени: молчаливая сага и лабораторные решения при поддержке искусственного интеллекта для полной диагностики</h4>
+                                            <p class="session-speaker">Станкевич Любовь Ивановна</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- ПЕРЕРЫВ -->
+                            <div class="time-break">
+                                <div class="break-content">
+                                    <div class="break-icon">☕</div>
+                                    <div class="break-info">
+                                        <span class="break-time">15:55</span>
+                                        <h4 class="break-title">Кофе-брейк</h4>
+                                        <p class="break-desc">Неформальное общение</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- БЛОК 4 -->
+                            <div class="time-block" data-block="block4">
+                                <div class="time-header">
+                                    <div class="time-marker">
+                                        <span class="time">16:10</span>
+                                        <span class="block-badge" style="background: #f59e0b;">БЛОК 4</span>
+                                    </div>
+                                    <h3 class="block-title">Организационный блок и стандарты качества</h3>
+                                </div>
+                                
+                                <div class="sessions-container">
+                                    <!-- Доклад 1 -->
+                                    <div class="session-card">
+                                        <div class="session-time">16:10</div>
+                                        <div class="session-content">
+                                            <h4 class="session-title">Взаимодействие Медсестра-пациент на преаналитическом этапе. Ключевые факторы качества и безопасности по стандартам JCI и ISO</h4>
+                                            <p class="session-speaker">Шадрина Екатерина Станиславовна</p>
+                                            <p class="session-company">Hadassah</p>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Доклад 2 -->
+                                    <div class="session-card">
+                                        <div class="session-time">16:25</div>
+                                        <div class="session-content">
+                                            <h4 class="session-title">Технологические решения для лабораторной диагностики от ведущего российского производителя</h4>
+                                            <p class="session-speaker">Владимир</p>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Доклад 3 -->
+                                    <div class="session-card">
+                                        <div class="session-time">16:40</div>
+                                        <div class="session-content">
+                                            <h4 class="session-title">Операционная эффективность лабораторных исследований в условиях централизованной лаборатории</h4>
+                                            <p class="session-speaker">Владислав</p>
+                                            <p class="session-company">Abbott</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- ЗАКРЫТИЕ -->
+                            <div class="time-block" data-block="block5">
+                                <div class="time-header">
+                                    <div class="time-marker">
+                                        <span class="time">17:00</span>
+                                        <span class="block-badge" style="background: #6b7280;">ЗАКРЫТИЕ</span>
+                                    </div>
+                                    <h3 class="block-title">Итоги и заключительное слово</h3>
+                                </div>
+                                
+                                <div class="sessions-container">
+                                    <div class="session-card" style="border-left-color: #6b7280;">
+                                        <div class="session-time">30 мин</div>
+                                        <div class="session-content">
+                                            <h4 class="session-title">Подведение итогов конференции</h4>
+                                            <p class="session-speaker">Организационный комитет</p>
+                                            <p class="session-desc">Обсуждение результатов, планы на будущее, заключительное слово</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- ИННОВАЦИИ И ТЕХНОЛОГИИ -->
-            <div class="program-block accordion-block">
-                <div class="block-header accordion-header">
-                    <span class="block-icon">🔹</span>
-                    <h3>Инновации и технологии</h3>
-                    <span class="accordion-icon">▼</span>
-                </div>
-                <div class="accordion-content">
-                    <div class="block-content">
-                        <p>Секция компаний-партнёров: <strong>БРЕГИС / Вектор-Бест / Диакон</strong></p>
-                        <p>Инновационные решения для лабораторной диагностики. Современные аналитические платформы, автоматизация, искусственный интеллект, новые реагенты.</p>
+
+                    <!-- Требования для докладчиков (оставляем как было) -->
+                    <div class="speaker-requirements program-block accordion-block" data-auto-open="false">
+                        <div class="block-header accordion-header">
+                            <h3>Материалы для докладчиков</h3>
+                            <span class="accordion-icon">▼</span>
+                        </div>
+                        <div class="accordion-content">
+                            <div class="block-content">
+                                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; padding: 5px;">
+                                    <!-- ЛЕВЫЙ БЛОК - Время -->
+                                    <div style="text-align: center; padding: 40px 20px; background: var(--bg-secondary); border-radius: 12px;">
+                                        <div style="font-size: 3rem; margin-bottom: 15px;">⏱️</div>
+                                        <div style="font-size: 1.3rem; font-weight: bold; color: var(--text-primary); margin-bottom: 5px;">15 минут</div>
+                                        <div style="color: var(--text-secondary);">стандартный доклад</div>
+                                    </div>
+                                    
+                                    <!-- ЦЕНТРАЛЬНЫЙ БЛОК - Шаблон -->
+                                    <div style="text-align: center; padding: 40px 20px; background: var(--bg-secondary); border-radius: 12px;">
+                                        <div style="font-size: 3rem; margin-bottom: 15px;">🎨</div>
+                                        <div style="font-size: 1.1rem; font-weight: bold; color: var(--text-primary); margin-bottom: 15px;">Шаблон презентации</div>
+                                        <div style="display: flex; gap: 8px; justify-content: center;">
+                                            <a href="https://github.com/Oivan-coder/conferenc_nov/releases/download/presentation-v1.0/default.pptx"
+                                               class="cta-button primary"
+                                               style="min-width: 80px;"
+                                               download="presentation-template.pptx">
+                                                PPTX
+                                            </a>
+                                            <a href="downloads/presentation-template.pdf"
+                                               class="cta-button secondary"
+                                               style="min-width: 80px;"
+                                               target="_blank">
+                                                PDF
+                                            </a>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- ПРАВЫЙ БЛОК - Слайды -->
+                                    <div style="text-align: center; padding: 40px 20px; background: var(--bg-secondary); border-radius: 12px;">
+                                        <div style="font-size: 3rem; margin-bottom: 15px;">📊</div>
+                                        <div style="font-size: 1.3rem; font-weight: bold; color: var(--text-primary); margin-bottom: 5px;">15 слайдов</div>
+                                        <div style="color: var(--text-secondary);">рекомендуемый максимум</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-
-            <!-- МЕЖДУНАРОДНЫЕ СТАНДАРТЫ -->
-            <div class="program-block accordion-block">
-                <div class="block-header accordion-header">
-                    <span class="block-icon">🔹</span>
-                    <h3>Международные стандарты и пациент-ориентированный подход</h3>
-                    <span class="accordion-icon">▼</span>
-                </div>
-                <div class="accordion-content">
-                    <div class="block-content">
-                        <div class="session-speaker">Представители клиники Hadassah</div>
-                        <p>Международные стандарты качества в лабораторной службе: JCI, ISO, взаимодействие с пациентом. Опыт внедрения систем менеджмента качества и повышение доверия пациентов.</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- ИТОГОВАЯ ДИСКУССИЯ -->
-            <div class="program-block accordion-block">
-                <div class="block-header accordion-header">
-                    <span class="block-icon">🔹</span>
-                    <h3>Итоговая дискуссия</h3>
-                    <span class="accordion-icon">▼</span>
-                </div>
-                <div class="accordion-content">
-                    <div class="block-content">
-                        <p><strong>Панель «Лабораторная служба будущего: кадры, технологии, пациент»</strong></p>
-                        <p>Участники обсудят ключевые направления развития лабораторной медицины в России и за рубежом.</p>
-                    </div>
-                </div>
-            </div>
-            <!-- УБРАТЬ лишний закрывающий </div> здесь -->
-        </div> <!-- закрываем program-content -->
-    </div>
-</section>
+            </section>
 
         <!-- Speakers Section -->
 <section id="speakers" class="speakers-section">
