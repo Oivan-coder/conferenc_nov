@@ -1038,3 +1038,57 @@
         font-size: 1rem;
     }
 }
+/* АДАПТИВНОСТЬ ДЛЯ БЛОКА "МАТЕРИАЛЫ ДЛЯ ДОКЛАДЧИКОВ" */
+
+/* Планшеты (768px и меньше) */
+@media (max-width: 768px) {
+    .speaker-requirements .block-content > div[style*="grid-template-columns"] {
+        grid-template-columns: 1fr 1fr !important;
+        gap: 12px !important;
+        padding: 10px !important;
+    }
+}
+
+/* Мобильные телефоны (480px и меньше) */
+@media (max-width: 480px) {
+    .speaker-requirements .block-content > div[style*="grid-template-columns"] {
+        grid-template-columns: 1fr !important;
+        gap: 10px !important;
+        padding: 8px !important;
+    }
+    
+    .speaker-requirements .block-content > div > div[style*="text-align: center"] {
+        padding: 30px 15px !important;
+        margin: 0 auto !important;
+        max-width: 100% !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+    }
+    
+    .speaker-requirements .block-content > div > div[style*="text-align: center"] div[style*="font-size: 3rem"] {
+        font-size: 2.5rem !important;
+        margin-bottom: 10px !important;
+    }
+    
+    .speaker-requirements .block-content > div > div[style*="text-align: center"] div[style*="font-size: 1.3rem"] {
+        font-size: 1.1rem !important;
+    }
+    
+    .speaker-requirements .cta-button {
+        min-width: 70px !important;
+        padding: 8px 12px !important;
+        font-size: 0.9rem !important;
+    }
+}
+
+/* Очень маленькие телефоны (360px и меньше) */
+@media (max-width: 360px) {
+    .speaker-requirements .block-content > div[style*="grid-template-columns"] {
+        gap: 8px !important;
+        padding: 5px !important;
+    }
+    
+    .speaker-requirements .block-content > div > div[style*="text-align: center"] {
+        padding: 25px 10px !important;
+    }
+}
