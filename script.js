@@ -13,6 +13,154 @@ const CONFIG = {
         duration: 7
     }
 };
+// ===== ДАННЫЕ СПЕЦИАЛИСТОВ ДЛЯ МОДАЛЬНЫХ ОКОН =====
+const specialistsData = {
+    1: {
+        name: "Щеблыкина-Монастырёва Ирина Владимировна",
+        role: "Куратор референс-центра",
+        bio: "Главный внештатный специалист по клинической лабораторной диагностике. Руководитель проекта «Централизация лабораторной службы» Московской области.",
+        photo: "images/team/irina-scheblykina.jpg",
+        contacts: [
+            { type: "phone", value: "+79958832336", label: "Телефон", icon: "📞" },
+            { type: "whatsapp", value: "+79958832336", label: "WhatsApp", icon: "💬" },
+            { type: "telegram", value: "doc_kld", label: "Telegram", icon: "✈️" },
+            { type: "email", value: "ScheblykinaIV@mosreg.ru", label: "Email", icon: "📧" }
+        ]
+    },
+    2: {
+        name: "Денисова Екатерина Анатольевна",
+        role: "Заведующий референс-центром",
+        bio: "Заведующий референс-центром лабораторной службы МО",
+        photo: "images/team/ekaterina-denisova.jpg",
+        contacts: [
+            { type: "phone", value: "+79933521997", label: "Телефон", icon: "📞" },
+            { type: "whatsapp", value: "+79933521997", label: "WhatsApp", icon: "💬" },
+            { type: "telegram", value: "lab_docc", label: "Telegram", icon: "✈️" }
+        ]
+    },
+    3: {
+        name: "Гольцев Иван Михайлович",
+        role: "Ведущий специалист",
+        bio: "Специалист по лабораторному оборудованию и технической поддержке",
+        photo: "images/team/ivan-goltsev.jpg",
+        contacts: [
+            { type: "whatsapp", value: "+79778290881", label: "WhatsApp", icon: "💬" },
+            { type: "telegram", value: "ivan_goltsev", label: "Telegram", icon: "✈️" }
+        ]
+    },
+    4: {
+        name: "Кондратов Устин Сергеевич",
+        role: "Ведущий экономист",
+        bio: "Специалист по экономическому анализу и оптимизации лабораторной службы",
+        photo: "images/team/ustin-kondratov.jpg",
+        contacts: [
+            { type: "whatsapp", value: "+79670252747", label: "WhatsApp", icon: "💬" },
+            { type: "telegram", value: "ssorf7", label: "Telegram", icon: "✈️" }
+        ]
+    },
+    5: {
+        name: "Каплина Анна Валерьвна",
+        role: "Аналитик",
+        bio: "Специалист по анализу данных и статистической обработке результатов",
+        photo: "images/team/anna-kaplina.jpg",
+        contacts: [
+            { type: "whatsapp", value: "+79637516163", label: "WhatsApp", icon: "💬" },
+            { type: "telegram", value: "Annkey", label: "Telegram", icon: "✈️" }
+        ]
+    }
+};
+
+// ===== ФУНКЦИИ МОДАЛЬНЫХ ОКОН ДЛЯ СПЕЦИАЛИСТОВ =====
+function openSpecialistModal(specialistId) {
+    const specialist = specialistsData[specialistId];
+    if (!specialist) return;
+    
+    const modal = document.getElementById('specialistModal');
+    const modalBody = document.getElementById('specialistModalBody');
+    
+    let contactsHTML = '';
+    specialist.contacts.forEach(contact => {
+        let href = '';
+        switch(contact.type) {
+            case 'phone':
+                href = `tel:${contact.value}`;
+                break;
+            case 'whatsapp':
+                href = `https://wa.me/${contact.value.replace('+', '')}`;
+                break;
+            case 'telegram':
+                href = `https://t.me/${contact.value}`;
+                break;
+            case 'email':
+                href = `mailto:${contact.value}`;
+                break;
+        }
+        
+        contactsHTML += `
+            <a href="${href}" class="modal-contact-link ${contact.type}"
+               ${contact.type === 'whatsapp' || contact.type === 'telegram' ? 'target="_blank"' : ''}>
+                <span>${contact.icon}</span>
+                ${contact.label}
+            </a>
+        `;
+    });
+    
+    modalBody.innerHTML = `
+        <div class="modal-photo">
+            <img src="${specialist.photo}" alt="${specialist.name}"
+                 onerror="this.style.display='none'; this.parentElement.innerHTML='${specialist.photo.includes('irina') ? '👩‍⚕️' : specialist.photo.includes('ekaterina') ? '👨‍💼' : specialist.photo.includes('ivan') ? '🔧' : specialist.photo.includes('ustin') ? '💼' : '📊'}';">
+        </div>
+        <h2 class="modal-name">${specialist.name}</h2>
+        <div class="modal-role">${specialist.role}</div>
+        <div class="modal-bio">${specialist.bio}</div>
+        <div class="modal-contacts">
+            ${contactsHTML}
+        </div>
+    `;
+    
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeSpecialistModal() {
+    const modal = document.getElementById('specialistModal');
+    modal.classList.remove('active');
+    document.body.style.overflow = '';
+}
+
+// ===== ОБНОВЛЕННАЯ ИНИЦИАЛИЗАЦИЯ ДЛЯ СТРАНИЦЫ "О НАС" =====
+function initAboutPageAnimations() {
+    console.log('🎯 Инициализация модальных окон специалистов');
+    
+    // Закрытие по ESC
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            const specialistModal = document.getElementById('specialistModal');
+            if (specialistModal.classList.contains('active')) {
+                closeSpecialistModal();
+            }
+        }
+    });
+    
+    // Анимация появления карточек
+    const cards = document.querySelectorAll('.specialist-card');
+    cards.forEach((card, index) => {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(30px)';
+        card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+        
+        setTimeout(() => {
+            card.style.opacity = '1';
+            card.style.transform = 'translateY(0)';
+        }, 100 * index);
+    });
+}
+
+function initAboutPageContacts() {
+    console.log('📞 Контакты в модальных окнах');
+    // Не нужно для новой версии
+}
+
 
 const speakers = [
     {
