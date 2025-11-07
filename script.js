@@ -218,7 +218,7 @@ const speakers = [
         id: 7,
         name: "Попов Владимир Александрович",
         role: "Руководитель отдела региональных продаж АО Вектор-Бест-Европа",
-        photo: "images/speakers/vladimir.jpg",
+        photo: "images/speakers/popov.jpg",
         topic: "Технологические решения для лабораторной диагностики от ведущего российского производителя",
         details: []
     },
@@ -250,7 +250,7 @@ const speakers = [
         id: 11,
         name: "Сорока Александр Евгеньевич",
         role: "Старший специалист по продукции ПЦР, КБМ АО Вектор-Бест-Европа",
-        photo: "images/speakers/shadrina.jpg",
+        photo: "images/speakers/soroka.jpg",
         topic: "Технологические решения в области ПЦР-диагностики для централизованных лабораторий",
         details: []
     }
