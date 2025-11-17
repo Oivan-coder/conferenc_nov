@@ -1,47 +1,47 @@
 // cookies.js - Простое рабочее решение
-class CookieConsent {
+class CookieConsentManager {
     constructor() {
-        this.cookieName = 'cookie_consent_accepted';
-        this.init();
+        this.consentCookieName = 'cookie_consent_accepted';
+        this.initialize();
     }
 
-    init() {
+    initialize() {
         // Если согласие уже дано - запускаем метрику сразу
-        if (this.getCookie(this.cookieName) === 'true') {
-            this.loadYandexMetrika();
+        if (this.getStoredCookie(this.consentCookieName) === 'true') {
+            this.initializeYandexMetrika();
         } else {
             // Показываем баннер если согласия нет
             setTimeout(() => {
-                this.createBanner();
+                this.displayConsentBanner();
             }, 2000);
         }
     }
 
-    createBanner() {
-        const bannerHTML = `
-            <div id="cookieConsent" class="cookie-consent">
-                <div class="cookie-content">
-                    <div class="cookie-text">
+    displayConsentBanner() {
+        const bannerMarkup = `
+            <div id="cookieConsentBanner" class="cookie-consent-banner">
+                <div class="cookie-banner-content">
+                    <div class="cookie-banner-text">
                         <h4>🍪 Использование cookies</h4>
                         <p>Мы используем файлы cookie для улучшения работы сайта. Продолжая использование, вы соглашаетесь с нашей <a href="privacy.html" target="_blank">Политикой конфиденциальности</a>.</p>
                     </div>
-                    <div class="cookie-buttons">
-                        <button class="cookie-btn cookie-accept">Принять</button>
-                        <button class="cookie-btn cookie-settings">Подробнее</button>
+                    <div class="cookie-banner-buttons">
+                        <button class="cookie-banner-btn cookie-accept-btn">Принять</button>
+                        <button class="cookie-banner-btn cookie-info-btn">Подробнее</button>
                     </div>
                 </div>
             </div>
         `;
 
-        document.body.insertAdjacentHTML('beforeend', bannerHTML);
-        this.addStyles();
-        this.attachEventHandlers();
+        document.body.insertAdjacentHTML('beforeend', bannerMarkup);
+        this.injectBannerStyles();
+        this.setupBannerEventHandlers();
     }
 
-    addStyles() {
-        const styles = `
-            <style>
-                .cookie-consent {
+    injectBannerStyles() {
+        const bannerStyles = `
+            <style id="cookieConsentStyles">
+                .cookie-consent-banner {
                     position: fixed;
                     bottom: 20px;
                     left: 20px;
@@ -53,11 +53,11 @@ class CookieConsent {
                     border: 1px solid rgba(100, 255, 218, 0.3);
                     z-index: 10000;
                     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-                    animation: cookieSlideUp 0.5s ease-out;
+                    animation: cookieBannerSlideUp 0.5s ease-out;
                     backdrop-filter: blur(10px);
                 }
 
-                @keyframes cookieSlideUp {
+                @keyframes cookieBannerSlideUp {
                     from {
                         opacity: 0;
                         transform: translateY(100px);
@@ -68,39 +68,39 @@ class CookieConsent {
                     }
                 }
 
-                .cookie-content {
+                .cookie-banner-content {
                     padding: 20px;
                 }
 
-                .cookie-text h4 {
+                .cookie-banner-text h4 {
                     margin: 0 0 10px 0;
                     font-size: 16px;
                     font-weight: 600;
                     color: #64ffda;
                 }
 
-                .cookie-text p {
+                .cookie-banner-text p {
                     margin: 0 0 15px 0;
                     font-size: 14px;
                     line-height: 1.5;
                     color: #ccd6f6;
                 }
 
-                .cookie-text a {
+                .cookie-banner-text a {
                     color: #64ffda;
                     text-decoration: none;
                 }
 
-                .cookie-text a:hover {
+                .cookie-banner-text a:hover {
                     text-decoration: underline;
                 }
 
-                .cookie-buttons {
+                .cookie-banner-buttons {
                     display: flex;
                     gap: 10px;
                 }
 
-                .cookie-btn {
+                .cookie-banner-btn {
                     padding: 10px 20px;
                     border: none;
                     border-radius: 6px;
@@ -111,79 +111,87 @@ class CookieConsent {
                     flex: 1;
                 }
 
-                .cookie-accept {
+                .cookie-accept-btn {
                     background: #64ffda;
                     color: #0a192f;
                 }
 
-                .cookie-accept:hover {
+                .cookie-accept-btn:hover {
                     background: #45e6c4;
                     transform: translateY(-2px);
                 }
 
-                .cookie-settings {
+                .cookie-info-btn {
                     background: transparent;
                     color: #64ffda;
                     border: 1px solid rgba(100, 255, 218, 0.3);
                 }
 
-                .cookie-settings:hover {
+                .cookie-info-btn:hover {
                     background: rgba(100, 255, 218, 0.1);
                 }
 
                 @media (max-width: 768px) {
-                    .cookie-consent {
+                    .cookie-consent-banner {
                         left: 10px;
                         right: 10px;
                         bottom: 10px;
                     }
                     
-                    .cookie-buttons {
+                    .cookie-banner-buttons {
                         flex-direction: column;
                     }
                 }
             </style>
         `;
 
-        document.head.insertAdjacentHTML('beforeend', styles);
+        document.head.insertAdjacentHTML('beforeend', bannerStyles);
     }
 
-    attachEventHandlers() {
-        const acceptBtn = document.querySelector('.cookie-accept');
-        const settingsBtn = document.querySelector('.cookie-settings');
-        const banner = document.getElementById('cookieConsent');
+    setupBannerEventHandlers() {
+        const acceptButton = document.querySelector('.cookie-accept-btn');
+        const infoButton = document.querySelector('.cookie-info-btn');
+        const bannerElement = document.getElementById('cookieConsentBanner');
 
-        acceptBtn.addEventListener('click', () => {
-            this.acceptCookies();
-            this.hideBanner(banner);
-        });
+        if (acceptButton) {
+            acceptButton.addEventListener('click', () => {
+                this.processCookieConsent();
+                this.hideConsentBanner(bannerElement);
+            });
+        }
 
-        settingsBtn.addEventListener('click', () => {
-            window.open('privacy.html', '_blank');
-        });
+        if (infoButton) {
+            infoButton.addEventListener('click', () => {
+                window.open('privacy.html', '_blank');
+            });
+        }
     }
 
-    hideBanner(banner) {
-        banner.style.opacity = '0';
-        banner.style.transform = 'translateY(100px)';
+    hideConsentBanner(bannerElement) {
+        if (!bannerElement) return;
+        
+        bannerElement.style.opacity = '0';
+        bannerElement.style.transform = 'translateY(100px)';
         
         setTimeout(() => {
-            banner.remove();
+            if (bannerElement.parentNode) {
+                bannerElement.remove();
+            }
         }, 500);
     }
 
-    acceptCookies() {
+    processCookieConsent() {
         // Сохраняем согласие на 1 год
-        this.setCookie(this.cookieName, 'true', 365);
+        this.setCookieValue(this.consentCookieName, 'true', 365);
         
         // Запускаем Яндекс.Метрику
-        this.loadYandexMetrika();
+        this.initializeYandexMetrika();
         
         // Показываем уведомление
-        this.showToast('Спасибо! Cookies приняты.');
+        this.displayConsentToast('Спасибо! Cookies приняты.');
     }
 
-    loadYandexMetrika() {
+    initializeYandexMetrika() {
         // Проверяем не загружена ли уже метрика
         if (window.ym && window.ym.a) {
             return;
@@ -191,13 +199,12 @@ class CookieConsent {
 
         console.log('Загружаем Яндекс.Метрику...');
 
-        
         // Создаем скрипт Яндекс.Метрики
-        const script = document.createElement('script');
-        script.src = 'https://mc.yandex.ru/metrika/tag.js';
-        script.async = true;
+        const metrikaScriptElement = document.createElement('script');
+        metrikaScriptElement.src = 'https://mc.yandex.ru/metrika/tag.js';
+        metrikaScriptElement.async = true;
         
-        script.onload = () => {
+        metrikaScriptElement.onload = () => {
             // Ждем чтобы ym функция точно была доступна
             setTimeout(() => {
                 if (typeof window.ym === 'function') {
@@ -214,16 +221,16 @@ class CookieConsent {
             }, 100);
         };
 
-        script.onerror = () => {
+        metrikaScriptElement.onerror = () => {
             console.error('Ошибка загрузки Яндекс.Метрики');
         };
 
-        document.head.appendChild(script);
+        document.head.appendChild(metrikaScriptElement);
     }
 
-    showToast(message) {
-        const toast = document.createElement('div');
-        toast.style.cssText = `
+    displayConsentToast(message) {
+        const toastElement = document.createElement('div');
+        toastElement.style.cssText = `
             position: fixed;
             bottom: 100px;
             right: 20px;
@@ -233,31 +240,36 @@ class CookieConsent {
             border-radius: 8px;
             font-weight: 500;
             z-index: 10001;
-            animation: toastSlide 0.3s ease-out;
         `;
         
-        toast.textContent = message;
-        document.body.appendChild(toast);
+        toastElement.textContent = message;
+        document.body.appendChild(toastElement);
 
         setTimeout(() => {
-            toast.remove();
+            if (toastElement.parentNode) {
+                toastElement.remove();
+            }
         }, 3000);
     }
 
-    setCookie(name, value, days) {
-        const date = new Date();
-        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-        const expires = "expires=" + date.toUTCString();
-        document.cookie = name + "=" + value + ";" + expires + ";path=/;SameSite=Lax";
+    setCookieValue(cookieName, cookieValue, expirationDays) {
+        const expirationDate = new Date();
+        expirationDate.setTime(expirationDate.getTime() + (expirationDays * 24 * 60 * 60 * 1000));
+        const expiresAttribute = "expires=" + expirationDate.toUTCString();
+        document.cookie = cookieName + "=" + cookieValue + ";" + expiresAttribute + ";path=/;SameSite=Lax";
     }
 
-    getCookie(name) {
-        const nameEQ = name + "=";
-        const ca = document.cookie.split(';');
-        for (let i = 0; i < ca.length; i++) {
-            let c = ca[i];
-            while (c.charAt(0) === ' ') c = c.substring(1, c.length);
-            if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
+    getStoredCookie(cookieName) {
+        const nameWithEquals = cookieName + "=";
+        const cookieArray = document.cookie.split(';');
+        for (let i = 0; i < cookieArray.length; i++) {
+            let cookieItem = cookieArray[i];
+            while (cookieItem.charAt(0) === ' ') {
+                cookieItem = cookieItem.substring(1, cookieItem.length);
+            }
+            if (cookieItem.indexOf(nameWithEquals) === 0) {
+                return cookieItem.substring(nameWithEquals.length, cookieItem.length);
+            }
         }
         return null;
     }
@@ -265,5 +277,5 @@ class CookieConsent {
 
 // Запускаем при загрузке страницы
 document.addEventListener('DOMContentLoaded', function() {
-    new CookieConsent();
+    new CookieConsentManager();
 });
