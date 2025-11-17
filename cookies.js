@@ -191,10 +191,6 @@ class CookieConsent {
 
         console.log('Загружаем Яндекс.Метрику...');
 
-        // Создаем скрипт Яндекс.Метрики
-        const script = document.createElement('script');
-        script.src = 'https://mc.yandex.ru/metrika/tag.js';
-        script.async = true;
         
         // Создаем скрипт Яндекс.Метрики
         const script = document.createElement('script');
