@@ -2,6 +2,7 @@
 class CookieConsentManager {
     constructor() {
         this.consentCookieName = 'cookie_consent_accepted';
+        this.metrikaLoaded = false;
         this.initialize();
     }
 
@@ -194,38 +195,77 @@ class CookieConsentManager {
     initializeYandexMetrika() {
         // Проверяем не загружена ли уже метрика
         if (window.ym && window.ym.a) {
+            console.log('✅ Яндекс.Метрика уже загружена');
+            return;
+        }
+
+        if (this.metrikaLoaded) {
+            console.log('✅ Яндекс.Метрика уже в процессе загрузки');
             return;
         }
 
         console.log('Загружаем Яндекс.Метрику...');
+        this.metrikaLoaded = true;
 
         // Создаем скрипт Яндекс.Метрики
         const metrikaScriptElement = document.createElement('script');
         metrikaScriptElement.src = 'https://mc.yandex.ru/metrika/tag.js';
         metrikaScriptElement.async = true;
         
+        // Создаем очередь для вызовов ym
+        window.ymQueue = window.ymQueue || [];
+        
         metrikaScriptElement.onload = () => {
-            // Ждем чтобы ym функция точно была доступна
-            setTimeout(() => {
-                if (typeof window.ym === 'function') {
-                    window.ym(105271987, 'init', {
-                        clickmap: true,
-                        trackLinks: true,
-                        accurateTrackBounce: true,
-                        webvisor: true
-                    });
-                    console.log('✅ Яндекс.Метрика успешно инициализирована');
-                } else {
-                    console.error('❌ Функция ym не доступна после загрузки скрипта');
-                }
-            }, 100);
+            console.log('✅ Скрипт Яндекс.Метрики загружен');
+            
+            // Пробуем инициализировать несколько раз с интервалами
+            this.tryInitializeMetrika(0);
         };
 
         metrikaScriptElement.onerror = () => {
-            console.error('Ошибка загрузки Яндекс.Метрики');
+            console.error('❌ Ошибка загрузки Яндекс.Метрики');
+            this.metrikaLoaded = false;
         };
 
         document.head.appendChild(metrikaScriptElement);
+    }
+
+    tryInitializeMetrika(attempt) {
+        const maxAttempts = 10;
+        
+        if (typeof window.ym === 'function') {
+            console.log('✅ Функция ym доступна, инициализируем метрику');
+            
+            window.ym(105271987, 'init', {
+                clickmap: true,
+                trackLinks: true,
+                accurateTrackBounce: true,
+                webvisor: true
+            });
+            
+            // Обрабатываем очередь вызовов
+            if (window.ymQueue && window.ymQueue.length > 0) {
+                console.log(`📋 Обрабатываем очередь из ${window.ymQueue.length} вызовов`);
+                window.ymQueue.forEach(args => {
+                    try {
+                        window.ym.apply(null, args);
+                    } catch (e) {
+                        console.error('Ошибка при обработке очереди:', e);
+                    }
+                });
+                window.ymQueue = [];
+            }
+            
+            console.log('✅ Яндекс.Метрика успешно инициализирована');
+        } else if (attempt < maxAttempts) {
+            console.log(`🔄 Попытка ${attempt + 1}/${maxAttempts}: функция ym еще не доступна`);
+            setTimeout(() => {
+                this.tryInitializeMetrika(attempt + 1);
+            }, 200);
+        } else {
+            console.error('❌ Не удалось инициализировать Яндекс.Метрику после всех попыток');
+            this.metrikaLoaded = false;
+        }
     }
 
     displayConsentToast(message) {
