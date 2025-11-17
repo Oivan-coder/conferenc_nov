@@ -1,4 +1,4 @@
-// cookies.js - Простое рабочее решение
+// cookies.js - Исправленная версия
 class CookieConsentManager {
     constructor() {
         this.consentCookieName = 'cookie_consent_accepted';
@@ -212,14 +212,11 @@ class CookieConsentManager {
         metrikaScriptElement.src = 'https://mc.yandex.ru/metrika/tag.js';
         metrikaScriptElement.async = true;
         
-        // Создаем очередь для вызовов ym
-        window.ymQueue = window.ymQueue || [];
-        
         metrikaScriptElement.onload = () => {
             console.log('✅ Скрипт Яндекс.Метрики загружен');
             
             // Пробуем инициализировать несколько раз с интервалами
-            this.tryInitializeMetrika(0);
+            this.attemptMetrikaInitialization(0);
         };
 
         metrikaScriptElement.onerror = () => {
@@ -230,7 +227,7 @@ class CookieConsentManager {
         document.head.appendChild(metrikaScriptElement);
     }
 
-    tryInitializeMetrika(attempt) {
+    attemptMetrikaInitialization(attemptNumber) {
         const maxAttempts = 10;
         
         if (typeof window.ym === 'function') {
@@ -243,24 +240,11 @@ class CookieConsentManager {
                 webvisor: true
             });
             
-            // Обрабатываем очередь вызовов
-            if (window.ymQueue && window.ymQueue.length > 0) {
-                console.log(`📋 Обрабатываем очередь из ${window.ymQueue.length} вызовов`);
-                window.ymQueue.forEach(args => {
-                    try {
-                        window.ym.apply(null, args);
-                    } catch (e) {
-                        console.error('Ошибка при обработке очереди:', e);
-                    }
-                });
-                window.ymQueue = [];
-            }
-            
             console.log('✅ Яндекс.Метрика успешно инициализирована');
-        } else if (attempt < maxAttempts) {
-            console.log(`🔄 Попытка ${attempt + 1}/${maxAttempts}: функция ym еще не доступна`);
+        } else if (attemptNumber < maxAttempts) {
+            console.log(`🔄 Попытка ${attemptNumber + 1}/${maxAttempts}: функция ym еще не доступна`);
             setTimeout(() => {
-                this.tryInitializeMetrika(attempt + 1);
+                this.attemptMetrikaInitialization(attemptNumber + 1);
             }, 200);
         } else {
             console.error('❌ Не удалось инициализировать Яндекс.Метрику после всех попыток');
