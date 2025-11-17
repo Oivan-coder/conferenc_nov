@@ -196,16 +196,26 @@ class CookieConsent {
         script.src = 'https://mc.yandex.ru/metrika/tag.js';
         script.async = true;
         
+        // Создаем скрипт Яндекс.Метрики
+        const script = document.createElement('script');
+        script.src = 'https://mc.yandex.ru/metrika/tag.js';
+        script.async = true;
+        
         script.onload = () => {
-            // Инициализируем метрику
-            window.ym(105271987, 'init', {
-                clickmap: true,
-                trackLinks: true,
-                accurateTrackBounce: true,
-                webvisor: true
-            });
-            
-            console.log('Яндекс.Метрика успешно загружена');
+            // Ждем чтобы ym функция точно была доступна
+            setTimeout(() => {
+                if (typeof window.ym === 'function') {
+                    window.ym(105271987, 'init', {
+                        clickmap: true,
+                        trackLinks: true,
+                        accurateTrackBounce: true,
+                        webvisor: true
+                    });
+                    console.log('✅ Яндекс.Метрика успешно инициализирована');
+                } else {
+                    console.error('❌ Функция ym не доступна после загрузки скрипта');
+                }
+            }, 100);
         };
 
         script.onerror = () => {
