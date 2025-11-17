@@ -1,25 +1,22 @@
-// cookies.js - Исправленная версия
+// cookies.js - РАБОЧАЯ версия с красивыми стилями
 class CookieConsentManager {
     constructor() {
         this.consentCookieName = 'cookie_consent_accepted';
-        this.metrikaLoaded = false;
         this.initialize();
     }
 
     initialize() {
-        // Если согласие уже дано - запускаем метрику сразу
         if (this.getStoredCookie(this.consentCookieName) === 'true') {
-            this.initializeYandexMetrika();
+            this.loadYandexMetrika();
         } else {
-            // Показываем баннер если согласия нет
             setTimeout(() => {
-                this.displayConsentBanner();
+                this.showBanner();
             }, 2000);
         }
     }
 
-    displayConsentBanner() {
-        const bannerMarkup = `
+    showBanner() {
+        const bannerHTML = `
             <div id="cookieConsentBanner" class="cookie-consent-banner">
                 <div class="cookie-banner-content">
                     <div class="cookie-banner-text">
@@ -34,14 +31,14 @@ class CookieConsentManager {
             </div>
         `;
 
-        document.body.insertAdjacentHTML('beforeend', bannerMarkup);
-        this.injectBannerStyles();
-        this.setupBannerEventHandlers();
+        document.body.insertAdjacentHTML('beforeend', bannerHTML);
+        this.addStyles();
+        this.setupEventHandlers();
     }
 
-    injectBannerStyles() {
-        const bannerStyles = `
-            <style id="cookieConsentStyles">
+    addStyles() {
+        const styles = `
+            <style>
                 .cookie-consent-banner {
                     position: fixed;
                     bottom: 20px;
@@ -54,11 +51,11 @@ class CookieConsentManager {
                     border: 1px solid rgba(100, 255, 218, 0.3);
                     z-index: 10000;
                     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-                    animation: cookieBannerSlideUp 0.5s ease-out;
+                    animation: cookieSlideUp 0.5s ease-out;
                     backdrop-filter: blur(10px);
                 }
 
-                @keyframes cookieBannerSlideUp {
+                @keyframes cookieSlideUp {
                     from {
                         opacity: 0;
                         transform: translateY(100px);
@@ -143,157 +140,129 @@ class CookieConsentManager {
                         flex-direction: column;
                     }
                 }
+
+                .cookie-toast {
+                    position: fixed;
+                    bottom: 100px;
+                    right: 20px;
+                    background: #64ffda;
+                    color: #0a192f;
+                    padding: 12px 20px;
+                    border-radius: 8px;
+                    font-weight: 500;
+                    z-index: 10001;
+                    animation: toastSlide 0.3s ease-out;
+                }
+
+                @keyframes toastSlide {
+                    from {
+                        opacity: 0;
+                        transform: translateX(100%);
+                    }
+                    to {
+                        opacity: 1;
+                        transform: translateX(0);
+                    }
+                }
             </style>
         `;
 
-        document.head.insertAdjacentHTML('beforeend', bannerStyles);
+        document.head.insertAdjacentHTML('beforeend', styles);
     }
 
-    setupBannerEventHandlers() {
-        const acceptButton = document.querySelector('.cookie-accept-btn');
-        const infoButton = document.querySelector('.cookie-info-btn');
-        const bannerElement = document.getElementById('cookieConsentBanner');
+    setupEventHandlers() {
+        const acceptBtn = document.querySelector('.cookie-accept-btn');
+        const infoBtn = document.querySelector('.cookie-info-btn');
+        const banner = document.getElementById('cookieConsentBanner');
 
-        if (acceptButton) {
-            acceptButton.addEventListener('click', () => {
-                this.processCookieConsent();
-                this.hideConsentBanner(bannerElement);
-            });
-        }
+        acceptBtn.addEventListener('click', () => {
+            this.acceptCookies();
+            this.hideBanner(banner);
+        });
 
-        if (infoButton) {
-            infoButton.addEventListener('click', () => {
-                window.open('privacy.html', '_blank');
-            });
-        }
+        infoBtn.addEventListener('click', () => {
+            window.open('privacy.html', '_blank');
+        });
     }
 
-    hideConsentBanner(bannerElement) {
-        if (!bannerElement) return;
+    hideBanner(banner) {
+        if (!banner) return;
         
-        bannerElement.style.opacity = '0';
-        bannerElement.style.transform = 'translateY(100px)';
+        banner.style.opacity = '0';
+        banner.style.transform = 'translateY(100px)';
         
         setTimeout(() => {
-            if (bannerElement.parentNode) {
-                bannerElement.remove();
+            if (banner.parentNode) {
+                banner.remove();
             }
         }, 500);
     }
 
-    processCookieConsent() {
+    acceptCookies() {
         // Сохраняем согласие на 1 год
         this.setCookieValue(this.consentCookieName, 'true', 365);
         
         // Запускаем Яндекс.Метрику
-        this.initializeYandexMetrika();
+        this.loadYandexMetrika();
         
         // Показываем уведомление
-        this.displayConsentToast('Спасибо! Cookies приняты.');
+        this.showToast('Спасибо! Cookies приняты.');
     }
 
-    initializeYandexMetrika() {
-        // Проверяем не загружена ли уже метрика
-        if (window.ym && window.ym.a) {
-            console.log('✅ Яндекс.Метрика уже загружена');
-            return;
-        }
-
-        if (this.metrikaLoaded) {
-            console.log('✅ Яндекс.Метрика уже в процессе загрузки');
-            return;
-        }
-
-        console.log('Загружаем Яндекс.Метрику...');
-        this.metrikaLoaded = true;
-
-        // Создаем скрипт Яндекс.Метрики
-        const metrikaScriptElement = document.createElement('script');
-        metrikaScriptElement.src = 'https://mc.yandex.ru/metrika/tag.js';
-        metrikaScriptElement.async = true;
+    loadYandexMetrika() {
+        console.log('🚀 Загружаем Яндекс.Метрику...');
         
-        metrikaScriptElement.onload = () => {
-            console.log('✅ Скрипт Яндекс.Метрики загружен');
+        // Стандартный код Яндекс.Метрики
+        const metrikaCode = `
+            (function(m,e,t,r,i,k,a){
+                m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+                m[i].l=1*new Date();
+                k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+            })
+            (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
             
-            // Пробуем инициализировать несколько раз с интервалами
-            this.attemptMetrikaInitialization(0);
-        };
-
-        metrikaScriptElement.onerror = () => {
-            console.error('❌ Ошибка загрузки Яндекс.Метрики');
-            this.metrikaLoaded = false;
-        };
-
-        document.head.appendChild(metrikaScriptElement);
-    }
-
-    attemptMetrikaInitialization(attemptNumber) {
-        const maxAttempts = 10;
-        
-        if (typeof window.ym === 'function') {
-            console.log('✅ Функция ym доступна, инициализируем метрику');
-            
-            window.ym(105271987, 'init', {
-                clickmap: true,
-                trackLinks: true,
-                accurateTrackBounce: true,
-                webvisor: true
+            ym(105271987, "init", {
+                clickmap:true,
+                trackLinks:true,
+                accurateTrackBounce:true,
+                webvisor:true
             });
-            
-            console.log('✅ Яндекс.Метрика успешно инициализирована');
-        } else if (attemptNumber < maxAttempts) {
-            console.log(`🔄 Попытка ${attemptNumber + 1}/${maxAttempts}: функция ym еще не доступна`);
-            setTimeout(() => {
-                this.attemptMetrikaInitialization(attemptNumber + 1);
-            }, 200);
-        } else {
-            console.error('❌ Не удалось инициализировать Яндекс.Метрику после всех попыток');
-            this.metrikaLoaded = false;
-        }
-    }
-
-    displayConsentToast(message) {
-        const toastElement = document.createElement('div');
-        toastElement.style.cssText = `
-            position: fixed;
-            bottom: 100px;
-            right: 20px;
-            background: #64ffda;
-            color: #0a192f;
-            padding: 12px 20px;
-            border-radius: 8px;
-            font-weight: 500;
-            z-index: 10001;
         `;
         
-        toastElement.textContent = message;
-        document.body.appendChild(toastElement);
+        const script = document.createElement('script');
+        script.innerHTML = metrikaCode;
+        document.head.appendChild(script);
+        
+        console.log('✅ Яндекс.Метрика загружена');
+    }
+
+    showToast(message) {
+        const toast = document.createElement('div');
+        toast.className = 'cookie-toast';
+        toast.textContent = message;
+        document.body.appendChild(toast);
 
         setTimeout(() => {
-            if (toastElement.parentNode) {
-                toastElement.remove();
+            if (toast.parentNode) {
+                toast.remove();
             }
         }, 3000);
     }
 
-    setCookieValue(cookieName, cookieValue, expirationDays) {
-        const expirationDate = new Date();
-        expirationDate.setTime(expirationDate.getTime() + (expirationDays * 24 * 60 * 60 * 1000));
-        const expiresAttribute = "expires=" + expirationDate.toUTCString();
-        document.cookie = cookieName + "=" + cookieValue + ";" + expiresAttribute + ";path=/;SameSite=Lax";
+    setCookieValue(name, value, days) {
+        const date = new Date();
+        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+        const expires = "expires=" + date.toUTCString();
+        document.cookie = name + "=" + value + ";" + expires + ";path=/;SameSite=Lax";
     }
 
-    getStoredCookie(cookieName) {
-        const nameWithEquals = cookieName + "=";
-        const cookieArray = document.cookie.split(';');
-        for (let i = 0; i < cookieArray.length; i++) {
-            let cookieItem = cookieArray[i];
-            while (cookieItem.charAt(0) === ' ') {
-                cookieItem = cookieItem.substring(1, cookieItem.length);
-            }
-            if (cookieItem.indexOf(nameWithEquals) === 0) {
-                return cookieItem.substring(nameWithEquals.length, cookieItem.length);
-            }
+    getStoredCookie(name) {
+        const nameEQ = name + "=";
+        const ca = document.cookie.split(';');
+        for (let i = 0; i < ca.length; i++) {
+            let c = ca[i];
+            while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+            if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
         }
         return null;
     }
