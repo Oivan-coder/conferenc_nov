@@ -263,7 +263,15 @@ const speakers = [
         photo: "images/speakers/absalikov.jpg", // нужно добавить фото
         topic: "Концепция Lean и потери в лабораторном производстве",
         details: []
-    }
+    },
+    {
+    id: 13,
+    name: "Овчинникова Лиана Григорьевна",
+    role: "директор по развитию АО «БиоХимМак»",
+    photo: "images/speakers/ovchinnikova.jpg", // нужно добавить фото
+    topic: "Новейшие подходы к диагностике кала: от преаналитики до полной автоматизации",
+    details: []
+}
 ];
 let currentPhotoSlide = 0;
 let currentSpeakerSlide = 0;
