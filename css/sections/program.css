@@ -797,3 +797,239 @@
     border: 2px dashed var(--primary-light);
 }
 
+/* ===== PRESENTATIONS ARCHIVE ===== */
+.presentations-archive {
+    background: var(--bg-secondary);
+    border-radius: var(--radius-lg);
+    padding: 0;
+    margin-top: var(--space-xl);
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border-color);
+    transition: all 0.3s ease;
+    overflow: hidden;
+}
+
+.presentations-archive:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+}
+
+.presentations-archive .block-header {
+    padding: var(--space-xl);
+    border-bottom: 1px solid var(--border-color);
+    background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-medical) 100%);
+    color: white;
+    margin: 0;
+}
+
+.presentations-archive .block-header h3 {
+    color: white;
+    margin: 0;
+    font-size: 1.4rem;
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+}
+
+.archive-grid {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg);
+    padding: var(--space-xl);
+}
+
+.main-archive {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: var(--space-xl);
+    align-items: center;
+    padding: var(--space-xl);
+    background: var(--bg-tertiary);
+    border-radius: var(--radius-lg);
+    border: 2px dashed var(--accent-primary);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.main-archive::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent-primary), var(--accent-medical));
+}
+
+.main-archive:hover {
+    background: var(--bg-secondary);
+    border-color: var(--accent-medical);
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-md);
+}
+
+.archive-icon {
+    font-size: 3.5rem;
+    background: linear-gradient(135deg, var(--accent-primary), var(--accent-medical));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+}
+
+.archive-content h4 {
+    margin: 0 0 var(--space-sm) 0;
+    color: var(--text-primary);
+    font-size: 1.4rem;
+    font-weight: 700;
+    line-height: 1.3;
+}
+
+.archive-content p {
+    margin: 0 0 var(--space-md) 0;
+    color: var(--text-secondary);
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+.archive-meta {
+    display: flex;
+    gap: var(--space-md);
+    flex-wrap: wrap;
+}
+
+.file-size, .file-count {
+    padding: var(--space-xs) var(--space-md);
+    background: var(--bg-secondary);
+    border-radius: var(--radius-md);
+    color: var(--text-secondary);
+    font-weight: 600;
+    font-size: 0.9rem;
+    border: 1px solid var(--border-color);
+    transition: all 0.3s ease;
+}
+
+.file-size:hover, .file-count:hover {
+    background: var(--accent-primary);
+    color: white;
+    transform: translateY(-1px);
+}
+
+.download-btn {
+    white-space: nowrap;
+    min-width: 180px;
+    justify-content: center;
+    padding: var(--space-md) var(--space-lg);
+    font-weight: 600;
+    font-size: 1rem;
+    background: linear-gradient(135deg, var(--accent-primary), var(--accent-primary-dark));
+    border: none;
+    box-shadow: var(--shadow-sm);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.download-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: left 0.5s;
+}
+
+.download-btn:hover::before {
+    left: 100%;
+}
+
+.download-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+    background: linear-gradient(135deg, var(--accent-primary-dark), var(--accent-primary));
+}
+
+/* Анимации для блока архива */
+.presentations-archive {
+    animation: slideInUp 0.6s ease 0.2s forwards;
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+.main-archive {
+    animation: fadeIn 0.8s ease 0.4s forwards;
+    opacity: 0;
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+@media (max-width: 768px) {
+    .presentations-archive .block-header {
+        padding: var(--space-lg);
+    }
+    
+    .presentations-archive .block-header h3 {
+        font-size: 1.2rem;
+        justify-content: center;
+        text-align: center;
+    }
+    
+    .archive-grid {
+        padding: var(--space-lg);
+        gap: var(--space-md);
+    }
+    
+    .main-archive {
+        grid-template-columns: 1fr;
+        gap: var(--space-lg);
+        text-align: center;
+        padding: var(--space-lg);
+    }
+    
+    .archive-icon {
+        font-size: 3rem;
+        justify-self: center;
+    }
+    
+    .archive-content h4 {
+        font-size: 1.2rem;
+    }
+    
+    .archive-meta {
+        justify-content: center;
+    }
+    
+    .download-btn {
+        min-width: 100%;
+        justify-self: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .presentations-archive {
+        margin-top: var(--space-lg);
+    }
+    
+    .archive-grid {
+        padding: var(--space-md);
+    }
+    
+    .main-archive {
+        padding: var(--space-md);
+    }
+    
+    .archive-icon {
+        font-size: 2.5rem;
+    }
+    
+    .archive-content h4 {
+        font-size: 1.1rem;
+    }
+    
+    .file-size, .file-count {
+        font-size: 0.85rem;
+        padding: var(--space-xs) var(--space-sm);
+    }
+}
