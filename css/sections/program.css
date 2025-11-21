@@ -772,3 +772,28 @@
         font-size: 0.95rem;
     }
 }
+/* === НОВЫЕ СТИЛИ ДЛЯ АРХИВА ПРЕЗЕНТАЦИЙ === */
+.presentations-archive {
+    background: var(--bg-secondary);
+    border-radius: 12px;
+    padding: 0;
+    overflow: hidden;
+}
+
+.archive-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.main-archive {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 20px;
+    align-items: center;
+    padding: 30px;
+    background: linear-gradient(135deg, var(--primary)10, var(--secondary)10);
+    border-radius: 12px;
+    border: 2px dashed var(--primary-light);
+}
+
