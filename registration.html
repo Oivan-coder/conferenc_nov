@@ -15,41 +15,17 @@
     <meta property="og:description" content="Зарегистрируйтесь на Форум лабораторных инноваций 2025">
     <meta property="og:url" content="https://rclsmo.ru/registration.html">
     <meta property="og:type" content="website">
-    <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="images/favicon.ico">
-    <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
-    <!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <!-- 🔥 SEO МЕТА-ТЕГИ -->
-    <title>Форум лабораторных инноваций - РЦЛСМО</title>
-    <meta name="description" content="Форум лабораторных инноваций - передовые технологии в медицинской лабораторной диагностике. Москва, 2025 год.">
-    <meta name="keywords" content="медицинская конференция, лабораторная диагностика, Форум лабораторных инноваций, медицинские технологии, Москва">
-    <link rel="canonical" href="https://rclsmo.ru/" />
-    
-    <!-- Open Graph для соцсетей -->
-    <meta property="og:title" content="Форум лабораторных инноваций">
-    <meta property="og:description" content="Передовые технологии в медицинской лабораторной диагностике. Москва, 2025 год.">
-    <meta property="og:url" content="https://rclsmo.ru/">
-    <meta property="og:type" content="website">
     
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="images/favicon.ico">
     <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
+    
     <!-- CSS -->
     <link rel="stylesheet" href="css/main.css">
     
     <!-- Яндекс.Карты API -->
     <script src="https://api-maps.yandex.ru/2.1/?apikey=3dd59f10-9dfb-4db3-b374-9e344bee9e00&lang=ru_RU" type="text/javascript"></script>
 
-
-</head>
-    
-    <!-- CSS -->
-    <link rel="stylesheet" href="css/main.css">
     <style>
         /* Стили модального окна */
         .modal {
@@ -343,104 +319,134 @@
             color: #0a1525 !important;
             font-weight: 600 !important;
         }
+        
         .qr-info {
-    background: rgba(255, 193, 7, 0.1);
-    padding: 1.2rem;
-    border-radius: 10px;
-    margin: 1.2rem 0;
-    border-left: 4px solid #ffc107;
-}
+            background: rgba(255, 193, 7, 0.1);
+            padding: 1.2rem;
+            border-radius: 10px;
+            margin: 1.2rem 0;
+            border-left: 4px solid #ffc107;
+        }
 
-.qr-info h4 {
-    color: #ff8f00;
-    margin-top: 0;
-    margin-bottom: 0.8rem;
-    font-size: 1.1rem;
-}
+        .qr-info h4 {
+            color: #ff8f00;
+            margin-top: 0;
+            margin-bottom: 0.8rem;
+            font-size: 1.1rem;
+        }
 
-.qr-info ul {
-    margin: 0;
-    padding-left: 1.2rem;
-}
+        .qr-info ul {
+            margin: 0;
+            padding-left: 1.2rem;
+        }
 
-.qr-info li {
-    margin-bottom: 0.5rem;
-    color: rgba(255, 255, 255, 0.9);
-}
+        .qr-info li {
+            margin-bottom: 0.5rem;
+            color: rgba(255, 255, 255, 0.9);
+        }
 
-.contact-reminder {
-    background: rgba(33, 150, 243, 0.1);
-    padding: 1.2rem;
-    border-radius: 10px;
-    margin: 1.2rem 0;
-    border-left: 4px solid #2196f3;
-}
+        .contact-reminder {
+            background: rgba(33, 150, 243, 0.1);
+            padding: 1.2rem;
+            border-radius: 10px;
+            margin: 1.2rem 0;
+            border-left: 4px solid #2196f3;
+        }
 
-.contact-reminder p {
-    margin: 0.5rem 0;
-}
+        .contact-reminder p {
+            margin: 0.5rem 0;
+        }
 
-.success-message {
-    text-align: center;
-    padding: 2rem;
-}
+        .success-message {
+            text-align: center;
+            padding: 2rem;
+        }
 
-.success-icon {
-    font-size: 4rem;
-    margin-bottom: 1.5rem;
-}
+        .success-icon {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+        }
+        
         .unique-data-warning {
-    background: linear-gradient(135deg, #fff3e0 0%, #ffecb3 100%);
-    border: 2px solid #ff9800;
-    border-radius: 12px;
-    padding: 1.5rem;
-    margin: 1.5rem 0;
-    display: flex;
-    align-items: flex-start;
-    gap: 1rem;
-}
+            background: linear-gradient(135deg, #fff3e0 0%, #ffecb3 100%);
+            border: 2px solid #ff9800;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+        }
 
-.warning-icon {
-    font-size: 2rem;
-    flex-shrink: 0;
-}
+        .warning-icon {
+            font-size: 2rem;
+            flex-shrink: 0;
+        }
 
-.warning-content h4 {
-    color: #e65100;
-    margin: 0 0 0.8rem 0;
-    font-size: 1.2rem;
-}
+        .warning-content h4 {
+            color: #e65100;
+            margin: 0 0 0.8rem 0;
+            font-size: 1.2rem;
+        }
 
-.warning-content p {
-    margin: 0.5rem 0;
-    color: #5d4037;
-}
+        .warning-content p {
+            margin: 0.5rem 0;
+            color: #5d4037;
+        }
 
-.warning-content ul {
-    margin: 0.8rem 0;
-    padding-left: 1.2rem;
-}
+        .warning-content ul {
+            margin: 0.8rem 0;
+            padding-left: 1.2rem;
+        }
 
-.warning-content li {
-    margin-bottom: 0.5rem;
-    color: #5d4037;
-}
+        .warning-content li {
+            margin-bottom: 0.5rem;
+            color: #5d4037;
+        }
 
-.warning-content strong {
-    color: #e65100;
-}
+        .warning-content strong {
+            color: #e65100;
+        }
 
-/* Адаптивность для мобильных */
-@media (max-width: 768px) {
-    .unique-data-warning {
-        flex-direction: column;
-        text-align: center;
-    }
-    
-    .warning-icon {
-        align-self: center;
-    }
-}
+        /* Стили для заблокированной кнопки */
+        .submit-btn.disabled {
+            background: #95a5a6 !important;
+            cursor: not-allowed !important;
+            opacity: 0.7;
+        }
+
+        .submit-btn.disabled:hover {
+            transform: none !important;
+            box-shadow: none !important;
+        }
+
+        .event-ended-notice {
+            background: linear-gradient(135deg, #1a2a4f 0%, #2a5298 100%);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin: 2rem 0;
+            text-align: center;
+            border-left: 4px solid #00e5ff;
+            box-shadow: 0 4px 15px rgba(26, 42, 79, 0.2);
+        }
+
+        .event-ended-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Адаптивность для мобильных */
+        @media (max-width: 768px) {
+            .unique-data-warning {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .warning-icon {
+                align-self: center;
+            }
+        }
     </style>
 </head>
 <body class="registration-page">
@@ -468,7 +474,6 @@
                                 <li><a href="index.html#about">О событии</a></li>
                                 <li><a href="index.html#program">Программа</a></li>
                                 <li><a href="index.html#speakers">Эксперты</a></li>
-                            
                             </ul>
                         </li>
                         <li><a href="index.html#location">Место</a></li>
@@ -488,20 +493,14 @@
                 
                 <h2 class="section-title">Регистрация на конференцию</h2>
                 <p class="section-content">Заполните форму для участия в мероприятии</p>
-                <!-- 🔥 ДОБАВЛЯЕМ ПРЕДУПРЕЖДЕНИЕ О УНИКАЛЬНОСТИ ДАННЫХ -->
-    <div class="unique-data-warning">
-        <div class="warning-icon">⚠️</div>
-        <div class="warning-content">
-            <h4>Важная информация о регистрации</h4>
-            <p>Каждый участник должен регистрироваться с <strong>уникальными данными</strong>:</p>
-            <ul>
-                <li>📧 <strong>Уникальный email</strong> - на него придет QR-код</li>
-                <li>📞 <strong>Уникальный номер телефона</strong> - для идентификации</li>
-                <li>👤 <strong>Личные данные</strong> - ФИО, должность, организация</li>
-            </ul>
-            <p><strong>Если несколько участников используют одинаковые email или телефон - QR-код придет только первому!</strong></p>
-        </div>
-    </div>
+                
+                <!-- 🔥 СООБЩЕНИЕ О ЗАВЕРШЕНИИ МЕРОПРИЯТИЯ -->
+                <div class="event-ended-notice">
+                    <div class="event-ended-icon">⏰</div>
+                    <h3>Мероприятие завершено</h3>
+                    <p><strong>Форум лабораторных инноваций успешно состоялся 21 ноября 2025 года</strong></p>
+                    <p>Регистрация на мероприятие больше недоступна</p>
+                </div>
             </div>
             
             <div class="registration-content">
@@ -560,33 +559,36 @@
                         </div>
                     </div>
                     
-                    <button type="submit" class="cta-button primary submit-btn">Зарегистрироваться</button>
+                    <!-- 🔥 ЗАБЛОКИРОВАННАЯ КНОПКА -->
+                    <button type="submit" class="cta-button primary submit-btn disabled" disabled>
+                        Регистрация завершена
+                    </button>
                 </form>
 
                 <div id="success-message" class="success-message">
-    <div class="success-icon">✅</div>
-    <h3>Спасибо за регистрацию!</h3>
-    <p><strong>Ваша заявка принята!</strong></p>
-    <p>На указанную вами почту отправлен QR-код для регистрации на мероприятие.</p>
-    
-    <div class="qr-info">
-        <h4>⚠️ Важная информация:</h4>
-        <ul>
-            <li><strong>Только по QR-коду</strong> вы сможете пройти очную регистрацию</li>
-            <li>Сохраните письмо с QR-кодом до дня мероприятия</li>
-            <li>Покажите QR-код на стойке регистрации для получения бейджа</li>
-        </ul>
-    </div>
-    
-    <div class="contact-reminder">
-        <p><strong>Если письмо с QR-кодом не пришло в течение 15 минут:</strong></p>
-        <p>Проверьте папку "Спам" или свяжитесь с организаторами:</p>
-        <p>📞 <strong> Анна Валерьевна:</strong> +79637516163 </p>
-    </div>
-    
-    <p><strong>Ждем вас на Форуме лабораторных инноваций 2025!</strong></p>
-    <a href="index.html" class="cta-button primary back-home-btn">Вернуться на главную</a>
-</div>
+                    <div class="success-icon">✅</div>
+                    <h3>Спасибо за регистрацию!</h3>
+                    <p><strong>Ваша заявка принята!</strong></p>
+                    <p>На указанную вами почту отправлен QR-код для регистрации на мероприятие.</p>
+                    
+                    <div class="qr-info">
+                        <h4>⚠️ Важная информация:</h4>
+                        <ul>
+                            <li><strong>Только по QR-коду</strong> вы сможете пройти очную регистрацию</li>
+                            <li>Сохраните письмо с QR-кодом до дня мероприятия</li>
+                            <li>Покажите QR-код на стойке регистрации для получения бейджа</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="contact-reminder">
+                        <p><strong>Если письмо с QR-кодом не пришло в течение 15 минут:</strong></p>
+                        <p>Проверьте папку "Спам" или свяжитесь с организаторами:</p>
+                        <p>📞 <strong> Анна Валерьевна:</strong> +79637516163 </p>
+                    </div>
+                    
+                    <p><strong>Ждем вас на Форуме лабораторных инноваций 2025!</strong></p>
+                    <a href="index.html" class="cta-button primary back-home-btn">Вернуться на главную</a>
+                </div>
             </div>
 
             <div class="back-link">
@@ -631,9 +633,9 @@
                         
                         <div class="form-group-modal full-width">
                             <label for="driverName" class="required-field">
-    ФИО водителя 
-    <span style="color: #ff6b6b; font-weight: 600; font-size: 0.9em;">(только паспорт РФ)</span>
-</label>
+                                ФИО водителя
+                                <span style="color: #ff6b6b; font-weight: 600; font-size: 0.9em;">(только паспорт РФ)</span>
+                            </label>
                             <input type="text" id="driverName" placeholder="Петров Петр Петрович" required>
                         </div>
                         
@@ -683,11 +685,45 @@
         initCustomSelects();
         initRegistrationForm();
         initParkingModal();
-        initNameValidation(); 
+        initNameValidation();
         
         // Скрываем успешное сообщение по умолчанию
         document.getElementById('success-message').style.display = 'none';
+        
+        // 🔥 БЛОКИРУЕМ ФОРМУ ПРИ ЗАГРУЗКЕ
+        disableRegistrationForm();
     });
+
+    // ==================== БЛОКИРОВКА ФОРМЫ РЕГИСТРАЦИИ ====================
+    function disableRegistrationForm() {
+        console.log('🔒 Блокировка формы регистрации');
+        
+        const form = document.getElementById('visible-form');
+        const submitBtn = form.querySelector('.submit-btn');
+        
+        // Блокируем кнопку
+        submitBtn.disabled = true;
+        submitBtn.classList.add('disabled');
+        
+        // Блокируем все поля ввода
+        const inputs = form.querySelectorAll('input, select, textarea');
+        inputs.forEach(input => {
+            input.disabled = true;
+        });
+        
+        // Блокируем кастомные селекты
+        const customSelects = document.querySelectorAll('.custom-select');
+        customSelects.forEach(select => {
+            select.style.pointerEvents = 'none';
+            select.style.opacity = '0.6';
+        });
+        
+        // Блокируем чекбокс
+        const agreementCheckbox = document.getElementById('agreement');
+        if (agreementCheckbox) {
+            agreementCheckbox.disabled = true;
+        }
+    }
 
     // ==================== БУРГЕР-МЕНЮ ====================
     function initBurgerMenu() {
@@ -828,186 +864,67 @@
 
     // ==================== ФОРМА РЕГИСТРАЦИИ ====================
     function initRegistrationForm() {
-    const form = document.getElementById('visible-form');
-    const submittedData = new Set();
-
-    if (!form) {
-        console.error('❌ Форма не найдена');
-        return;
-    }
-
-    // 🔥 ДОБАВЛЯЕМ ФУНКЦИЮ ПОКАЗА УСПЕШНОГО СООБЩЕНИЯ
-    function showSuccessMessage() {
-        document.getElementById('visible-form').style.display = 'none';
-        document.getElementById('success-message').style.display = 'block';
-        showNotification('✅ Регистрация прошла успешно!', 'success');
+        const form = document.getElementById('visible-form');
         
-        // Прокручиваем к успешному сообщению
-        document.getElementById('success-message').scrollIntoView({ 
-            behavior: 'smooth', 
-            block: 'center' 
+        if (!form) {
+            console.error('❌ Форма не найдена');
+            return;
+        }
+
+        // 🔥 ПЕРЕХВАТЫВАЕМ ОТПРАВКУ ФОРМЫ И БЛОКИРУЕМ
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            showNotification('❌ Регистрация на мероприятие завершена', 'error');
+            return false;
         });
     }
-
-    // 🔥 ДЕЛАЕМ ФУНКЦИЮ ДОСТУПНОЙ ИЗ МОДАЛКИ
-    window.showSuccessMessage = showSuccessMessage;
-
-    form.addEventListener('submit', async function(e) {
-        e.preventDefault();
-        
-        // Проверка согласия
-        if (!document.getElementById('agreement').checked) {
-            showNotification('❌ Необходимо дать согласие на обработку персональных данных', 'error');
-            return;
-        }
-
-        // Проверка выбора должности
-        const positionInput = document.getElementById('position');
-        if (!positionInput || !positionInput.value) {
-            showNotification('❌ Пожалуйста, выберите должность', 'error');
-            return;
-        }
-        
-        const email = document.getElementById('email').value;
-        const phone = document.getElementById('phone').value;
-        
-        // Быстрая локальная проверка
-        if (submittedData.has(email + phone)) {
-            showNotification('❌ Вы уже отправляли эту форму', 'error');
-            return;
-        }
-        
-        // Блокируем кнопку
-        const submitBtn = this.querySelector('.submit-btn');
-        const originalText = submitBtn.textContent;
-        submitBtn.textContent = 'Отправляем...';
-        submitBtn.disabled = true;
-        
-        try {
-            // 🔥 ОТПРАВКА В СТАРУЮ GOOGLE FORM (РЕГИСТРАЦИЯ)
-            await submitToGoogleForms();
-            submittedData.add(email + phone);
-            
-            // 🔥 ЕСЛИ ГЛАВНЫЙ ВРАЧ - ПОКАЗЫВАЕМ МОДАЛКУ ДЛЯ ПАРКОВКИ
-            const position = positionInput.value;
-            console.log('🎯 Проверка должности:', position);
-            
-            if (position === 'Главный врач') {
-                console.log('🚗 Показываем модалку для главного врача');
-                // Даем небольшую задержку перед показом модалки
-                setTimeout(() => {
-                    showParkingModal();
-                }, 500);
-            } else {
-                // Если не главный врач - сразу показываем успех
-                showSuccessMessage();
-            }
-            
-        } catch (error) {
-            console.error('Ошибка:', error);
-            showNotification('❌ Ошибка отправки. Попробуйте еще раз.', 'error');
-            submitBtn.textContent = originalText;
-            submitBtn.disabled = false;
-        }
-    });
-}
 
     // ==================== МОДАЛЬНОЕ ОКНО ДЛЯ ПАРКОВКИ ====================
     function initParkingModal() {
-    const modal = document.getElementById('parkingModal');
-    const closeBtn = document.getElementById('modalClose');
-    const confirmBtn = document.getElementById('confirmParking');
-    
-    console.log('🔍 Инициализация модального окна:', modal);
-    
-    if (!modal) {
-        console.error('❌ Модальное окно не найдено');
-        return;
-    }
-    
-    // 🔥 ОБНОВЛЯЕМ ЗАКРЫТИЕ - ПОСЛЕ ОСНОВНОЙ РЕГИСТРАЦИИ ПОКАЗЫВАЕМ УСПЕХ
-    closeBtn.addEventListener('click', function() {
-        hideParkingModal();
-        // 🔥 ПОКАЗЫВАЕМ УСПЕХ ПОСЛЕ ЗАКРЫТИЯ МОДАЛКИ
-        if (window.showSuccessMessage) {
-            window.showSuccessMessage();
+        const modal = document.getElementById('parkingModal');
+        const closeBtn = document.getElementById('modalClose');
+        const confirmBtn = document.getElementById('confirmParking');
+        
+        console.log('🔍 Инициализация модального окна:', modal);
+        
+        if (!modal) {
+            console.error('❌ Модальное окно не найдено');
+            return;
         }
-    });
-    
-    // 🔥 ТАКЖЕ ДЛЯ КЛИКА ВНЕ ОКНА
-    modal.addEventListener('click', function(e) {
-        if (e.target === modal) {
+        
+        closeBtn.addEventListener('click', function() {
             hideParkingModal();
-            // 🔥 ПОКАЗЫВАЕМ УСПЕХ ПОСЛЕ ЗАКРЫТИЯ МОДАЛКИ
-            if (window.showSuccessMessage) {
-                window.showSuccessMessage();
-            }
-        }
-    });
-    
-    // 🔥 И ДЛЯ ESCAPE
-    document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape' && modal.classList.contains('active')) {
-            hideParkingModal();
-            // 🔥 ПОКАЗЫВАЕМ УСПЕХ ПОСЛЕ ЗАКРЫТИЯ МОДАЛКИ
-            if (window.showSuccessMessage) {
-                window.showSuccessMessage();
-            }
-        }
-    });
-    
-    // Подтверждение данных о парковке
-    if (confirmBtn) {
-        confirmBtn.addEventListener('click', async function() {
-            const driverName = document.getElementById('driverName').value;
-            const carBrand = document.getElementById('carBrand').value;
-            const carModel = document.getElementById('carModel').value;
-            const carNumber = document.getElementById('carNumber').value;
-            
-            // Проверка заполнения всех полей
-            if (!driverName || !carBrand || !carModel || !carNumber) {
-                showNotification('❌ Пожалуйста, заполните все поля формы', 'error');
-                return;
-            }
-            
-            // 🔥 БЛОКИРУЕМ КНОПКУ НА ВРЕМЯ ОТПРАВКИ
-            const originalText = confirmBtn.textContent;
-            confirmBtn.textContent = 'Отправляем...';
-            confirmBtn.disabled = true;
-            
-            try {
-                // 🔥 ОТПРАВКА В НОВУЮ GOOGLE FORM (ПАРКОВКА)
-                await submitToParkingForm();
-                
-                // Закрываем модалку и показываем успех
+        });
+        
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) {
                 hideParkingModal();
-                if (window.showSuccessMessage) {
-                    window.showSuccessMessage();
-                }
-                showNotification('✅ Данные о парковке отправлены!', 'success');
-                
-            } catch (error) {
-                console.error('Ошибка отправки данных о парковке:', error);
-                showNotification('❌ Ошибка отправки данных о парковке', 'error');
-                // 🔥 РАЗБЛОКИРУЕМ КНОПКУ ПРИ ОШИБКЕ
-                confirmBtn.textContent = originalText;
-                confirmBtn.disabled = false;
             }
         });
+        
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && modal.classList.contains('active')) {
+                hideParkingModal();
+            }
+        });
+        
+        if (confirmBtn) {
+            confirmBtn.addEventListener('click', function() {
+                showNotification('❌ Регистрация на мероприятие завершена', 'error');
+                hideParkingModal();
+            });
+        }
     }
-}
     
     function showParkingModal() {
         const modal = document.getElementById('parkingModal');
         console.log('🔄 Функция showParkingModal вызвана');
-        console.log('🔍 Модальное окно:', modal);
         
         if (modal) {
             console.log('✅ Показываем модальное окно');
             modal.classList.add('active');
             document.body.style.overflow = 'hidden';
             
-            // Автозаполнение ФИО заявителя из основной формы
             const userName = document.getElementById('name').value;
             const applicantNameInput = document.getElementById('applicantName');
             if (userName && applicantNameInput) {
@@ -1024,164 +941,6 @@
             modal.classList.remove('active');
             document.body.style.overflow = '';
         }
-    }
-
-    // 🔥 ОТПРАВКА В СТАРУЮ GOOGLE FORM (РЕГИСТРАЦИЯ)
-    function submitToGoogleForms() {
-        return new Promise((resolve) => {
-            const iframe = document.createElement('iframe');
-            iframe.name = 'google-form-reg-' + Date.now();
-            iframe.style.display = 'none';
-            document.body.appendChild(iframe);
-            
-            const tempForm = document.createElement('form');
-            tempForm.action = 'https://docs.google.com/forms/u/0/d/e/1FAIpQLSc7urE88w0Y_zM7EBGbhQN8Uw87Uw6eFRBm2d9GvqJT7Q4S0A/formResponse';
-            tempForm.method = 'POST';
-            tempForm.target = iframe.name;
-            tempForm.style.display = 'none';
-            
-            const fields = [
-                { name: 'entry.1277724311', value: document.getElementById('email').value },
-                { name: 'entry.74922399', value: document.getElementById('name').value },
-                { name: 'entry.827511450', value: document.getElementById('position').value },
-                { name: 'entry.1066367767', value: document.getElementById('organization').value },
-                { name: 'entry.362036752', value: document.getElementById('phone').value }
-            ];
-            
-            fields.forEach(field => {
-                const input = document.createElement('input');
-                input.type = 'hidden';
-                input.name = field.name;
-                input.value = field.value;
-                tempForm.appendChild(input);
-            });
-            
-            document.body.appendChild(tempForm);
-            tempForm.submit();
-            
-            setTimeout(() => {
-                document.body.removeChild(tempForm);
-                document.body.removeChild(iframe);
-                resolve(true);
-            }, 3000);
-        });
-    }
-
-    // 🔥 ИСПРАВЛЕННАЯ ОТПРАВКА В GOOGLE FORM (ПАРКОВКА)
-    function submitToParkingForm() {
-        return new Promise((resolve, reject) => {
-            console.log('🚗 Начало отправки данных о парковке...');
-            
-            // Валидация данных
-            const name = document.getElementById('name').value;
-            const phone = document.getElementById('phone').value;
-            const organization = document.getElementById('organization').value;
-            const driverName = document.getElementById('driverName').value;
-            const carBrand = document.getElementById('carBrand').value;
-            const carModel = document.getElementById('carModel').value;
-            const carNumber = document.getElementById('carNumber').value;
-
-            if (!name || !phone || !organization || !driverName || !carBrand || !carModel || !carNumber) {
-                console.error('❌ Не все поля заполнены');
-                reject(new Error('Не все поля заполнены'));
-                return;
-            }
-
-            const iframe = document.createElement('iframe');
-            iframe.name = 'google-form-parking-' + Date.now();
-            iframe.style.display = 'none';
-            document.body.appendChild(iframe);
-            
-            const tempForm = document.createElement('form');
-            tempForm.action = 'https://docs.google.com/forms/u/0/d/e/1FAIpQLSdqWPsNvO-ChMYLqP-yoAq-bcQkNkKxQIZv_M5XLeqwDST-LA/formResponse';
-            tempForm.method = 'POST';
-            tempForm.target = iframe.name;
-            tempForm.style.display = 'none';
-            tempForm.acceptCharset = 'UTF-8';
-            
-            // 🔥 ВАЖНО: Используем правильные имена полей из Google Forms
-            const fields = [
-                // ФИО участника (основной формы)
-                { name: 'entry.605665455', value: name },
-                // Телефон
-                { name: 'entry.291221646', value: phone },
-                // Организация
-                { name: 'entry.2091275462', value: organization },
-                // ФИО водителя
-                { name: 'entry.348419824', value: driverName },
-                // Марка и модель автомобиля
-                { name: 'entry.476370448', value: `${carBrand} ${carModel}`.trim() },
-                // Гос. номер
-                { name: 'entry.543331021', value: carNumber }
-            ];
-            
-            console.log('📤 Отправляемые данные парковки:', fields);
-
-            fields.forEach(field => {
-                const input = document.createElement('input');
-                input.type = 'hidden';
-                input.name = field.name;
-                input.value = field.value || '';
-                tempForm.appendChild(input);
-                console.log(`✅ Добавлено поле: ${field.name} = ${field.value}`);
-            });
-
-            // Добавляем технические поля
-            const technicalFields = [
-                { name: 'fvv', value: '1' },
-                { name: 'draftResponse', value: '[null,null,"1086212582490002909"]' },
-                { name: 'pageHistory', value: '0' },
-                { name: 'fbzx', value: '1086212582490002909' }
-            ];
-
-            technicalFields.forEach(field => {
-                const input = document.createElement('input');
-                input.type = 'hidden';
-                input.name = field.name;
-                input.value = field.value;
-                tempForm.appendChild(input);
-            });
-
-            document.body.appendChild(tempForm);
-            
-            // Добавляем обработчик загрузки iframe для отслеживания статуса
-            iframe.onload = function() {
-                console.log('✅ IFrame загружен - форма отправлена');
-                setTimeout(() => {
-                    cleanup();
-                    resolve(true);
-                }, 1000);
-            };
-
-            iframe.onerror = function() {
-                console.error('❌ Ошибка загрузки IFrame');
-                cleanup();
-                reject(new Error('Ошибка отправки формы'));
-            };
-
-            function cleanup() {
-                if (tempForm.parentNode) {
-                    document.body.removeChild(tempForm);
-                }
-                if (iframe.parentNode) {
-                    document.body.removeChild(iframe);
-                }
-            }
-
-            console.log('🔄 Отправка формы парковки...');
-            try {
-                tempForm.submit();
-                // Резервный таймаут на случай если onload не сработает
-                setTimeout(() => {
-                    cleanup();
-                    resolve(true);
-                }, 5000);
-            } catch (error) {
-                console.error('❌ Ошибка при submit:', error);
-                cleanup();
-                reject(error);
-            }
-        });
     }
 
     // ==================== УВЕДОМЛЕНИЯ ====================
@@ -1231,115 +990,91 @@
             }, 300);
         }, 5000);
     }
-        // ==================== ПРОВЕРКА ФИО ====================
-function validateFullName(name) {
-    // Удаляем лишние пробелы и проверяем количество слов
-    const trimmedName = name.trim().replace(/\s+/g, ' ');
-    const words = trimmedName.split(' ');
-    
-    // Должно быть минимум 2 слова (Фамилия Имя) или 3 слова (Фамилия Имя Отчество)
-    if (words.length < 2) {
+
+    // ==================== ПРОВЕРКА ФИО ====================
+    function validateFullName(name) {
+        const trimmedName = name.trim().replace(/\s+/g, ' ');
+        const words = trimmedName.split(' ');
+        
+        if (words.length < 2) {
+            return {
+                isValid: false,
+                message: '❌ Введите полное ФИО (минимум Фамилию и Имя)'
+            };
+        }
+        
+        for (let word of words) {
+            if (word.length === 1) {
+                return {
+                    isValid: false,
+                    message: '❌ Используйте полные фамилию, имя и отчество, а не инициалы'
+                };
+            }
+        }
+        
+        const invalidPatterns = [
+            /\s[А-ЯЁ]\.?\s?[А-ЯЁ]?\.?$/,
+            /^[А-ЯЁ]\.?\s?[А-ЯЁ]?\.?$/,
+            /\s[А-ЯЁ]\s/,
+            /[А-ЯЁ]{1}\./,
+        ];
+        
+        for (let pattern of invalidPatterns) {
+            if (pattern.test(name)) {
+                return {
+                    isValid: false,
+                    message: '❌ Используйте полные фамилию, имя и отчество'
+                };
+            }
+        }
+        
         return {
-            isValid: false,
-            message: '❌ Введите полное ФИО (минимум Фамилию и Имя)'
+            isValid: true,
+            message: '✅ Корректное ФИО'
         };
     }
-    
-    // Проверяем, что каждое слово достаточно длинное (не инициалы)
-    for (let word of words) {
-        if (word.length === 1) {
-            return {
-                isValid: false,
-                message: '❌ Используйте полные фамилию, имя и отчество, а не инициалы'
-            };
-        }
-    }
-    
-    // Проверяем на наличие типичных сокращений и инициалов
-    const invalidPatterns = [
-        /\s[А-ЯЁ]\.?\s?[А-ЯЁ]?\.?$/, // Инициалы в конце
-        /^[А-ЯЁ]\.?\s?[А-ЯЁ]?\.?$/, // Только инициалы
-        /\s[А-ЯЁ]\s/, // Одиночные буквы между пробелами
-        /[А-ЯЁ]{1}\./, // Сокращения с точкой
-    ];
-    
-    for (let pattern of invalidPatterns) {
-        if (pattern.test(name)) {
-            return {
-                isValid: false,
-                message: '❌ Используйте полные фамилию, имя и отчество'
-            };
-        }
-    }
-    
-    return {
-        isValid: true,
-        message: '✅ Корректное ФИО'
-    };
-}
 
-// ==================== ИНИЦИАЛИЗАЦИЯ ПРОВЕРКИ ФИО ====================
-function initNameValidation() {
-    const nameInput = document.getElementById('name');
-    if (!nameInput) return;
-    
-    // Создаем элемент для отображения сообщений
-    const errorMessage = document.createElement('div');
-    errorMessage.style.cssText = `
-        font-size: 0.8rem;
-        margin-top: 0.3rem;
-        padding: 0.3rem 0.5rem;
-        border-radius: 4px;
-        display: none;
-    `;
-    nameInput.parentNode.appendChild(errorMessage);
-    
-    // Проверка при вводе
-    nameInput.addEventListener('blur', function() {
-        const value = this.value.trim();
-        if (value === '') return;
+    // ==================== ИНИЦИАЛИЗАЦИЯ ПРОВЕРКИ ФИО ====================
+    function initNameValidation() {
+        const nameInput = document.getElementById('name');
+        if (!nameInput) return;
         
-        const validation = validateFullName(value);
+        const errorMessage = document.createElement('div');
+        errorMessage.style.cssText = `
+            font-size: 0.8rem;
+            margin-top: 0.3rem;
+            padding: 0.3rem 0.5rem;
+            border-radius: 4px;
+            display: none;
+        `;
+        nameInput.parentNode.appendChild(errorMessage);
         
-        if (!validation.isValid) {
-            errorMessage.textContent = validation.message;
-            errorMessage.style.display = 'block';
-            errorMessage.style.background = '#ffebee';
-            errorMessage.style.color = '#c62828';
-            errorMessage.style.border = '1px solid #ffcdd2';
-            this.style.borderColor = '#f44336';
-        } else {
-            errorMessage.style.display = 'none';
-            this.style.borderColor = '#4caf50';
-        }
-    });
-    
-    // Скрываем сообщение при фокусе
-    nameInput.addEventListener('focus', function() {
-        errorMessage.style.display = 'none';
-        this.style.borderColor = '';
-    });
-    
-    // Проверка перед отправкой формы
-    const form = document.getElementById('visible-form');
-    form.addEventListener('submit', function(e) {
-        const nameValue = nameInput.value.trim();
-        if (nameValue) {
-            const validation = validateFullName(nameValue);
+        nameInput.addEventListener('blur', function() {
+            const value = this.value.trim();
+            if (value === '') return;
+            
+            const validation = validateFullName(value);
+            
             if (!validation.isValid) {
-                e.preventDefault();
                 errorMessage.textContent = validation.message;
                 errorMessage.style.display = 'block';
                 errorMessage.style.background = '#ffebee';
                 errorMessage.style.color = '#c62828';
-                nameInput.style.borderColor = '#f44336';
-                nameInput.focus();
-                showNotification(validation.message, 'error');
+                errorMessage.style.border = '1px solid #ffcdd2';
+                this.style.borderColor = '#f44336';
+            } else {
+                errorMessage.style.display = 'none';
+                this.style.borderColor = '#4caf50';
             }
-        }
-    });
-}
-</script>
+        });
+        
+        nameInput.addEventListener('focus', function() {
+            errorMessage.style.display = 'none';
+            this.style.borderColor = '';
+        });
+    }
+    </script>
+    
     <!-- Подключение скрипта cookies -->
     <script src="cookies.js"></script>
 </body>
