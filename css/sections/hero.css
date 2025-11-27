@@ -3468,3 +3468,95 @@ footer .contact-link {
     font-size: 0.95rem;
   }
 }
+/* ===== VIDEO HERO STYLES ===== */
+.video-hero {
+    position: relative;
+    height: 100vh;
+    min-height: 700px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.video-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+.hero-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+.video-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        135deg,
+        rgba(10, 21, 37, 0.7) 0%,
+        rgba(26, 42, 64, 0.5) 50%,
+        rgba(10, 21, 37, 0.8) 100%
+    );
+    z-index: 2;
+}
+
+/* Header поверх видео */
+.video-hero .photo-header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 3;
+    background: transparent;
+    backdrop-filter: none;
+    border-bottom: 1px solid rgba(0, 229, 255, 0.1);
+}
+
+.video-hero .photo-header.scrolled {
+    background: rgba(10, 21, 37, 0.95);
+    backdrop-filter: blur(20px);
+}
+
+/* Контент поверх видео */
+.video-hero .hero-content {
+    position: relative;
+    z-index: 3;
+}
+
+/* Адаптивность для мобильных */
+@media (max-width: 968px) {
+    .video-hero {
+        height: 70vh;
+        min-height: 500px;
+    }
+}
+
+@media (max-width: 768px) {
+    .video-hero {
+        height: 60vh;
+        min-height: 400px;
+    }
+    
+    .video-hero .hero-info-card {
+        max-width: 90%;
+        margin: 0 auto;
+    }
+}
+
+/* Улучшенная читаемость текста на видео */
+.video-hero .hero-info-card {
+    background: rgba(26, 42, 64, 0.85);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(0, 229, 255, 0.3);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 0 0 30px rgba(0, 229, 255, 0.2);
+}
