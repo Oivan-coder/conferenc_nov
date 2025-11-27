@@ -29,17 +29,21 @@
 
 </head>
 <body>
-    <!-- Photo Hero Slider -->
-    <section class="photo-hero">
-        <!-- Слайдер фотографий -->
-        <div class="photo-slider" id="photoSlider">
-            <!-- Фотографии будут добавлены через JavaScript -->
+    <!-- Video Hero Section (ЗАМЕНИЛИ фото на видео) -->
+    <section class="video-hero">
+        <!-- Видео фон -->
+        <div class="video-container">
+            <video class="hero-video" autoplay muted loop playsinline>
+                <!-- ЗАМЕНИТЕ "videos/hero-video.mp4" на путь к вашему видео -->
+                <source src="videos/hero-video.mp4" type="video/mp4">
+                <!-- Фолбэк на изображение если видео не поддерживается -->
+                <img src="images/hero-fallback.jpg" alt="Форум лабораторных инноваций">
+            </video>
+            <!-- Затемнение фона для лучшей читаемости текста -->
+            <div class="video-overlay"></div>
         </div>
         
-        <!-- Затемнение фона -->
-        <div class="photo-overlay"></div>
-        
-        <!-- Header поверх слайдера -->
+        <!-- Header поверх видео -->
         <header class="photo-header">
             <div class="container">
                 <div class="header-content">
@@ -75,7 +79,7 @@
             </div>
         </header>
 
-        <!-- Информационная плашка поверх фото -->
+        <!-- Информационная плашка поверх видео -->
         <div class="hero-content">
             <div class="hero-info-card">
                 <h1>Форум лабораторных инноваций</h1>
@@ -101,13 +105,6 @@
                     <a href="#" class="cta-button secondary" id="addToCalendarHero">📅 В календарь</a>
                 </div>
             </div>
-        </div>
-
-        <!-- Навигация слайдера -->
-        <div class="slider-controls">
-            <button class="slider-btn slider-prev" id="photoPrev">‹</button>
-            <button class="slider-btn slider-next" id="photoNext">›</button>
-            <div class="slider-dots" id="photoDots"></div>
         </div>
     </section>
 
