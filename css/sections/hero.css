@@ -3579,90 +3579,63 @@ footer .contact-link {
         loading: lazy;
     }
 }
-/* Исправление для мобильных */
 @media (max-width: 768px) {
-    .video-hero .hero-content {
-        align-items: flex-start; /* Слева */
-        justify-content: flex-end; /* Внизу */
+    .video-hero .hero-info-card {
+        background: transparent;
+        backdrop-filter: none;
+        border: none;
+        box-shadow: none;
         padding: var(--space-md);
     }
     
-    .video-hero .hero-info-card {
-        max-width: 80%; /* Чуть меньше */
-        padding: var(--space-sm); /* Меньше отступы */
-        text-align: left; /* Текст слева */
-        margin: 0; /* Убираем auto */
-        margin-left: 0; /* Прижимаем к левому краю */
-    }
-    
-    .video-hero .hero-info-card h1 {
-        font-size: 1.4rem; /* Чуть меньше */
-        margin-bottom: var(--space-xs);
-        line-height: 1.2;
-    }
-    
-    .video-hero .hero-subtitle {
-        font-size: 0.95rem;
-        margin-bottom: var(--space-sm);
-        line-height: 1.3;
-    }
-    
+    /* Скрываем весь текст, оставляем только кнопки */
+    .hero-info-card h1,
+    .hero-subtitle,
     .event-details {
-        margin-bottom: var(--space-sm);
-        gap: var(--space-xs);
+        display: none;
     }
     
-    .detail-item {
-        font-size: 0.85rem;
-        justify-content: flex-start; /* Слева */
-        gap: var(--space-xs);
-    }
-    
-    .detail-icon {
-        font-size: 1rem;
-        width: 18px;
+    /* Кнопки по центру */
+    .video-hero .hero-content {
+        align-items: center;
+        justify-content: flex-end;
+        padding-bottom: 60px;
     }
     
     .hero-buttons {
-        flex-direction: column;
-        gap: var(--space-xs);
+        flex-direction: row;
+        gap: var(--space-sm);
     }
     
     .hero-buttons .cta-button {
-        width: 100%;
-        max-width: 220px; /* Уже кнопки */
-        margin: 0;
-        padding: 0.75rem 1rem;
-        font-size: 0.9rem;
+        min-width: 140px;
     }
 }
+/* Добавьте это в конец вашего CSS файла */
 
-/* Для очень маленьких экранов */
-@media (max-width: 480px) {
-    .video-hero .hero-info-card {
-        padding: var(--space-xs);
-        max-width: 90%;
-    }
-    
-    .video-hero .hero-info-card h1 {
-        font-size: 1.2rem;
-    }
-    
-    .video-hero .hero-subtitle {
-        font-size: 0.85rem;
-    }
-    
-    .detail-item {
-        font-size: 0.8rem;
-    }
-    
-    .hero-buttons .cta-button {
-        max-width: 200px;
-        padding: 0.7rem 0.9rem;
-        font-size: 0.85rem;
-    }
-    
-    .event-details {
-        margin-bottom: var(--space-xs);
-    }
+/* Скрываем плашку на мобильных устройствах */
+@media (max-width: 768px) {
+  .hero-info-card {
+    display: none !important;
+  }
+  
+  /* Центрируем кнопки вместо плашки */
+  .video-hero .hero-content {
+    align-items: center;
+    justify-content: flex-end;
+    padding-bottom: 80px;
+  }
+  
+  .hero-buttons {
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-sm);
+    width: 100%;
+    max-width: 300px;
+  }
+  
+  .hero-buttons .cta-button {
+    width: 100%;
+    text-align: center;
+  }
 }
