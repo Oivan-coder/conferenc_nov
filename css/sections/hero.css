@@ -3579,3 +3579,68 @@ footer .contact-link {
         loading: lazy;
     }
 }
+/* Исправление для мобильных */
+@media (max-width: 768px) {
+    .video-hero .hero-content {
+        align-items: center;
+        justify-content: center;
+        padding: var(--space-md);
+    }
+    
+    .video-hero .hero-info-card {
+        max-width: 90%;
+        padding: var(--space-md);
+        text-align: center;
+        margin: 0 auto;
+    }
+    
+    .video-hero .hero-info-card h1 {
+        font-size: 1.5rem;
+        margin-bottom: var(--space-sm);
+    }
+    
+    .video-hero .hero-subtitle {
+        font-size: 1rem;
+        margin-bottom: var(--space-md);
+    }
+    
+    .event-details {
+        margin-bottom: var(--space-md);
+    }
+    
+    .detail-item {
+        font-size: 0.9rem;
+        justify-content: center;
+    }
+    
+    .hero-buttons {
+        flex-direction: column;
+        gap: var(--space-sm);
+    }
+    
+    .hero-buttons .cta-button {
+        width: 100%;
+        max-width: 250px;
+        margin: 0 auto;
+    }
+}
+
+/* Для очень маленьких экранов */
+@media (max-width: 480px) {
+    .video-hero .hero-info-card {
+        padding: var(--space-sm);
+        max-width: 95%;
+    }
+    
+    .video-hero .hero-info-card h1 {
+        font-size: 1.3rem;
+    }
+    
+    .video-hero .hero-subtitle {
+        font-size: 0.9rem;
+    }
+    
+    .detail-item {
+        font-size: 0.85rem;
+    }
+}
