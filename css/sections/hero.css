@@ -3560,3 +3560,22 @@ footer .contact-link {
     border: 1px solid rgba(0, 229, 255, 0.3);
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 0 0 30px rgba(0, 229, 255, 0.2);
 }
+/* Ускорение видео */
+.hero-video {
+    transform: translateZ(0); /* Аппаратное ускорение */
+    backface-visibility: hidden;
+    perspective: 1000;
+    will-change: transform;
+}
+
+/* Предзагрузка */
+.video-hero {
+    contain: layout style paint; /* Изоляция для производительности */
+}
+
+/* Отложенная загрузка для мобильных */
+@media (max-width: 768px) {
+    .hero-video {
+        loading: lazy;
+    }
+}
