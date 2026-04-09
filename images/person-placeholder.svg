@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" role="img" aria-labelledby="title desc">
+  <title id="title">Изображение недоступно</title>
+  <desc id="desc">Нейтральная заглушка для карточек людей</desc>
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#102238"/>
+      <stop offset="100%" stop-color="#1e3c5a"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#79d4ff"/>
+      <stop offset="100%" stop-color="#c6ecff"/>
+    </linearGradient>
+  </defs>
+  <rect width="600" height="600" rx="48" fill="url(#bg)"/>
+  <circle cx="300" cy="210" r="96" fill="url(#accent)" opacity="0.95"/>
+  <path d="M152 490c18-92 86-144 148-144s130 52 148 144" fill="url(#accent)" opacity="0.95"/>
+  <circle cx="108" cy="108" r="56" fill="#59c3ff" opacity="0.12"/>
+  <circle cx="500" cy="132" r="42" fill="#8fe3ff" opacity="0.12"/>
+  <text x="300" y="556" fill="#e6f7ff" font-size="28" font-family="Arial, sans-serif" text-anchor="middle">Фото появится позже</text>
+</svg>
