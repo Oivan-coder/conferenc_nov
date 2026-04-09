@@ -17,7 +17,7 @@
     background: var(--bg-card);
     border: 1px solid rgba(0, 229, 255, 0.1);
     box-shadow: var(--shadow-lg);
-    height: 400px;
+    height: 440px;
 }
 
 .carousel-track {
@@ -38,6 +38,12 @@
     border: 1px solid rgba(0, 229, 255, 0.1);
     backdrop-filter: blur(10px);
     cursor: pointer;
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow: hidden;
+    box-sizing: border-box;
 }
 
 .speaker-slide:hover {
@@ -50,6 +56,9 @@
 .speaker-slide .speaker-photo {
     width: 120px;
     height: 120px;
+    min-width: 120px;
+    min-height: 120px;
+    flex-shrink: 0;
     border-radius: 50%;
     margin: 0 auto var(--space-lg);
     background: var(--gradient-medical);
@@ -73,7 +82,14 @@
     font-size: 1.3rem;
     font-weight: 700;
     color: var(--text-primary);
-    margin-bottom: var(--space-xs);
+    margin-bottom: 0;
+    line-height: 1.25;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    overflow-wrap: anywhere;
+    min-height: calc(1.25em * 3);
 }
 
 .speaker-slide .speaker-role {
@@ -81,11 +97,20 @@
     font-weight: 600;
     margin-bottom: var(--space-sm);
     font-size: 1rem;
+    line-height: 1.35;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    overflow-wrap: anywhere;
+    min-height: calc(1.35em * 3);
 }
 
 .speaker-slide .speaker-more {
     color: var(--text-secondary);
     font-size: 0.95rem;
+    margin-top: auto;
+    padding-top: var(--space-sm);
 }
 
 .carousel-btn {

@@ -6,7 +6,7 @@ const specialistsData = {
         name: "Щеблыкина-Монастырёва Ирина Владимировна",
         role: "Куратор референс-центра",
         bio: "Главный внештатный специалист по клинической лабораторной диагностике. Руководитель проекта «Централизация лабораторной службы» Московской области.",
-        photo: "images/person-placeholder.svg",
+        photo: "images/team/irina-scheblykina.jpg",
         contacts: [
             { type: "phone", value: "+79958832336", label: "Телефон", icon: "📞" },
             { type: "whatsapp", value: "+79958832336", label: "WhatsApp", icon: "💬" },
@@ -18,7 +18,7 @@ const specialistsData = {
         name: "Гольцев Иван Михайлович",
         role: "Заведующий референс-центром",
         bio: "Заведующий референс-центром лабораторной службы Московской области. Курирует организационные вопросы и развитие направления.",
-        photo: "images/person-placeholder.svg",
+        photo: "images/team/ivan-goltsev.jpg",
         contacts: [
             { type: "phone", value: "+79778290881", label: "Телефон", icon: "📞" },
             { type: "whatsapp", value: "+79778290881", label: "WhatsApp", icon: "💬" },
@@ -29,14 +29,14 @@ const specialistsData = {
         name: "Довгаль Лада Алексеевна",
         role: "Ведущий специалист",
         bio: "Ведущий специалист референс-центра лабораторной службы Московской области.",
-        photo: "images/person-placeholder.svg",
+        photo: "images/team/dovgal-lada.jpg",
         contacts: []
     },
     4: {
         name: "Шоль Елизавета Викторовна",
         role: "Врач КЛД",
         bio: "Врач клинической лабораторной диагностики, участвующий в методическом и практическом сопровождении работы центра.",
-        photo: "images/person-placeholder.svg",
+        photo: "images/team/shol-liza.jpg",
         contacts: []
     },
     5: {

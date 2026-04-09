@@ -93,7 +93,7 @@ function getDefaultImageFallback(img) {
     const alt = (img.alt || '').toLowerCase();
 
     if (classNames.includes('logo') || alt.includes('логотип')) {
-        return 'images/logo.svg';
+        return 'images/logo.png';
     }
 
     if (classNames.includes('speaker') || classNames.includes('person') || classNames.includes('specialist') || alt.includes('иван') || alt.includes('анна') || alt.includes('ирина')) {
@@ -189,7 +189,7 @@ function buildHeaderHtml(activePage) {
             <div class="container">
                 <div class="header-content">
                     <a href="index.html" class="logo" aria-label="${SITE_TITLE}" title="${SITE_TITLE}">
-                        <img src="images/logo.svg" alt="Логотип РЦЛСМО" class="logo-image" data-fallback-src="images/logo.svg">
+                        <img src="images/logo.png" alt="Логотип РЦЛСМО" class="logo-image" data-fallback-src="images/logo.png">
                         <span class="logo-text">${SITE_TITLE_SHORT}</span>
                     </a>
 
@@ -222,7 +222,7 @@ function buildFooterHtml() {
                             <span class="footer-label">Организатор</span>
                             <div class="footer-logo-wrapper">
                                 <a href="https://mz.mosreg.ru/" target="_blank" rel="noopener noreferrer" class="footer-logo-link">
-                                    <img src="images/organizer-logo.svg" alt="Министерство здравоохранения Московской области" class="footer-logo">
+                                    <img src="images/mz-mosreg-logo.png" alt="Министерство здравоохранения Московской области" class="footer-logo">
                                     <span class="footer-org-name">Министерство здравоохранения Московской области</span>
                                 </a>
                             </div>
@@ -234,7 +234,7 @@ function buildFooterHtml() {
                             <span class="footer-label">Партнёр проекта</span>
                             <div class="footer-logo-wrapper">
                                 <a href="https://cvimz.ru/" target="_blank" rel="noopener noreferrer" class="footer-logo-link">
-                                    <img src="images/partner-logo.svg" alt="Центр внедрения изменений и обеспечения деятельности МЗ" class="footer-logo">
+                                    <img src="images/cvimz-logo.png" alt="Центр внедрения изменений и обеспечения деятельности МЗ" class="footer-logo">
                                     <span class="footer-org-name">Центр внедрения изменений и обеспечения деятельности МЗ</span>
                                 </a>
                             </div>
