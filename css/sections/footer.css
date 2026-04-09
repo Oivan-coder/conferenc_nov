@@ -1,16 +1,37 @@
 /* ===== BEAUTIFUL FOOTER STYLES ===== */
-.footer {
-  background: var(--bg-secondary);
-  border-top: 1px solid rgba(255, 255, 255, 0.15);
+.footer,
+.main-footer {
+  background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+  border-top: 2px solid rgba(0, 229, 255, 0.2);
   padding: 60px 0 30px;
   position: relative;
+  overflow: hidden;
+}
+
+.footer::before,
+.main-footer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, var(--accent-primary) 50%, transparent 100%);
 }
 
 .footer-main {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 50px;
-  margin-bottom: 40px;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto auto;
+  gap: 40px 60px;
+  margin-bottom: 50px;
+  position: relative;
+  z-index: 1;
+}
+
+.footer-contacts {
+  grid-column: 1 / -1;
+  grid-row: 2;
 }
 
 /* Footer Blocks */
@@ -67,87 +88,117 @@
 
 /* Contacts Section */
 .footer-contacts .footer-info {
-  gap: 10px;
+  gap: 16px;
 }
 
 .contact-items-wrapper {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   gap: 20px;
 }
 
 .contact-person-group {
   display: flex;
   flex-direction: column;
+  background: rgba(0, 229, 255, 0.05);
+  border: 1px solid rgba(0, 229, 255, 0.15);
+  border-radius: var(--radius-md);
+  padding: var(--space-lg);
+  transition: all 0.3s ease;
+  height: 100%;
+}
+
+.contact-person-group:hover {
+  background: rgba(0, 229, 255, 0.1);
+  border-color: var(--accent-primary);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(0, 229, 255, 0.2);
 }
 
 .contact-header {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 15px;
-  margin-bottom: 5px;
+  flex-direction: column;
+  gap: var(--space-md);
+  flex: 1;
 }
 
 .contact-person {
-  font-size: 14px;
+  font-size: 15px;
   color: var(--text-primary);
-  line-height: 1.4;
+  line-height: 1.5;
   font-weight: 500;
-  flex: 1;
+  margin-bottom: var(--space-xs);
 }
 
 .contact-actions {
   display: flex;
-  gap: 8px;
+  gap: var(--space-sm);
   align-items: center;
-  flex-shrink: 0;
+  justify-content: flex-start;
+  flex-wrap: wrap;
 }
 
 .contact-phone-button {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 36px;
-  height: 36px;
-  border-radius: 8px;
-  background: rgba(255, 255, 255, 0.1);
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  min-height: 44px;
+  border-radius: var(--radius-sm);
+  background: rgba(0, 229, 255, 0.15);
+  border: 1px solid rgba(0, 229, 255, 0.3);
   transition: all 0.3s ease;
   text-decoration: none;
+  color: var(--accent-primary);
 }
 
 .contact-phone-button:hover {
   background: var(--accent-primary);
-  transform: translateY(-2px);
+  color: var(--bg-primary);
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 4px 15px rgba(0, 229, 255, 0.4);
 }
 
 .phone-icon {
-  font-size: 16px;
+  font-size: 18px;
 }
 
 .messenger-button {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 36px;
-  height: 36px;
-  border-radius: 8px;
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  min-height: 44px;
+  border-radius: var(--radius-sm);
   transition: all 0.3s ease;
   color: white;
   text-decoration: none;
+  border: 1px solid transparent;
 }
 
 .messenger-button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
 }
 
 .tg-button {
-  background: #0088CC;
+  background: linear-gradient(135deg, #0088CC 0%, #0066AA 100%);
+}
+
+.tg-button:hover {
+  background: linear-gradient(135deg, #0099DD 0%, #0088CC 100%);
 }
 
 .wa-button {
-  background: #25D366;
+  background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+}
+
+.wa-button:hover {
+  background: linear-gradient(135deg, #2FE576 0%, #25D366 100%);
 }
 
 /* Footer Divider */
@@ -186,25 +237,104 @@
 /* Планшеты */
 @media (max-width: 1024px) {
   .footer-main {
-    grid-template-columns: 1fr 1fr;
-    gap: 40px;
+    gap: 30px 40px;
   }
   
-  .footer-contacts {
-    grid-column: 1 / -1;
-    margin-top: 20px;
+  .contact-items-wrapper {
+    gap: 16px;
   }
 }
 
 /* Мобильные устройства */
 @media (max-width: 768px) {
-  .footer {
-    padding: 40px 0 20px;
+  .footer,
+  .main-footer {
+    padding: var(--space-xl) 0 var(--space-lg);
   }
   
   .footer-main {
     grid-template-columns: 1fr;
-    gap: 30px;
+    gap: var(--space-xl);
+  }
+  
+  .footer-block {
+    text-align: center;
+  }
+  
+  .footer-logo-link {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: var(--space-md);
+  }
+  
+  .footer-logo {
+    width: 70px;
+    height: 70px;
+  }
+  
+  .footer-org-name {
+    font-size: 16px;
+    line-height: 1.5;
+  }
+  
+  .footer-label {
+    text-align: center;
+    margin-bottom: var(--space-lg);
+    font-size: 15px;
+  }
+  
+  .contact-items-wrapper {
+    grid-template-columns: 1fr;
+    gap: var(--space-md);
+  }
+  
+  .contact-person-group {
+    padding: var(--space-lg);
+    text-align: left;
+  }
+  
+  .contact-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-md);
+    margin-bottom: var(--space-sm);
+  }
+  
+  .contact-person {
+    font-size: 15px;
+    width: 100%;
+    min-width: auto;
+  }
+  
+  .contact-actions {
+    align-self: stretch;
+    justify-content: flex-start;
+    gap: var(--space-sm);
+  }
+  
+  .contact-phone-button,
+  .messenger-button {
+    width: 48px;
+    height: 48px;
+    min-width: 48px;
+    min-height: 48px;
+  }
+  
+  .phone-icon {
+    font-size: 20px;
+  }
+}
+
+/* Маленькие мобильные */
+@media (max-width: 480px) {
+  .footer,
+  .main-footer {
+    padding: var(--space-lg) 0 var(--space-md);
+  }
+  
+  .footer-main {
+    gap: var(--space-lg);
   }
   
   .footer-logo {
@@ -216,31 +346,29 @@
     font-size: 15px;
   }
   
-  .contact-header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 10px;
+  .footer-label {
+    font-size: 14px;
+    margin-bottom: var(--space-md);
+  }
+  
+  .contact-person-group {
+    padding: var(--space-md);
+  }
+  
+  .contact-person {
+    font-size: 14px;
+    margin-bottom: var(--space-xs);
   }
   
   .contact-actions {
-    align-self: flex-start;
-  }
-}
-
-/* Маленькие мобильные */
-@media (max-width: 480px) {
-  .footer-main {
-    gap: 25px;
+    width: 100%;
+    justify-content: space-between;
   }
   
-  .footer-logo-link {
-    flex-direction: column;
-    text-align: center;
-    gap: 12px;
-  }
-  
-  .contact-header {
-    align-items: flex-start;
+  .contact-phone-button,
+  .messenger-button {
+    flex: 1;
+    max-width: 80px;
   }
 }
 /* Уменьшаем отступ только для заголовка контактов */

@@ -10,6 +10,7 @@
 @import url('components/cards.css');
 @import url('components/forms.css');
 @import url('components/ask.css');
+@import url('components/cookies.css');
 
 
 /* Sections */
@@ -20,8 +21,10 @@
 @import url('sections/specialists.css');  /* Наша команда (О нас) */
 @import url('sections/contacts.css');
 @import url('sections/pages.css');
-@import url('sections/footer.css');  
-@import url('sections/speaker-materials.css');
+@import url('sections/reports.css');
+@import url('sections/footer.css');
+@import url('sections/home.css');
+@import url('mobile.css'); /* Мобильная оптимизация */
 
 /* ===== RESPONSIVE DESIGN ===== */
 /* Global responsive styles that don't fit elsewhere */
@@ -29,19 +32,6 @@
 @media (max-width: 768px) {
   section {
     padding: var(--space-xl) 0;
-  }
-  
-  .hero-stats {
-    grid-template-columns: repeat(2, 1fr);
-    gap: var(--space-md);
-  }
-  
-  .stat-item {
-    padding: var(--space-md);
-  }
-  
-  .stat-number {
-    font-size: 2rem;
   }
   
   .back-to-top {
@@ -54,14 +44,6 @@
 }
 
 @media (max-width: 480px) {
-  .hero-stats {
-    grid-template-columns: 1fr;
-  }
-  
-  .stat-number {
-    font-size: 1.8rem;
-  }
-  
   .back-to-top {
     bottom: 15px;
     right: 15px;

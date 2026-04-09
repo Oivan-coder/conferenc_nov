@@ -13,8 +13,12 @@
   --accent-secondary: #4fc3f7;
   --accent-medical: #4fc3f7;
   --accent-laboratory: #00bcd4;
+  --accent-primary-dark: #0097a7;
   --accent-emergency: #ff4081;
   --accent-gold: #ffd700;
+
+  /* Границы/разделители (используется по всему проекту) */
+  --border-color: rgba(0, 229, 255, 0.16);
   
   /* Градиенты */
   --gradient-medical: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
@@ -31,10 +35,15 @@
   --text-secondary: #b0bec5;
   --text-muted: #78909c;
   --text-accent: #00e5ff;
+  --text-tertiary: var(--text-muted);
   
   /* Функциональные цвета */
   --success: #00ff88;
   --warning: #ffb300;
+  --warning-light: rgba(255, 179, 0, 0.14);
+  --warning-lighter: rgba(255, 179, 0, 0.07);
+  --warning-dark: #ffb300;
+  --warning-darker: #cc8f00;
   --error: #ff5252;
   --info: #40c4ff;
   
@@ -49,6 +58,18 @@
   --radius-md: 16px;
   --radius-lg: 20px;
   --radius-xl: 24px;
+  --radius-pill: 999px;
+
+  /* Component tokens */
+  --card-radius: var(--radius-lg);
+  --card-radius-lg: var(--radius-xl);
+  --card-border: 1px solid var(--border-color);
+  --card-border-strong: 1px solid rgba(0, 229, 255, 0.25);
+  --card-shadow: var(--shadow-md);
+  --card-shadow-hover: var(--shadow-hover);
+
+  --button-radius: var(--radius-lg);
+  --site-header-height: 76px;
   
   /* Отступы */
   --space-xs: 0.5rem;

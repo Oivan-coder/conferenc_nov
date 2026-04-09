@@ -2,268 +2,31 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
     
     <!-- 🔥 SEO МЕТА-ТЕГИ -->
-    <title>Политика конфиденциальности - Форум лабораторных инноваций</title>
-    <meta name="description" content="Политика конфиденциальности и использования cookies Форума лабораторных инноваций. Информация о защите данных и использовании файлов cookie.">
-    <meta name="keywords" content="политика конфиденциальности, cookies, защита данных, Форум лабораторных инноваций">
-    <link rel="canonical" href="https://rclsmo.ru/privacy.html" />
+    <title>Политика конфиденциальности | Референс-центр лабораторной службы Московской области</title>
+    <meta name="description" content="Политика конфиденциальности сайта Референс-центра лабораторной службы Московской области: cookies, аналитика и обработка данных при переходе во внешние формы.">
+    <meta name="keywords" content="политика конфиденциальности, cookies, защита данных, Референс-центр лабораторной службы Московской области">
+    <link rel="canonical" href="https://rclsmo.ru/privacy.html">
     
     <!-- Open Graph для соцсетей -->
-    <meta property="og:title" content="Политика конфиденциальности - Форум лабораторных инноваций">
-    <meta property="og:description" content="Информация о защите данных и использовании файлов cookie на сайте Форума лабораторных инноваций.">
+    <meta property="og:title" content="Политика конфиденциальности | Референс-центр лабораторной службы Московской области">
+    <meta property="og:description" content="Условия обработки данных и использования внешних сервисов на сайте Референс-центра лабораторной службы Московской области.">
     <meta property="og:url" content="https://rclsmo.ru/privacy.html">
     <meta property="og:type" content="website">
     
     <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="images/favicon.ico">
-    <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
+    <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
     
     <!-- CSS -->
     <link rel="stylesheet" href="css/main.css">
     
-    <style>
-        /* Дополнительные стили для страницы политики */
-        .privacy-hero {
-            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
-            color: white;
-            padding: 100px 0 80px;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .privacy-hero::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(10, 25, 47, 0.9);
-        }
-
-        .privacy-hero-content {
-            position: relative;
-            z-index: 2;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        .privacy-hero h1 {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            color: white;
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-        }
-
-        .privacy-hero p {
-            font-size: 1.2rem;
-            opacity: 0.9;
-            margin-bottom: 0;
-        }
-
-        .privacy-container {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 60px 20px;
-            line-height: 1.7;
-        }
-
-        .privacy-section {
-            margin-bottom: 3rem;
-            padding: 2.5rem;
-            background: var(--bg-secondary);
-            border-radius: 16px;
-            border-left: 4px solid var(--accent-primary);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .privacy-section:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
-        }
-
-        .privacy-section h2 {
-            color: var(--accent-primary);
-            margin-bottom: 1.5rem;
-            font-size: 1.8rem;
-            font-weight: 600;
-            border-bottom: 2px solid rgba(100, 255, 218, 0.3);
-            padding-bottom: 0.5rem;
-        }
-
-        .privacy-section h3 {
-            color: var(--text-primary);
-            margin: 2rem 0 1rem;
-            font-size: 1.3rem;
-            font-weight: 500;
-        }
-
-        .cookie-types {
-            background: var(--bg-primary);
-            padding: 2rem;
-            border-radius: 12px;
-            margin: 2rem 0;
-            border: 1px solid rgba(100, 255, 218, 0.2);
-        }
-
-        .cookie-type {
-            margin-bottom: 2rem;
-            padding-bottom: 2rem;
-            border-bottom: 1px solid rgba(100, 255, 218, 0.2);
-        }
-
-        .cookie-type:last-child {
-            margin-bottom: 0;
-            padding-bottom: 0;
-            border-bottom: none;
-        }
-
-        .cookie-type h4 {
-            color: var(--accent-primary);
-            margin-bottom: 0.5rem;
-            font-size: 1.1rem;
-        }
-
-        .cookie-status {
-            display: inline-block;
-            background: var(--success-color);
-            color: white;
-            padding: 0.3rem 0.8rem;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 500;
-            margin-bottom: 1rem;
-        }
-
-        .cookie-status.required {
-            background: var(--accent-primary);
-        }
-
-        .cookie-status.optional {
-            background: var(--warning-color);
-        }
-
-        .back-to-home {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            margin-top: 3rem;
-            padding: 1rem 2rem;
-            background: var(--accent-primary);
-            color: var(--bg-primary);
-            text-decoration: none;
-            border-radius: 8px;
-            font-weight: 600;
-            transition: all 0.3s ease;
-        }
-
-        .back-to-home:hover {
-            background: var(--accent-secondary);
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(100, 255, 218, 0.3);
-        }
-
-        .privacy-list {
-            list-style: none;
-            padding: 0;
-        }
-
-        .privacy-list li {
-            margin-bottom: 0.8rem;
-            padding-left: 1.5rem;
-            position: relative;
-        }
-
-        .privacy-list li::before {
-            content: '▸';
-            color: var(--accent-primary);
-            position: absolute;
-            left: 0;
-        }
-
-        .last-updated {
-            text-align: center;
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-            margin-top: 4rem;
-            padding-top: 2rem;
-            border-top: 1px solid rgba(100, 255, 218, 0.2);
-        }
-
-        /* Адаптивность */
-        @media (max-width: 768px) {
-            .privacy-hero {
-                padding: 80px 0 60px;
-            }
-
-            .privacy-hero h1 {
-                font-size: 2.2rem;
-            }
-
-            .privacy-container {
-                padding: 40px 20px;
-            }
-
-            .privacy-section {
-                padding: 1.5rem;
-                margin-bottom: 2rem;
-            }
-
-            .cookie-types {
-                padding: 1.5rem;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .privacy-hero h1 {
-                font-size: 1.8rem;
-            }
-
-            .privacy-hero p {
-                font-size: 1rem;
-            }
-
-            .privacy-section {
-                padding: 1.2rem;
-            }
-
-            .cookie-types {
-                padding: 1rem;
-            }
-        }
-    </style>
+    <!-- NOTE: styles were migrated to css/sections/pages.css to keep css/ as single source of truth -->
 </head>
-<body>
+<body class="privacy-page" data-page="privacy">
     <!-- Header -->
-    <header class="photo-header">
-        <div class="container">
-            <div class="header-content">
-                <a href="index.html" class="logo">
-                    <img src="images/logo.png" alt="Форум лабораторных инноваций" class="logo-image">
-                    <div>Форум лабораторных инноваций</div>
-                </a>
-                
-                <button class="burger-menu" id="burgerMenu" aria-label="Открыть меню">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </button>
-                
-                <nav class="nav-menu" id="navMenu">
-                    <ul class="nav-links">
-                        <li><a href="index.html">Главная</a></li>
-                        <li><a href="about.html">О нас</a></li>
-                        <li><a href="registration.html">Регистрация</a></li>
-                    </ul>
-                </nav>
-            </div>
-        </div>
-    </header>
+    <header class="photo-header" data-site-shell="header"></header>
 
     <!-- Hero Section -->
     <section class="privacy-hero">
@@ -277,7 +40,7 @@
     <main class="privacy-container">
         <div class="privacy-section">
             <h2>1. Общие положения</h2>
-            <p>Настоящая Политика конфиденциальности регулирует порядок сбора, использования и раскрытия информации, получаемой от пользователей сайта Форума лабораторных инноваций (далее — "Сайт"). Мы стремимся защищать вашу конфиденциальность и обеспечивать безопасность ваших данных.</p>
+            <p>Настоящая Политика конфиденциальности регулирует порядок сбора, использования и раскрытия информации, получаемой от пользователей сайта Референс-центра лабораторной службы Московской области (далее — "Сайт"). Мы стремимся защищать вашу конфиденциальность и обеспечивать безопасность ваших данных.</p>
         </div>
 
         <div class="privacy-section">
@@ -318,7 +81,8 @@
 
         <div class="privacy-section">
             <h2>4. Сбор и использование информации</h2>
-            <p>Мы собираем только обезличенные данные для:</p>
+            <p>На самом сайте мы собираем только обезличенные данные аналитики для:</p>
+            <p><strong>Важно:</strong> форма отзыва открывается во внешнем сервисе Google Forms. После перехода обработка введённых вами данных регулируется также правилами Google и правилами организаторов мероприятия.</p>
             <ul class="privacy-list">
                 <li>Анализа эффективности сайта</li>
                 <li>Улучшения пользовательского опыта</li>
@@ -326,7 +90,8 @@
                 <li>Оптимизации работы сайта</li>
             </ul>
             
-            <p><strong>Мы НЕ собираем:</strong> персональные данные, контактную информацию, финансовые данные через систему аналитики.</p>
+            <p><strong>Через систему аналитики мы НЕ собираем:</strong> паспортные данные, контактную информацию, финансовые сведения и содержимое форм.</p>
+            <p><strong>Через внешнюю форму отзыва могут обрабатываться:</strong> имя, должность, организация, контактные сведения и текст ответа, если вы самостоятельно укажете их в полях формы. Эти данные используются только для обратной связи по мероприятиям и улучшения программы.</p>
         </div>
 
         <div class="privacy-section">
@@ -371,63 +136,21 @@
         </div>
 
         <div class="last-updated">
-            Последнее обновление: 2025 год
+            Последнее обновление: 18 марта 2026
         </div>
     </main>
 
     <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-main">
-                <!-- Организатор -->
-                <div class="footer-block">
-                    <div class="footer-info">
-                        <span class="footer-label">Организатор</span>
-                        <div class="footer-logo-wrapper">
-                            <a href="https://mz.mosreg.ru/" target="_blank" rel="noopener noreferrer" class="footer-logo-link">
-                                <img src="images/mz-mosreg-logo.png" alt="Министерство здравоохранения Московской области" class="footer-logo">
-                                <span class="footer-org-name">Министерство здравоохранения Московской области</span>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Контакты -->
-                <div class="footer-block footer-contacts">
-                    <div class="footer-info">
-                        <span class="footer-label">Контакты</span>
-                        <div class="contact-items-wrapper">
-                            <div class="contact-person-group">
-                                <div class="contact-header">
-                                    <span class="contact-person">По вопросам конфиденциальности</span>
-                                    <div class="contact-actions">
-                                        <a href="mailto:ScheblykinaIV@mosreg.ru" class="contact-phone-button" aria-label="Написать email">
-                                            <span class="phone-icon">📧</span>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="footer-divider"></div>
-
-            <div class="footer-copyright">
-                <p>© 2025 Референс-центр лабораторной службы Московской области.</p>
-                <p class="copyright-secondary">Все права защищены | <a href="privacy.html" style="color: inherit;">Политика конфиденциальности</a></p>
-            </div>
-        </div>
-    </footer>
+    <footer class="main-footer" id="contacts" data-site-shell="footer"></footer>
 
     <!-- Кнопка "Наверх" -->
     <button id="backToTop" class="back-to-top">↑</button>
 
-    <!-- Подключение скрипта cookies -->
-    <script src="cookies.js"></script>
-    
-    <!-- Основной скрипт -->
-    <script src="script.js"></script>
+    <!-- Общий модуль (загружается первым) -->
+    <script src="js/common.js"></script>
+    <!-- URL cleaner -->
+    <script src="js/url-cleaner.js" defer></script>
+    <!-- Cookies и аналитика -->
+    <script src="cookies.js" defer></script>
 </body>
 </html>

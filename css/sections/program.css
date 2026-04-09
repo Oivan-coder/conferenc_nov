@@ -1,6 +1,6 @@
 /* ===== PROGRAM SECTION ===== */
 .program-section {
-  background: var(--bg-tertiary);
+  background: transparent;
 }
 
 .section-subtitle {
@@ -13,12 +13,14 @@
 
 /* ===== COMPACT PROGRAM STYLES ===== */
 .program-compact {
-  background: var(--bg-secondary);
+  background: rgba(255, 255, 255, 0.06);
+  -webkit-backdrop-filter: blur(18px);
+  backdrop-filter: blur(18px);
   border-radius: var(--radius-lg);
   padding: var(--space-xl);
   margin-bottom: var(--space-lg);
-  box-shadow: var(--shadow-sm);
-  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-md);
+  border: 1px solid rgba(255, 255, 255, 0.10);
   transition: all 0.3s ease;
 }
 
@@ -47,10 +49,10 @@
   color: var(--text-primary);
   font-weight: 600;
   padding: var(--space-sm) var(--space-md);
-  background: var(--bg-tertiary);
+  background: rgba(255, 255, 255, 0.05);
   border-radius: var(--radius-md);
   transition: all 0.3s ease;
-  border: 1px solid var(--border-color);
+  border: 1px solid rgba(255, 255, 255, 0.10);
   animation: slideInUp 0.6s ease forwards;
   opacity: 0;
   transform: translateY(20px);
@@ -130,8 +132,8 @@
 
 .filter-btn {
   padding: var(--space-sm) var(--space-lg);
-  border: 2px solid var(--border-color);
-  background: var(--bg-secondary);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.04);
   border-radius: 25px;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -156,25 +158,76 @@
   margin: 0 auto;
 }
 
-/* ПОЛОСКА УДАЛЕНА - этот блок закомментирован */
-/* .program-timeline::before {
-  content: '';
-  position: absolute;
-  left: 30px;
-  top: 0;
-  bottom: 0;
-  width: 3px;
-  background: linear-gradient(to bottom, var(--accent-primary), var(--accent-medical));
-  border-radius: 3px;
-} */
+/* ===== SIMPLE TIMELINE (used on past conference pages) ===== */
+.program-timeline--simple .time-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+  margin-bottom: var(--space-md);
+}
+
+.program-timeline--simple .time-label {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  background: rgba(0, 229, 255, 0.12);
+  border: 1px solid rgba(0, 229, 255, 0.18);
+  color: var(--text-primary);
+}
+
+.program-timeline--simple .time-range {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+}
+
+.program-timeline--simple .session-items {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.program-timeline--simple .session-item {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 6px 14px;
+  align-items: start;
+}
+
+.program-timeline--simple .session-item .session-time {
+  align-self: start;
+}
+
+.program-timeline--simple .session-item .session-title {
+  display: block;
+}
+
+.program-timeline--simple .session-item .session-details {
+  grid-column: 2;
+  display: block;
+  color: var(--text-secondary);
+  font-size: 0.92rem;
+  line-height: 1.45;
+  margin-top: -2px;
+}
+
+/* Закомментированный код удален */
 
 .time-block {
-  background: var(--bg-secondary);
+  background: rgba(255, 255, 255, 0.06);
+  -webkit-backdrop-filter: blur(18px);
+  backdrop-filter: blur(18px);
   border-radius: var(--radius-lg);
   padding: var(--space-xl);
   margin-bottom: var(--space-lg);
-  box-shadow: var(--shadow-sm);
-  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-md);
+  border: 1px solid rgba(255, 255, 255, 0.10);
   transition: all 0.3s ease;
   position: relative;
 }
@@ -235,7 +288,10 @@
   align-items: flex-start;
   gap: var(--space-lg);
   padding: var(--space-lg);
-  background: var(--bg-tertiary);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
   border-radius: var(--radius-md);
   border-left: 4px solid var(--accent-primary);
   transition: all 0.3s ease;
@@ -243,7 +299,7 @@
 }
 
 .session-card:hover {
-  background: var(--bg-secondary);
+  background: rgba(255, 255, 255, 0.06);
   transform: translateX(5px);
 }
 
@@ -268,7 +324,8 @@
   min-width: 70px;
   text-align: center;
   padding: var(--space-sm) var(--space-md);
-  background: var(--bg-secondary);
+  background: rgba(0, 229, 255, 0.08);
+  border: 1px solid rgba(0, 229, 255, 0.18);
   border-radius: var(--radius-sm);
   font-weight: 600;
   color: var(--accent-primary);
@@ -467,10 +524,7 @@
     font-size: 0.85rem;
   }
   
-  /* ПОЛОСКА УДАЛЕНА ИЗ МЕДИА-ЗАПРОСОВ */
-  /* .program-timeline::before {
-    left: 20px;
-  } */
+  /* Закомментированный код удален */
   
   .time-block {
     padding: var(--space-lg);
@@ -563,6 +617,14 @@
   
   .session-speaker {
     font-size: 0.9rem;
+  }
+
+  .program-timeline--simple .session-item {
+    grid-template-columns: 1fr;
+  }
+
+  .program-timeline--simple .session-item .session-details {
+    grid-column: auto;
   }
 }
 
@@ -772,39 +834,16 @@
         font-size: 0.95rem;
     }
 }
-/* === НОВЫЕ СТИЛИ ДЛЯ АРХИВА ПРЕЗЕНТАЦИЙ === */
-.presentations-archive {
-    background: var(--bg-secondary);
-    border-radius: 12px;
-    padding: 0;
-    overflow: hidden;
-}
-
-.archive-grid {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
-.main-archive {
-    display: grid;
-    grid-template-columns: auto 1fr auto;
-    gap: 20px;
-    align-items: center;
-    padding: 30px;
-    background: linear-gradient(135deg, var(--primary)10, var(--secondary)10);
-    border-radius: 12px;
-    border: 2px dashed var(--primary-light);
-}
-
 /* ===== PRESENTATIONS ARCHIVE ===== */
 .presentations-archive {
-    background: var(--bg-secondary);
+    background: rgba(255, 255, 255, 0.06);
+    -webkit-backdrop-filter: blur(18px);
+    backdrop-filter: blur(18px);
     border-radius: var(--radius-lg);
     padding: 0;
     margin-top: var(--space-xl);
-    box-shadow: var(--shadow-sm);
-    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-md);
+    border: 1px solid rgba(255, 255, 255, 0.10);
     transition: all 0.3s ease;
     overflow: hidden;
 }
@@ -844,7 +883,9 @@
     gap: var(--space-xl);
     align-items: center;
     padding: var(--space-xl);
-    background: var(--bg-tertiary);
+    background: rgba(255, 255, 255, 0.04);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
     border-radius: var(--radius-lg);
     border: 2px dashed var(--accent-primary);
     transition: all 0.3s ease;
@@ -863,7 +904,7 @@
 }
 
 .main-archive:hover {
-    background: var(--bg-secondary);
+    background: rgba(255, 255, 255, 0.06);
     border-color: var(--accent-medical);
     transform: translateY(-3px);
     box-shadow: var(--shadow-md);
@@ -901,12 +942,12 @@
 
 .file-size, .file-count {
     padding: var(--space-xs) var(--space-md);
-    background: var(--bg-secondary);
+    background: rgba(255, 255, 255, 0.04);
     border-radius: var(--radius-md);
     color: var(--text-secondary);
     font-weight: 600;
     font-size: 0.9rem;
-    border: 1px solid var(--border-color);
+    border: 1px solid rgba(255, 255, 255, 0.12);
     transition: all 0.3s ease;
 }
 
@@ -1012,8 +1053,36 @@
         margin-top: var(--space-lg);
     }
     
+    .presentations-archive .block-header {
+        padding: var(--space-md);
+    }
+    
+    .presentations-archive .block-header h3 {
+        font-size: 1.1rem;
+    }
+    
     .archive-grid {
         padding: var(--space-md);
+        gap: var(--space-sm);
+    }
+    
+    .main-archive {
+        padding: var(--space-md);
+        gap: var(--space-md);
+    }
+    
+    .archive-icon {
+        font-size: 2.5rem;
+    }
+    
+    .archive-content h4 {
+        font-size: 1.1rem;
+    }
+    
+    .download-btn {
+        padding: 0.75rem var(--space-md);
+        font-size: 0.9rem;
+        min-height: 44px;
     }
     
     .main-archive {

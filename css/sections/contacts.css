@@ -76,10 +76,30 @@
   position: relative;
 }
 
+.location-section-header {
+  padding: var(--space-xxl) 0 var(--space-lg);
+}
+
+.location-map-wrap {
+  max-width: 1480px;
+  margin: 0 auto;
+  padding: 0 var(--space-xl) var(--space-xxl);
+}
+
 .map-container-full {
   position: relative;
   width: 100%;
-  height: 600px;
+  height: 640px;
+  overflow: hidden;
+}
+
+.map-container-full--premium {
+  border-radius: 24px;
+  border: 1px solid rgba(0, 229, 255, 0.16);
+  box-shadow:
+    0 24px 55px rgba(0, 0, 0, 0.35),
+    0 0 0 1px rgba(255, 255, 255, 0.06) inset;
+  background: rgba(255, 255, 255, 0.02);
 }
 
 .interactive-map-full {
@@ -105,6 +125,86 @@
   color: var(--text-primary);
 }
 
+.fallback-content {
+  padding: var(--space-xl);
+  max-width: 520px;
+}
+
+.fallback-icon {
+  font-size: 3rem;
+  display: block;
+  margin-bottom: var(--space-md);
+  opacity: 0.9;
+}
+
+.map-fallback h3 {
+  margin: 0 0 var(--space-sm) 0;
+  font-size: 1.3rem;
+  color: var(--text-primary);
+}
+
+.map-fallback p {
+  margin: 0 0 var(--space-lg) 0;
+  color: var(--text-secondary);
+}
+
+.fallback-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+  justify-content: center;
+}
+
+.fallback-btn {
+  appearance: none;
+  border: 1px solid rgba(0, 229, 255, 0.22);
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text-primary);
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.fallback-btn:hover {
+  transform: translateY(-2px);
+  background: rgba(0, 229, 255, 0.08);
+  border-color: rgba(0, 229, 255, 0.35);
+}
+
+.fallback-btn.secondary {
+  border-color: rgba(255, 255, 255, 0.16);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text-secondary);
+}
+
+.fallback-btn.secondary:hover {
+  color: var(--text-primary);
+}
+
+.map-balloon {
+  padding: 14px;
+  max-width: 280px;
+}
+
+.map-balloon h3 {
+  margin: 0 0 6px 0;
+  font-size: 1rem;
+  color: #0b1220;
+}
+
+.map-balloon p {
+  margin: 0 0 6px 0;
+  color: rgba(11, 18, 32, 0.8);
+  line-height: 1.35;
+}
+
 /* Location Overlay */
 .location-overlay-card {
   position: absolute;
@@ -116,9 +216,182 @@
   padding: var(--space-lg);
   max-width: 320px;
   box-shadow: var(--shadow-lg), var(--glow-card);
-  border: 1px solid rgba(0, 229, 255, 0.2);
+  border: 1px solid rgba(0, 229, 255, 0.22);
   font-family: 'Inter', sans-serif;
   z-index: 10;
+}
+
+.location-overlay-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(
+    135deg,
+    rgba(0, 229, 255, 0.35),
+    rgba(79, 195, 247, 0.18),
+    rgba(0, 229, 255, 0.12)
+  );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  opacity: 0.7;
+}
+
+/* March 2026: keep overlay compact and never overflow the map */
+body.conf-mart-2026 .location-map-wrap {
+  max-width: none;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+body.conf-mart-2026 .map-container-full--premium {
+  border-radius: 0;
+  border-left: 0;
+  border-right: 0;
+}
+
+body.conf-mart-2026 .map-container-full {
+  height: 600px;
+}
+
+body.conf-mart-2026 .location-overlay-card {
+  top: 18px;
+  left: 18px;
+  padding: 12px;
+  max-width: 320px;
+  max-height: calc(100% - 40px);
+  overflow: auto;
+  overscroll-behavior: contain;
+}
+
+body.conf-mart-2026 .location-actions.multi {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 0;
+}
+
+body.conf-mart-2026 .location-actions.multi #openNavigationMap {
+  grid-column: 1 / -1;
+}
+
+body.conf-mart-2026 .location-actions .map-btn {
+  width: auto;
+}
+
+/* March 2026: redesigned compact overlay card */
+body.conf-mart-2026 .loc-card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+body.conf-mart-2026 .loc-head {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+body.conf-mart-2026 .loc-mark {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  background: rgba(0, 229, 255, 0.16);
+  border: 1px solid rgba(0, 229, 255, 0.22);
+  flex: 0 0 auto;
+  font-size: 1.1rem;
+}
+
+body.conf-mart-2026 .loc-head-main {
+  flex: 1;
+  min-width: 0;
+}
+
+body.conf-mart-2026 .loc-title-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 6px;
+}
+
+body.conf-mart-2026 .loc-title {
+  margin: 0;
+  font-size: 1.02rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  line-height: 1.2;
+}
+
+body.conf-mart-2026 .loc-pill {
+  display: inline-flex;
+  align-items: center;
+  height: 22px;
+  padding: 0 10px;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.01em;
+  background: rgba(0, 229, 255, 0.18);
+  border: 1px solid rgba(0, 229, 255, 0.25);
+  color: var(--text-primary);
+  white-space: nowrap;
+}
+
+body.conf-mart-2026 .loc-address-main {
+  font-size: 0.92rem;
+  font-weight: 650;
+  color: var(--text-primary);
+  line-height: 1.25;
+}
+
+body.conf-mart-2026 .loc-address-sub {
+  margin-top: 2px;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  opacity: 0.9;
+  line-height: 1.2;
+}
+
+body.conf-mart-2026 .loc-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+body.conf-mart-2026 .loc-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border-radius: 12px;
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+}
+
+body.conf-mart-2026 .loc-chip .chip-ic {
+  width: 18px;
+  height: 18px;
+  display: grid;
+  place-items: center;
+  border-radius: 7px;
+  background: rgba(0, 229, 255, 0.10);
+  color: var(--text-primary);
+  font-size: 0.85rem;
+}
+
+body.conf-mart-2026 .location-actions.multi .map-btn {
+  padding: 0.78rem 0.9rem;
 }
 
 .location-header {
@@ -256,7 +529,78 @@
 }
 
 .location-actions {
-  margin-bottom: 0;
+  margin-bottom: var(--space-md);
+  display: flex;
+  gap: var(--space-sm);
+}
+
+.location-actions.multi {
+  flex-wrap: wrap;
+}
+
+.location-actions .map-btn {
+  width: 100%;
+}
+
+.location-actions.multi .map-btn {
+  flex: 1 1 100%;
+}
+
+.location-actions.multi .map-btn.secondary,
+.location-actions.multi .map-btn.ghost {
+  flex: 1 1 calc(50% - var(--space-sm));
+}
+
+.location-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-xs);
+  padding: 0.75rem var(--space-md);
+  border-radius: var(--radius-md);
+  font-size: 0.95rem;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  width: 100%;
+  min-height: 44px;
+}
+
+.location-btn.primary {
+  background: var(--gradient-medical);
+  color: var(--bg-primary);
+  box-shadow: 0 4px 15px rgba(0, 229, 255, 0.3);
+}
+
+.location-btn.primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 229, 255, 0.4);
+}
+
+.location-btn .btn-icon {
+  font-size: 1.1rem;
+}
+
+.location-btn .btn-text {
+  flex: 1;
+  text-align: center;
+}
+
+.location-notice {
+  margin-top: var(--space-md);
+  padding: var(--space-sm) var(--space-md);
+  background: rgba(0, 229, 255, 0.05);
+  border-radius: var(--radius-md);
+  border-left: 3px solid rgba(0, 229, 255, 0.3);
+}
+
+.location-notice p {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  line-height: 1.4;
 }
 
 /* Organization Structure */
@@ -433,6 +777,9 @@ footer .contact-link {
     left: 20px;
     top: 20px;
   }
+  .map-container-full {
+    height: 560px;
+  }
 }
 
 @media (max-width: 768px) {
@@ -452,14 +799,12 @@ footer .contact-link {
     justify-content: center;
   }
   
-  .location-overlay-card {
-    position: relative;
-    top: auto;
-    left: auto;
-    max-width: 100%;
-    margin: 0;
-    border-radius: 0;
-    box-shadow: 0 -5px 30px rgba(0, 0, 0, 0.3);
+  .map-container-full {
+    height: 420px;
+  }
+
+  .location-map-wrap {
+    padding: 0 var(--space-md) var(--space-xl);
   }
   
   .footer-content {
@@ -486,93 +831,151 @@ footer .contact-link {
   .partners-logos {
     flex-direction: column;
     align-items: center;
+    gap: var(--space-md);
   }
   
   .partner-logo {
     width: 100%;
-    max-width: 250px;
+    max-width: 280px;
+    min-height: 60px;
+    padding: var(--space-sm);
   }
   
   .location-overlay-card {
     padding: var(--space-md);
+    width: calc(100% - 2rem);
+    max-width: 100%;
   }
   
   .location-title {
-    font-size: 1.3rem;
+    font-size: 1.2rem;
+    margin-bottom: var(--space-sm);
   }
   
   .feature-item {
     padding: var(--space-sm);
-  }
-  
-  .map-btn {
-    padding: var(--space-md);
     font-size: 0.9rem;
   }
   
+  .map-btn {
+    padding: 0.875rem var(--space-md);
+    font-size: 0.9rem;
+    min-height: 44px;
+    width: 100%;
+  }
+  
   .department-card {
-    padding: var(--space-lg);
-    margin: 0 var(--space-sm);
+    padding: var(--space-md);
+    margin: 0 var(--space-xs);
   }
   
   .mission-text {
-    font-size: 1.1rem;
-    padding: var(--space-lg);
+    font-size: 1rem;
+    padding: var(--space-md);
+    line-height: 1.6;
+  }
+  
+  .contact-items-wrapper {
+    gap: var(--space-sm);
+  }
+  
+  .contact-person-group {
+    padding: var(--space-md);
+  }
+  
+  .contact-person {
+    font-size: 0.9rem;
+    line-height: 1.4;
+  }
+  
+  .contact-phone-button,
+  .messenger-button {
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    min-height: 44px;
   }
 }
-/* Для мобильных - компактная плашка поверх */
+
+/* Для мобильных - компактная плашка поверх карты (bottom sheet style) */
 @media (max-width: 768px) {
-    .location-overlay-card {
-        position: absolute;
-        bottom: 10px;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 95%;
-        max-width: 350px;
-        padding: 12px;
-        background: rgba(10, 21, 37, 0.95); /* Полупрозрачный фон */
-        backdrop-filter: blur(10px);
-    }
-    
-    /* Упрощаем контент */
-    .location-header {
-        flex-direction: row;
-        gap: 10px;
-        margin-bottom: 10px;
-    }
-    
-    .location-title-block h3 {
-        font-size: 1.1rem;
-        margin-bottom: 2px;
-    }
-    
-    .location-badge {
-        font-size: 0.7rem;
-        padding: 2px 6px;
-    }
-    
-    .location-address-block {
-        margin-bottom: 8px;
-    }
-    
-    .location-address {
-        font-size: 0.9rem;
-    }
-    
-    .location-features {
-        display: none; /* Скрываем на мобильных */
-    }
-    
-    .location-actions {
-        margin-top: 10px;
-    }
-    
-    .map-btn {
-        padding: 8px 12px;
-        font-size: 0.8rem;
-    }
-    
-    #yandexMapFull {
-        height: 350px; /* Увеличиваем высоту карты */
-    }
+  .location-overlay-card {
+    position: absolute;
+    top: auto;
+    left: 50%;
+    bottom: 12px;
+    transform: translateX(-50%);
+    width: calc(100% - 24px);
+    max-width: 520px;
+    padding: 14px;
+    background: rgba(10, 21, 37, 0.92);
+    backdrop-filter: blur(14px);
+    box-shadow: 0 16px 45px rgba(0, 0, 0, 0.55);
+  }
+
+  .location-header {
+    gap: 12px;
+    margin-bottom: 12px;
+    padding-bottom: 12px;
+  }
+
+  .location-icon-wrapper {
+    padding: 10px;
+  }
+
+  .location-title {
+    font-size: 1.15rem;
+  }
+
+  .location-badge {
+    font-size: 0.72rem;
+    padding: 2px 8px;
+  }
+
+  .location-features {
+    display: none;
+  }
+
+  .location-actions {
+    margin-bottom: 0;
+  }
+
+  .location-actions.multi .map-btn.secondary,
+  .location-actions.multi .map-btn.ghost {
+    flex: 1 1 calc(50% - var(--space-sm));
+  }
+
+  /* March 2026: keep the redesigned card compact on mobile too */
+  body.conf-mart-2026 .location-overlay-card {
+    padding: 12px;
+    max-width: 460px;
+  }
+
+  body.conf-mart-2026 .loc-mark {
+    width: 38px;
+    height: 38px;
+    border-radius: 11px;
+  }
+
+  body.conf-mart-2026 .loc-title {
+    font-size: 0.98rem;
+  }
+
+  body.conf-mart-2026 .loc-address-main {
+    font-size: 0.9rem;
+  }
+
+  body.conf-mart-2026 .loc-chips {
+    gap: 6px;
+  }
+
+  body.conf-mart-2026 .loc-chip {
+    padding: 5px 8px;
+    border-radius: 11px;
+    font-size: 0.74rem;
+  }
+
+  body.conf-mart-2026 .location-actions.multi {
+    gap: 8px;
+  }
 }

@@ -1,2 +1,17 @@
+# Jekyll конфигурация для GitHub Pages
 include: [".html"]
 permalink: pretty
+
+# Настройки для работы без .html в URL
+plugins:
+  - jekyll-redirect-from
+
+# Настройки по умолчанию для всех HTML файлов
+defaults:
+  - scope:
+      path: ""
+      type: "pages"
+    values:
+      permalink: pretty
+      layout: null
+

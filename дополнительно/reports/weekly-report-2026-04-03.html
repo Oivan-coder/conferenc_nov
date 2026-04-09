@@ -1,0 +1,1080 @@
+<!doctype html>
+<html lang="ru" id="top">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Централизация лабораторной службы — еженедельный отчет</title>
+<style>
+
+:root {
+  --bg: #05101d;
+  --bg2: #0a1830;
+  --card: rgba(11, 24, 42, 0.84);
+  --card-2: rgba(16, 30, 51, 0.92);
+  --card-3: rgba(19, 35, 59, 0.88);
+  --text: #edf4ff;
+  --muted: #9fb3cf;
+  --line: rgba(151, 180, 220, 0.14);
+  --blue: #6aaeff;
+  --blue-2: #3973e9;
+  --cyan: #60d8ff;
+  --green: #39d59c;
+  --amber: #ffb85a;
+  --red: #ff7474;
+  --violet: #9d92ff;
+  --shadow: 0 30px 80px rgba(0,0,0,.32);
+  --radius: 26px;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  color: var(--text);
+  font-family: Inter, "Segoe UI", Arial, sans-serif;
+  background:
+    radial-gradient(1200px 620px at -5% -5%, rgba(79,144,255,.22), transparent 56%),
+    radial-gradient(840px 520px at 110% 0%, rgba(96,216,255,.15), transparent 54%),
+    radial-gradient(700px 420px at 85% 85%, rgba(157,146,255,.13), transparent 56%),
+    linear-gradient(180deg, #04101c 0%, #071425 36%, #08172a 100%);
+  position: relative;
+}
+body:before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  opacity: .28;
+  background-image:
+    linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
+  background-size: 36px 36px;
+  mask-image: linear-gradient(180deg, rgba(255,255,255,.55), transparent 80%);
+}
+a { color: inherit; }
+.shell { max-width: 1460px; margin: 0 auto; padding: 24px; }
+.hero {
+  position: relative;
+  overflow: hidden;
+  padding: 34px;
+  border-radius: 34px;
+  background:
+    linear-gradient(135deg, rgba(8,20,39,.95), rgba(10,34,66,.95) 46%, rgba(20,52,94,.92) 100%),
+    linear-gradient(135deg, #0a1730, #11284a);
+  border: 1px solid rgba(143, 174, 221, .18);
+  box-shadow: var(--shadow);
+}
+.hero:before {
+  content: "";
+  position: absolute;
+  width: 480px; height: 480px;
+  right: -140px; top: -160px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(90,168,255,.28), transparent 64%);
+}
+.hero:after {
+  content: "";
+  position: absolute;
+  left: -140px; bottom: -190px;
+  width: 420px; height: 420px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(61,213,255,.16), transparent 66%);
+}
+.eyebrow {
+  position: relative;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 16px;
+  border-radius: 999px;
+  background: rgba(255,255,255,.07);
+  border: 1px solid rgba(255,255,255,.10);
+  color: #d6e5f8;
+  font-size: 12px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.06);
+}
+.hero-grid {
+  position: relative;
+  z-index: 2;
+  margin-top: 20px;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 22px;
+  align-items: stretch;
+}
+h1 {
+  margin: 0 0 14px;
+  font-size: 58px;
+  line-height: .98;
+  font-weight: 800;
+  letter-spacing: -.03em;
+  text-wrap: balance;
+}
+.subtitle {
+  margin: 0;
+  color: #c4d7ef;
+  font-size: 18px;
+  max-width: 900px;
+  line-height: 1.5;
+}
+.hero-summary {
+  margin-top: 24px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+.summary-tile {
+  position: relative;
+  overflow: hidden;
+  padding: 18px 18px 16px;
+  border-radius: 22px;
+  background: linear-gradient(180deg, rgba(255,255,255,.085), rgba(255,255,255,.035));
+  border: 1px solid rgba(255,255,255,.09);
+  backdrop-filter: blur(10px);
+  min-height: 146px;
+}
+.summary-tile:before {
+  content: "";
+  position: absolute;
+  right: -20px; top: -20px;
+  width: 120px; height: 120px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,255,255,.09), transparent 68%);
+}
+.summary-tile:nth-child(1) { background: linear-gradient(180deg, rgba(27,107,94,.33), rgba(12,42,46,.18)); }
+.summary-tile:nth-child(2) { background: linear-gradient(180deg, rgba(98,56,82,.28), rgba(44,24,45,.18)); }
+.summary-tile:nth-child(3) { background: linear-gradient(180deg, rgba(37,92,143,.30), rgba(21,41,74,.18)); }
+.summary-kicker { color: #c7daf2; font-size: 12px; margin-bottom: 12px; text-transform: uppercase; letter-spacing: .05em; }
+.summary-value { font-size: 40px; font-weight: 800; line-height: 1; position: relative; z-index: 1; }
+.summary-note { color: #d6e3f5; font-size: 13px; margin-top: 10px; line-height: 1.45; position: relative; z-index: 1; }
+.hero-panel {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.045));
+  border: 1px solid rgba(255,255,255,.09);
+  border-radius: 28px;
+  padding: 20px;
+  min-height: 100%;
+}
+.hero-panel:before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(240px 160px at 100% 0%, rgba(255,255,255,.09), transparent 62%);
+  pointer-events: none;
+}
+.hero-panel-title { font-size: 15px; color: #eff6ff; margin: 0 0 14px; font-weight: 800; }
+.hero-panel-grid { display: grid; gap: 12px; }
+.panel-line {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 12px;
+  align-items: center;
+  padding: 14px 16px;
+  border-radius: 18px;
+  background: linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.04));
+  border: 1px solid rgba(255,255,255,.08);
+}
+.panel-label { font-size: 13px; color: #e4effc; line-height: 1.4; }
+.panel-value {
+  font-size: 18px;
+  font-weight: 800;
+  white-space: nowrap;
+  color: #f5f9ff;
+  padding-left: 10px;
+}
+.platform-callout {
+  position: relative;
+  z-index: 2;
+  overflow: hidden;
+  margin-top: 22px;
+  padding: 24px;
+  border-radius: 28px;
+  background:
+    linear-gradient(135deg, rgba(43,87,145,.28), rgba(28,58,99,.18) 55%, rgba(24,46,82,.10)),
+    linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+  border: 1px solid rgba(110,171,255,.22);
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+  align-items: stretch;
+}
+.platform-callout:before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(120deg, transparent 0%, rgba(255,255,255,.04) 45%, transparent 100%);
+  pointer-events: none;
+}
+.platform-box {
+  position: relative;
+  padding: 22px 24px 20px;
+  border-radius: 24px;
+  background: linear-gradient(180deg, rgba(255,255,255,.11), rgba(255,255,255,.05));
+  border: 1px solid rgba(255,255,255,.10);
+  min-height: 0;
+}
+.platform-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 18px;
+}
+.platform-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  color: #eef6ff;
+  background: linear-gradient(180deg, rgba(94,163,255,.20), rgba(94,163,255,.10));
+  border: 1px solid rgba(125,185,255,.24);
+  padding: 11px 16px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 700;
+  transition: transform .18s ease, background .18s ease, border-color .18s ease;
+}
+.platform-link:hover {
+  transform: translateY(-1px);
+  background: linear-gradient(180deg, rgba(94,163,255,.26), rgba(94,163,255,.14));
+  border-color: rgba(150,205,255,.34);
+}
+.platform-link.secondary {
+  background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.04));
+  border-color: rgba(255,255,255,.12);
+}
+.platform-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: .09em;
+  color: #d2e6ff;
+  margin-bottom: 10px;
+}
+.platform-title {
+  font-size: 22px;
+  line-height: 1.15;
+  margin: 0 0 12px;
+  font-weight: 800;
+  max-width: 760px;
+}
+.platform-text { margin: 0; color: #dce9f9; line-height: 1.6; font-size: 15px; max-width: 980px; }
+.platform-text a { color: #8fd4ff; text-decoration: none; border-bottom: 1px solid rgba(143,212,255,.45); }
+.platform-text a:hover { color: #c9ecff; border-bottom-color: rgba(201,236,255,.8); }
+.platform-meta {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  align-content: center;
+}
+.platform-chip {
+  min-height: 0;
+  padding: 18px 18px;
+  border-radius: 20px;
+  background: linear-gradient(180deg, rgba(255,255,255,.085), rgba(255,255,255,.045));
+  border: 1px solid rgba(255,255,255,.09);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.platform-chip .chip-kicker { color: #b9cde8; font-size: 11px; text-transform: uppercase; letter-spacing: .08em; }
+.platform-chip .chip-value { margin-top: 8px; font-size: 20px; font-weight: 800; line-height: 1.25; }
+.platform-chip .chip-value a { color: #f5f9ff; text-decoration: none; }
+.platform-chip .chip-value a:hover { color: #9edcff; }
+.topnav {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 22px;
+}
+.topnav a {
+  text-decoration: none;
+  color: #f0f6ff;
+  background: rgba(255,255,255,.065);
+  border: 1px solid rgba(255,255,255,.10);
+  padding: 10px 15px;
+  border-radius: 999px;
+  font-size: 14px;
+  transition: transform .18s ease, background .18s ease;
+}
+.topnav a:hover { transform: translateY(-1px); background: rgba(255,255,255,.1); }
+.section-grid {
+  margin-top: 22px;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 18px;
+}
+.card {
+  position: relative;
+  overflow: hidden;
+  background:
+    linear-gradient(180deg, rgba(13,25,44,.90), rgba(9,22,39,.92));
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+.card:before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(320px 180px at 100% 0%, rgba(255,255,255,.05), transparent 62%);
+  pointer-events: none;
+}
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 22px 24px 12px;
+}
+.card-title { margin: 0; font-size: 28px; font-weight: 800; letter-spacing: -.02em; }
+.badge {
+  padding: 8px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.07);
+}
+.badge-blue { background: rgba(94,163,255,.16); color: #98c8ff; }
+.badge-red { background: rgba(255,107,107,.15); color: #ffaeae; }
+.badge-amber { background: rgba(255,182,72,.16); color: #ffd089; }
+.badge-green { background: rgba(55,211,154,.16); color: #8ff0c4; }
+.card-body { padding: 0 24px 24px; }
+.lead { margin: 0 0 14px; color: var(--muted); font-size: 14px; line-height: 1.65; }
+.executive-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin: 18px 0; }
+.executive-box {
+  position: relative;
+  overflow: hidden;
+  padding: 20px;
+  border-radius: 22px;
+  border: 1px solid rgba(255,255,255,.08);
+  background: rgba(255,255,255,.04);
+  min-height: 170px;
+}
+.executive-box:before {
+  content: "";
+  position: absolute;
+  right: -22px; bottom: -26px;
+  width: 110px; height: 110px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,255,255,.08), transparent 70%);
+}
+.executive-box.green { background: linear-gradient(180deg, rgba(47,211,159,.16), rgba(47,211,159,.05)); border-color: rgba(47,211,159,.18); }
+.executive-box.blue { background: linear-gradient(180deg, rgba(94,163,255,.16), rgba(94,163,255,.05)); border-color: rgba(94,163,255,.18); }
+.executive-box.red { background: linear-gradient(180deg, rgba(255,107,107,.15), rgba(255,107,107,.05)); border-color: rgba(255,107,107,.18); }
+.executive-kicker { color: #c8d8f1; font-size: 13px; line-height: 1.35; position: relative; z-index: 1; }
+.executive-number { margin-top: 12px; font-size: 42px; font-weight: 800; line-height: 1; position: relative; z-index: 1; }
+.executive-caption { margin-top: 12px; color: #e0ebfb; font-size: 13px; line-height: 1.38; position: relative; z-index: 1; }
+.summary-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 10px;
+}
+.summary-list li {
+  padding: 15px 16px;
+  border-radius: 18px;
+  background: linear-gradient(180deg, rgba(20,37,63,.90), rgba(14,28,49,.96));
+  border: 1px solid rgba(126,153,194,.14);
+  line-height: 1.5;
+}
+.goal-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; margin-top: 8px; }
+.goal-card {
+  position: relative;
+  overflow: hidden;
+  padding: 18px;
+  border-radius: 22px;
+  border: 1px solid rgba(255,255,255,.08);
+  background: linear-gradient(180deg, rgba(255,255,255,.055), rgba(255,255,255,.03));
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+.goal-card:before {
+  content: "";
+  position: absolute;
+  top: -24px; right: -24px;
+  width: 120px; height: 120px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,255,255,.08), transparent 70%);
+}
+.goal-card:nth-child(1) { background: linear-gradient(180deg, rgba(51,98,158,.23), rgba(18,31,56,.18)); }
+.goal-card:nth-child(2) { background: linear-gradient(180deg, rgba(41,108,97,.23), rgba(15,35,40,.16)); }
+.goal-card:nth-child(3) { background: linear-gradient(180deg, rgba(73,98,156,.23), rgba(21,34,56,.16)); }
+.goal-name { font-size: 14px; line-height: 1.48; color: #eff5ff; min-height: 88px; position: relative; z-index: 1; }
+.goal-values { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 16px; position: relative; z-index: 1; }
+.goal-box {
+  background: rgba(255,255,255,.05);
+  border: 1px solid rgba(255,255,255,.09);
+  border-radius: 18px;
+  padding: 12px;
+}
+.goal-kicker { font-size: 11px; color: #c0d2ec; text-transform: uppercase; letter-spacing: .06em; }
+.goal-value { font-size: 26px; font-weight: 800; margin-top: 8px; }
+.goal-progress {
+  margin-top: 14px;
+  height: 12px;
+  border-radius: 999px;
+  background: rgba(255,255,255,.08);
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,.05);
+  position: relative; z-index: 1;
+}
+.goal-progress > span {
+  display: block;
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--blue), var(--cyan));
+  box-shadow: 0 0 16px rgba(96,216,255,.28);
+}
+.goal-caption { margin-top: 10px; color: #d0dff4; font-size: 12px; position: relative; z-index: 1; }
+.small-note {
+  margin-top: 14px;
+  padding: 18px 18px;
+  border-radius: 20px;
+  background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.035));
+  border: 1px solid rgba(255,255,255,.08);
+  color: #e0ebfb;
+  line-height: 1.65;
+}
+.digital-goal {
+  margin-top: 14px;
+  padding: 18px;
+  border-radius: 22px;
+  background: linear-gradient(180deg, rgba(88,120,194,.18), rgba(25,41,72,.18));
+  border: 1px solid rgba(135,174,255,.16);
+}
+.digital-goal-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+  align-items: flex-start;
+}
+.digital-goal-title {
+  font-size: 18px;
+  font-weight: 800;
+  line-height: 1.35;
+  color: #f2f7ff;
+}
+.digital-goal-sub {
+  margin-top: 6px;
+  color: #c8d8ee;
+  font-size: 14px;
+  line-height: 1.5;
+}
+.digital-goal-stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 16px;
+}
+.digital-goal .goal-box { background: rgba(255,255,255,.05); }
+.digital-goal-progress {
+  margin-top: 16px;
+  height: 14px;
+  border-radius: 999px;
+  overflow: hidden;
+  background: rgba(255,255,255,.08);
+  border: 1px solid rgba(255,255,255,.05);
+}
+.digital-goal-progress > span {
+  display:block; height:100%; width:86.34%;
+  background: linear-gradient(90deg, var(--blue), var(--cyan));
+  border-radius:999px; box-shadow: 0 0 16px rgba(96,216,255,.28);
+}
+.digital-goal-caption { margin-top: 10px; color:#dbe8f8; font-size:13px; }
+.layout {
+  display: grid;
+  grid-template-columns: 1.12fr .88fr;
+  gap: 22px;
+  margin-top: 22px;
+}
+.stack { display: grid; gap: 22px; align-content: start; }
+.task-groups { display: grid; gap: 18px; }
+.task-group {
+  position: relative;
+  overflow: hidden;
+  padding: 18px;
+  border-radius: 22px;
+  background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.025));
+  border: 1px solid rgba(255,255,255,.08);
+}
+.task-group:before {
+  content: "";
+  position: absolute;
+  right: -24px; top: -24px;
+  width: 120px; height: 120px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,255,255,.06), transparent 70%);
+}
+.task-group-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+.task-group-title { margin: 0; font-size: 20px; }
+.task-count {
+  font-size: 12px;
+  color: #d4e5fb;
+  padding: 7px 11px;
+  border-radius: 999px;
+  background: rgba(255,255,255,.065);
+  border: 1px solid rgba(255,255,255,.08);
+}
+.task-items { display: grid; gap: 12px; }
+.task-item {
+  padding: 16px 16px;
+  border-radius: 20px;
+  background: linear-gradient(180deg, rgba(15,32,56,.95), rgba(13,26,45,.96));
+  border: 1px solid rgba(126,153,194,.14);
+}
+.task-name { font-weight: 700; line-height: 1.5; font-size: 15px; }
+.task-links {
+  margin-top: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.task-links a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  color: #f1f7ff;
+  background: linear-gradient(180deg, rgba(64,123,212,.22), rgba(50,92,168,.16));
+  border: 1px solid rgba(116,171,255,.22);
+  padding: 9px 12px;
+  border-radius: 999px;
+  font-size: 13px;
+}
+ul.clean {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 12px;
+}
+ul.clean li {
+  padding: 15px 16px;
+  border-radius: 18px;
+  background: linear-gradient(180deg, rgba(18,35,59,.94), rgba(13,27,47,.96));
+  border: 1px solid rgba(126,153,194,.14);
+  line-height: 1.55;
+}
+.risk-list li {
+  background: linear-gradient(180deg, rgba(89,33,44,.56), rgba(57,21,31,.54));
+  border-color: rgba(255,107,107,.18);
+}
+.issue-list li {
+  background: linear-gradient(180deg, rgba(99,68,24,.45), rgba(58,40,16,.50));
+  border-color: rgba(255,182,72,.18);
+}
+.ticket-columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+.ticket-pane {
+  border-radius: 22px;
+  padding: 18px;
+  border: 1px solid rgba(255,255,255,.08);
+  background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.03));
+}
+.ticket-pane.red { background: linear-gradient(180deg, rgba(255,107,107,.13), rgba(255,107,107,.05)); border-color: rgba(255,107,107,.18); }
+.ticket-pane.blue { background: linear-gradient(180deg, rgba(94,163,255,.13), rgba(94,163,255,.05)); border-color: rgba(94,163,255,.18); }
+.ticket-pane h3 { margin: 0 0 12px; font-size: 19px; }
+.ticket-list { list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; }
+.ticket-list li {
+  padding: 13px 14px;
+  border-radius: 16px;
+  background: rgba(7,17,31,.25);
+  border: 1px solid rgba(255,255,255,.07);
+  line-height: 1.48;
+}
+.anchor-links {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.anchor-links a {
+  display: block;
+  text-decoration: none;
+  color: #edf5ff;
+  background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.035));
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 18px;
+  padding: 13px 14px;
+  font-size: 14px;
+  font-weight: 600;
+}
+.footer {
+  text-align: center;
+  color: var(--muted);
+  font-size: 13px;
+  padding: 18px 0 6px;
+}
+@media (max-width: 1240px) {
+  .hero-grid,
+  .platform-callout,
+  .section-grid,
+  .layout { grid-template-columns: 1fr; }
+  .goal-grid,
+  .hero-summary,
+  .platform-meta { grid-template-columns: 1fr; }
+  h1 { font-size: 50px; }
+}
+@media (max-width: 900px) {
+  .shell { padding: 14px; }
+  .hero { padding: 20px 18px 18px; border-radius: 24px; }
+  .eyebrow { font-size: 10px; padding: 8px 11px; letter-spacing: .06em; }
+  h1 { font-size: 34px; line-height: 1.02; }
+  .subtitle { font-size: 14px; }
+  .hero-grid, .platform-callout, .section-grid, .layout, .ticket-columns { grid-template-columns: 1fr; gap: 14px; }
+  .platform-meta, .digital-goal-stats { grid-template-columns: 1fr; }
+  .hero-summary, .executive-grid, .goal-grid, .platform-meta, .anchor-links { grid-template-columns: 1fr; }
+  .card-header { padding: 16px 16px 10px; flex-direction: column; align-items: flex-start; }
+  .card-title { font-size: 21px; }
+  .card-body { padding: 0 16px 16px; }
+  .platform-title { font-size: 20px; }
+  .summary-value, .executive-number { font-size: 32px; }
+  .summary-tile, .executive-box, .goal-card, .ticket-pane, .platform-chip, .task-group, .task-item { min-height: 0; }
+  .goal-name { min-height: 0; }
+  .task-group { padding: 14px; }
+  .task-group-header { flex-direction: column; align-items: flex-start; margin-bottom: 12px; }
+  .topnav {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  .topnav a {
+    text-align: center;
+    border-radius: 14px;
+    padding: 10px 8px;
+    font-size: 13px;
+  }
+  .platform-text { font-size: 14px; }
+}
+@media (max-width: 480px) {
+  .shell { padding: 10px; }
+  .hero { padding: 16px 14px 14px; border-radius: 20px; }
+  h1 { font-size: 28px; }
+  .subtitle { font-size: 13px; }
+  .topnav, .hero-summary, .platform-meta, .executive-grid, .goal-grid, .anchor-links { grid-template-columns: 1fr; }
+  .summary-tile, .platform-chip, .goal-card, .executive-box, .ticket-pane, .task-item, .task-group { border-radius: 18px; }
+  .task-links a { width: 100%; justify-content: center; }
+  .panel-line { grid-template-columns: 1fr; }
+  .platform-chip .chip-value { font-size: 17px; }
+}
+
+</style>
+</head>
+<body>
+<div class="shell">
+  <section class="hero">
+    <div class="eyebrow">Министерство здравоохранения · еженедельный статус</div>
+    <div class="hero-grid">
+      <div>
+        <h1>Централизация лабораторной службы</h1>
+        <p class="subtitle">Еженедельный отчет за период с 30.03.2026 по 03.04.2026. Управленческий статус по результатам недели, целевым показателям, рискам, доработкам и плану следующего периода.</p>
+        <div class="hero-summary">
+          <div class="summary-tile">
+            <div class="summary-kicker">Выполнено за неделю</div>
+            <div class="summary-value">13</div>
+            <div class="summary-note">ключевых результатов, аналитических материалов и организационных действий</div>
+          </div>
+          <div class="summary-tile">
+            <div class="summary-kicker">Просрочено</div>
+            <div class="summary-value">28</div>
+            <div class="summary-note">задач в Битрикс, из них 7 на уровне главных врачей</div>
+          </div>
+          <div class="summary-tile">
+            <div class="summary-kicker">Цифровой след</div>
+            <div class="summary-value">69,85%</div>
+            <div class="summary-note">общий целевой показатель при ориентире 80,90%</div>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+
+    <div class="platform-callout">
+      <div class="platform-box">
+        <div class="platform-label">Новая платформа · ВКС+</div>
+        <h2 class="platform-title">С 06.04.2026 приглашения на совещания переводятся в единый сервис ВКС+</h2>
+        <p class="platform-text">Организация совещаний будет осуществляться через <a href="https://vks.mosreg.ru/calendar" target="_blank" rel="noopener noreferrer"><strong>vks.mosreg.ru/calendar</strong></a>. Для своевременного уведомления предусмотрено подключение Telegram-бота <a href="https://t.me/VksMosregBot" target="_blank" rel="noopener noreferrer"><strong>@VksMosregBot</strong></a>. Изменение направлено на отказ от разрозненных мессенджеров и переход к централизованному контуру управления совещаниями через корпоративную инфраструктуру mosreg.</p>
+        <div class="platform-actions">
+          <a class="platform-link" href="https://vks.mosreg.ru/calendar" target="_blank" rel="noopener noreferrer">Открыть ВКС+</a>
+          <a class="platform-link secondary" href="https://t.me/VksMosregBot" target="_blank" rel="noopener noreferrer">Открыть Telegram-бота</a>
+        </div>
+      </div>
+      <div class="platform-meta">
+        <div class="platform-chip">
+          <div class="chip-kicker">Старт перехода</div>
+          <div class="chip-value">06.04.2026</div>
+        </div>
+        <div class="platform-chip">
+          <div class="chip-kicker">Единый ресурс для совещаний</div>
+          <div class="chip-value"><a href="https://vks.mosreg.ru/calendar" target="_blank" rel="noopener noreferrer">vks.mosreg.ru/calendar</a></div>
+        </div>
+        <div class="platform-chip">
+          <div class="chip-kicker">Уведомления и напоминания</div>
+          <div class="chip-value"><a href="https://t.me/VksMosregBot" target="_blank" rel="noopener noreferrer">@VksMosregBot</a></div>
+        </div>
+      </div>
+    </div>
+
+    <nav class="topnav">
+      <a href="#summary">Сводка</a>
+      <a href="#goals">Целевые показатели</a>
+      <a href="#done">Выполненные работы</a>
+      <a href="#risks">Красные зоны</a>
+      <a href="#tickets">Доработки</a>
+      <a href="#issues">Проблематика</a>
+      <a href="#plan">План</a>
+    </nav>
+  </section>
+
+  <section class="section-grid">
+    <article class="card" id="summary">
+      <div class="card-header">
+        <h2 class="card-title">Операционный статус недели</h2>
+        <span class="badge badge-blue">Итог периода</span>
+      </div>
+      <div class="card-body">
+        <p class="lead">За период сформирован блок аналитических, методических и организационных материалов. Основной управленческий акцент недели — расчет квартальных целевых показателей, аудит лабораторий, анализ мощностей ЦКДЛ и подготовка перехода на единый контур управления совещаниями.</p>
+        <div class="executive-grid">
+          <div class="executive-box green">
+            <div class="executive-kicker">Исполнение отчетного периода</div>
+            <div class="executive-number">13</div>
+            <div class="executive-caption">ключевых результатов и материалов</div>
+          </div>
+          <div class="executive-box blue">
+            <div class="executive-kicker">План следующего периода</div>
+            <div class="executive-number">7</div>
+            <div class="executive-caption">основных рабочих направлений</div>
+          </div>
+          <div class="executive-box red">
+            <div class="executive-kicker">Просроченные задачи</div>
+            <div class="executive-number">28</div>
+            <div class="executive-caption">требуют управленческого контроля</div>
+          </div>
+        </div>
+        <ul class="summary-list">
+          <li><strong>Оргконтур:</strong> подготовлен переход от мессенджеров к корпоративной почте mosreg и новой платформе ВКС+ для управления совещаниями.</li>
+          <li><strong>Аналитика:</strong> выполнен расчет целевых показателей проекта за I квартал и расчет КПД оборудования ЦКДЛ.</li>
+          <li><strong>Аудит и диагностика:</strong> проведены аудиты по ЦКДЛ Королев и лаборатории МОНИИАГ, а также анализ мощностей по 4 ЦКДЛ.</li>
+          <li><strong>Предоставление данных:</strong> ответственные лица ПВБ/ППБ — 74 из 75 МО; ответственные по внесению пациентов в ЕМИАС — 73 из 75 МО.</li>
+        </ul>
+      </div>
+    </article>
+
+    <article class="card" id="goals">
+      <div class="card-header">
+        <h2 class="card-title">Целевые показатели проекта</h2>
+        <span class="badge badge-amber">I квартал 2026</span>
+      </div>
+      <div class="card-body">
+        <p class="lead">Квартальные целевые показатели вынесены в отдельный блок для быстрого управленческого считывания: цель, факт и степень исполнения по каждой метрике.</p>
+        <div class="goal-grid">
+          <div class="goal-card">
+            <div class="goal-name">Сроки (TAT): 95% исследований 1 и 2 уровня выполняются в течение 24 часов с момента поступления в лабораторию</div>
+            <div class="goal-values">
+              <div class="goal-box">
+                <div class="goal-kicker">Цель</div>
+                <div class="goal-value">80%</div>
+              </div>
+              <div class="goal-box">
+                <div class="goal-kicker">Факт</div>
+                <div class="goal-value">61%</div>
+              </div>
+            </div>
+            <div class="goal-progress"><span style="width:76.25%"></span></div>
+            <div class="goal-caption">Исполнение цели: 76,25%</div>
+          </div>
+          <div class="goal-card">
+            <div class="goal-name">Производительность: повышение общей эффективности (КПД) лаборатории через оптимизацию использования ключевых ресурсов</div>
+            <div class="goal-values">
+              <div class="goal-box">
+                <div class="goal-kicker">Цель</div>
+                <div class="goal-value">50%</div>
+              </div>
+              <div class="goal-box">
+                <div class="goal-kicker">Факт</div>
+                <div class="goal-value">41%</div>
+              </div>
+            </div>
+            <div class="goal-progress"><span style="width:82%"></span></div>
+            <div class="goal-caption">Исполнение цели: 82,0%</div>
+          </div>
+          <div class="goal-card">
+            <div class="goal-name">100% биоматериала проходит все этапы «клиентского пути пробирки»</div>
+            <div class="goal-values">
+              <div class="goal-box">
+                <div class="goal-kicker">Цель</div>
+                <div class="goal-value">96%</div>
+              </div>
+              <div class="goal-box">
+                <div class="goal-kicker">Факт</div>
+                <div class="goal-value">94,1%</div>
+              </div>
+            </div>
+            <div class="goal-progress"><span style="width:98.02%"></span></div>
+            <div class="goal-caption">Исполнение цели: 98,02%</div>
+          </div>
+        </div>
+        <div class="digital-goal">
+          <div class="digital-goal-head">
+            <div>
+              <div class="digital-goal-title">Общий целевой показатель: 100% цифровой след для каждого биоматериала — от назначения до архива</div>
+              <div class="digital-goal-sub">Годовой ориентир проекта — 100%. Ниже показаны квартирный ориентир на конец I квартала и фактическое значение на отчетную дату.</div>
+            </div>
+          </div>
+          <div class="digital-goal-stats">
+            <div class="goal-box">
+              <div class="goal-kicker">Годовой ориентир</div>
+              <div class="goal-value">100%</div>
+            </div>
+            <div class="goal-box">
+              <div class="goal-kicker">Цель на I квартал</div>
+              <div class="goal-value">80,90%</div>
+            </div>
+            <div class="goal-box">
+              <div class="goal-kicker">Факт на конец I квартала</div>
+              <div class="goal-value">69,85%</div>
+            </div>
+          </div>
+          <div class="digital-goal-progress"><span style="width:69.85%"></span></div>
+          <div class="digital-goal-caption">Прогресс к годовому ориентиру: 69,85%; отклонение от цели I квартала: −11,05 п.п.</div>
+        </div>
+        <div class="small-note"><strong>Итог по кварталу:</strong> процент достижения текущих целей — <strong>85,42%</strong> при целевом ориентире 100%.</div>
+      </div>
+    </article>
+  </section>
+
+  <section class="layout">
+    <div class="stack">
+      <article class="card" id="done">
+        <div class="card-header">
+          <h2 class="card-title">Выполненные работы и материалы</h2>
+          <span class="badge badge-green">13 результатов</span>
+        </div>
+        <div class="card-body">
+          <p class="lead">Блок разбит по смысловым группам. Для материалов, которые были переданы ссылками, добавлены прямые переходы.</p>
+
+          <div class="task-groups">
+            <section class="task-group">
+              <div class="task-group-header">
+                <h3 class="task-group-title">Управленческие и методические материалы</h3>
+                <div class="task-count">5 позиций</div>
+              </div>
+              <div class="task-items">
+                <div class="task-item">
+                  <div class="task-name">Презентация для еженедельных совещаний с заместителем Председателя Правительства Московской области — министром здравоохранения Московской области М.В. Забелиным</div>
+                  <div class="task-links"><a href="https://disk.yandex.ru/i/y5Qgrg3-JL0k8w" target="_blank" rel="noopener">Открыть материал</a></div>
+                </div>
+                <div class="task-item">
+                  <div class="task-name">Шаблон отчета по СЭМД для ЦКДЛ</div>
+                  <div class="task-links"><a href="https://disk.yandex.ru/i/ZB-xmyd_lmRF-Q" target="_blank" rel="noopener">Открыть шаблон</a></div>
+                </div>
+                <div class="task-item">
+                  <div class="task-name">Расчет целевых показателей проекта за I квартал</div>
+                  <div class="task-links"><a href="https://disk.yandex.ru/d/ybM6ISBuDyYsNw" target="_blank" rel="noopener">Открыть расчет</a></div>
+                </div>
+                <div class="task-item">
+                  <div class="task-name">Организован переход от мессенджеров к корпоративной почте mosreg для управления совещаниями</div>
+                </div>
+                <div class="task-item">
+                  <div class="task-name">Пример методики расчета (калькуляции) себестоимости услуги</div>
+                  <div class="task-links"><a href="https://disk.yandex.ru/d/Pc7XrcsW6goduw" target="_blank" rel="noopener">Открыть методику</a></div>
+                </div>
+              </div>
+            </section>
+
+            <section class="task-group">
+              <div class="task-group-header">
+                <h3 class="task-group-title">Аудиты и аналитика по лабораториям</h3>
+                <div class="task-count">4 направления</div>
+              </div>
+              <div class="task-items">
+                <div class="task-item">
+                  <div class="task-name">Аудит текущего состояния экспресс-лаборатории ЦКДЛ Королев (г. Мытищи), включая анализ рисков</div>
+                  <div class="task-links">
+                    <a href="https://disk.yandex.ru/i/oFGyEinwB1GJpA" target="_blank" rel="noopener">Анализ рисков</a>
+                  </div>
+                </div>
+                <div class="task-item">
+                  <div class="task-name">Аудит текущего состояния лаборатории МОНИИАГ</div>
+                  <div class="task-links">
+                    <a href="https://disk.yandex.ru/i/AYj1cHUKz8vpJw" target="_blank" rel="noopener">Выгрузка исследований</a>
+                    <a href="https://disk.yandex.ru/i/50Fy4bulgUxaig" target="_blank" rel="noopener">Презентация с анализом</a>
+                  </div>
+                </div>
+                <div class="task-item">
+                  <div class="task-name">Анализ мощностей ЦКДЛ на предмет выполнения ЖЦ и ВПЧ</div>
+                  <div class="task-links">
+                    <a href="https://disk.yandex.ru/d/NbsYqWsyUzF1Pg" target="_blank" rel="noopener">Истринская КБ</a>
+                    <a href="https://disk.yandex.ru/d/lD5_dnKxvN8RVw" target="_blank" rel="noopener">Королевская Б</a>
+                    <a href="https://disk.yandex.ru/d/mZwOABAuEXjLtw" target="_blank" rel="noopener">Домодедовская Б</a>
+                    <a href="https://disk.yandex.ru/d/GRF4q6iNx5TcgA" target="_blank" rel="noopener">Подольская ОКБ</a>
+                  </div>
+                </div>
+                <div class="task-item">
+                  <div class="task-name">Анализ чрезмерных назначений госпитального комплекса, сравнение реестра оборудования ЛИС/УРО по ЦКДЛ Лобня и расчет КПД оборудования ЦКДЛ</div>
+                  <div class="task-links">
+                    <a href="https://disk.yandex.ru/i/iYH8vbJB9eQS_A" target="_blank" rel="noopener">Расчет КПД</a>
+                    <a href="https://disk.yandex.ru/d/BcyqOtdWGajImQ" target="_blank" rel="noopener">Анализ назначений</a>
+                    <a href="https://disk.yandex.ru/d/R_fuR3Lkc1nrVA" target="_blank" rel="noopener">Реестр ЛИС/УРО</a>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <section class="task-group">
+              <div class="task-group-header">
+                <h3 class="task-group-title">ТЗ, шаблоны и отработка запросов</h3>
+                <div class="task-count">4 позиции</div>
+              </div>
+              <div class="task-items">
+                <div class="task-item">
+                  <div class="task-name">Отработано 8 ОГ МСЭД</div>
+                </div>
+                <div class="task-item">
+                  <div class="task-name">Подготовлено ТЗ для сбора потребностей по РМ</div>
+                  <div class="task-links">
+                    <a href="https://disk.yandex.ru/d/xC6flmbsXnD94w" target="_blank" rel="noopener">Балашиха</a>
+                    <a href="https://disk.yandex.ru/d/M5BLbWt0cM-xfg" target="_blank" rel="noopener">Домодедово</a>
+                    <a href="https://disk.yandex.ru/d/L8jl8-8x07Lqhw" target="_blank" rel="noopener">Королев</a>
+                    <a href="https://disk.yandex.ru/d/daHuZNhldD3DwQ" target="_blank" rel="noopener">Лобня</a>
+                    <a href="https://disk.yandex.ru/d/sYz29nzgaPNy-Q" target="_blank" rel="noopener">Подольск</a>
+                    <a href="https://disk.yandex.ru/i/f-IlRRwZ_FueHw" target="_blank" rel="noopener">Общий шаблон</a>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </div>
+        </div>
+      </article>
+
+      <article class="card" id="tickets">
+        <div class="card-header">
+          <h2 class="card-title">Доработки и заявки</h2>
+          <span class="badge badge-blue">Контроль исполнения</span>
+        </div>
+        <div class="card-body">
+          <p class="lead">Статусы разделены на две группы: просроченные задачи и задачи, ожидающие выполнения. Это упрощает контроль по срокам и ответственности.</p>
+          <div class="ticket-columns">
+            <section class="ticket-pane red">
+              <h3>Просрочено</h3>
+              <ul class="ticket-list">
+                <li><strong>СТП-695382</strong> — обязательное указание первичных данных при назначении группы крови; <strong>статус:</strong> в работе; <strong>ответственный:</strong> Шепелева Г.А.; <strong>срок:</strong> 11.03.2026.</li>
+                <li><strong>СТП-697675</strong> — корректировка услуг; <strong>статус:</strong> в работе; <strong>ответственный:</strong> Шепелева Г.А.; <strong>срок:</strong> 26.03.2026.</li>
+                <li><strong>СТП-695400</strong> — отчет по выбраковкам; <strong>статус:</strong> выполнена, подтверждающие данные не предоставлены; <strong>ответственный:</strong> Бичевая Е.О.; <strong>срок:</strong> 11.03.2026.</li>
+                <li><strong>СТП-697281</strong> — добавить услугу в справочник ЕМИАС; <strong>статус:</strong> выполнена, но не отработана; <strong>ответственный:</strong> Парфенова А.С.; <strong>срок:</strong> 25.03.2026.</li>
+                <li><strong>Битрикс №1415958</strong> — реализация системного отчета по невыполненным исследованиям; <strong>ответственный:</strong> Дмитриева О.Н.; <strong>срок:</strong> 12.03.2026, перенос на 20.03.2026.</li>
+              </ul>
+            </section>
+            <section class="ticket-pane blue">
+              <h3>Ожидают выполнения</h3>
+              <ul class="ticket-list">
+                <li><strong>СТП-697283</strong> — блокировка внесения результата ЕМИАС; <strong>статус:</strong> эскалировано внешнему исполнителю; <strong>ответственный:</strong> Качура Н.С.; <strong>срок:</strong> 08.04.2026.</li>
+                <li><strong>Битрикс №1472836</strong> — анализ назначения исследований на определение групп крови; <strong>ответственный:</strong> Дмитриева О.Н.; <strong>срок:</strong> 20.04.2026.</li>
+                <li><strong>Битрикс №1431141</strong> — аналитический дашборд по МО; <strong>ответственный:</strong> Дмитриева О.Н.; <strong>срок:</strong> согласуется с ТПР.</li>
+                <li><strong>Битрикс №1486065</strong> — выгрузка внешних назначений за 2026 год; <strong>ответственный:</strong> Дмитриева О.Н.; <strong>срок:</strong> 07.04.2026.</li>
+              </ul>
+            </section>
+          </div>
+        </div>
+      </article>
+
+      <article class="card" id="plan">
+        <div class="card-header">
+          <h2 class="card-title">План на следующую неделю</h2>
+          <span class="badge badge-blue">06.04–10.04</span>
+        </div>
+        <div class="card-body">
+          <ul class="clean">
+            <li>Разработка KPI для главных врачей ЦКДЛ.</li>
+            <li>Совещания: РГ (06.04.2026) и СЭМД (07.04.2026).</li>
+            <li>Разработка шаблона цитологического исследования.</li>
+            <li>Подготовка ответа для КСП: адреса лабораторий и перечень анализаторов.</li>
+            <li>Формирование каталога услуг лабораторных исследований.</li>
+            <li>Проработка высокотехнологичных лабораторных исследований.</li>
+            <li>Подготовка перечня услуг, направляемых на аутсорс из ЦКДЛ, и ТЗ для оценки целесообразности выполнения внешним подрядчиком.</li>
+          </ul>
+        </div>
+      </article>
+    </div>
+
+    <div class="stack">
+      <article class="card" id="risks">
+        <div class="card-header">
+          <h2 class="card-title">Красные зоны</h2>
+          <span class="badge badge-red">Риски</span>
+        </div>
+        <div class="card-body">
+          <ul class="clean risk-list">
+            <li><strong>Контракт ЛИС-Брегис:</strong> действует до 15.04.2026.</li>
+            <li><strong>Не сгенерированные ТАП:</strong> 80% от общего числа.</li>
+            <li><strong>МИС:</strong> не настроен запрет внесения результатов анализов, выполненных вручную. Контрольный срок — 24.04.2026.</li>
+            <li><strong>Закрытые лаборатории:</strong> не настроен запрет назначения лабораторных услуг. Контрольный срок — 15.05.2026.</li>
+            <li><strong>Интеграция ДБП в УРО:</strong> отсутствует, требуется доработка, срок не установлен.</li>
+            <li><strong>Внешний подрядчик:</strong> не завершена интеграция результатов лабораторных исследований из внешней базы.</li>
+            <li><strong>ЛИС «Склад» и ЕИС закупки:</strong> срок сдвинут с марта на сентябрь 2026 года. Ответственный — подрядчик по ГК.</li>
+            <li><strong>НПА СПИД и КВД:</strong> отсутствуют в рамках плана централизации на 2026 год; срок 13.03.2026, документ на согласовании, просрочено.</li>
+            <li><strong>Факторы недостижения целевых показателей:</strong> расхождения по рабочим местам, неактуальный реестр оборудования, задержки исследований, нарушения маршрутизации пробирок, снижение операционной эффективности в период дооснащения ЦКДЛ.</li>
+          </ul>
+          <div class="small-note"><strong>Требуемое решение:</strong> закрепить ответственных лиц по каждому из факторов на основании НПА. Ответственные — главные врачи ЦКДЛ. Срок — по факту утверждения НПА.</div>
+        </div>
+      </article>
+
+      <article class="card" id="issues">
+        <div class="card-header">
+          <h2 class="card-title">Проблематика</h2>
+          <span class="badge badge-amber">Требует внимания</span>
+        </div>
+        <div class="card-body">
+          <ul class="clean issue-list">
+            <li>28 задач просрочено в Битрикс, из них 7 задач — у главных врачей.</li>
+            <li>Протокольные поручения не отрабатываются ответственными лицами МО в установленный срок.</li>
+            <li>Ответственные лица ПВБ/ППБ предоставили данные по 74 из 75 МО.</li>
+            <li>Ответственные по внесению пациентов в ЕМИАС предоставили данные по 73 из 75 МО.</li>
+            <li>Ввиду неготовности Королевской Б централизация МОЦОМД и Котельниковской П переносится на II квартал 2026 года.</li>
+            <li>Не выполнен расчет услуг ТПГГ по 4 ЦКДЛ из 8.</li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="card" id="links">
+        <div class="card-header">
+          <h2 class="card-title">Навигация по разделам</h2>
+          <span class="badge badge-blue">Быстрые переходы</span>
+        </div>
+        <div class="card-body">
+          <div class="anchor-links">
+            <a href="#summary">Операционный статус недели</a>
+            <a href="#goals">Целевые показатели проекта</a>
+            <a href="#done">Выполненные работы и материалы</a>
+            <a href="#tickets">Доработки и заявки</a>
+            <a href="#risks">Красные зоны</a>
+            <a href="#issues">Проблематика</a>
+            <a href="#plan">План следующей недели</a>
+            <a href="#top">Наверх</a>
+          </div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <div class="footer">Еженедельный статус направления · адаптировано для десктопа и мобильного просмотра</div>
+</div>
+</body>
+</html>

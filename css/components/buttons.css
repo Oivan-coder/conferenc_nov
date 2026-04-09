@@ -4,64 +4,89 @@
   align-items: center;
   justify-content: center;
   gap: var(--space-xs);
-  padding: 1rem 2rem;
+  padding: 0.95rem 1.7rem;
   border: none;
-  border-radius: var(--radius-lg);
-  font-weight: 600;
+  border-radius: 999px;
+  font-weight: 650;
   text-decoration: none;
   text-align: center;
-  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease, border-color 0.25s ease, color 0.25s ease;
   cursor: pointer;
-  font-size: 1rem;
+  font-size: 0.96rem;
   line-height: 1;
   white-space: nowrap;
   position: relative;
   overflow: hidden;
   backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.cta-button::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-  transition: left 0.6s ease;
-}
-
-.cta-button:hover::before {
-  left: 100%;
+  border: 1px solid rgba(255, 255, 255, 0.12);
 }
 
 .cta-button.primary {
-  background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-laboratory) 100%);
-  color: var(--bg-primary);
-  box-shadow: var(--shadow-md), var(--glow-primary);
+  background: linear-gradient(135deg, rgba(0, 229, 255, 0.98) 0%, rgba(120, 235, 255, 0.92) 100%);
+  color: #06111d;
+  box-shadow: 0 12px 30px rgba(0, 229, 255, 0.22);
   font-weight: 700;
 }
 
 .cta-button.primary:hover {
-  transform: translateY(-3px);
-  box-shadow: var(--shadow-hover), var(--glow-primary);
-  background: linear-gradient(135deg, var(--accent-laboratory) 0%, var(--accent-primary) 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 16px 36px rgba(0, 229, 255, 0.24);
+  background: linear-gradient(135deg, rgba(76, 224, 255, 1) 0%, rgba(150, 241, 255, 0.95) 100%);
 }
 
 .cta-button.secondary {
-  background: var(--bg-glass);
-  color: var(--accent-primary);
-  border: 1px solid rgba(0, 229, 255, 0.3);
-  box-shadow: var(--shadow-sm);
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text-primary);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.18);
 }
 
 .cta-button.secondary:hover {
-  background: rgba(0, 229, 255, 0.1);
+  background: rgba(255, 255, 255, 0.09);
   color: var(--text-primary);
   transform: translateY(-2px);
-  box-shadow: var(--shadow-md);
-  border-color: var(--accent-primary);
+  box-shadow: 0 14px 32px rgba(0, 0, 0, 0.22);
+  border-color: rgba(0, 229, 255, 0.24);
+}
+
+/* Additional variants used across pages */
+.cta-button.outline,
+.cta-button.ghost {
+  background: transparent;
+  color: var(--accent-primary);
+  border: 1px solid rgba(0, 229, 255, 0.35);
+  box-shadow: none;
+}
+
+.cta-button.outline:hover,
+.cta-button.ghost:hover {
+  background: rgba(0, 229, 255, 0.08);
+  color: var(--text-primary);
+  transform: translateY(-2px);
+  border-color: rgba(0, 229, 255, 0.55);
+}
+
+.cta-button.large {
+  padding: 1.125rem 2.25rem;
+  font-size: 1.05rem;
+}
+
+/* Pressed state (desktop) */
+@media (hover: hover) and (pointer: fine) {
+  .cta-button:active,
+  .map-btn:active,
+  .contacts-button:active {
+    transform: translateY(-1px) scale(0.99);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cta-button,
+  .map-btn,
+  .contacts-button,
+  .back-to-top {
+    transition: none !important;
+  }
 }
 
 /* Map Button */
@@ -72,7 +97,7 @@
   gap: var(--space-sm);
   padding: var(--space-md) var(--space-lg);
   border: none;
-  border-radius: var(--radius-lg);
+  border-radius: var(--button-radius);
   font-weight: 600;
   text-decoration: none;
   transition: all 0.3s ease;
@@ -90,6 +115,39 @@
   box-shadow: var(--shadow-hover);
 }
 
+.map-btn.secondary {
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text-primary);
+  border: 1px solid rgba(0, 229, 255, 0.2);
+  box-shadow: var(--shadow-sm);
+}
+
+.map-btn.secondary:hover {
+  background: rgba(0, 229, 255, 0.08);
+  border-color: rgba(0, 229, 255, 0.35);
+}
+
+.map-btn.ghost {
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text-secondary);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow: none;
+}
+
+.map-btn.ghost:hover {
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text-primary);
+}
+
+/* Focus states (accessibility) */
+.cta-button:focus-visible,
+.map-btn:focus-visible,
+.contacts-button:focus-visible,
+.back-to-top:focus-visible {
+  outline: 3px solid rgba(0, 229, 255, 0.35);
+  outline-offset: 3px;
+}
+
 /* Contacts Button */
 .contacts-button {
   display: inline-flex;
@@ -99,7 +157,7 @@
   background: var(--gradient-medical);
   color: var(--bg-primary) !important;
   text-decoration: none;
-  border-radius: var(--radius-lg);
+  border-radius: var(--button-radius);
   font-weight: 600;
   transition: all 0.3s ease;
   border: none;
@@ -146,4 +204,103 @@
 .back-to-top:hover {
   transform: translateY(-5px) scale(1.1);
   box-shadow: var(--shadow-hover), var(--glow-primary);
+}
+
+/* ===== MOBILE OPTIMIZATION ===== */
+@media (max-width: 768px) {
+  .cta-button {
+    padding: 0.875rem 1.5rem;
+    font-size: 0.95rem;
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  .cta-button.primary:hover {
+    transform: translateY(-1px);
+  }
+  
+  .cta-button.secondary:hover {
+    transform: translateY(-1px);
+  }
+  
+  .map-btn {
+    padding: 0.875rem var(--space-md);
+    font-size: 0.9rem;
+    min-height: 44px;
+  }
+  
+  .contacts-button {
+    padding: 0.875rem var(--space-lg);
+    font-size: 0.9rem;
+    min-height: 44px;
+    width: 100%;
+    max-width: 300px;
+    justify-content: center;
+  }
+  
+  .back-to-top {
+    bottom: 20px;
+    right: 20px;
+    width: 45px;
+    height: 45px;
+    min-width: 45px;
+    min-height: 45px;
+    font-size: 1.2rem;
+  }
+  
+  .back-to-top:hover {
+    transform: translateY(-3px) scale(1.05);
+  }
+}
+
+@media (max-width: 480px) {
+  .cta-button {
+    padding: 0.75rem 1.25rem;
+    font-size: 0.9rem;
+    width: 100%;
+    max-width: 100%;
+  }
+  
+  .cta-button.large {
+    padding: 0.875rem 1.5rem;
+    font-size: 1rem;
+  }
+  
+  .map-btn {
+    padding: 0.75rem var(--space-sm);
+    font-size: 0.85rem;
+  }
+  
+  .contacts-button {
+    padding: 0.75rem var(--space-md);
+    font-size: 0.85rem;
+    max-width: 100%;
+  }
+  
+  .back-to-top {
+    bottom: 15px;
+    right: 15px;
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+    min-height: 40px;
+    font-size: 1.1rem;
+  }
+}
+
+/* Touch-friendly для кнопок */
+@media (hover: none) and (pointer: coarse) {
+  .cta-button:active,
+  .map-btn:active,
+  .contacts-button:active,
+  .back-to-top:active {
+    transform: scale(0.98);
+    opacity: 0.9;
+  }
+  
+  .cta-button:hover,
+  .map-btn:hover,
+  .contacts-button:hover {
+    transform: none;
+  }
 }

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <title>Отчеты | Референс-центр лабораторной службы Московской области</title>
+    <meta name="description" content="Единый архив еженедельных отчетов по проектам Референс-центра лабораторной службы Московской области.">
+    <meta name="keywords" content="отчеты рцлсмо, еженедельные отчеты, проектная отчетность, лабораторная служба МО">
+    <link rel="canonical" href="https://rclsmo.ru/reports.html">
+    <meta property="og:title" content="Отчеты | Референс-центр лабораторной службы Московской области">
+    <meta property="og:description" content="Архив еженедельных отчетов и навигация по проектной отчетности.">
+    <meta property="og:url" content="https://rclsmo.ru/reports.html">
+    <meta property="og:type" content="website">
+    <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
+    <link rel="stylesheet" href="css/main.css">
+</head>
+<body class="reports-page" data-page="reports">
+    <header class="photo-header" data-site-shell="header"></header>
+
+    <main class="reports-main">
+        <div class="container">
+            <section class="reports-hero">
+                <div class="reports-hero__content">
+                    <span class="reports-kicker">Проектная отчетность</span>
+                    <h1>Еженедельные отчеты в едином архиве</h1>
+                    <p class="reports-hero__lead">Раздел для публикации управленческой отчетности по неделям. Новые HTML-отчеты автоматически попадают в индекс после добавления в папку <code>reports/</code> и обновления репозитория.</p>
+
+                    <div class="reports-hero__actions">
+                        <a href="#reportsGrid" class="cta-button primary">Открыть архив</a>
+                        <a href="#featuredReport" class="cta-button secondary">Актуальный отчет</a>
+                    </div>
+
+                    <div class="reports-hero__metrics">
+                        <div class="reports-metric">
+                            <span class="reports-metric__label">Всего отчетов</span>
+                            <span class="reports-metric__value" data-report-metric="total">0</span>
+                        </div>
+                        <div class="reports-metric">
+                            <span class="reports-metric__label">Годы в архиве</span>
+                            <span class="reports-metric__value" data-report-metric="years">0</span>
+                        </div>
+                        <div class="reports-metric">
+                            <span class="reports-metric__label">Последняя публикация</span>
+                            <span class="reports-metric__value" data-report-metric="latest">—</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <div class="reports-layout">
+                <section class="reports-controls" aria-label="Фильтры отчетов">
+                    <label class="reports-control" for="reportSearch">
+                        <span class="reports-control__label">Поиск</span>
+                        <input id="reportSearch" type="search" placeholder="По названию, периоду или тегу">
+                    </label>
+
+                    <label class="reports-control" for="reportYearFilter">
+                        <span class="reports-control__label">Год</span>
+                        <select id="reportYearFilter">
+                            <option value="all">Все годы</option>
+                        </select>
+                    </label>
+
+                    <label class="reports-control" for="reportTagFilter">
+                        <span class="reports-control__label">Тег</span>
+                        <select id="reportTagFilter">
+                            <option value="all">Все теги</option>
+                        </select>
+                    </label>
+                </section>
+
+                <section class="reports-summary">
+                    <article class="reports-panel">
+                        <h2>Архив проектной отчетности</h2>
+                        <p>Здесь собраны еженедельные отчеты по проектам и внутренним инициативам. Архив поддерживает быстрый поиск по заголовку, периоду публикации и ключевым тегам.</p>
+                        <p class="reports-status" id="reportsStatus">Загрузка списка отчетов…</p>
+                    </article>
+                </section>
+
+                <section class="reports-featured" id="featuredReport" aria-label="Актуальный отчет"></section>
+
+                <section class="reports-grid" id="reportsGrid" aria-live="polite">
+                    <div class="reports-loading">Подготавливаем архив отчетов…</div>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <footer class="main-footer" id="contacts" data-site-shell="footer"></footer>
+    <button id="backToTop" class="back-to-top" aria-label="Наверх">↑</button>
+
+    <script id="reportsData" type="application/json">
+[
+  {
+    "title": "Еженедельный отчет по проекту централизации лабораторной службы",
+    "period": "Период: 30.03.2026 — 03.04.2026",
+    "description": "Управленческий отчет с ключевыми результатами недели, рисками, доработками и планом следующего периода.",
+    "file": "reports/weekly-report-2026-04-03.html",
+    "publishDate": "03.04.2026",
+    "sortDate": "2026-04-03",
+    "badge": "Свежий",
+    "year": 2026,
+    "tags": [
+      "ВКС+",
+      "еженедельный",
+      "отчетность",
+      "I квартал"
+    ],
+    "featured": true
+  },
+  {
+    "title": "Еженедельный отчет по проекту централизации лабораторной службы",
+    "period": "Период: 23.03.2026 — 27.03.2026",
+    "description": "Архивный выпуск отчета для сравнения динамики проекта и структуры weekly-отчетности.",
+    "file": "reports/weekly-report-2026-03-27.html",
+    "publishDate": "27.03.2026",
+    "sortDate": "2026-03-27",
+    "badge": "Архив",
+    "year": 2026,
+    "tags": [
+      "архив",
+      "еженедельный",
+      "отчетность"
+    ],
+    "featured": false
+  }
+]
+    </script>
+
+    <script src="js/common.js"></script>
+    <script src="js/modules/reports.js" defer></script>
+    <script src="js/url-cleaner.js" defer></script>
+    <script src="cookies.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Отчеты проекта</title>
+  <meta name="description" content="Навигационная страница по еженедельным отчетам проекта" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <div class="page-shell">
+    <header class="hero">
+      <div class="hero__backdrop"></div>
+      <div class="hero__content">
+        <div class="eyebrow">Навигатор отчетности</div>
+        <h1>Еженедельные отчеты проекта</h1>
+        <p class="hero__lead">
+          Единая страница для публикации управленческих отчетов. Открывается на компьютере и телефоне,
+          подходит для размещения через GitHub Pages.
+        </p>
+
+        <div class="hero__actions">
+          <a class="button button--primary" href="#reports">Открыть отчеты</a>
+          <a class="button button--ghost" href="https://github.com/" target="_blank" rel="noreferrer">GitHub</a>
+        </div>
+
+        <div class="hero__meta">
+          <div class="meta-card">
+            <span class="meta-card__label">Формат</span>
+            <strong class="meta-card__value">HTML hub</strong>
+            <span class="meta-card__note">без бэкенда</span>
+          </div>
+          <div class="meta-card">
+            <span class="meta-card__label">Публикация</span>
+            <strong class="meta-card__value">GitHub Pages</strong>
+            <span class="meta-card__note">1 репозиторий</span>
+          </div>
+          <div class="meta-card">
+            <span class="meta-card__label">Обновление</span>
+            <strong class="meta-card__value">1 файл в неделю</strong>
+            <span class="meta-card__note">+ запись в JSON</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="content">
+      <section class="panel panel--controls" aria-label="Управление списком отчетов">
+        <div>
+          <div class="panel__eyebrow">Удобная навигация</div>
+          <h2>Список отчетов</h2>
+          <p class="panel__text">Ищите по названию, периоду или тегам. Новые отчеты автоматически появятся на странице после обновления файла <code>reports.json</code>.</p>
+        </div>
+
+        <div class="controls">
+          <label class="search-box" for="searchInput">
+            <span>Поиск</span>
+            <input id="searchInput" type="search" placeholder="Например, I квартал или ВКС+" />
+          </label>
+
+          <label class="filter-box" for="yearFilter">
+            <span>Год</span>
+            <select id="yearFilter">
+              <option value="all">Все</option>
+            </select>
+          </label>
+        </div>
+      </section>
+
+      <section class="reports-grid" id="reports" aria-live="polite"></section>
+
+      <template id="reportCardTemplate">
+        <article class="report-card">
+          <div class="report-card__top">
+            <span class="report-card__badge"></span>
+            <span class="report-card__date"></span>
+          </div>
+          <h3 class="report-card__title"></h3>
+          <p class="report-card__period"></p>
+          <p class="report-card__desc"></p>
+          <div class="report-card__tags"></div>
+          <div class="report-card__actions">
+            <a class="button button--small button--primary report-link" target="_blank" rel="noreferrer">Открыть отчет</a>
+          </div>
+        </article>
+      </template>
+    </main>
+  </div>
+
+  <script src="./script.js" defer></script>
+</body>
+</html>

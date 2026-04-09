@@ -1,90 +1,50 @@
-        <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
     
     <!-- SEO МЕТА-ТЕГИ -->
-    <title>О нас - референс-центр лабораторной службы Московской области | "РЦЛСМО"</title>
-    <meta name="description" content="Официальный Референс-центр лабораторной диагностики МО. Контроль качества, методическое руководство, ИТ-решения и экономическое сопровождение лабораторной службы региона.">
+    <title>О центре | Референс-центр лабораторной службы Московской области</title>
+    <meta name="description" content="О Референс-центре лабораторной службы Московской области: команда, задачи, методическая и организационная поддержка лабораторной службы.">
     <meta name="keywords" content="референс-центр московская область, лабораторная диагностика МО, методические рекомендации, ИТ решения лабораторий, экономист лабораторной службы">
-    <link rel="canonical" href="https://rclsmo.ru/about.html" />
+    <link rel="canonical" href="https://rclsmo.ru/about.html">
     
     <!-- Open Graph -->
-    <meta property="og:title" content="Референс-центр лабораторной диагностики Московской области">
-    <meta property="og:description" content="Ведущее учреждение по контролю качества и развитию лабораторной службы Московской области">
+    <meta property="og:title" content="О центре | Референс-центр лабораторной службы Московской области">
+    <meta property="og:description" content="Команда и направления работы Референс-центра лабораторной службы Московской области.">
     <meta property="og:url" content="https://rclsmo.ru/about.html">
     <meta property="og:type" content="website">
     
     <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="images/favicon.ico">
-    <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
-    <!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
     
-    <!-- 🔥 SEO МЕТА-ТЕГИ -->
-    <title>Форум лабораторных инноваций - РЦЛСМО</title>
-    <meta name="description" content="Форум лабораторных инноваций - передовые технологии в медицинской лабораторной диагностике. Москва, 2025 год.">
-    <meta name="keywords" content="медицинская конференция, лабораторная диагностика, Форум лабораторных инноваций, медицинские технологии, Москва">
-    <link rel="canonical" href="https://rclsmo.ru/" />
-    
-    <!-- Open Graph для соцсетей -->
-    <meta property="og:title" content="Форум лабораторных инноваций">
-    <meta property="og:description" content="Передовые технологии в медицинской лабораторной диагностике. Москва, 2025 год.">
-    <meta property="og:url" content="https://rclsmo.ru/">
-    <meta property="og:type" content="website">
-    
-    <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="images/favicon.ico">
-    <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
     <!-- CSS -->
     <link rel="stylesheet" href="css/main.css">
     
-    <!-- Яндекс.Карты API -->
-    <script src="https://api-maps.yandex.ru/2.1/?apikey=3dd59f10-9dfb-4db3-b374-9e344bee9e00&lang=ru_RU" type="text/javascript"></script>
-
-    
+    <!-- Яндекс.Карты API - загружается только если нужна карта -->
+    <script>
+        // Условная загрузка Яндекс.Карт только если есть контейнер карты
+        document.addEventListener('DOMContentLoaded', function() {
+            if (document.getElementById('yandexMapFull')) {
+                const script = document.createElement('script');
+                script.src = 'https://api-maps.yandex.ru/2.1/?apikey=3dd59f10-9dfb-4db3-b374-9e344bee9e00&lang=ru_RU';
+                script.async = true;
+                script.onload = function() {
+                    // Инициализация карты после загрузки API
+                    if (window.initYandexMap) {
+                        window.initYandexMap();
+                    }
+                };
+                document.head.appendChild(script);
+            }
+        });
+    </script>
 </head>
-</head>
-<body class="about-page">
+<body class="about-page" data-page="about">
     <!-- ХЕДЕР -->
-    <header class="photo-header">
-        <div class="container">
-            <div class="header-content">
-                <a href="index.html" class="logo">
-                    <img src="images/logo.png" class="logo-image">
-                    <div>Назад к конференции</div>
-                </a>
-                
-                <button class="burger-menu" id="burgerMenu" aria-label="Открыть меню">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </button>
-                
-                <nav class="nav-menu" id="navMenu">
-                    <ul class="nav-links">
-                        <li><a href="index.html">Главная</a></li>
-                        <li><a href="about.html" class="active">О нас</a></li>
-                        <li class="menu-dropdown">
-                            <a href="index.html#about" class="dropdown-toggle">Конференция</a>
-                            <ul class="dropdown-menu">
-                                <li><a href="index.html#about">О событии</a></li>
-                                <li><a href="index.html#program">Программа</a></li>
-                                <li><a href="index.html#speakers">Эксперты</a></li>
-                               
-                            </ul>
-                        </li>
-                        <li><a href="index.html#location">Место</a></li>
-                        <li><a href="registration.html">Регистрация на конференцию</a></li>
-                    </ul>
-                </nav>
-            </div>
-        </div>
-    </header>
+    <header class="photo-header" data-site-shell="header"></header>
+
 
     <main>
         <!-- ГЕРОЙ СЕКЦИЯ -->
@@ -97,11 +57,35 @@
         <!-- ОСНОВНОЙ КОНТЕНТ -->
         <section class="about-content">
             <div class="container">
-                <div class="text-content">
-                    <h2>О референс-центре</h2>
-                    <p><strong>Референс-центр лабораторной службы Московской области</strong> - ведущее учреждение в системе здравоохранения региона, осуществляющее методическое руководство, контроль качества и координацию деятельности лабораторной службы.</p>
-                    
-                    <p>Наш центр функционирует в структуре <strong>Министерства здравоохранения Московской области</strong> и является ключевым звеном в обеспечении качества лабораторных исследований на территории региона.</p>
+                <div class="about-overview glass-card">
+                    <div class="about-overview__intro">
+                        <span class="about-overview__eyebrow">О референс-центре</span>
+                        <h2>Координация централизации и профессиональная площадка лабораторной службы</h2>
+                        <p><strong>Референс-центр лабораторной службы Московской области</strong> объединяет организационное сопровождение, методическую поддержку и профессиональную коммуникацию вокруг развития лабораторной службы региона.</p>
+                        <div class="about-overview__actions">
+                            <a href="https://datalens.yandex/8qep9stnqgiet" class="cta-button primary" target="_blank" rel="noopener noreferrer">Дашборд</a>
+                            <a href="conf_mart2026.html" class="cta-button secondary">Мероприятия</a>
+                        </div>
+                    </div>
+
+                    <div class="about-overview__facts">
+                        <article class="about-fact">
+                            <h3>Централизация</h3>
+                            <p>Сопровождение развития централизованной лабораторной службы региона.</p>
+                        </article>
+                        <article class="about-fact">
+                            <h3>Методическая поддержка</h3>
+                            <p>Подготовка и сопровождение материалов для единых рабочих подходов.</p>
+                        </article>
+                        <article class="about-fact">
+                            <h3>Профессиональные мероприятия</h3>
+                            <p>Конференции и профильные встречи для специалистов и управленцев.</p>
+                        </article>
+                        <article class="about-fact">
+                            <h3>Информационный контур</h3>
+                            <p>Страницы мероприятий, архив материалов и открытая информация о работе центра.</p>
+                        </article>
+                    </div>
                 </div>
             </div>
         </section>
@@ -114,45 +98,51 @@
                     <!-- Куратор Референс-центра -->
                     <div class="specialist-card" data-id="1">
                         <div class="specialist-photo">
-                            <img src="images/team/irina-scheblykina.jpg" alt="Щеблыкина-Монастырёва Ирина Владимировна"
-                                 onerror="this.style.display='none'; this.parentElement.innerHTML='👩‍⚕️';">
+                            <img src="images/person-placeholder.svg" alt="Щеблыкина-Монастырёва Ирина Владимировна" data-fallback-src="images/person-placeholder.svg">
                         </div>
                         <div class="specialist-name">Щеблыкина-Монастырёва Ирина Владимировна</div>
                         <div class="specialist-role">Куратор референс-центра</div>
-                        <button class="btn-more" onclick="openSpecialistModal(1)">Подробнее</button>
+                        <button class="btn-more" type="button" data-specialist-trigger="1">Подробнее</button>
                     </div>
 
                     <!-- Заведующий Референс-центром -->
                     <div class="specialist-card" data-id="2">
                         <div class="specialist-photo">
-                            <img src="images/team/ekaterina-denisova.jpg" alt="Денисова Екатерина Анатольевна"
-                                 onerror="this.style.display='none'; this.parentElement.innerHTML='👨‍💼';">
-                        </div>
-                        <div class="specialist-name">Денисова Екатерина Анатольевна</div>
-                        <div class="specialist-role">Заведующий референс-центром</div>
-                        <button class="btn-more" onclick="openSpecialistModal(2)">Подробнее</button>
-                    </div>
-
-                    <!-- Специалист по оборудованию -->
-                    <div class="specialist-card" data-id="3">
-                        <div class="specialist-photo">
-                            <img src="images/team/ivan-goltsev.jpg" alt="Гольцев Иван Михайлович"
-                                 onerror="this.style.display='none'; this.parentElement.innerHTML='🔧';">
+                            <img src="images/person-placeholder.svg" alt="Гольцев Иван Михайлович" data-fallback-src="images/person-placeholder.svg">
                         </div>
                         <div class="specialist-name">Гольцев Иван Михайлович</div>
-                        <div class="specialist-role">Ведущий специалист</div>
-                        <button class="btn-more" onclick="openSpecialistModal(3)">Подробнее</button>
+                        <div class="specialist-role">Заведующий референс-центром</div>
+                        <button class="btn-more" type="button" data-specialist-trigger="2">Подробнее</button>
                     </div>
 
-                    <!-- Аналитик второй категории -->
+                    <!-- Ведущий специалист -->
+                    <div class="specialist-card" data-id="3">
+                        <div class="specialist-photo">
+                            <img src="images/person-placeholder.svg" alt="Довгаль Лада Алексеевна" data-fallback-src="images/person-placeholder.svg">
+                        </div>
+                        <div class="specialist-name">Довгаль Лада Алексеевна</div>
+                        <div class="specialist-role">Ведущий специалист</div>
+                        <button class="btn-more" type="button" data-specialist-trigger="3">Подробнее</button>
+                    </div>
+
+                    <!-- Врач КЛД -->
+                    <div class="specialist-card" data-id="4">
+                        <div class="specialist-photo">
+                            <img src="images/person-placeholder.svg" alt="Шоль Елизавета Викторовна" data-fallback-src="images/person-placeholder.svg">
+                        </div>
+                        <div class="specialist-name">Шоль Елизавета Викторовна</div>
+                        <div class="specialist-role">Врач КЛД</div>
+                        <button class="btn-more" type="button" data-specialist-trigger="4">Подробнее</button>
+                    </div>
+
+                    <!-- Главный специалист -->
                     <div class="specialist-card" data-id="5">
                         <div class="specialist-photo">
-                            <img src="images/team/anna-kaplina.jpg" alt="Каплина Анна"
-                                 onerror="this.style.display='none'; this.parentElement.innerHTML='📊';">
+                            <img src="images/person-placeholder.svg" alt="Манвелов Эдуард Витальевич" data-fallback-src="images/person-placeholder.svg">
                         </div>
-                        <div class="specialist-name">Каплина Анна Валерьвна</div>
-                        <div class="specialist-role">Аналитик</div>
-                        <button class="btn-more" onclick="openSpecialistModal(5)">Подробнее</button>
+                        <div class="specialist-name">Манвелов Эдуард Витальевич</div>
+                        <div class="specialist-role">Главный специалист ГКУ ЦВИОД</div>
+                        <button class="btn-more" type="button" data-specialist-trigger="5">Подробнее</button>
                     </div>
                 </div>
             </div>
@@ -160,9 +150,9 @@
 
         <!-- МОДАЛЬНОЕ ОКНО ДЛЯ СПЕЦИАЛИСТОВ (другие ID) -->
         <div id="specialistModal" class="specialist-modal">
-            <div class="modal-overlay" onclick="closeSpecialistModal()"></div>
+            <div class="modal-overlay" id="modalOverlay"></div>
             <div class="modal-content">
-                <button class="modal-close" onclick="closeSpecialistModal()">×</button>
+                <button class="modal-close" id="modalCloseBtn">×</button>
                 <div class="modal-body" id="specialistModalBody">
                     <!-- Контент заполняется через JavaScript -->
                 </div>
@@ -173,56 +163,24 @@
         <section class="mission-section">
             <div class="container">
                 <h2>Наша миссия</h2>
-                <p class="mission-text">Обеспечение единых современных стандартов качества лабораторной диагностики через внедрение передовых технологий, методическое руководство и экономическую эффективность для повышения доступности и качества медицинской помощи населению Московской области.</p>
-                </div>
+                <p class="mission-text">Обеспечение единых современных стандартов качества лабораторной диагностики через централизацию процессов, прозрачную аналитику, методическое сопровождение и внедрение решений, которые делают лабораторную службу Московской области устойчивой, управляемой и ориентированной на пациента.</p>
             </div>
         </section>
     </main>
 
     <!-- ФУТЕР -->
-    <footer>
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <h3>Участникам конференции</h3>
-                    <ul class="footer-links">
-                        <li><a href="index.html#program">Программа</a></li>
-                        <li><a href="index.html#speakers">Спикеры</a></li>
-                        <li><a href="registration.html">Регистрация</a></li>
-                        <li><a href="index.html#location">Место проведения</a></li>
-                    </ul>
-                </div>
-                <div class="footer-section">
-                    <h3>Организаторы</h3>
-                    <div class="partners-logos">
-                        <a href="https://mz.mosreg.ru/" target="_blank" class="partner-logo">
-                            <span>🏥 Министерство здравоохранения Московской области</span>
-                        </a>
-                        <a href="https://cvimz.ru/" target="_blank" class="partner-logo">
-                            <span>🔬 Центр внедрения изменений и обеспечения деятельности МЗ МО</span>
-                        </a>
-                    </div>
-                </div>
-                <div class="footer-section">
-                    <h3>Контакты</h3>
-                    <p>Все контакты нашей команды вы найдете в разделе "Наша команда" выше.</p>
-                    <a href="#team" class="contacts-button">
-                        <span>👥</span> Перейти к контактам
-                    </a>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>© 2025 Референс-центр лабораторной службы Московской области.</p> 
-                <p class="copyright-secondary">
-                    Все права защищены | 
-                    <a href="privacy.html">Политика конфиденциальности</a>
-                </p>
-            </div>
-        </div>
-    </footer>
+    <footer class="main-footer" id="contacts" data-site-shell="footer"></footer>
 
-    <script src="script.js"></script>
-    <!-- Подключение скрипта cookies -->
-    <script src="cookies.js"></script>
+    <!-- Кнопка "Наверх" -->
+    <button id="backToTop" class="back-to-top">↑</button>
+
+    <!-- Общий модуль (загружается первым) -->
+    <script src="js/common.js"></script>
+    <!-- Модули -->
+    <script src="js/modules/modal.js" defer></script>
+    <!-- URL cleaner -->
+    <script src="js/url-cleaner.js" defer></script>
+    <!-- Cookies и аналитика -->
+    <script src="cookies.js" defer></script>
 </body>
 </html>

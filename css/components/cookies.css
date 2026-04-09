@@ -1,0 +1,131 @@
+/* ===== COOKIE CONSENT BANNER ===== */
+/* Styles extracted from cookies.js to keep css/ the single source of truth */
+
+.cookie-consent-banner {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  right: 20px;
+  max-width: 520px;
+  background: rgba(23, 42, 70, 0.95);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+  border: 1px solid rgba(0, 229, 255, 0.25);
+  z-index: 10000;
+  animation: cookieSlideUp 0.5s ease-out;
+  backdrop-filter: blur(10px);
+}
+
+@keyframes cookieSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(100px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.cookie-banner-content {
+  padding: 20px;
+}
+
+.cookie-banner-text h4 {
+  margin: 0 0 10px 0;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--accent-primary);
+}
+
+.cookie-banner-text p {
+  margin: 0 0 15px 0;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--text-secondary);
+}
+
+.cookie-banner-text a {
+  color: var(--accent-primary);
+  text-decoration: none;
+}
+
+.cookie-banner-text a:hover {
+  text-decoration: underline;
+}
+
+.cookie-banner-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.cookie-banner-btn {
+  padding: 10px 16px;
+  border: none;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease, color 0.2s ease;
+  flex: 1;
+  min-height: 44px;
+}
+
+.cookie-accept-btn {
+  background: var(--gradient-medical);
+  color: var(--bg-primary);
+  box-shadow: var(--shadow-sm);
+}
+
+.cookie-accept-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.cookie-info-btn {
+  background: transparent;
+  color: var(--accent-primary);
+  border: 1px solid rgba(0, 229, 255, 0.3);
+}
+
+.cookie-info-btn:hover {
+  background: rgba(0, 229, 255, 0.08);
+}
+
+.cookie-toast {
+  position: fixed;
+  bottom: 100px;
+  right: 20px;
+  background: var(--accent-primary);
+  color: var(--bg-primary);
+  padding: 12px 16px;
+  border-radius: 10px;
+  font-weight: 700;
+  z-index: 10001;
+  animation: toastSlide 0.3s ease-out;
+  box-shadow: var(--shadow-md);
+}
+
+@keyframes toastSlide {
+  from {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@media (max-width: 768px) {
+  .cookie-consent-banner {
+    left: 10px;
+    right: 10px;
+    bottom: 10px;
+  }
+
+  .cookie-banner-buttons {
+    flex-direction: column;
+  }
+}
+
