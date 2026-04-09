@@ -6,19 +6,19 @@ const SITE_TITLE_SHORT = 'РЦЛСМО';
 const MOBILE_NAV_BREAKPOINT = 968;
 
 const SITE_NAV = [
-    { id: 'home', href: 'index.html', label: 'Главная' },
-    { id: 'about', href: 'about.html', label: 'О центре' },
+    { id: 'home', href: '/', label: 'Главная' },
+    { id: 'about', href: '/about', label: 'О центре' },
     {
         id: 'events',
         label: 'Мероприятия',
         children: [
-            { id: 'conf-mart-2026', href: 'conf_mart2026.html', label: 'Форум март 2026' },
-            { id: 'conf-nov-2025', href: 'conf_nov2025.html', label: 'Форум ноябрь 2025' },
-            { id: 'conf-sen-2025', href: 'conf_sen2025.html', label: 'Сентябрь 2025' }
+            { id: 'conf-mart-2026', href: '/conf_mart2026', label: 'Форум март 2026' },
+            { id: 'conf-nov-2025', href: '/conf_nov2025', label: 'Форум ноябрь 2025' },
+            { id: 'conf-sen-2025', href: '/conf_sen2025', label: 'Сентябрь 2025' }
         ]
     },
-    { id: 'reports', href: 'reports.html', label: 'Отчеты' },
-    { id: 'registration', href: 'registration.html', label: 'Регистрация' }
+    { id: 'reports', href: '/reports', label: 'Отчеты' },
+    { id: 'registration', href: '/registration', label: 'Регистрация' }
 ];
 
 function escapeHtml(text) {
@@ -188,7 +188,7 @@ function buildHeaderHtml(activePage) {
         <header class="photo-header">
             <div class="container">
                 <div class="header-content">
-                    <a href="index.html" class="logo" aria-label="${SITE_TITLE}" title="${SITE_TITLE}">
+                    <a href="/" class="logo" aria-label="${SITE_TITLE}" title="${SITE_TITLE}">
                         <img src="images/logo.png" alt="Логотип РЦЛСМО" class="logo-image" data-fallback-src="images/logo.png">
                         <span class="logo-text">${SITE_TITLE_SHORT}</span>
                     </a>
@@ -297,7 +297,7 @@ function buildFooterHtml() {
                     <p>© ${currentYear} ${SITE_TITLE}.</p>
                     <p class="copyright-secondary">
                         Все права защищены |
-                        <a href="privacy.html">Политика конфиденциальности</a>
+                        <a href="/privacy">Политика конфиденциальности</a>
                     </p>
                 </div>
             </div>

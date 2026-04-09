@@ -1,10 +1,9 @@
 // js/url-cleaner.js
-// Сайт использует стабильные `.html`-маршруты.
-// Этот модуль больше не переписывает URL, чтобы не создавать
-// несуществующие clean-path адреса при прямом открытии страниц.
+// Сайт использует clean URL-маршруты через папки с index.html.
+// Модуль оставлен только как маркер активного режима.
 
 (function() {
     'use strict';
 
-    document.documentElement.dataset.urlMode = 'html';
+    document.documentElement.dataset.urlMode = 'clean';
 })();
