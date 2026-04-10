@@ -512,20 +512,164 @@ h1 {
 }
 
 @media (max-width: 1240px) {
-  .layout, .goal-grid, .hero-summary, .platform-meta { grid-template-columns: 1fr; }
+  .layout { grid-template-columns: 1fr; }
+  .goal-grid,
+  .hero-summary,
+  .platform-meta,
+  .executive-grid,
+  .plan-dynamics-grid,
+  .digital-goal-stats,
+  .ticket-columns,
+  .match-grid,
+  .anchor-links { grid-template-columns: 1fr; }
   h1 { font-size: 50px; }
 }
+
 @media (max-width: 900px) {
   .shell { padding: 14px; }
-  .hero { padding: 20px 18px 18px; border-radius: 24px; }
-  h1 { font-size: 34px; line-height: 1.02; }
-  .subtitle { font-size: 14px; }
-  .ticket-columns, .executive-grid, .goal-grid, .platform-meta, .anchor-links, .hero-summary, .digital-goal-stats { grid-template-columns: 1fr; }
-  .card-header { padding: 16px 16px 10px; flex-direction: column; align-items: flex-start; }
+  .hero {
+    padding: 18px 16px 16px;
+    border-radius: 24px;
+  }
+  .eyebrow {
+    font-size: 10px;
+    padding: 8px 10px;
+    letter-spacing: .05em;
+  }
+  h1 {
+    font-size: 34px;
+    line-height: 1.04;
+    margin-bottom: 12px;
+  }
+  .subtitle {
+    font-size: 14px;
+    line-height: 1.55;
+  }
+  .hero-summary,
+  .executive-grid,
+  .goal-grid,
+  .platform-meta,
+  .anchor-links,
+  .digital-goal-stats,
+  .ticket-columns,
+  .plan-dynamics-grid,
+  .match-grid,
+  .goal-values { grid-template-columns: 1fr; }
+  .card-header {
+    padding: 16px 16px 10px;
+    flex-direction: column;
+    align-items: flex-start;
+  }
   .card-title { font-size: 21px; }
   .card-body { padding: 0 16px 16px; }
-  .platform-title { font-size: 20px; }
-  .summary-value, .executive-number { font-size: 32px; }
+  .platform-callout,
+  .platform-box,
+  .task-group,
+  .ticket-pane,
+  .goal-card,
+  .summary-tile,
+  .executive-box,
+  .plan-dynamics-box,
+  .match-pane {
+    border-radius: 20px;
+  }
+  .platform-callout,
+  .platform-box,
+  .task-group,
+  .ticket-pane,
+  .match-pane,
+  .digital-goal,
+  .highlight-line,
+  .small-note {
+    padding: 16px;
+  }
+  .platform-title { font-size: 19px; }
+  .platform-text,
+  .lead,
+  .summary-note,
+  .executive-caption,
+  .goal-caption,
+  .digital-goal-caption,
+  .highlight-line,
+  .small-note,
+  .match-list li,
+  .ticket-list li,
+  .summary-list li,
+  ul.clean li { font-size: 14px; line-height: 1.6; }
+  .summary-value,
+  .executive-number,
+  .plan-dynamics-number { font-size: 32px; }
+  .goal-value { font-size: 24px; }
+  .task-group-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .topnav {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  .topnav a {
+    text-align: center;
+    padding: 10px 8px;
+    border-radius: 14px;
+    font-size: 13px;
+  }
+  .task-links,
+  .platform-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .task-links a,
+  .platform-link {
+    width: 100%;
+    justify-content: center;
+    text-align: center;
+  }
+}
+
+@media (max-width: 560px) {
+  body:before { opacity: .16; background-size: 28px 28px; }
+  .shell { padding: 10px; }
+  .hero {
+    padding: 16px 14px 14px;
+    border-radius: 20px;
+  }
+  .hero:before,
+  .hero:after { display: none; }
+  h1 {
+    font-size: 28px;
+    letter-spacing: -.02em;
+  }
+  .subtitle { font-size: 13px; }
+  .summary-tile,
+  .executive-box,
+  .goal-card,
+  .ticket-pane,
+  .task-item,
+  .task-group,
+  .platform-chip,
+  .plan-dynamics-box,
+  .match-pane,
+  .card,
+  .platform-box { border-radius: 18px; }
+  .card-title { font-size: 20px; }
+  .platform-title { font-size: 18px; }
+  .platform-chip .chip-value { font-size: 17px; }
+  .summary-value,
+  .executive-number,
+  .plan-dynamics-number { font-size: 30px; }
+  .goal-name { min-height: 0; }
+  .goal-box,
+  .panel-line,
+  .summary-list li,
+  ul.clean li,
+  .ticket-list li,
+  .match-list li,
+  .task-item,
+  .anchor-links a { padding: 12px; }
+  .topnav { grid-template-columns: 1fr; }
+  .anchor-links { grid-template-columns: 1fr; }
 }
 </style>
 </head>
