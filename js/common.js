@@ -7,7 +7,7 @@ const MOBILE_NAV_BREAKPOINT = 968;
 
 const SITE_NAV = [
     { id: 'home', href: '/', label: 'Главная' },
-    { id: 'about', href: '/about', label: 'О центре' },
+    { id: 'reports', href: '/reports', label: 'Отчеты' },
     {
         id: 'events',
         label: 'Мероприятия',
@@ -17,8 +17,7 @@ const SITE_NAV = [
             { id: 'conf-sen-2025', href: '/conf_sen2025', label: 'Сентябрь 2025' }
         ]
     },
-    { id: 'reports', href: '/reports', label: 'Отчеты' },
-    { id: 'registration', href: '/registration', label: 'Регистрация' }
+    { id: 'about', href: '/about', label: 'О центре' }
 ];
 
 function escapeHtml(text) {
