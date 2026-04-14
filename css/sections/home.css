@@ -357,6 +357,16 @@
     align-items: center;
 }
 
+.about-preview-content.about-preview-content--text-only {
+    grid-template-columns: minmax(0, 760px);
+    justify-content: center;
+}
+
+.about-preview-content.about-preview-content--text-only .about-text {
+    width: 100%;
+    margin: 0 auto;
+}
+
 .about-text h2 {
     text-align: left;
     margin-bottom: var(--space-md);
