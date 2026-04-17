@@ -1,0 +1,631 @@
+<!doctype html>
+<html lang="ru" id="top">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Централизация лабораторной службы — еженедельный отчет</title>
+<style>
+:root{
+  --bg:#07111f;
+  --bg2:#0b1930;
+  --card:rgba(12,24,43,.9);
+  --line:rgba(160,186,228,.14);
+  --text:#eef5ff;
+  --muted:#a9bddb;
+  --blue:#6aaeff;
+  --cyan:#60d8ff;
+  --green:#39d59c;
+  --amber:#ffbf66;
+  --red:#ff6f6f;
+  --red2:#ff4343;
+  --violet:#a696ff;
+  --shadow:0 24px 70px rgba(0,0,0,.28);
+  --radius:26px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  font-family:Inter,"Segoe UI",Arial,sans-serif;
+  color:var(--text);
+  background:
+    radial-gradient(1100px 550px at -10% -10%, rgba(93,154,255,.2), transparent 56%),
+    radial-gradient(900px 520px at 110% 0%, rgba(96,216,255,.14), transparent 54%),
+    linear-gradient(180deg,#04101c 0%,#071425 36%,#08172a 100%);
+}
+body:before{
+  content:"";
+  position:fixed; inset:0; pointer-events:none; opacity:.22;
+  background-image:
+    linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px);
+  background-size:34px 34px;
+  mask-image:linear-gradient(180deg, rgba(255,255,255,.7), transparent 82%);
+}
+a{color:inherit}
+.shell{max-width:1280px; margin:0 auto; padding:18px}
+.hero{
+  position:relative; overflow:hidden; padding:26px; border-radius:28px;
+  background:linear-gradient(135deg, rgba(8,20,39,.96), rgba(11,34,66,.96) 48%, rgba(18,48,88,.94));
+  border:1px solid rgba(143,174,221,.18);
+  box-shadow:var(--shadow);
+}
+.hero:before{
+  content:""; position:absolute; right:-110px; top:-130px; width:400px; height:400px; border-radius:50%;
+  background:radial-gradient(circle, rgba(90,168,255,.28), transparent 64%);
+}
+.hero:after{
+  content:""; position:absolute; left:-120px; bottom:-150px; width:360px; height:360px; border-radius:50%;
+  background:radial-gradient(circle, rgba(61,213,255,.16), transparent 66%);
+}
+.eyebrow{
+  position:relative; z-index:2; display:inline-flex; align-items:center; gap:8px;
+  padding:9px 14px; border-radius:999px; background:rgba(255,255,255,.07);
+  border:1px solid rgba(255,255,255,.10); color:#d6e5f8; font-size:12px; letter-spacing:.08em; text-transform:uppercase;
+}
+h1{
+  position:relative; z-index:2; margin:18px 0 10px; font-size:54px; line-height:.98; font-weight:800; letter-spacing:-.03em;
+}
+.subtitle{
+  position:relative; z-index:2; margin:0; max-width:920px; color:#c7d8ef; font-size:18px; line-height:1.52;
+}
+.hero-summary{
+  position:relative; z-index:2; margin-top:22px; display:grid; grid-template-columns:repeat(3,1fr); gap:14px;
+}
+.summary-tile{
+  padding:18px; border-radius:22px;
+  background:linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.035));
+  border:1px solid rgba(255,255,255,.09);
+  min-height:136px;
+}
+.summary-tile:nth-child(1){background:linear-gradient(180deg, rgba(35,132,112,.28), rgba(22,52,58,.16));}
+.summary-tile:nth-child(2){background:linear-gradient(180deg, rgba(124,43,64,.32), rgba(53,22,31,.18));}
+.summary-tile:nth-child(3){background:linear-gradient(180deg, rgba(42,95,144,.30), rgba(21,41,74,.18));}
+.summary-kicker{font-size:12px; color:#cadcf4; text-transform:uppercase; letter-spacing:.06em}
+.summary-value{margin-top:10px; font-size:40px; font-weight:800; line-height:1}
+.summary-note{margin-top:10px; color:#deebfb; font-size:13px; line-height:1.45}
+.platform-callout{
+  position:relative; z-index:2; margin-top:20px; display:grid; grid-template-columns:1.2fr .8fr; gap:14px;
+}
+.platform-box,.platform-chip{
+  border-radius:24px; border:1px solid rgba(255,255,255,.10);
+  background:linear-gradient(180deg, rgba(255,255,255,.09), rgba(255,255,255,.04));
+}
+.platform-box{padding:22px}
+.platform-label{font-size:12px; text-transform:uppercase; letter-spacing:.08em; color:#d2e6ff}
+.platform-title{font-size:22px; margin:10px 0 12px; line-height:1.18}
+.platform-text{margin:0; color:#deebfb; font-size:15px; line-height:1.58}
+.platform-actions{display:flex; flex-wrap:wrap; gap:10px; margin-top:18px}
+.platform-link{
+  display:inline-flex; align-items:center; text-decoration:none; font-weight:700; font-size:14px;
+  padding:11px 15px; border-radius:999px; border:1px solid rgba(125,185,255,.24);
+  background:linear-gradient(180deg, rgba(94,163,255,.20), rgba(94,163,255,.10));
+}
+.platform-link.secondary{
+  background:linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.04));
+  border-color:rgba(255,255,255,.12);
+}
+.platform-meta{display:grid; grid-template-columns:1fr; gap:12px}
+.platform-chip{padding:18px}
+.chip-kicker{font-size:11px; color:#bdd0eb; text-transform:uppercase; letter-spacing:.08em}
+.chip-value{margin-top:8px; font-size:19px; font-weight:800; line-height:1.3}
+.topnav{
+  position:relative; z-index:2; display:flex; flex-wrap:wrap; gap:10px; margin-top:20px;
+}
+.topnav a{
+  text-decoration:none; padding:10px 14px; border-radius:999px; font-size:14px;
+  background:rgba(255,255,255,.065); border:1px solid rgba(255,255,255,.10);
+}
+.section-grid{margin-top:18px; display:grid; gap:18px}
+.card{
+  position:relative; overflow:hidden;
+  background:linear-gradient(180deg, rgba(13,25,44,.92), rgba(9,22,39,.94));
+  border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow);
+}
+.card:before{
+  content:""; position:absolute; inset:0; pointer-events:none;
+  background:radial-gradient(320px 180px at 100% 0%, rgba(255,255,255,.05), transparent 62%);
+}
+.card-header{
+  display:flex; justify-content:space-between; align-items:center; gap:12px; padding:20px 20px 10px;
+}
+.card-title{margin:0; font-size:28px; letter-spacing:-.02em}
+.card-body{padding:0 20px 20px}
+.badge{padding:8px 12px; border-radius:999px; font-size:12px; font-weight:700}
+.badge-blue{background:rgba(94,163,255,.16); color:#98c8ff}
+.badge-red{background:rgba(255,107,107,.18); color:#ffb3b3}
+.badge-amber{background:rgba(255,182,72,.16); color:#ffd089}
+.badge-green{background:rgba(55,211,154,.16); color:#8ff0c4}
+.badge-violet{background:rgba(157,146,255,.16); color:#d2ccff}
+.lead{margin:0 0 14px; color:var(--muted); font-size:14px; line-height:1.65}
+.executive-grid,.goal-grid,.plan-dynamics-grid,.match-grid,.ticket-columns,.layout,.anchor-links{display:grid; gap:18px}
+.executive-grid,.goal-grid,.plan-dynamics-grid{grid-template-columns:repeat(3,1fr)}
+.executive-box,.goal-card,.plan-dynamics-box,.ticket-pane,.task-group,.small-note,.digital-goal{
+  border-radius:22px; border:1px solid rgba(255,255,255,.08);
+}
+.executive-box,.goal-card,.plan-dynamics-box,.ticket-pane,.task-group{
+  padding:18px; background:linear-gradient(180deg, rgba(255,255,255,.055), rgba(255,255,255,.03));
+}
+.executive-box.green,.plan-dynamics-box.green{background:linear-gradient(180deg, rgba(47,211,159,.16), rgba(47,211,159,.05)); border-color:rgba(47,211,159,.18)}
+.executive-box.blue,.plan-dynamics-box.blue{background:linear-gradient(180deg, rgba(94,163,255,.16), rgba(94,163,255,.05)); border-color:rgba(94,163,255,.18)}
+.executive-box.red{background:linear-gradient(180deg, rgba(255,107,107,.16), rgba(255,107,107,.05)); border-color:rgba(255,107,107,.20)}
+.plan-dynamics-box.violet{background:linear-gradient(180deg, rgba(157,146,255,.18), rgba(157,146,255,.05)); border-color:rgba(157,146,255,.18)}
+.executive-kicker,.plan-dynamics-kicker{font-size:13px; color:#c8d8f1; line-height:1.35}
+.executive-number,.plan-dynamics-number{margin-top:10px; font-size:40px; font-weight:800; line-height:1}
+.executive-caption,.plan-dynamics-caption{margin-top:10px; color:#e0ebfb; font-size:13px; line-height:1.4}
+.summary-list,.clean,.ticket-list,.match-list{list-style:none; padding:0; margin:0; display:grid; gap:14px}
+.summary-list li,.clean li,.ticket-list li,.match-list li{
+  padding:16px 18px; border-radius:18px;
+  background:linear-gradient(180deg, rgba(18,35,59,.94), rgba(13,27,47,.96));
+  border:1px solid rgba(126,153,194,.14); line-height:1.55;
+}
+.highlight-line{
+  margin:20px 0 22px; padding:18px 20px; border-radius:20px;
+  background:linear-gradient(180deg, rgba(76,115,198,.18), rgba(29,45,77,.18));
+  border:1px solid rgba(135,174,255,.18); color:#e8f1ff; line-height:1.6;
+}
+.match-grid{grid-template-columns:1fr 1fr}
+.match-pane{padding:18px; border-radius:22px; border:1px solid rgba(255,255,255,.08)}
+.match-pane.green{background:linear-gradient(180deg, rgba(47,211,159,.14), rgba(47,211,159,.05)); border-color:rgba(47,211,159,.18)}
+.match-pane.amber{background:linear-gradient(180deg, rgba(255,191,102,.14), rgba(255,191,102,.05)); border-color:rgba(255,191,102,.18)}
+.match-pane h3,.ticket-pane h3,.task-group-title{margin:0 0 12px; font-size:20px}
+.goal-card:nth-child(1){background:linear-gradient(180deg, rgba(51,98,158,.23), rgba(18,31,56,.18))}
+.goal-card:nth-child(2){background:linear-gradient(180deg, rgba(41,108,97,.23), rgba(15,35,40,.16))}
+.goal-card:nth-child(3){background:linear-gradient(180deg, rgba(73,98,156,.23), rgba(21,34,56,.16))}
+.goal-name{font-size:14px; line-height:1.48; color:#eff5ff; min-height:88px}
+.goal-values,.digital-goal-stats{display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:16px}
+.goal-box{
+  background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.09); border-radius:18px; padding:12px;
+}
+.goal-kicker{font-size:11px; color:#c0d2ec; text-transform:uppercase; letter-spacing:.06em}
+.goal-value{font-size:26px; font-weight:800; margin-top:8px}
+.goal-progress,.digital-goal-progress{
+  margin-top:14px; height:12px; border-radius:999px; background:rgba(255,255,255,.08); overflow:hidden; border:1px solid rgba(255,255,255,.05)
+}
+.goal-progress > span,.digital-goal-progress > span{
+  display:block; height:100%; border-radius:999px; background:linear-gradient(90deg, var(--blue), var(--cyan));
+  box-shadow:0 0 16px rgba(96,216,255,.28)
+}
+.goal-caption,.digital-goal-sub,.digital-goal-caption{margin-top:10px; color:#d0dff4; font-size:13px; line-height:1.5}
+.small-note,.digital-goal{margin-top:14px; padding:18px; background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.035))}
+.layout{grid-template-columns:1fr; align-items:start; gap:20px}
+.stack{display:grid; gap:18px; align-content:start}
+.task-groups,.task-items{display:grid; gap:14px}
+.task-group-header{display:flex; justify-content:space-between; align-items:center; gap:12px; margin-bottom:14px}
+.task-count{font-size:12px; color:#d4e5fb; padding:7px 11px; border-radius:999px; background:rgba(255,255,255,.065); border:1px solid rgba(255,255,255,.08)}
+.task-item{
+  padding:16px; border-radius:20px; background:linear-gradient(180deg, rgba(15,32,56,.95), rgba(13,26,45,.96));
+  border:1px solid rgba(126,153,194,.14)
+}
+.task-name{font-weight:700; line-height:1.5; font-size:15px}
+.task-links{margin-top:12px; display:flex; flex-wrap:wrap; gap:8px}
+.task-links a{
+  text-decoration:none; display:inline-flex; align-items:center; gap:8px; color:#f1f7ff;
+  background:linear-gradient(180deg, rgba(64,123,212,.22), rgba(50,92,168,.16));
+  border:1px solid rgba(116,171,255,.22); padding:9px 12px; border-radius:999px; font-size:13px
+}
+.ticket-columns{grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr); align-items:start}
+.ticket-pane.red{background:linear-gradient(180deg, rgba(255,107,107,.13), rgba(255,107,107,.05)); border-color:rgba(255,107,107,.18)}
+.ticket-pane.blue{background:linear-gradient(180deg, rgba(94,163,255,.13), rgba(94,163,255,.05)); border-color:rgba(94,163,255,.18)}
+.risk-card{
+  background:
+    linear-gradient(180deg, rgba(58,12,17,.96), rgba(41,10,14,.98)),
+    linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,0));
+  border:1px solid rgba(255,85,85,.28);
+  box-shadow:0 0 0 1px rgba(255,67,67,.08), 0 24px 70px rgba(0,0,0,.34), 0 0 38px rgba(255,67,67,.10);
+}
+.risk-card:before{
+  background:radial-gradient(340px 200px at 100% 0%, rgba(255,90,90,.10), transparent 60%);
+}
+.risk-header{
+  margin-bottom:16px; padding:16px 18px; border-radius:20px;
+  background:linear-gradient(180deg, rgba(255,88,88,.20), rgba(255,88,88,.08));
+  border:1px solid rgba(255,107,107,.22); color:#ffe6e6; line-height:1.55;
+}
+.risk-list li{
+  background:linear-gradient(180deg, rgba(122,29,36,.54), rgba(74,18,24,.62));
+  border-color:rgba(255,107,107,.24);
+  box-shadow:inset 4px 0 0 var(--red2);
+}
+.risk-list li strong{color:#fff1f1}
+.issue-list li{
+  background:linear-gradient(180deg, rgba(99,68,24,.45), rgba(58,40,16,.50));
+  border-color:rgba(255,182,72,.18);
+}
+.anchor-links{grid-template-columns:1fr 1fr}
+.anchor-links a{
+  display:block; text-decoration:none; color:#edf5ff; background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.035));
+  border:1px solid rgba(255,255,255,.08); border-radius:18px; padding:13px 14px; font-size:14px; font-weight:600
+}
+.footer{text-align:center; color:var(--muted); font-size:13px; padding:18px 0 6px}
+
+.layout > article{min-width:0}
+#done,#tickets,#risks,#issues,#links,#plan{grid-column:auto}
+@media (max-width:1240px){
+  .hero-summary,.goal-grid,.plan-dynamics-grid{grid-template-columns:1fr}
+}
+@media (max-width:980px){
+  .shell{padding:14px}
+  .hero{padding:20px; border-radius:24px}
+  h1{font-size:38px}
+  .subtitle{font-size:15px}
+  .platform-callout,.ticket-columns,.layout{grid-template-columns:1fr}
+  #done,#tickets,#risks,#issues,#links,#plan{grid-column:auto}
+  .platform-meta,.hero-summary,.executive-grid,.goal-grid,.plan-dynamics-grid,.anchor-links{grid-template-columns:1fr}
+  .topnav{display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px}
+  .topnav a{text-align:center; border-radius:14px}
+}
+@media (max-width:640px){
+  .shell{padding:10px}
+  .hero{padding:16px 14px; border-radius:20px}
+  .eyebrow{font-size:10px; padding:8px 10px}
+  h1{font-size:28px; margin:14px 0 8px}
+  .subtitle{font-size:13px; line-height:1.45}
+  .summary-value,.executive-number,.plan-dynamics-number{font-size:32px}
+  .card-header{padding:16px 16px 10px; flex-direction:column; align-items:flex-start}
+  .card-title{font-size:22px}
+  .card-body{padding:0 16px 16px}
+  .platform-box,.platform-chip,.executive-box,.goal-card,.plan-dynamics-box,.ticket-pane,.task-group,.small-note,.digital-goal,.summary-tile,.task-item{border-radius:18px}
+  .platform-box,.platform-chip,.executive-box,.goal-card,.plan-dynamics-box,.ticket-pane,.task-group,.small-note,.digital-goal,.summary-tile,.task-item{padding:14px}
+  .task-links a,.platform-link{width:100%; justify-content:center}
+  .topnav,.anchor-links{grid-template-columns:1fr}
+  .ticket-columns,.platform-callout{gap:12px}
+  .executive-grid,.summary-list,.task-groups,.task-items,.clean,.ticket-list,.match-list{gap:12px}
+}
+
+</style>
+</head>
+<body>
+<div class="shell">
+  <section class="hero">
+    <div class="eyebrow">Министерство здравоохранения · еженедельный статус</div>
+    <h1>Централизация лабораторной службы</h1>
+    <p class="subtitle">Еженедельный отчет за период с 13.04.2026 по 17.04.2026. Сохранена прежняя структура отчета, добавлена сверка прошлого плана с фактом исполнения недели и усилено визуальное выделение красных зон и рисков.</p>
+
+    <div class="hero-summary">
+      <div class="summary-tile">
+        <div class="summary-kicker">Выполнено за неделю</div>
+        <div class="summary-value">12</div>
+        <div class="summary-note">результатов, материалов, согласований и организационных действий за отчетный период</div>
+      </div>
+      <div class="summary-tile">
+        <div class="summary-kicker">Просрочено</div>
+        <div class="summary-value">29</div>
+        <div class="summary-note">задач в Битрикс, из них 11 у главных врачей</div>
+      </div>
+      <div class="summary-tile">
+        <div class="summary-kicker">Риски недели</div>
+        <div class="summary-value">6+</div>
+        <div class="summary-note">критических красных зон, включая завершение контракта ЛИС-Брегис</div>
+      </div>
+    </div>
+
+    <div class="platform-callout">
+      <div class="platform-box">
+        <div class="platform-label">Единый сервис совещаний · ВКС+</div>
+        <h2 class="platform-title">Приглашения на совещания продолжают направляться через единый сервис ВКС+</h2>
+        <p class="platform-text">С 06.04.2026 приглашения оформляются через <a href="https://vks.mosreg.ru/calendar" target="_blank" rel="noopener noreferrer"><strong>vks.mosreg.ru/calendar</strong></a>. Это вынесено в шапку отчета как постоянный организационный контур для совещаний и уведомлений.</p>
+        <div class="platform-actions">
+          <a class="platform-link" href="https://vks.mosreg.ru/calendar" target="_blank" rel="noopener noreferrer">Открыть ВКС+</a>
+          <a class="platform-link secondary" href="https://t.me/VksMosregBot" target="_blank" rel="noopener noreferrer">Открыть Telegram-бота</a>
+        </div>
+      </div>
+      <div class="platform-meta">
+        <div class="platform-chip">
+          <div class="chip-kicker">Старт перехода</div>
+          <div class="chip-value">06.04.2026</div>
+        </div>
+        <div class="platform-chip">
+          <div class="chip-kicker">Сервис совещаний</div>
+          <div class="chip-value"><a href="https://vks.mosreg.ru/calendar" target="_blank" rel="noopener noreferrer">vks.mosreg.ru/calendar</a></div>
+        </div>
+        <div class="platform-chip">
+          <div class="chip-kicker">Оповещения</div>
+          <div class="chip-value"><a href="https://t.me/VksMosregBot" target="_blank" rel="noopener noreferrer">@VksMosregBot</a></div>
+        </div>
+      </div>
+    </div>
+
+    <nav class="topnav">
+      <a href="#summary">Сводка</a>
+      <a href="#dynamics">Динамика к плану</a>
+      <a href="#done">Выполненные работы</a>
+      <a href="#tickets">Доработки</a>
+      <a href="#risks">Красные зоны</a>
+      <a href="#issues">Проблематика</a>
+      <a href="#plan">План</a>
+      <a href="#top">Наверх</a>
+    </nav>
+  </section>
+
+  <section class="section-grid">
+    <article class="card" id="summary">
+      <div class="card-header">
+        <h2 class="card-title">Операционный статус недели</h2>
+        <span class="badge badge-blue">Итог периода</span>
+      </div>
+      <div class="card-body">
+        <p class="lead">Неделя была сосредоточена на нормативном сопровождении ВИЧ-диагностики, контроле интеграций, корректировке аналитических отчетов, отработке заявок СТП и подготовке управленческих материалов для руководства. При этом часть работ закрыта как прямое исполнение прошлого плана, а часть — как расширение и детализация плановых направлений.</p>
+        <div class="executive-grid" style="margin-top:18px; margin-bottom:18px;">
+          <div class="executive-box green">
+            <div class="executive-kicker">Исполнение отчетного периода</div>
+            <div class="executive-number">12</div>
+            <div class="executive-caption">ключевых результатов и организационных действий</div>
+          </div>
+          <div class="executive-box blue">
+            <div class="executive-kicker">План следующего периода</div>
+            <div class="executive-number">10</div>
+            <div class="executive-caption">основных направлений на неделю 20.04–24.04</div>
+          </div>
+          <div class="executive-box red">
+            <div class="executive-kicker">Просроченные задачи</div>
+            <div class="executive-number">29</div>
+            <div class="executive-caption">требуют контроля сроков и управленческой эскалации</div>
+          </div>
+        </div>
+        <ul class="summary-list" style="margin-top:4px;">
+          <li><strong>Нормативный блок:</strong> НПА по совершенствованию организации лабораторной диагностики ВИЧ-инфекции направлен на согласование по МСЭД.</li>
+          <li><strong>Интеграции и контроль:</strong> подготовлена сводка по интеграции УРО/ЛИС Королевской ЦКДЛ, отработаны вопросы по Одинцовской ОБ, Щелковской Б и синхронизации справочников Красногорской Б / ЦКДЛ Истринской КБ.</li>
+          <li><strong>Аналитика и доработки:</strong> проведен анализ системного отчета по невыполненным исследованиям, подготовлены ТЗ на его корректировку и на доработку выгрузки по повторным назначениям группы крови.</li>
+          <li><strong>Управленческие материалы:</strong> обновлены презентации, внесены правки в дашборд МИАЦ, подготовлены ТЗ по КПИ и по сбору сведений об аутсорсинговых лабораторных услугах за I квартал 2026 года.</li>
+        </ul>
+      </div>
+    </article>
+
+    <article class="card" id="dynamics">
+      <div class="card-header">
+        <h2 class="card-title">Динамика к прошлому плану</h2>
+        <span class="badge badge-violet">Факт против плана</span>
+      </div>
+      <div class="card-body">
+        <p class="lead">Сверка выполнена с планом из предыдущего отчета на период <strong>13.04–17.04.2026</strong>. В прошлом плане было <strong>6 рабочих направлений</strong>; в факте текущей недели отражено <strong>12 результатов</strong>. По объему неделя закрыта выше плана, при этом часть пунктов исполнена полностью, часть — в расширенном формате.</p>
+
+        <div class="plan-dynamics-grid">
+          <div class="plan-dynamics-box blue">
+            <div class="plan-dynamics-kicker">План прошлого отчета</div>
+            <div class="plan-dynamics-number">6</div>
+            <div class="plan-dynamics-caption">направлений были вынесены в план на 13–17 апреля</div>
+          </div>
+          <div class="plan-dynamics-box green">
+            <div class="plan-dynamics-kicker">Факт текущего отчета</div>
+            <div class="plan-dynamics-number">12</div>
+            <div class="plan-dynamics-caption">результатов, решений, ТЗ, презентаций и контрольных действий за неделю</div>
+          </div>
+          <div class="plan-dynamics-box violet">
+            <div class="plan-dynamics-kicker">Превышение к плану</div>
+            <div class="plan-dynamics-number">+6</div>
+            <div class="plan-dynamics-caption">или 200% от объема предыдущего недельного плана</div>
+          </div>
+        </div>
+
+        <div class="highlight-line"><strong>Вывод:</strong> план недели не только закрыт, но и расширен. Из 6 запланированных направлений прямое или расширенное исполнение прослеживается по большинству пунктов, а итоговый объем результатов составил <strong>12 позиций</strong>, то есть <strong>на 6 больше плана</strong>.</div>
+
+        <div class="match-grid">
+          <section class="match-pane green">
+            <h3>Что закрыто по прошлому плану</h3>
+            <ul class="match-list">
+              <li><strong>ТЗ для 8 ЦКДЛ по услугам аутсорса за I квартал 2026</strong> → выполнено: подготовлено ТЗ на сбор сведений по аутсорсинговым лабораторным услугам за I квартал 2026 года.</li>
+              <li><strong>Анализ выгрузки по группе крови и резус-фактору</strong> → выполнено и углублено: сделан анализ выгрузки по повторным назначениям на группу крови и оформлено отдельное ТЗ на доработку выгрузки.</li>
+              <li><strong>Контроль изменений подразделений в Одинцовской ОБ</strong> → выполнено: вопрос решен.</li>
+              <li><strong>Контроль перехода на локальный сервер и изменения ОГРН Щелковской Б</strong> → выполнено частично: вопрос со стороны Щелковской Б закрыт, остается ожидание решения со стороны Королевской ЦКДЛ.</li>
+              <li><strong>Контроль синхронизации справочников Красногорской Б и ЦКДЛ Истринской КБ</strong> → выполнено: вопрос решен.</li>
+              <li><strong>Совещания РГ и СЭМД</strong> → отражены косвенно через подготовку презентации для еженедельных совещаний с руководством и сопутствующих материалов недели.</li>
+            </ul>
+          </section>
+
+          <section class="match-pane amber">
+            <h3>Что выполнено шире или сверх плана</h3>
+            <ul class="match-list">
+              <li><strong>Сверх плана:</strong> НПА по ВИЧ-инфекции направлен на согласование по МСЭД.</li>
+              <li><strong>Сверх плана:</strong> подготовлена сводка по интеграции УРО/ЛИС Королевской ЦКДЛ.</li>
+              <li><strong>Сверх плана:</strong> выполнен анализ системного отчета по невыполненным исследованиям и сформировано ТЗ на отдельную доработку.</li>
+              <li><strong>Сверх плана:</strong> заведены и актуализированы новые СТП по шаблонам результатов микробиологии, цитологии и новым лабораторным услугам ЕМИАС.</li>
+              <li><strong>Сверх плана:</strong> внесены правки в дашборд МИАЦ, подготовлена схема назначения группы крови, сделан анализ цитологических исследований и ТЗ для формирования КПИ.</li>
+              <li><strong>Не подтверждено прямым фактом текущей недели:</strong> пункт прошлого плана о сравнении объемов лабораторных исследований по МО между 2025 годом и I кварталом 2026 в явном виде в блоке «Сделано» не отражен.</li>
+            </ul>
+          </section>
+        </div>
+      </div>
+    </article>
+  </section>
+
+  <section class="layout">
+    <article class="card" id="done">
+        <div class="card-header">
+          <h2 class="card-title">Выполненные работы и материалы</h2>
+          <span class="badge badge-green">12 результатов</span>
+        </div>
+        <div class="card-body">
+          <p class="lead">Список сгруппирован по типам результата: нормативные документы, аналитика, контрольные действия, СТП и управленческие материалы.</p>
+
+          <div class="task-groups">
+            <section class="task-group">
+              <div class="task-group-header">
+                <h3 class="task-group-title">Нормативка, интеграции и контроль</h3>
+                <div class="task-count">4 направления</div>
+              </div>
+              <div class="task-items">
+                <div class="task-item">
+                  <div class="task-name">НПА «О совершенствовании организации лабораторной диагностики ВИЧ-инфекции» направлен на согласование по МСЭД</div>
+                  <div class="task-links"><a href="https://disk.yandex.ru/d/MK7JWVOdCSI_Ug" target="_blank" rel="noopener">Открыть документ</a></div>
+                </div>
+                <div class="task-item">
+                  <div class="task-name">Сводка для интеграции УРО/ЛИС по Королевской ЦКДЛ</div>
+                  <div class="task-links"><a href="https://disk.yandex.ru/i/U7OCTlM4DpMBlw" target="_blank" rel="noopener">Открыть сводку</a></div>
+                </div>
+                <div class="task-item">
+                  <div class="task-name">Контроль изменений подразделений в Одинцовской ОБ, перехода на локальный сервер и изменения ОГРН Щелковской Б, а также синхронизации справочников Красногорской Б и ЦКДЛ Истринской КБ</div>
+                  <div class="task-links"></div>
+                </div>
+              </div>
+            </section>
+
+            <section class="task-group">
+              <div class="task-group-header">
+                <h3 class="task-group-title">Аналитика, ТЗ и доработки</h3>
+                <div class="task-count">5 направлений</div>
+              </div>
+              <div class="task-items">
+                <div class="task-item">
+                  <div class="task-name">Анализ системного отчета по невыполненным исследованиям</div>
+                  <div class="task-links"><a href="https://disk.yandex.ru/d/xXGpNodWr0KKrg" target="_blank" rel="noopener">Открыть анализ</a><a href="https://bitrix24.mz.mosreg.ru/company/personal/user/3544/tasks/task/view/1515985/" target="_blank" rel="noopener">ТЗ на доработку</a></div>
+                </div>
+                <div class="task-item">
+                  <div class="task-name">Внесение правок в дашборд МИАЦ</div>
+                  <div class="task-links"><a href="https://disk.yandex.ru/i/YlNJNs42l61rZQ" target="_blank" rel="noopener">Открыть материал</a></div>
+                </div>
+                <div class="task-item">
+                  <div class="task-name">ТЗ на сбор сведений по аутсорсинговым лабораторным услугам за I квартал 2026 года</div>
+                  <div class="task-links"><a href="https://disk.yandex.ru/d/H_Gwx_8sfF8Qkg" target="_blank" rel="noopener">Открыть ТЗ</a></div>
+                </div>
+                <div class="task-item">
+                  <div class="task-name">Анализ выгрузки по повторным назначениям на группу крови и ТЗ на доработку выгрузки</div>
+                  <div class="task-links"><a href="https://disk.yandex.ru/i/Edbbuan_SChVyQ" target="_blank" rel="noopener">Открыть анализ</a><a href="https://bitrix24.mz.mosreg.ru/company/personal/user/3544/tasks/task/view/1514770/" target="_blank" rel="noopener">ТЗ на доработку</a></div>
+                </div>
+                <div class="task-item">
+                  <div class="task-name">ТЗ для формирования КПИ</div>
+                  <div class="task-links"><a href="https://disk.yandex.ru/d/o3wJq8eHbPrmvQ" target="_blank" rel="noopener">Открыть ТЗ</a></div>
+                </div>
+              </div>
+            </section>
+
+            <section class="task-group">
+              <div class="task-group-header">
+                <h3 class="task-group-title">СТП, презентации и прикладные материалы</h3>
+                <div class="task-count">4 направления</div>
+              </div>
+              <div class="task-items">
+                <div class="task-item">
+                  <div class="task-name">Заявки СТП: актуальные шаблоны результатов микробиологических исследований, шаблоны результатов цитологических исследований, добавление новых лабораторных услуг ЕМИАС</div>
+                </div>
+                <div class="task-item">
+                  <div class="task-name">Презентация для еженедельных совещаний с заместителем Председателя Правительства Московской области — министром здравоохранения Московской области М.В. Забелиным</div>
+                  <div class="task-links"><a href="https://disk.yandex.ru/i/8FiEM0kVTwcL4g" target="_blank" rel="noopener">Открыть презентацию</a></div>
+                </div>
+                <div class="task-item">
+                  <div class="task-name">Презентация: схема назначения группы крови</div>
+                  <div class="task-links"><a href="https://disk.yandex.ru/i/6JO55ry7hx3nmQ" target="_blank" rel="noopener">Открыть презентацию</a></div>
+                </div>
+                <div class="task-item">
+                  <div class="task-name">Анализ и предложение по корректировке перечня цитологических исследований</div>
+                  <div class="task-links"><a href="https://disk.yandex.ru/i/5Lb3u3BGSn5Abg" target="_blank" rel="noopener">Открыть материал</a></div>
+                </div>
+              </div>
+            </section>
+          </div>
+        </div>
+      </article>
+
+    <article class="card risk-card" id="risks">
+        <div class="card-header">
+          <h2 class="card-title">Красные зоны</h2>
+          <span class="badge badge-red">Критические риски</span>
+        </div>
+        <div class="card-body">
+          <div class="risk-header"><strong>Приоритетный сигнал недели:</strong> блок рисков усилен визуально, потому что здесь есть событие с уже наступившим сроком — <strong>контракт с подрядчиком ЛИС-Брегис закончился 15 апреля</strong>. Остальные риски связаны с неотработанными запретами в МИС/ЕМИАС, отсутствующими интеграциями и просроченными нормативными документами.</div>
+          <ul class="clean risk-list">
+            <li><strong>ЛИС-Брегис:</strong> контракт с подрядчиком закончился <strong>15.04.2026</strong>.</li>
+            <li><strong>МИС:</strong> не настроен запрет внесения результатов анализов, выполненных вручную. <strong>Срок: 24.04.26.</strong></li>
+            <li><strong>Закрытые лаборатории:</strong> не настроен запрет назначения лабораторных услуг. <strong>Срок: 15.05.26.</strong></li>
+            <li><strong>Оборудование по ДБП в УРО:</strong> отсутствует интеграция; требуется доработка; срок не установлен.</li>
+            <li><strong>Внешний подрядчик:</strong> не завершена интеграция результатов лабораторных исследований из внешней базы.</li>
+            <li><strong>ЛИС модуль «Склад» и ЕИС закупки:</strong> срок сдвинут вправо с марта на сентябрь 2026; ответственный — подрядчик по ГК.</li>
+            <li><strong>НПА в рамках централизации плана на 2026, СПИД и КВД:</strong> отсутствуют; срок 13.03.26; на согласовании; просрочено.</li>
+          </ul>
+        </div>
+      </article>
+
+    <article class="card" id="tickets">
+        <div class="card-header">
+          <h2 class="card-title">Доработки и заявки</h2>
+          <span class="badge badge-blue">Контроль исполнения</span>
+        </div>
+        <div class="card-body">
+          <p class="lead">Статусы обновлены по текущей неделе: отдельно просроченные задачи и отдельно задачи, ожидающие выполнения или находящиеся в работе.</p>
+          <div class="ticket-columns">
+            <section class="ticket-pane red">
+              <h3>Просрочено</h3>
+              <ul class="ticket-list">
+                <li><strong>СТП-695382</strong> — обязательное указание первичных данных при назначении группы крови; <strong>просрочка:</strong> 30 дней; <strong>срок:</strong> 11.03; <strong>ответственный:</strong> Шепелева Г.А.</li>
+                <li><strong>Битрикс №1415958</strong> — реализация системного отчета по невыполненным исследованиям; <strong>просрочка:</strong> 34 дня; <strong>срок:</strong> 12.03.2026, перенос — 20.03.2026; <strong>примечание:</strong> отчет от 15.04 некорректен, открыта новая задача №1515985; <strong>ответственный:</strong> Дмитриева О.Н.</li>
+              </ul>
+            </section>
+            <section class="ticket-pane blue">
+              <h3>Ждут выполнения / в работе</h3>
+              <ul class="ticket-list">
+                <li><strong>СТП-697283</strong> — блокировка внесения результата ЕМИАС; <strong>статус:</strong> эскалировано внешнему исполнителю; <strong>новый срок:</strong> 22.04; <strong>ответственный:</strong> Качура Н.С.</li>
+                <li><strong>СТП-697675</strong> — корректировка услуг; <strong>статус:</strong> в работе; <strong>регламентный срок:</strong> 26.03; <strong>срок по ОС МИАЦ:</strong> 29.04; <strong>ответственный:</strong> Шепелева Г.А.</li>
+                <li><strong>Битрикс №1431141</strong> — аналитический дашборд по МО; <strong>статус:</strong> согласование ТПР; <strong>ответственный:</strong> Дмитриева О.Н.</li>
+                <li><strong>Битрикс №1506196</strong> — расчет себестоимости для модуля «Склад»; <strong>ответственный:</strong> Шепелева Г.А.</li>
+                <li><strong>Битрикс №1514770</strong> — анализ назначения исследований на определение групп крови (доработка); <strong>ответственный:</strong> Дмитриева О.Н.</li>
+                <li><strong>СТП-701095</strong> — шаблоны результатов цитология (ЕМИАС); <strong>статус:</strong> в работе; <strong>регламентный срок:</strong> 20.04; <strong>ответственный:</strong> Шепелева Г.А.</li>
+                <li><strong>СТП-701093</strong> — шаблоны результатов микробиология (ЕМИАС); <strong>статус:</strong> в работе; <strong>регламентный срок:</strong> 20.04; <strong>ответственный:</strong> Шепелева Г.А.</li>
+                <li><strong>СТП-701209</strong> — добавление новых лабораторных услуг ЕМИАС; <strong>статус:</strong> эскалировано внешнему исполнителю; <strong>регламентный срок:</strong> 22.04; <strong>ответственный:</strong> Качура Н.С.</li>
+              </ul>
+            </section>
+          </div>
+        </div>
+      </article>
+
+    <article class="card" id="issues">
+        <div class="card-header">
+          <h2 class="card-title">Проблематика</h2>
+          <span class="badge badge-amber">Требует внимания</span>
+        </div>
+        <div class="card-body">
+          <ul class="clean issue-list">
+            <li><strong>29 задач</strong> просрочено в Битрикс, из них <strong>11 задач</strong> — у главных врачей.</li>
+            <li>Протокольные поручения не отрабатываются ответственными лицами МО в установленный срок.</li>
+            <li><strong>Организация лабораторной диагностики ВИЧ-инфекции в Московской области:</strong> не реализована бесшовная интеграция между ЦКДЛ и Центром СПИД.</li>
+            <li>Отсутствует согласованный и реализованный сквозной сценарий маршрута лабораторной диагностики ВИЧ.</li>
+            <li>Не реализовано отражение серии (лота) и срока годности реагентов в бланке результата согласно СанПиН 3.3686-21.</li>
+            <li>Имеется риск срыва сроков выпуска нормативного правового акта по организации лабораторной диагностики ВИЧ-инфекции в Московской области.</li>
+          </ul>
+        </div>
+      </article>
+
+    <article class="card" id="plan">
+        <div class="card-header">
+          <h2 class="card-title">План на следующую неделю</h2>
+          <span class="badge badge-blue">20.04–24.04</span>
+        </div>
+        <div class="card-body">
+          <ul class="clean">
+            <li>Анализ статистики назначений на H.pylori разными методами.</li>
+            <li>Сравнение объемов лабораторных исследований за I квартал 2026.</li>
+            <li>Разработать СОП ШК по цитологии.</li>
+            <li>Справка по ЦКДЛ. Актуализация справочника анализаторов БД ЛИС/УРО по ЦКДЛ.</li>
+            <li>Отработать приложения ТС на корректность услуг.</li>
+            <li>Выезды: Домодедовская Б и Ногинская Б (2-я Глуховская, 9А).</li>
+            <li>Сформировать ТЗ в формате презентационных материалов для руководителей ЦКДЛ для совещания с министром МЗ МО М.В. Забелиным.</li>
+            <li>Совещания: РГ (20.04) и СЭМД (21.04).</li>
+            <li>Сформировать ТЗ по контрактам на аутсорс в разрезе услуг.</li>
+            <li>Подготовить презентацию о рисках в связи с завершением контракта с ЛИС-Брегис.</li>
+          </ul>
+        </div>
+      </article>
+
+    <article class="card" id="links">
+        <div class="card-header">
+          <h2 class="card-title">Навигация по разделам</h2>
+          <span class="badge badge-blue">Быстрые переходы</span>
+        </div>
+        <div class="card-body">
+          <div class="anchor-links">
+            <a href="#summary">Операционный статус недели</a>
+            <a href="#dynamics">Динамика к прошлому плану</a>
+            <a href="#done">Выполненные работы и материалы</a>
+            <a href="#tickets">Доработки и заявки</a>
+            <a href="#risks">Красные зоны</a>
+            <a href="#issues">Проблематика</a>
+            <a href="#plan">План следующей недели</a>
+            <a href="#top">Наверх</a>
+          </div>
+        </div>
+      </article>
+  </section>
+
+  <div class="footer">Еженедельный статус направления · адаптировано для десктопа и мобильного просмотра</div>
+</div>
+</body>
+</html>
