@@ -134,7 +134,7 @@ h1{
 .badge{padding:8px 12px; border-radius:999px; font-size:12px; font-weight:700}
 .badge-blue{background:rgba(94,163,255,.16); color:#98c8ff}
 .badge-red{background:rgba(255,107,107,.18); color:#ffb3b3}
-.badge-amber{background:rgba(255,182,72,.16); color:#ffd089}
+.badge-amber{background:rgba(255,107,107,.16); color:#ffb3b3; border:1px solid rgba(255,107,107,.22)}
 .badge-green{background:rgba(55,211,154,.16); color:#8ff0c4}
 .badge-violet{background:rgba(157,146,255,.16); color:#d2ccff}
 .lead{margin:0 0 14px; color:var(--muted); font-size:14px; line-height:1.65}
@@ -205,7 +205,16 @@ h1{
   border:1px solid rgba(116,171,255,.22); padding:9px 12px; border-radius:999px; font-size:13px
 }
 .ticket-columns{grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr); align-items:start}
-.ticket-pane.red{background:linear-gradient(180deg, rgba(255,107,107,.13), rgba(255,107,107,.05)); border-color:rgba(255,107,107,.18)}
+.ticket-pane.red{
+  background:linear-gradient(180deg, rgba(122,29,36,.54), rgba(74,18,24,.62));
+  border-color:rgba(255,107,107,.24);
+  box-shadow:inset 4px 0 0 var(--red2);
+}
+.ticket-pane.red .ticket-list li{
+  background:linear-gradient(180deg, rgba(122,29,36,.54), rgba(74,18,24,.62));
+  border-color:rgba(255,107,107,.24);
+}
+.ticket-pane.red h3{color:#fff1f1}
 .ticket-pane.blue{background:linear-gradient(180deg, rgba(94,163,255,.13), rgba(94,163,255,.05)); border-color:rgba(94,163,255,.18)}
 .risk-card{
   background:
@@ -229,8 +238,8 @@ h1{
 }
 .risk-list li strong{color:#fff1f1}
 .issue-list li{
-  background:linear-gradient(180deg, rgba(99,68,24,.45), rgba(58,40,16,.50));
-  border-color:rgba(255,182,72,.18);
+  background:linear-gradient(180deg, rgba(122,29,36,.54), rgba(74,18,24,.62));
+  border-color:rgba(255,107,107,.24);
 }
 .anchor-links{grid-template-columns:1fr 1fr}
 .anchor-links a{
@@ -280,7 +289,7 @@ h1{
   <section class="hero">
     <div class="eyebrow">Министерство здравоохранения · еженедельный статус</div>
     <h1>Централизация лабораторной службы</h1>
-    <p class="subtitle">Еженедельный отчет за период с 13.04.2026 по 17.04.2026.</p>
+    <p class="subtitle">Еженедельный отчет за период с 13.04.2026 по 17.04.2026. Сохранена прежняя структура отчета, добавлена сверка прошлого плана с фактом исполнения недели и усилено визуальное выделение красных зон и рисков.</p>
 
     <div class="hero-summary">
       <div class="summary-tile">
@@ -567,7 +576,7 @@ h1{
         </div>
       </article>
 
-    <article class="card" id="issues">
+    <article class="card problem-card" id="issues">
         <div class="card-header">
           <h2 class="card-title">Проблематика</h2>
           <span class="badge badge-amber">Требует внимания</span>
