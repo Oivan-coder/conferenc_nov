@@ -283,6 +283,71 @@ h1{
 }
 
 </style>
+
+<style id="mobile-fix-v6">
+/* universal safety */
+html,body{overflow-x:hidden}
+*, *::before, *::after{box-sizing:border-box}
+.card,.hero,.platform-callout,.platform-box,.platform-chip,.summary-tile,.executive-box,.goal-card,.plan-dynamics-box,.task-group,.task-item,.ticket-pane,.match-pane,.small-note,.digital-goal,.risk-header,.highlight-line{
+  min-width:0;
+}
+.card-body,.card-header,.task-item,.task-group,.ticket-pane,.match-pane,.goal-card,.executive-box,.plan-dynamics-box,.summary-tile,.platform-box,.platform-chip{
+  overflow-wrap:anywhere;
+  word-break:break-word;
+}
+img,svg,iframe,canvas{max-width:100%; height:auto}
+.topnav a,.anchor-links a,.task-links a,.platform-link{max-width:100%}
+
+@media (max-width: 980px){
+  .layout,.ticket-columns,.match-grid,.platform-callout,.hero-grid,.hero-summary,.executive-grid,.goal-grid,.plan-dynamics-grid,.anchor-links,.platform-meta,.digital-goal-stats,.goal-values{
+    grid-template-columns:1fr !important;
+  }
+  .layout,.ticket-columns,.match-grid,.platform-callout,.hero-summary,.executive-grid,.goal-grid,.plan-dynamics-grid,.anchor-links,.platform-meta,.digital-goal-stats,.goal-values{
+    gap:14px !important;
+  }
+  .card-header{
+    flex-wrap:wrap;
+  }
+  .badge{
+    max-width:100%;
+  }
+}
+
+@media (max-width: 640px){
+  .shell{padding:10px !important}
+  .hero{padding:16px 12px !important}
+  .section-grid,.stack,.layout{gap:14px !important}
+  .card-header{padding:14px 14px 10px !important}
+  .card-body{padding:0 14px 14px !important}
+  .hero-summary{margin-top:16px !important; gap:12px !important}
+  .summary-tile{min-height:auto !important}
+  .highlight-line{margin:14px 0 !important; padding:14px !important}
+  .summary-list,.clean,.ticket-list,.match-list,.task-groups,.task-items{gap:10px !important}
+  .summary-list li,.clean li,.ticket-list li,.match-list li,.task-item{
+    padding:14px !important;
+  }
+  .task-group-header,.digital-goal-head{
+    flex-direction:column !important;
+    align-items:flex-start !important;
+  }
+  .task-count,.badge{
+    align-self:flex-start;
+  }
+  .topnav{
+    display:grid !important;
+    grid-template-columns:1fr !important;
+    gap:8px !important;
+  }
+  .topnav a,.anchor-links a,.task-links a,.platform-link{
+    width:100% !important;
+    justify-content:center;
+  }
+  .panel-line{
+    grid-template-columns:1fr !important;
+  }
+}
+</style>
+
 </head>
 <body>
 <div class="shell">
