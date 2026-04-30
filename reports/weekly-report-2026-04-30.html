@@ -1,0 +1,439 @@
+<!doctype html><html lang="ru" id="top"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Централизация лабораторной службы — еженедельный отчет</title><style>
+:root{--bg:#05101d;--bg2:#0a1830;--card:rgba(11,24,42,.88);--card2:rgba(16,30,51,.92);--text:#edf4ff;--muted:#a9bbd4;--line:rgba(151,180,220,.15);--blue:#6aaeff;--green:#39d59c;--amber:#ffb85a;--red:#ff7474;--red2:#ff5f5f;--shadow:0 24px 70px rgba(0,0,0,.32);--radius:24px}*{box-sizing:border-box}html{scroll-behavior:smooth}html,body{overflow-x:hidden}body{margin:0;color:var(--text);font-family:Inter,"Segoe UI",Arial,sans-serif;background:radial-gradient(1200px 620px at -5% -5%,rgba(79,144,255,.22),transparent 56%),radial-gradient(840px 520px at 110% 0%,rgba(96,216,255,.14),transparent 54%),linear-gradient(180deg,#04101c 0%,#071425 36%,#08172a 100%)}body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.24;background-image:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.03) 1px,transparent 1px);background-size:36px 36px;mask-image:linear-gradient(180deg,rgba(255,255,255,.55),transparent 80%)}a{color:inherit}.shell{max-width:1420px;margin:0 auto;padding:22px}.hero,.card{position:relative;background:linear-gradient(180deg,rgba(13,25,44,.92),rgba(9,22,39,.94));border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow)}.hero{overflow:hidden;padding:28px}.hero:before{content:"";position:absolute;width:420px;height:420px;right:-150px;top:-170px;border-radius:50%;background:radial-gradient(circle,rgba(90,168,255,.25),transparent 64%)}.eyebrow{position:relative;display:inline-flex;padding:10px 16px;border-radius:999px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:#d6e5f8}.hero-grid{position:relative;margin-top:18px}h1{margin:0 0 12px;font-size:52px;line-height:1;font-weight:850;letter-spacing:-.03em}.subtitle{margin:0;color:#c4d7ef;font-size:18px;max-width:980px;line-height:1.5}.hero-summary{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:20px}.summary-tile{min-height:112px;padding:16px;border-radius:20px;background:linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,.035));border:1px solid rgba(255,255,255,.09)}.summary-tile:nth-child(1){background:linear-gradient(180deg,rgba(27,107,94,.34),rgba(12,42,46,.2))}.summary-tile:nth-child(2){background:linear-gradient(180deg,rgba(37,92,143,.32),rgba(21,41,74,.2))}.summary-tile:nth-child(3){background:linear-gradient(180deg,rgba(122,29,36,.50),rgba(74,18,24,.45));border-color:rgba(255,107,107,.22)}.summary-kicker,.score-kicker,.goal-kicker{color:#c7daf2;font-size:12px;text-transform:uppercase;letter-spacing:.05em}.summary-value,.score-value,.executive-number{font-size:38px;font-weight:850;line-height:1;margin-top:8px}.summary-note,.score-note,.executive-caption,.lead{color:#d5e3f4;font-size:13px;line-height:1.45;margin-top:8px}.platform-callout{position:relative;margin-top:18px;padding:18px;border-radius:24px;background:linear-gradient(135deg,rgba(43,87,145,.24),rgba(28,58,99,.12));border:1px solid rgba(110,171,255,.2)}.platform-title{font-size:20px;line-height:1.2;margin:0 0 8px;font-weight:850}.platform-text{margin:0;color:#dce9f9;line-height:1.55}.platform-text a{color:#8fd4ff;text-decoration:none;border-bottom:1px solid rgba(143,212,255,.45)}.platform-actions,.task-links{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}.platform-link,.task-links a,.topnav a,.anchor-links a{display:inline-flex;align-items:center;justify-content:center;text-decoration:none;color:#f1f7ff;background:linear-gradient(180deg,rgba(64,123,212,.22),rgba(50,92,168,.16));border:1px solid rgba(116,171,255,.22);padding:9px 13px;border-radius:999px;font-size:13px;font-weight:800}.topnav{position:relative;display:flex;flex-wrap:wrap;gap:9px;margin-top:18px}.section-grid,.layout,.stack{display:grid;gap:16px;margin-top:16px}.layout{grid-template-columns:1fr 1fr;align-items:start}.card{overflow:hidden}.card-header{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:18px 20px 8px}.card-title{margin:0;font-size:27px;font-weight:850;letter-spacing:-.02em}.badge{padding:8px 12px;border-radius:999px;font-size:12px;font-weight:850;white-space:nowrap}.badge-blue{background:rgba(94,163,255,.16);color:#98c8ff}.badge-green{background:rgba(55,211,154,.16);color:#8ff0c4}.badge-red{background:rgba(255,107,107,.18);color:#ffb6b6;border:1px solid rgba(255,107,107,.28)}.card-body{padding:0 20px 20px}.lead{margin:0 0 12px;font-size:14px}.executive-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}.executive-box,.score-card,.task-group,.task-item,.ticket-pane,.match-pane{padding:15px;border-radius:20px;background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.08)}.executive-box.green{background:linear-gradient(180deg,rgba(47,211,159,.16),rgba(47,211,159,.05));border-color:rgba(47,211,159,.18)}.executive-box.blue{background:linear-gradient(180deg,rgba(94,163,255,.16),rgba(94,163,255,.05));border-color:rgba(94,163,255,.18)}.executive-box.red{background:linear-gradient(180deg,rgba(255,107,107,.15),rgba(255,107,107,.05));border-color:rgba(255,107,107,.18)}.executive-kicker{color:#c8d8f1;font-size:13px}.summary-list,.clean,.ticket-list,.match-list{list-style:none;padding:0;margin:0;display:grid;gap:10px}.summary-list li,.clean li,.ticket-list li,.match-list li{padding:13px 14px;border-radius:16px;background:linear-gradient(180deg,rgba(18,35,59,.94),rgba(13,27,47,.96));border:1px solid rgba(126,153,194,.14);line-height:1.48}.plan-score{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:14px 0}.score-card{background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.035))}.score-value{font-size:34px}.match-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}.match-pane h3,.ticket-pane h3{margin:0 0 10px;font-size:18px}.match-list li.done{border-color:rgba(57,213,156,.22);background:linear-gradient(180deg,rgba(47,211,159,.13),rgba(47,211,159,.05))}.match-list li.partial{border-color:rgba(255,184,90,.22);background:linear-gradient(180deg,rgba(255,184,90,.13),rgba(255,184,90,.05))}.match-list li.extra{border-color:rgba(106,174,255,.22);background:linear-gradient(180deg,rgba(106,174,255,.14),rgba(106,174,255,.05))}.task-groups,.task-items{display:grid;gap:12px}.task-group-header{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:10px}.task-group-title{margin:0;font-size:20px}.task-count{font-size:12px;color:#d4e5fb;padding:7px 10px;border-radius:999px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);white-space:nowrap}.task-name{font-weight:750;line-height:1.48}.ticket-columns{display:grid;grid-template-columns:1fr 1fr;gap:12px}.ticket-pane.red,.danger-card{background:linear-gradient(180deg,rgba(54,17,24,.92),rgba(31,11,18,.96));border-color:rgba(255,107,107,.24);box-shadow:inset 5px 0 0 var(--red2)}.ticket-pane.blue{background:linear-gradient(180deg,rgba(94,163,255,.13),rgba(94,163,255,.05));border-color:rgba(94,163,255,.18)}.risk-list li,.issue-list li,.ticket-pane.red .ticket-list li{background:linear-gradient(180deg,rgba(122,29,36,.58),rgba(74,18,24,.66));border-color:rgba(255,107,107,.30)}.anchor-links{display:grid;grid-template-columns:1fr 1fr;gap:9px}.anchor-links a{border-radius:16px;justify-content:flex-start}.footer{text-align:center;color:var(--muted);font-size:13px;padding:18px 0 6px}@media(max-width:1100px){.layout{grid-template-columns:1fr}.plan-score{grid-template-columns:1fr 1fr}.match-grid,.ticket-columns{grid-template-columns:1fr}}@media(max-width:700px){.shell{padding:10px}.hero{padding:16px 12px;border-radius:22px}h1{font-size:30px}.subtitle{font-size:14px}.hero-summary,.executive-grid,.plan-score,.match-grid,.ticket-columns,.anchor-links{grid-template-columns:1fr}.summary-tile,.score-card{min-height:auto;padding:14px}.summary-value,.executive-number,.score-value{font-size:32px}.card-header{padding:14px 14px 8px;flex-direction:column;align-items:flex-start}.card-title{font-size:24px}.card-body{padding:0 14px 14px}.task-group,.ticket-pane,.match-pane{padding:14px}.task-item,.clean li,.risk-list li,.issue-list li,.ticket-list li,.match-list li{padding:13px}.task-group-header{align-items:flex-start;flex-direction:column}.topnav{display:grid;grid-template-columns:1fr;gap:8px}.topnav a,.anchor-links a,.task-links a,.platform-link{width:100%;justify-content:center;text-align:center}.task-links{display:grid;grid-template-columns:1fr}.badge{white-space:normal}}@media(max-width:390px){h1{font-size:27px}.card-title{font-size:22px}.summary-value,.executive-number,.score-value{font-size:29px}}
+
+
+/* Desktop: убрать пустые растянутые зоны, не ломая мобильную верстку */
+@media (min-width: 1101px){
+  .match-grid,
+  .ticket-columns{
+    align-items:start !important;
+  }
+
+  .match-pane,
+  .ticket-pane{
+    align-self:start !important;
+    height:auto !important;
+    min-height:0 !important;
+  }
+
+  .ticket-pane.red,
+  .ticket-pane.blue{
+    height:auto !important;
+    min-height:0 !important;
+  }
+
+  .ticket-pane.red{
+    padding-bottom:16px !important;
+  }
+
+  .match-pane{
+    padding-bottom:16px !important;
+  }
+
+  .layout{
+    align-items:start !important;
+  }
+
+  .stack{
+    align-content:start !important;
+  }
+
+  .card{
+    height:auto !important;
+  }
+
+  /* Более плотная сетка для блока динамики на широком экране */
+  #dynamics .match-grid{
+    grid-template-columns:minmax(0,1.08fr) minmax(0,.92fr) !important;
+  }
+
+  /* Доработки: правая колонка длиннее, левая не растягивается под нее */
+  #tickets .ticket-columns{
+    grid-template-columns:minmax(0,.82fr) minmax(0,1.18fr) !important;
+  }
+}
+
+/* Планшет/телефон: оставить безопасную одну колонку */
+@media (max-width: 1100px){
+  .match-grid,
+  .ticket-columns{
+    align-items:stretch !important;
+  }
+}
+
+
+/* Новая компоновка для десктопа: меньше пустоты, блоки плотнее и ровнее */
+@media (min-width: 1101px){
+  .layout{
+    display:grid !important;
+    grid-template-columns:minmax(0,1.04fr) minmax(0,.96fr) !important;
+    gap:18px !important;
+    align-items:start !important;
+  }
+
+  /* Доработки на десктопе — в одну колонку внутри карточки:
+     просрочка отдельным красным акцентом, остальные задачи плотной сеткой */
+  #tickets .ticket-columns{
+    display:grid !important;
+    grid-template-columns:1fr !important;
+    gap:14px !important;
+  }
+
+  #tickets .ticket-pane.red{
+    width:100% !important;
+    max-width:none !important;
+    min-height:0 !important;
+    height:auto !important;
+    padding:16px !important;
+  }
+
+  #tickets .ticket-pane.red .ticket-list{
+    display:grid !important;
+    grid-template-columns:1fr !important;
+    gap:10px !important;
+  }
+
+  #tickets .ticket-pane.red .ticket-list li{
+    max-width:100% !important;
+  }
+
+  #tickets .ticket-pane.blue{
+    width:100% !important;
+    max-width:none !important;
+    min-height:0 !important;
+    height:auto !important;
+    padding:16px !important;
+  }
+
+  #tickets .ticket-pane.blue .ticket-list{
+    display:grid !important;
+    grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+    gap:10px !important;
+  }
+
+  #tickets .ticket-list li{
+    margin:0 !important;
+    height:auto !important;
+    min-height:0 !important;
+    padding:13px 14px !important;
+  }
+
+  /* Динамика: две колонки без визуального растягивания правого блока вниз */
+  #dynamics .match-grid{
+    display:grid !important;
+    grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr) !important;
+    gap:14px !important;
+    align-items:start !important;
+  }
+
+  #dynamics .match-pane{
+    height:auto !important;
+    min-height:0 !important;
+    align-self:start !important;
+  }
+
+  #dynamics .match-list{
+    gap:9px !important;
+  }
+
+  #dynamics .match-list li{
+    padding:12px 14px !important;
+    line-height:1.42 !important;
+  }
+
+  /* Выполненные работы: карточки групп плотнее */
+  #done .task-group{
+    padding:15px !important;
+  }
+
+  #done .task-items{
+    gap:10px !important;
+  }
+
+  #done .task-item{
+    padding:13px 15px !important;
+  }
+
+  /* Красные зоны и проблематика — без лишней высоты, аккуратно */
+  #risks .clean,
+  #issues .clean{
+    gap:9px !important;
+  }
+
+  #risks .clean li,
+  #issues .clean li{
+    padding:13px 14px !important;
+    line-height:1.43 !important;
+  }
+
+  /* План — плотнее */
+  #plan .clean{
+    gap:9px !important;
+  }
+
+  #plan .clean li{
+    padding:13px 14px !important;
+    line-height:1.43 !important;
+  }
+}
+
+/* Средние экраны: две колонки там, где хватает места, но без выезда */
+@media (min-width: 701px) and (max-width: 1100px){
+  #tickets .ticket-columns,
+  #dynamics .match-grid{
+    grid-template-columns:1fr !important;
+  }
+
+  #tickets .ticket-pane.blue .ticket-list{
+    display:grid !important;
+    grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+  }
+}
+
+/* Телефон: всё строго в одну колонку */
+@media (max-width: 700px){
+  #tickets .ticket-pane.blue .ticket-list,
+  #tickets .ticket-pane.red .ticket-list{
+    display:grid !important;
+    grid-template-columns:1fr !important;
+  }
+
+  #tickets .ticket-pane,
+  #dynamics .match-pane{
+    min-height:0 !important;
+    height:auto !important;
+  }
+}
+
+
+/* Балансировка десктопной компоновки: справа от доработок теперь стоит план недели */
+@media (min-width:1101px){
+  .layout{
+    grid-template-columns:minmax(0,1fr) minmax(0,1fr) !important;
+    gap:18px !important;
+    align-items:start !important;
+  }
+  .stack{
+    gap:18px !important;
+    align-content:start !important;
+  }
+  #plan{
+    margin-top:0 !important;
+  }
+  #plan .clean{
+    gap:9px !important;
+  }
+  #plan .clean li{
+    padding:13px 14px !important;
+    line-height:1.43 !important;
+  }
+  #tickets .ticket-pane.blue .ticket-list{
+    grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+  }
+}
+@media (max-width:1100px){
+  .layout{
+    grid-template-columns:1fr !important;
+  }
+}
+
+
+/* Доработки и заявки: два компактных блока, нижний на всю ширину */
+@media (min-width:1101px){
+  #tickets .ticket-columns{
+    display:grid !important;
+    grid-template-columns:1fr !important;
+    gap:14px !important;
+  }
+
+  #tickets .ticket-pane.red,
+  #tickets .ticket-pane.blue{
+    width:100% !important;
+    max-width:none !important;
+    min-height:0 !important;
+    height:auto !important;
+  }
+
+  #tickets .ticket-pane.red{
+    padding:16px !important;
+  }
+
+  #tickets .ticket-pane.red .ticket-list{
+    display:grid !important;
+    grid-template-columns:1fr !important;
+    gap:10px !important;
+  }
+
+  #tickets .ticket-pane.red .ticket-list li{
+    width:100% !important;
+    max-width:none !important;
+  }
+
+  #tickets .ticket-pane.blue{
+    padding:16px !important;
+  }
+
+  #tickets .ticket-pane.blue .ticket-list{
+    display:grid !important;
+    grid-template-columns:repeat(3,minmax(0,1fr)) !important;
+    gap:10px !important;
+  }
+
+  #tickets .ticket-pane.blue .ticket-list li{
+    width:100% !important;
+    min-height:0 !important;
+    padding:13px 14px !important;
+  }
+}
+
+/* На планшете — 2 колонки, на телефоне — 1 колонка */
+@media (min-width:701px) and (max-width:1100px){
+  #tickets .ticket-columns{
+    grid-template-columns:1fr !important;
+  }
+  #tickets .ticket-pane.blue .ticket-list{
+    display:grid !important;
+    grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+    gap:10px !important;
+  }
+}
+@media (max-width:700px){
+  #tickets .ticket-columns,
+  #tickets .ticket-pane.red .ticket-list,
+  #tickets .ticket-pane.blue .ticket-list{
+    display:grid !important;
+    grid-template-columns:1fr !important;
+    gap:10px !important;
+  }
+}
+
+
+/* Десктоп: "Доработки и заявки" и "План на следующую неделю" на всю ширину отчета */
+@media (min-width:1101px){
+  .layout{
+    display:grid !important;
+    grid-template-columns:1fr 1fr !important;
+    gap:18px !important;
+    align-items:start !important;
+  }
+
+  #tickets,
+  #plan{
+    grid-column:1 / -1 !important;
+    width:100% !important;
+    max-width:none !important;
+  }
+
+  /* Если карточки находятся внутри stack, stack не должен сужать их */
+  .layout > .stack{
+    display:contents !important;
+  }
+
+  #tickets .ticket-columns{
+    display:grid !important;
+    grid-template-columns:1fr !important;
+    gap:14px !important;
+  }
+
+  #tickets .ticket-pane.red,
+  #tickets .ticket-pane.blue{
+    width:100% !important;
+    max-width:none !important;
+  }
+
+  #tickets .ticket-pane.red .ticket-list{
+    display:grid !important;
+    grid-template-columns:1fr !important;
+    gap:10px !important;
+  }
+
+  #tickets .ticket-pane.blue .ticket-list{
+    display:grid !important;
+    grid-template-columns:repeat(3,minmax(0,1fr)) !important;
+    gap:10px !important;
+  }
+
+  #plan .clean{
+    display:grid !important;
+    grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+    gap:10px !important;
+  }
+
+  #links{
+    grid-column:1 / -1 !important;
+  }
+}
+
+/* Планшет: план тоже шире и аккуратно в 2 колонки */
+@media (min-width:701px) and (max-width:1100px){
+  #tickets .ticket-pane.blue .ticket-list,
+  #plan .clean{
+    display:grid !important;
+    grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+    gap:10px !important;
+  }
+}
+
+/* Телефон: все в одну колонку */
+@media (max-width:700px){
+  #tickets .ticket-pane.blue .ticket-list,
+  #tickets .ticket-pane.red .ticket-list,
+  #plan .clean{
+    display:grid !important;
+    grid-template-columns:1fr !important;
+    gap:10px !important;
+  }
+}
+
+
+/* Десктоп: "Выполненные работы и материалы" тоже на всю ширину */
+@media (min-width:1101px){
+  #done{
+    grid-column:1 / -1 !important;
+    width:100% !important;
+    max-width:none !important;
+  }
+
+  #done .task-groups{
+    display:grid !important;
+    grid-template-columns:repeat(3,minmax(0,1fr)) !important;
+    gap:14px !important;
+    align-items:start !important;
+  }
+
+  #done .task-group{
+    height:auto !important;
+    min-height:0 !important;
+  }
+
+  #done .task-items{
+    display:grid !important;
+    grid-template-columns:1fr !important;
+    gap:10px !important;
+  }
+
+  #done .task-item{
+    min-height:0 !important;
+    height:auto !important;
+  }
+}
+
+/* Планшет: две колонки, телефон: одна */
+@media (min-width:701px) and (max-width:1100px){
+  #done .task-groups{
+    display:grid !important;
+    grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+    gap:12px !important;
+  }
+}
+@media (max-width:700px){
+  #done .task-groups{
+    display:grid !important;
+    grid-template-columns:1fr !important;
+    gap:12px !important;
+  }
+}
+
+
+html,body{overflow-x:hidden}*,*::before,*::after{box-sizing:border-box}.card,.hero,.task-item,.ticket-pane,.match-pane,.summary-tile{min-width:0}.danger-card{background:linear-gradient(180deg,rgba(54,17,24,.92),rgba(31,11,18,.96))!important;border-color:rgba(255,107,107,.24)!important;box-shadow:0 24px 70px rgba(0,0,0,.34),inset 5px 0 0 #ff5f5f!important}.risk-list li,.issue-list li,.ticket-pane.red .ticket-list li{background:linear-gradient(180deg,rgba(122,29,36,.58),rgba(74,18,24,.66))!important;border-color:rgba(255,107,107,.30)!important}.ticket-pane.red{background:linear-gradient(180deg,rgba(122,29,36,.54),rgba(74,18,24,.62))!important;border-color:rgba(255,107,107,.30)!important;box-shadow:inset 5px 0 0 #ff5f5f!important}.ticket-pane.blue{background:linear-gradient(180deg,rgba(94,163,255,.13),rgba(94,163,255,.05))!important;border-color:rgba(94,163,255,.18)!important}.badge-red,.badge.badge-red{background:rgba(255,107,107,.18)!important;color:#ffb6b6!important;border:1px solid rgba(255,107,107,.30)!important}.match-list li.done{border-color:rgba(57,213,156,.20);background:linear-gradient(180deg,rgba(47,211,159,.13),rgba(47,211,159,.05))}.match-list li.partial{border-color:rgba(255,184,90,.22);background:linear-gradient(180deg,rgba(255,184,90,.13),rgba(255,184,90,.05))}.match-list li.extra{border-color:rgba(106,174,255,.22);background:linear-gradient(180deg,rgba(106,174,255,.14),rgba(106,174,255,.05))}.platform-callout{margin-top:18px}.platform-actions{display:flex;gap:10px;margin-top:12px}.platform-link{padding:10px 14px;border-radius:999px;text-decoration:none;background:rgba(94,163,255,.16);border:1px solid rgba(94,163,255,.25);font-weight:700}.platform-title{font-size:22px;margin:8px 0}.platform-text{color:#c4d7ef;line-height:1.55}.plan-score{grid-template-columns:repeat(4,1fr);margin:14px 0}.score-card{padding:16px}.score-note{font-size:13px;color:#dbe8f8;margin-top:8px}.match-grid{grid-template-columns:1.15fr .85fr}.layout>.stack{display:contents!important}#done,#tickets,#plan{grid-column:1/-1!important;width:100%!important;max-width:none!important}#done .task-groups{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:14px!important;align-items:start!important}#tickets .ticket-columns{display:grid!important;grid-template-columns:1fr!important;gap:14px!important}#tickets .ticket-pane.red .ticket-list{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:10px!important}#tickets .ticket-pane.blue .ticket-list{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:10px!important}#plan .clean{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:10px!important}@media(max-width:1100px){.layout{grid-template-columns:1fr!important}.hero-summary,.executive-grid,.plan-score,.match-grid,#done .task-groups,#tickets .ticket-pane.red .ticket-list,#tickets .ticket-pane.blue .ticket-list,#plan .clean{grid-template-columns:1fr 1fr!important}}@media(max-width:700px){.shell{padding:10px!important}.hero{padding:16px 12px!important;border-radius:22px!important}h1{font-size:30px!important}.subtitle{font-size:14px!important}.card-header{padding:14px 14px 8px!important;flex-direction:column!important;align-items:flex-start!important}.card-title{font-size:24px!important}.card-body{padding:0 14px 14px!important}.topnav,.hero-summary,.executive-grid,.plan-score,.match-grid,#done .task-groups,#tickets .ticket-pane.red .ticket-list,#tickets .ticket-pane.blue .ticket-list,#plan .clean,.anchor-links{display:grid!important;grid-template-columns:1fr!important;gap:10px!important}.topnav a,.task-links a,.anchor-links a,.platform-link{width:100%!important;text-align:center!important;justify-content:center!important}.summary-value,.executive-number,.score-value{font-size:32px!important}}
+</style></head><body><div class="shell"><section class="hero"><div class="eyebrow">Министерство здравоохранения · еженедельный статус</div><div class="hero-grid"><div><h1>Централизация лабораторной службы</h1><p class="subtitle">Еженедельный отчет за период с 27.04.2026–30.04.2026. Управленческий статус по результатам недели, исполнению прошлого плана, рискам, доработкам и плану следующего периода.</p><div class="hero-summary"><div class="summary-tile"><div class="summary-kicker">Выполнено за неделю</div><div class="summary-value">14</div><div class="summary-note">ключевых результатов, аналитических материалов и организационных действий</div></div><div class="summary-tile"><div class="summary-kicker">Исполнение прошлого плана</div><div class="summary-value">73%</div><div class="summary-note">7 выполнено, 2 частично, 2 без прямого подтверждения</div></div><div class="summary-tile"><div class="summary-kicker">Просрочено в Битрикс</div><div class="summary-value">15</div><div class="summary-note">из них 9 задач на уровне главных врачей</div></div></div></div></div><div class="platform-callout"><div class="platform-box"><div class="platform-label">Единый контур совещаний · ВКС+</div><h2 class="platform-title">Приглашения на совещания осуществляются через сервис ВКС+</h2><p class="platform-text">Организация совещаний ведется через <a href="https://vks.mosreg.ru/calendar" target="_blank" rel="noopener noreferrer"><strong>vks.mosreg.ru/calendar</strong></a>.</p><div class="platform-actions"><a class="platform-link" href="https://vks.mosreg.ru/calendar" target="_blank" rel="noopener noreferrer">Открыть ВКС+</a></div></div></div><nav class="topnav"><a href="#summary">Сводка</a><a href="#dynamics">Динамика</a><a href="#done">Выполнено</a><a href="#risks">Красные зоны</a><a href="#tickets">Доработки</a><a href="#issues">Проблематика</a><a href="#plan">План</a></nav></section><section class="section-grid"><article class="card compact" id="summary"><div class="card-header"><h2 class="card-title">Операционный статус недели</h2><span class="badge badge-blue">Итог периода</span></div><div class="card-body"><p class="lead">Неделя была сфокусирована на сравнении объемов лабораторных исследований, ТЗ по аутсорсу, подготовке материалов для совещаний, выездной диспансеризации, подключении МОНИИАГ к цифровому контуру, сверке счетов, ВОК, группе крови и производственном контроле.</p><div class="executive-grid"><div class="executive-box green"><div class="executive-kicker">Исполнение отчетного периода</div><div class="executive-number">14</div><div class="executive-caption">ключевых результатов и материалов</div></div><div class="executive-box blue"><div class="executive-kicker">План следующего периода</div><div class="executive-number">6</div><div class="executive-caption">основных направлений на неделю 04.05.2026–08.05.2026</div></div><div class="executive-box red"><div class="executive-kicker">Просроченные задачи</div><div class="executive-number">15</div><div class="executive-caption">требуют управленческого контроля</div></div></div><ul class="summary-list"><li><strong>Объемы и финансирование:</strong> подготовлены свод по ЦКДЛ, анализ объемов за 2025 и I квартал 2026, материалы по ТФОМС и ТС.</li><li><strong>Методический контур:</strong> подготовлен СОП по выездной диспансеризации и материалы по производственному контролю.</li><li><strong>Цифровой контур:</strong> выполнено подключение МОНИИАГ к цифровому контуру ЦКДЛ.</li><li><strong>Группа крови:</strong> выполнен анализ повторных назначений и подготовлен алгоритм назначения исследования в стационаре.</li></ul></div></article><article class="card compact" id="dynamics"><div class="card-header"><h2 class="card-title">Динамика к прошлому плану</h2><span class="badge badge-green">План/факт</span></div><div class="card-body"><p class="lead">Сверка плана на период 27.04–30.04 с фактическими результатами недели. Частично закрытые направления засчитаны как 0,5.</p><div class="plan-score"><div class="score-card"><div class="score-kicker">Плановых направлений</div><div class="score-value">11</div><div class="score-note">из прошлого отчета</div></div><div class="score-card"><div class="score-kicker">Фактических результатов</div><div class="score-value">14</div><div class="score-note">за отчетную неделю</div></div><div class="score-card"><div class="score-kicker">Исполнение плана</div><div class="score-value">73%</div><div class="score-note">7 закрыто полностью, 2 частично</div></div><div class="score-card"><div class="score-kicker">Сверх плана</div><div class="score-value">+3</div><div class="score-note">результата к числу плановых направлений</div></div></div><div class="match-grid"><section class="match-pane"><h3>Сверка плановых пунктов</h3><ul class="match-list"><li class="done"><strong>Сравнение объемов лабораторных исследований за I квартал 2026</strong><br>Выполнено: подготовлены сводная таблица по ЦКДЛ и анализ объемов за 2025 год и I квартал 2026.</li><li class="partial"><strong>Отработать приложения ТС на корректность услуг</strong><br>Частично: подготовлены материалы в ТФОМС о внесении изменений в ТС и сводная заявка на расчет услуг; отдельная отработка приложений перенесена в новый план.</li><li class=""><strong>Выезд: Ногинская Б</strong><br>Не подтверждено: в факте недели отдельным результатом не указан.</li><li class=""><strong>Ежедневный отчет для М.В. Забелина по расходным материалам и реагентам</strong><br>Не подтверждено: в факте недели отдельным результатом не указан.</li><li class="done"><strong>Совещания: РГ, СЭМД, ПЦ/РД, Истринская КБ и Балашихинская Б, МОНИКИ</strong><br>Выполнено: подготовлена презентация для еженедельных совещаний и материалы по МОНИКИ/сверке счетов.</li><li class="done"><strong>Сформировать ТЗ по контрактам на аутсорс в разрезе услуг</strong><br>Выполнено: ТЗ по контрактам на аутсорс в разрезе услуг подготовлено.</li><li class="partial"><strong>Внесение изменений в 301-Р</strong><br>Частично: работа не закрыта полностью и перенесена в план следующего периода.</li><li class="done"><strong>Услуги Красногорской Б: отчет по реализации</strong><br>Выполнено: подготовлен отчет по реализации услуг Красногорской Б.</li><li class="done"><strong>СОП реализации лабораторных исследований в рамках выездной диспансеризации</strong><br>Выполнено: СОП подготовлен.</li><li class="done"><strong>Производственный контроль: график, ответственные лица, порядок выполнения</strong><br>Выполнено: подготовлен материал по производственному контролю.</li><li class="done"><strong>Презентационные материалы на ГВ: первичное определение группы крови</strong><br>Выполнено: подготовлены анализ повторных назначений и презентация алгоритма назначения группы крови в стационаре.</li></ul></section><section class="match-pane"><h3>Дополнительно выполнено</h3><ul class="match-list"><li class="extra">Подключение МОНИИАГ к цифровому контуру ЦКДЛ.</li><li class="extra">Презентация «Сверка счетов 2026».</li><li class="extra">Свод ВОК для КСП.</li><li class="extra">ТФОМС о внесении изменений в ТС.</li><li class="extra">Сводная заявка на расчет услуг в ТФОМС.</li></ul></section></div></div></article></section><section class="layout"><div class="stack"><article class="card compact" id="done"><div class="card-header"><h2 class="card-title">Выполненные работы и материалы</h2><span class="badge badge-green">14 результатов</span></div><div class="card-body"><div class="task-groups"><section class="task-group"><div class="task-group-header"><h3 class="task-group-title">Объемы, ТФОМС и аутсорс</h3><div class="task-count">5 направл.</div></div><div class="task-items"><div class="task-item"><div class="task-name">Объемы лабораторных исследований за I квартал 2026: сводная таблица объемов по ЦКДЛ</div><div class="task-links"><a href="https://disk.yandex.ru/i/tfeQ-cCrg8eeXQ" target="_blank" rel="noopener noreferrer">Открыть таблицу</a></div></div><div class="task-item"><div class="task-name">Анализ объемов лабораторных исследований за 2025 год и I квартал 2026</div><div class="task-links"><a href="https://disk.yandex.ru/i/uN70fGfTE5DKCg" target="_blank" rel="noopener noreferrer">Открыть анализ</a></div></div><div class="task-item"><div class="task-name">ТЗ по контрактам на аутсорс в разрезе услуг</div><div class="task-links"><a href="https://disk.yandex.ru/i/MyBxLPtkILxp9w" target="_blank" rel="noopener noreferrer">Открыть ТЗ</a></div></div><div class="task-item"><div class="task-name">ТФОМС о внесении изменений в ТС</div><div class="task-links"><a href="https://disk.yandex.ru/d/PYLl_E1bI7Wiyw" target="_blank" rel="noopener noreferrer">Открыть материал</a></div></div><div class="task-item"><div class="task-name">Сводная заявка на расчет услуг в ТФОМС</div><div class="task-links"><a href="https://disk.yandex.ru/i/B5DNAXKrFy3TlA" target="_blank" rel="noopener noreferrer">Открыть заявку</a></div></div></div></section><section class="task-group"><div class="task-group-header"><h3 class="task-group-title">Совещания, цифровой контур и счета</h3><div class="task-count">4 направл.</div></div><div class="task-items"><div class="task-item"><div class="task-name">Презентация для еженедельных совещаний с заместителем Председателя Правительства Московской области — министром здравоохранения Московской области М.В. Забелиным</div><div class="task-links"><a href="https://disk.yandex.ru/i/ULh-6OE70KQE2A" target="_blank" rel="noopener noreferrer">Открыть презентацию</a></div></div><div class="task-item"><div class="task-name">СОП реализации лабораторных исследований в рамках выездной диспансеризации</div><div class="task-links"><a href="https://disk.yandex.ru/d/3aZ4NRZUiQgl3w" target="_blank" rel="noopener noreferrer">Открыть СОП</a></div></div><div class="task-item"><div class="task-name">Подключение МОНИИАГ к цифровому контуру ЦКДЛ</div><div class="task-links"><a href="https://disk.yandex.ru/d/ktjncsw8Nh_xMw" target="_blank" rel="noopener noreferrer">Открыть материал</a></div></div><div class="task-item"><div class="task-name">Презентация «Сверка счетов 2026»</div><div class="task-links"><a href="https://disk.yandex.ru/d/Qe_TLvqUYs1K-A" target="_blank" rel="noopener noreferrer">Открыть презентацию</a></div></div></div></section><section class="task-group"><div class="task-group-header"><h3 class="task-group-title">СОП, контроль, ВОК и группа крови</h3><div class="task-count">5 направл.</div></div><div class="task-items"><div class="task-item"><div class="task-name">Свод ВОК для КСП</div><div class="task-links"><a href="https://disk.yandex.ru/d/k5hQkscMRBN7wQ" target="_blank" rel="noopener noreferrer">Открыть свод</a></div></div><div class="task-item"><div class="task-name">Анализ выгрузки повторных назначений на определение группы крови</div><div class="task-links"><a href="https://disk.yandex.ru/i/v38_12jy8f60Qg" target="_blank" rel="noopener noreferrer">Открыть анализ</a></div></div><div class="task-item"><div class="task-name">Презентация «Алгоритм назначения исследования группы крови в стационаре»</div><div class="task-links"><a href="https://disk.yandex.ru/i/lM0CId2WikIY9Q" target="_blank" rel="noopener noreferrer">Открыть презентацию</a></div></div><div class="task-item"><div class="task-name">Производственный контроль: график проведения, ответственные лица, порядок выполнения</div><div class="task-links"><a href="https://disk.yandex.ru/d/d48K71mCKS3EYA" target="_blank" rel="noopener noreferrer">Открыть материал</a></div></div><div class="task-item"><div class="task-name">Услуги Красногорской Б: отчет по реализации</div><div class="task-links"><a href="https://disk.yandex.ru/i/MjIfahbYLFwFRQ" target="_blank" rel="noopener noreferrer">Открыть отчет</a></div></div></div></section></div></div></article><article class="card compact" id="tickets"><div class="card-header"><h2 class="card-title">Доработки и заявки</h2><span class="badge badge-blue">Контроль исполнения</span></div><div class="card-body"><div class="ticket-columns"><section class="ticket-pane red"><h3>Просрочено</h3><ul class="ticket-list"><li><strong>СТП-697675</strong> — корректировка услуг; статус: в работе, просрочено; регламентный срок 26.03, срок по ОС от МИАЦ — 29.04; ответственный: Шепелева Г.А.</li><li><strong>Битрикс №1528745</strong> — провести аналитику некорректных назначений исследований; просрочено, срок 27.04; ответственные: Шепелева Г.А., Жиляев П.С.</li></ul></section><section class="ticket-pane blue"><h3>На согласовании результата</h3><ul class="ticket-list"><li><strong>Битрикс №1415958</strong> — реализация системного отчета по невыполненным исследованиям; просрочено на 34 дня; срок 12.03.2026, перенос 20.03.2026; отчет от 15.04 некорректен, новая задача №1515985 на этапе анализа; ответственный: Дмитриева О.Н.</li><li><strong>Битрикс №1514770</strong> — анализ назначения исследований на определение групп крови; выполнено 24.04, проанализировано, задача на этапе оценки возможности доработки; ответственный: Дмитриева О.Н.</li></ul></section><section class="ticket-pane blue"><h3>Ждут выполнения / в работе</h3><ul class="ticket-list"><li><strong>Битрикс №1431141</strong> — аналитический дашборд по МО; срок согласуется с ТПР; ответственный: Дмитриева О.Н.</li><li><strong>Битрикс №1506196</strong> — расчет себестоимости для модуля «Склад»; ответственный: Шепелева Г.А.</li><li><strong>СТП-701095</strong> — шаблоны результатов цитология (ЕМИАС); в работе, комментариев не поступало; регламентный срок 20.04; ответственный: Шепелева Г.А.</li><li><strong>СТП-701093</strong> — шаблоны результатов микробиология (ЕМИАС); в работе, комментариев не поступало; регламентный срок 20.04; ответственный: Шепелева Г.А.</li><li><strong>СТП-695382</strong> — обязательное указание первичных данных при назначении группы крови; регламентный срок 11.03.2026; доработка перенесена на 2027 год; ответственный: Шепелева Г.А.</li></ul></section></div></div></article><article class="card compact" id="plan"><div class="card-header"><h2 class="card-title">План на следующую неделю</h2><span class="badge badge-blue">04.05.2026–08.05.2026</span></div><div class="card-body"><ul class="clean"><li>Совещания: РГ (04.05), СЭМД (05.05), реестры счетов (06.05), стационар и первичное определение группы крови, производственный контроль и ГВС по эпидемиологии.</li><li>Отработать приложения ТС на корректность услуг.</li><li>Внесение изменений в 301-Р: перечень лабораторных исследований (базовый минимум) и лабораторные исследования в разрезе МКБ (расширенный максимум).</li><li>Унифицировать шаблоны причин отбраковки биоматериала.</li><li>Создать заявку СТП на удаление избыточных лабораторных услуг.</li><li>Поставить задачу ЦКДЛ на формирование виртуальных рабочих мест для работы с аутсорсом.</li></ul></div></article></div><div class="stack"><article class="card compact danger-card" id="risks"><div class="card-header"><h2 class="card-title">Красные зоны</h2><span class="badge badge-red">Риски</span></div><div class="card-body"><ul class="clean risk-list"><li><strong>ЛИС-Брегис:</strong> контракт с подрядчиком закончился 15.04.2026.</li><li><strong>Закрытые лаборатории:</strong> не настроен запрет назначения лабораторных услуг. Срок — 15.05.2026.</li><li><strong>Интеграция оборудования ДБП в УРО:</strong> отсутствует, требуется доработка, срок не установлен.</li><li><strong>Внешний подрядчик:</strong> требуется интеграция результатов лабораторных исследований из внешней базы.</li><li><strong>ЛИС «Склад» и ЕИС закупки:</strong> срок сдвинут с марта на сентябрь 2026 года. Ответственный — подрядчик по ГК.</li><li><strong>НПА по плану централизации 2026, СПИД и КВД:</strong> документы отсутствуют; срок 13.03.2026, на согласовании, просрочено.</li></ul></div></article><article class="card compact danger-card" id="issues"><div class="card-header"><h2 class="card-title">Проблематика</h2><span class="badge badge-red">Требует внимания</span></div><div class="card-body"><ul class="clean issue-list"><li><strong>15 задач просрочено в Битрикс</strong>, из них 9 задач — на исполнителях уровня главных врачей.</li><li><strong>Протокольные поручения</strong> не отрабатываются ответственными лицами МО в срок.</li><li><strong>Лабораторная диагностика ВИЧ:</strong> не реализована бесшовная интеграция между ЦКДЛ и Центром СПИД.</li><li><strong>Маршрут ВИЧ-диагностики:</strong> отсутствует согласованный и реализованный сквозной сценарий.</li><li><strong>СанПиН 3.3686-21:</strong> в бланке результата не реализовано отражение серии (лота) и срока годности реагентов.</li><li><strong>НПА по ВИЧ:</strong> сохраняется риск срыва сроков выпуска нормативного правового акта.</li><li><strong>Маршрутные листы:</strong> при назначении лабораторных исследований не указан исполнитель в БД.</li></ul></div></article><article class="card compact" id="links"><div class="card-header"><h2 class="card-title">Навигация по разделам</h2><span class="badge badge-blue">Быстрые переходы</span></div><div class="card-body"><div class="anchor-links"><a href="#summary">Операционный статус недели</a><a href="#dynamics">Динамика к прошлому плану</a><a href="#done">Выполненные работы</a><a href="#tickets">Доработки и заявки</a><a href="#risks">Красные зоны</a><a href="#issues">Проблематика</a><a href="#plan">План следующей недели</a><a href="#top">Наверх</a></div></div></article></div></section><div class="footer">Еженедельный статус направления · адаптировано для десктопа и мобильного просмотра</div></div></body></html>
