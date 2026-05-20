@@ -4,6 +4,8 @@ const DEBUG = false;
 const SITE_TITLE = 'Референс-центр лабораторной службы Московской области';
 const SITE_TITLE_SHORT = 'РЦЛСМО';
 const MOBILE_NAV_BREAKPOINT = 968;
+const SITE_LOADER_STORAGE_KEY = 'rclsmo-loader-test';
+const SITE_LOADER_SESSION_KEY = 'rclsmo-loader-full-shown';
 
 const SITE_NAV = [
     { id: 'home', href: '/', label: 'Главная' },
@@ -530,6 +532,149 @@ function closeNotification(notification) {
     }, 300);
 }
 
+function readStorage(storage, key) {
+    try {
+        return storage.getItem(key);
+    } catch (error) {
+        return null;
+    }
+}
+
+function writeStorage(storage, key, value) {
+    try {
+        storage.setItem(key, value);
+    } catch (error) {
+        debugLog('Storage write skipped', error);
+    }
+}
+
+function removeStorage(storage, key) {
+    try {
+        storage.removeItem(key);
+    } catch (error) {
+        debugLog('Storage remove skipped', error);
+    }
+}
+
+function getSiteLoaderSetting() {
+    const params = new URLSearchParams(window.location.search);
+    const queryValue = (params.get('loader') || '').toLowerCase();
+
+    if (['off', '0', 'false', 'no'].includes(queryValue)) {
+        writeStorage(window.localStorage, SITE_LOADER_STORAGE_KEY, 'off');
+        removeStorage(window.sessionStorage, SITE_LOADER_SESSION_KEY);
+        return null;
+    }
+
+    if (['auto', 'full', 'quick', 'on', '1'].includes(queryValue)) {
+        const normalized = ['on', '1'].includes(queryValue) ? 'auto' : queryValue;
+        writeStorage(window.localStorage, SITE_LOADER_STORAGE_KEY, normalized);
+        return normalized;
+    }
+
+    const storedValue = readStorage(window.localStorage, SITE_LOADER_STORAGE_KEY);
+    if (storedValue === 'off') {
+        return null;
+    }
+
+    return storedValue || 'auto';
+}
+
+function resolveSiteLoaderMode(setting) {
+    if (setting === 'full' || setting === 'quick') {
+        return setting;
+    }
+
+    if (setting === 'auto') {
+        const fullShown = readStorage(window.sessionStorage, SITE_LOADER_SESSION_KEY) === 'true';
+        if (!fullShown) {
+            writeStorage(window.sessionStorage, SITE_LOADER_SESSION_KEY, 'true');
+            return 'full';
+        }
+        return null;
+    }
+
+    return null;
+}
+
+function initSiteLoaderTest() {
+    if (document.getElementById('rclsmoSiteLoader')) {
+        return;
+    }
+
+    const mode = resolveSiteLoaderMode(getSiteLoaderSetting());
+    if (!mode) {
+        return;
+    }
+
+    const style = document.createElement('style');
+    style.id = 'rclsmo-site-loader-style';
+    style.textContent = `
+        #rclsmoSiteLoader {
+            position: fixed;
+            inset: 0;
+            z-index: 2147483000;
+            background: #020817;
+            opacity: 1;
+            transform: translateZ(0);
+            transition: opacity .55s ease, filter .55s ease;
+        }
+        #rclsmoSiteLoader.is-hiding {
+            opacity: 0;
+            filter: blur(3px);
+            pointer-events: none;
+        }
+        #rclsmoSiteLoader iframe {
+            display: block;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+    `;
+    document.head.appendChild(style);
+
+    const overlay = document.createElement('div');
+    overlay.id = 'rclsmoSiteLoader';
+    overlay.setAttribute('aria-label', 'Загрузка сайта');
+    overlay.dataset.mode = mode;
+
+    const frame = document.createElement('iframe');
+    frame.title = 'Загрузка РЦЛСМО';
+    frame.src = `/loader/rclsmo-loader.html?mode=${encodeURIComponent(mode)}`;
+    frame.setAttribute('aria-hidden', 'true');
+    overlay.appendChild(frame);
+    document.body.prepend(overlay);
+    debugLog(`Loader test mode: ${mode}`);
+
+    const startedAt = performance.now();
+    const minDuration = mode === 'full' ? 3800 : 1250;
+    const maxDuration = mode === 'full' ? 6200 : 2400;
+    let closing = false;
+
+    const closeLoader = () => {
+        if (closing) {
+            return;
+        }
+        closing = true;
+        const elapsed = performance.now() - startedAt;
+        const wait = Math.max(0, minDuration - elapsed);
+        window.setTimeout(() => {
+            overlay.classList.add('is-hiding');
+            window.setTimeout(() => {
+                overlay.remove();
+            }, 650);
+        }, wait);
+    };
+
+    if (document.readyState === 'complete') {
+        closeLoader();
+    } else {
+        window.addEventListener('load', closeLoader, { once: true });
+    }
+
+    window.setTimeout(closeLoader, maxDuration);
+}
+
 if (!document.getElementById('notification-styles')) {
     const styles = document.createElement('style');
     styles.id = 'notification-styles';
@@ -554,6 +699,8 @@ if (!document.getElementById('notification-styles')) {
     `;
     document.head.appendChild(styles);
 }
+
+initSiteLoaderTest();
 
 document.addEventListener('DOMContentLoaded', () => {
     renderSiteShell();
