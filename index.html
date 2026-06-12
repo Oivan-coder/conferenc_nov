@@ -1,184 +1,151 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
-    
-    <!-- SEO МЕТА-ТЕГИ -->
-    <title>Референс-центр лабораторной службы Московской области | Главная</title>
-    <meta name="description" content="Официальный сайт Референс-центра лабораторной службы Московской области: централизация лабораторной службы, аналитика, аудит, дашборды и профильные мероприятия.">
-    <meta name="keywords" content="референс-центр московская область, централизация лабораторной службы, лабораторная диагностика, аналитика, дашборд, медицинские конференции">
-    <link rel="canonical" href="https://rclsmo.ru/">
-    
-    <!-- Open Graph -->
-    <meta property="og:title" content="Референс-центр лабораторной службы Московской области">
-    <meta property="og:description" content="Централизация лабораторной службы, аналитика, отчеты, дашборды и профильные мероприятия Московской области.">
-    <meta property="og:url" content="https://rclsmo.ru/">
-    <meta property="og:type" content="website">
-    <base href="/">
-    
-    <!-- Favicon -->
-    <link rel="icon" type="image/png" href="images/favicon-32x32.png">
-    
-    <!-- CSS -->
-    <link rel="stylesheet" href="css/main.css">
-    
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Atlas Finance</title>
+  <meta name="theme-color" content="#f5f5f7" />
+  <link rel="manifest" href="%BASE_URL%manifest.json" />
+  <link rel="stylesheet" href="/src/styles.css" />
 </head>
-<body class="home-page" data-page="home">
-    <!-- Хедер -->
-    <header class="photo-header" data-site-shell="header"></header>
+<body>
+  <main class="app-shell">
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">Atlas Finance</p>
+        <h1>Сегодня</h1>
+        <p id="cycleCaption" class="muted">Финансовый цикл загружается</p>
+      </div>
+      <button id="syncBtn" class="icon-button sync-button" type="button" aria-label="Синхронизация" title="Синхронизация">↻</button>
+    </header>
 
-    <!-- ВИДЕО ГЕРОЙ (используем ту же структуру что в conf-nov2025.html) -->
-    <section class="video-hero">
-        <!-- Видео фон -->
-        <div class="video-container">
-            <video class="hero-video" autoplay muted loop playsinline preload="metadata" poster="images/hero-placeholder.svg">
-                <source src="conference-video.mp4" type="video/mp4">
-                <!-- Фолбэк на изображение если видео не поддерживается -->
-                <img src="images/hero-placeholder.svg" alt="Форум лабораторных инноваций">
-            </video>
-            <!-- Затемнение фона для лучшей читаемости текста -->
-            <div class="video-overlay"></div>
+    <section id="syncStatus" class="sync-strip" hidden></section>
+
+    <nav class="segmented-tabs" aria-label="Разделы">
+      <button class="tab-button active" type="button" data-tab="today">Сегодня</button>
+      <button class="tab-button" type="button" data-tab="review">Вопросы</button>
+      <button class="tab-button" type="button" data-tab="activity">Операции</button>
+    </nav>
+
+    <section class="tab-panel active" data-panel="today">
+      <section class="hero-card" aria-label="Дневной лимит">
+        <div class="hero-copy">
+          <span class="label">Можно сегодня</span>
+          <strong id="dailyLimit">—</strong>
+          <small id="daysLeft">—</small>
         </div>
-        
-        <!-- Информационная плашка поверх видео -->
-        <div class="hero-content">
-            <div class="hero-info-card">
-                <h1>Референс-центр лабораторной службы Московской области</h1>
-                <div class="hero-subtitle">Координация централизации лабораторной службы, аналитика, аудит лабораторий и профильные мероприятия Московской области</div>
-                
-                <div class="hero-buttons">
-                    <a href="#projects" class="cta-button primary">
-                        Мероприятия
-                    </a>
-                    <a href="https://datalens.yandex/8qep9stnqgiet" class="cta-button secondary" target="_blank" rel="noopener noreferrer">
-                        Открыть дашборд
-                    </a>
-                </div>
-            </div>
+        <div id="limitRing" class="limit-ring" aria-hidden="true">
+          <span id="limitPercent">—</span>
         </div>
+      </section>
+
+      <section class="metric-grid" aria-label="Главные показатели">
+        <article class="metric-card">
+          <span>Свободно</span>
+          <strong id="freeMoney">—</strong>
+        </article>
+        <article class="metric-card">
+          <span>Потрачено</span>
+          <strong id="totalSpent">—</strong>
+        </article>
+        <article class="metric-card">
+          <span>Темп</span>
+          <strong id="burnRate">—</strong>
+        </article>
+        <article class="metric-card">
+          <span>Прогноз</span>
+          <strong id="forecastStatus">—</strong>
+        </article>
+      </section>
+
+      <section class="panel quick-panel">
+        <div class="section-title">
+          <h2 id="operationTitle">Расход</h2>
+          <span id="quickSyncHint">готово</span>
+        </div>
+        <form id="transactionForm" class="quick-form">
+          <div class="operation-toggle" aria-label="Тип операции">
+            <button class="active" type="button" data-transaction-type="expense">Расход</button>
+            <button type="button" data-transaction-type="income">Доход</button>
+          </div>
+          <label class="amount-field">
+            <span>₽</span>
+            <input id="amountInput" inputmode="decimal" autocomplete="off" placeholder="0" required />
+          </label>
+          <div id="categoryChips" class="chip-grid" aria-label="Категории"></div>
+          <div id="detailChips" class="chip-row" aria-label="Подкатегории"></div>
+          <input id="descriptionInput" autocomplete="off" placeholder="Комментарий" />
+          <button id="addTransactionBtn" class="primary-button" type="submit">Добавить</button>
+        </form>
+      </section>
+
+      <section class="panel">
+        <div class="section-title">
+          <h2>Категории</h2>
+          <span id="categorySummary">—</span>
+        </div>
+        <div id="categoryList" class="category-list"></div>
+      </section>
     </section>
 
-    <section class="center-focus glass-surface">
-        <div class="container">
-            <div class="center-focus__content glass-card">
-                <span class="center-focus__eyebrow">Чем занимается центр</span>
-                <h2>Централизация лабораторной службы Московской области</h2>
-                <p>Референс-центр сопровождает развитие централизованной модели лабораторной службы региона, поддерживает единые подходы и ведет профессиональную повестку отрасли.</p>
-                <div class="center-focus__tags">
-                    <span>Централизация</span>
-                    <span>Методическая поддержка</span>
-                    <span>Конференции</span>
-                </div>
-                <div class="center-focus__actions">
-                    <a href="/about" class="cta-button secondary">О центре</a>
-                    <a href="#projects" class="cta-button ghost">Мероприятия</a>
-                </div>
-            </div>
+    <section class="tab-panel" data-panel="review">
+      <section class="panel review-hero">
+        <div>
+          <span class="label">Июнь</span>
+          <h2>Вопросы месяца</h2>
         </div>
+        <strong id="reviewCount">—</strong>
+      </section>
+      <div id="reviewList" class="review-list"></div>
+      <section class="panel goals-panel">
+        <div class="section-title">
+          <h2>Цели</h2>
+          <span id="goalsSummary">—</span>
+        </div>
+        <div id="goalsList" class="simple-list"></div>
+      </section>
     </section>
 
-    <!-- Блок с проектами -->
-    <section id="projects" class="projects-preview glass-surface">
-        <div class="container">
-            <h2 class="section-title">Наши проекты</h2>
-            <p class="section-subtitle">Публичные мероприятия, архивные материалы и страницы текущего цикла подготовки</p>
-            
-            <div class="projects-grid">
-                <!-- БУДУЩИЙ проект -->
-                <div class="project-card upcoming glass-card glass-card-hover">
-                    <div class="project-badge">Ближайший</div>
-                    <div class="project-image">
-                        <img src="images/hero/3.jpg" alt="Форум 2026" data-fallback-src="images/hero-placeholder.svg">
-                    </div>
-                    <div class="project-content">
-                        <h3>Форум лабораторных инноваций 2026</h3>
-                        <p class="project-date"> 2026 | Красногорск</p>
-                        <p>Новейшие технологии в лабораторной диагностике. Страница форума уже доступна, регистрация откроется позже.</p>
-                        <div class="project-features">
-                            <span class="feature">🎤 15+ спикеров</span>
-                            <span class="feature">⏱️ 4 тематических блока</span>
-                        </div>
-                        <a href="/conf_mart2026" class="project-link">Подробнее →</a>
-                    </div>
-                </div>
-                
-                <!-- ПРОШЕДШИЙ проект -->
-                <div class="project-card past glass-card glass-card-hover">
-                    <div class="project-badge">Завершен</div>
-                    <div class="project-image">
-                        <img src="images/hero/2026-01-13 16.26.46.jpg" alt="Форум лабораторных инноваций 2025" data-fallback-src="images/hero-placeholder.svg"
-                                     loading="lazy">
-                    </div>
-                    <div class="project-content">
-                        <h3>Форум лабораторных инноваций 2025</h3>
-                        <p class="project-date">21 ноября 2025 | Красногорск</p>
-                        <p>Лабораторная служба будущего: практика и перспективы. Материалы доступны на странице мероприятия.</p>
-                        <div class="project-features">
-                            <span class="feature">📊 14 экспертов</span>
-                            <span class="feature">📁 Материалы доступны</span>
-                        </div>
-                        <a href="/conf_nov2025" class="project-link">Смотреть материалы →</a>
-                    </div>
-                </div>
-                <!-- ПРОШЕДШИЙ проект -->
-                <div class="project-card past glass-card glass-card-hover">
-                    <div class="project-badge">Завершен</div>
-                    <div class="project-image">
-                        <img src="images/hero/2026-01-13 14.19.52.jpg" alt="Лабораторная медицина Подмосковья 2025" data-fallback-src="images/hero-placeholder.svg"
-                                     loading="lazy">
-                    </div>
-                    <div class="project-content">
-                        <h3>Лабораторная медицина Подмосковья 2025</h3>
-                        <p class="project-date">25 сентября 2025 | Красногорск</p>
-                        <p>Архивная страница конференции с сохраненной программой и актуальным статусом публикации материалов.</p>
-                        <div class="project-features">
-                            <span class="feature">📋 Программа сохранена</span>
-                            <span class="feature">🗂️ Архивная версия</span>
-                        </div>
-                        <a href="/conf_sen2025" class="project-link">Открыть архив →</a>
-                    </div>
-                </div>
-            </div>
-            
+    <section class="tab-panel" data-panel="activity">
+      <section class="panel">
+        <div class="section-title">
+          <h2>Последние операции</h2>
+          <button id="exportBtn" class="text-button" type="button">JSON</button>
         </div>
+        <div id="transactionList" class="transaction-list"></div>
+      </section>
     </section>
+  </main>
 
-    <!-- О нас (кратко) -->
-    <section class="about-preview glass-surface">
-        <div class="container">
-            <div class="about-preview-content about-preview-content--text-only">
-                <div class="about-text glass-card">
-                    <h2>О центре</h2>
-                    <p>Референс-центр объединяет организационную, методическую и коммуникационную работу вокруг централизации лабораторной службы Московской области. Мы поддерживаем развитие единых подходов и сопровождаем профильную повестку региона.</p>
-                    <p>На сайте собраны страницы мероприятий, архив материалов, раздел отчетов и информация о команде центра.</p>
-                    <div class="about-preview-actions">
-                        <a href="/about" class="cta-button secondary">О центре</a>
-                        <a href="https://datalens.yandex/8qep9stnqgiet" class="cta-button primary" target="_blank" rel="noopener noreferrer">Дашборд</a>
-                    </div>
-                </div>
-                <!--
-                <div class="about-image">
-                    <img src="images/hero/2026-01-13 14.34.19.jpg" alt="Команда и проектная работа референс-центра" data-fallback-src="images/hero-placeholder.svg">
-                </div>
-                -->
-            </div>
-        </div>
-    </section>
+  <nav class="bottom-nav" aria-label="Нижняя навигация">
+    <button class="bottom-nav-button active" type="button" data-tab="today"><span>⌂</span>Сегодня</button>
+    <button class="bottom-nav-button" type="button" data-tab="review"><span>✓</span>Вопросы</button>
+    <button class="bottom-nav-button" type="button" data-tab="activity"><span>≡</span>Операции</button>
+  </nav>
 
-    <!-- Футер -->
-    <footer class="main-footer" id="contacts" data-site-shell="footer"></footer>
+  <dialog id="editDialog" class="edit-dialog">
+    <form id="editForm" method="dialog">
+      <div class="dialog-head">
+        <h2>Операция</h2>
+        <button id="closeEditBtn" class="icon-button small" type="button" aria-label="Закрыть">×</button>
+      </div>
+      <input id="editIdInput" type="hidden" />
+      <label>
+        <span>Сумма</span>
+        <input id="editAmountInput" inputmode="decimal" required />
+      </label>
+      <label>
+        <span>Категория</span>
+        <select id="editCategoryInput"></select>
+      </label>
+      <label>
+        <span>Комментарий</span>
+        <input id="editDescriptionInput" autocomplete="off" />
+      </label>
+      <button class="primary-button" type="submit">Сохранить</button>
+    </form>
+  </dialog>
 
-    <!-- Кнопка "Наверх" -->
-    <button id="backToTop" class="back-to-top">↑</button>
-
-    <!-- Общий модуль (загружается первым) -->
-    <script src="js/common.js"></script>
-    <!-- URL cleaner -->
-    <script src="js/url-cleaner.js" defer></script>
-    <!-- Основной скрипт для главной страницы -->
-    <script src="js/main.js" defer></script>
-    <!-- Cookies и аналитика -->
-    <script src="cookies.js" defer></script>
+  <script type="module" src="/src/app.js"></script>
 </body>
 </html>
