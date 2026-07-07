@@ -43,7 +43,7 @@ const specialistsData = {
         name: "Манвелов Эдуард Витальевич",
         role: "Главный специалист ГКУ ЦВИОД",
         bio: "Главный специалист ГКУ ЦВИОД, участвующий в реализации задач и проектов референс-центра.",
-        photo: "images/person-placeholder.svg",
+        photo: "images/team/manvelov.jpg",
         contacts: []
     }
 };
