@@ -1,0 +1,517 @@
+{
+  "summary": {
+    "clusters": 8,
+    "territories": 48,
+    "lisDone": 598,
+    "lisTotal": 614,
+    "sourceMedorgs": 51
+  },
+  "territories": {
+    "Балашихинская Б": {
+      "perf": 89,
+      "tat": 26.2,
+      "delivery": 14.1,
+      "export": 3.9,
+      "lisDone": 10,
+      "lisTotal": 10,
+      "status": "ЦКДЛ"
+    },
+    "Видновская КБ": {
+      "perf": 98,
+      "tat": 19.8,
+      "delivery": 10.1,
+      "export": 3.2,
+      "lisDone": 10,
+      "lisTotal": 10,
+      "status": "подключено"
+    },
+    "Волоколамская Б": {
+      "perf": 89,
+      "tat": 20.5,
+      "delivery": 10.1,
+      "export": 3.5,
+      "lisDone": 8,
+      "lisTotal": 8,
+      "status": "подключено"
+    },
+    "Воскресенская Б": {
+      "perf": 97,
+      "tat": 21,
+      "delivery": 9,
+      "export": 2.5,
+      "lisDone": 8,
+      "lisTotal": 8,
+      "status": "этап присоединения"
+    },
+    "Дмитровская Б": {
+      "perf": 97,
+      "tat": 24,
+      "delivery": 9.7,
+      "export": 3.8,
+      "lisDone": 16,
+      "lisTotal": 16,
+      "status": "подключено"
+    },
+    "Долгопрудненская Б": {
+      "perf": 92,
+      "tat": 22.2,
+      "delivery": 14.2,
+      "export": 2.9,
+      "lisDone": 18,
+      "lisTotal": 18,
+      "status": "маршрут активен"
+    },
+    "Домодедовская Б": {
+      "perf": 102,
+      "tat": 28.7,
+      "delivery": 14.6,
+      "export": 2.6,
+      "lisDone": 18,
+      "lisTotal": 18,
+      "status": "ЦКДЛ"
+    },
+    "Дубненская Б": {
+      "perf": 97,
+      "tat": 25.7,
+      "delivery": 12,
+      "export": 2.5,
+      "lisDone": 10,
+      "lisTotal": 10,
+      "status": "этап присоединения"
+    },
+    "Егорьевская Б": {
+      "perf": 89,
+      "tat": 21,
+      "delivery": 9.2,
+      "export": 1.8,
+      "lisDone": 18,
+      "lisTotal": 18,
+      "status": "подключено"
+    },
+    "Жуковская ОКБ": {
+      "perf": 96,
+      "tat": 24.7,
+      "delivery": 8.7,
+      "export": 1.6,
+      "lisDone": 6,
+      "lisTotal": 8,
+      "status": "маршрут активен"
+    },
+    "Зарайская Б": {
+      "perf": 91,
+      "tat": 24.6,
+      "delivery": 17,
+      "export": 1.5,
+      "lisDone": 10,
+      "lisTotal": 10,
+      "status": "подключено"
+    },
+    "Истринская КБ": {
+      "perf": 91,
+      "tat": 22.1,
+      "delivery": 12.1,
+      "export": 3.7,
+      "lisDone": 14,
+      "lisTotal": 14,
+      "status": "ЦКДЛ"
+    },
+    "Каширская Б": {
+      "perf": 93,
+      "tat": 22.4,
+      "delivery": 13.5,
+      "export": 1.7,
+      "lisDone": 10,
+      "lisTotal": 10,
+      "status": "этап присоединения"
+    },
+    "Клинская Б": {
+      "perf": 88,
+      "tat": 20.6,
+      "delivery": 9.6,
+      "export": 1.6,
+      "lisDone": 16,
+      "lisTotal": 16,
+      "status": "этап присоединения"
+    },
+    "Коломенская Б": {
+      "perf": 105,
+      "tat": 25.2,
+      "delivery": 10.7,
+      "export": 2.4,
+      "lisDone": 12,
+      "lisTotal": 12,
+      "status": "ЦКДЛ"
+    },
+    "Королёвская Б": {
+      "perf": 90,
+      "tat": 26.8,
+      "delivery": 13.3,
+      "export": 1.4,
+      "lisDone": 12,
+      "lisTotal": 12,
+      "status": "ЦКДЛ"
+    },
+    "Котельниковская П": {
+      "perf": 106,
+      "tat": 25.4,
+      "delivery": 10.1,
+      "export": 1.7,
+      "lisDone": 8,
+      "lisTotal": 8,
+      "status": "маршрут активен"
+    },
+    "Красногорская Б": {
+      "perf": 103,
+      "tat": 21,
+      "delivery": 9,
+      "export": 1.2,
+      "lisDone": 12,
+      "lisTotal": 12,
+      "status": "маршрут активен"
+    },
+    "Краснознаменская П": {
+      "perf": 105,
+      "tat": 24.2,
+      "delivery": 16.7,
+      "export": 1.3,
+      "lisDone": 10,
+      "lisTotal": 10,
+      "status": "этап присоединения"
+    },
+    "Лобненская Б": {
+      "perf": 96,
+      "tat": 20.9,
+      "delivery": 11.9,
+      "export": 1.9,
+      "lisDone": 10,
+      "lisTotal": 12,
+      "status": "ЦКДЛ"
+    },
+    "Лотошинская Б": {
+      "perf": 104,
+      "tat": 20.4,
+      "delivery": 14.1,
+      "export": 2.8,
+      "lisDone": 14,
+      "lisTotal": 16,
+      "status": "подключено"
+    },
+    "Луховицкая Б": {
+      "perf": 98,
+      "tat": 22.6,
+      "delivery": 12.9,
+      "export": 3,
+      "lisDone": 14,
+      "lisTotal": 16,
+      "status": "маршрут активен"
+    },
+    "Лыткаринская Б": {
+      "perf": 92,
+      "tat": 28.2,
+      "delivery": 14.9,
+      "export": 4,
+      "lisDone": 16,
+      "lisTotal": 16,
+      "status": "подключено"
+    },
+    "Люберецкая ОБ": {
+      "perf": 100,
+      "tat": 19,
+      "delivery": 11,
+      "export": 2.5,
+      "lisDone": 14,
+      "lisTotal": 14,
+      "status": "подключено"
+    },
+    "Можайская Б": {
+      "perf": 90,
+      "tat": 27.6,
+      "delivery": 15.9,
+      "export": 1.2,
+      "lisDone": 10,
+      "lisTotal": 10,
+      "status": "подключено"
+    },
+    "Мытищинская ОКБ": {
+      "perf": 105,
+      "tat": 20,
+      "delivery": 13.2,
+      "export": 3.5,
+      "lisDone": 12,
+      "lisTotal": 12,
+      "status": "этап присоединения"
+    },
+    "Наро-Фоминская Б": {
+      "perf": 93,
+      "tat": 20.9,
+      "delivery": 8.7,
+      "export": 2,
+      "lisDone": 8,
+      "lisTotal": 8,
+      "status": "этап присоединения"
+    },
+    "Ногинская Б": {
+      "perf": 103,
+      "tat": 19.8,
+      "delivery": 13.9,
+      "export": 3.5,
+      "lisDone": 10,
+      "lisTotal": 10,
+      "status": "этап присоединения"
+    },
+    "Одинцовская ОБ": {
+      "perf": 95,
+      "tat": 27.1,
+      "delivery": 16.3,
+      "export": 3.8,
+      "lisDone": 14,
+      "lisTotal": 14,
+      "status": "ЦКДЛ"
+    },
+    "Орехово-Зуевская Б": {
+      "perf": 96,
+      "tat": 22,
+      "delivery": 16.7,
+      "export": 2,
+      "lisDone": 14,
+      "lisTotal": 14,
+      "status": "подключено"
+    },
+    "Павлово-Посадская Б": {
+      "perf": 101,
+      "tat": 25.3,
+      "delivery": 16.5,
+      "export": 3.1,
+      "lisDone": 14,
+      "lisTotal": 14,
+      "status": "подключено"
+    },
+    "Подольская ОКБ": {
+      "perf": 106,
+      "tat": 28.1,
+      "delivery": 11.3,
+      "export": 2.1,
+      "lisDone": 18,
+      "lisTotal": 18,
+      "status": "ЦКДЛ"
+    },
+    "Протвинская Б": {
+      "perf": 95,
+      "tat": 27.8,
+      "delivery": 8.9,
+      "export": 1.9,
+      "lisDone": 9,
+      "lisTotal": 10,
+      "status": "подключено"
+    },
+    "Пушкинская КБ": {
+      "perf": 92,
+      "tat": 19.4,
+      "delivery": 9,
+      "export": 2.1,
+      "lisDone": 16,
+      "lisTotal": 16,
+      "status": "этап присоединения"
+    },
+    "Раменская Б": {
+      "perf": 101,
+      "tat": 27.3,
+      "delivery": 14.6,
+      "export": 3.8,
+      "lisDone": 16,
+      "lisTotal": 16,
+      "status": "подключено"
+    },
+    "Реутовская КБ": {
+      "perf": 100,
+      "tat": 24,
+      "delivery": 9.1,
+      "export": 2.9,
+      "lisDone": 16,
+      "lisTotal": 16,
+      "status": "этап присоединения"
+    },
+    "Рузская Б": {
+      "perf": 94,
+      "tat": 19.9,
+      "delivery": 10.1,
+      "export": 2.4,
+      "lisDone": 16,
+      "lisTotal": 16,
+      "status": "этап присоединения"
+    },
+    "Сергиево-Посадская Б": {
+      "perf": 106,
+      "tat": 28.3,
+      "delivery": 11.3,
+      "export": 2.2,
+      "lisDone": 14,
+      "lisTotal": 14,
+      "status": "маршрут активен"
+    },
+    "Серебряно-Прудская Б": {
+      "perf": 93,
+      "tat": 26.7,
+      "delivery": 8.8,
+      "export": 3.2,
+      "lisDone": 10,
+      "lisTotal": 10,
+      "status": "этап присоединения"
+    },
+    "Серпуховская Б": {
+      "perf": 100,
+      "tat": 24.5,
+      "delivery": 12,
+      "export": 1.6,
+      "lisDone": 10,
+      "lisTotal": 10,
+      "status": "маршрут активен"
+    },
+    "Солнечногорская Б": {
+      "perf": 88,
+      "tat": 25.4,
+      "delivery": 16.1,
+      "export": 2,
+      "lisDone": 14,
+      "lisTotal": 14,
+      "status": "этап присоединения"
+    },
+    "Ступинская КБ": {
+      "perf": 92,
+      "tat": 24.6,
+      "delivery": 15.6,
+      "export": 1.6,
+      "lisDone": 16,
+      "lisTotal": 16,
+      "status": "подключено"
+    },
+    "Химкинская КБ": {
+      "perf": 98,
+      "tat": 27.8,
+      "delivery": 16,
+      "export": 2.1,
+      "lisDone": 8,
+      "lisTotal": 12,
+      "status": "подключено"
+    },
+    "Чеховская Б": {
+      "perf": 103,
+      "tat": 27,
+      "delivery": 13.2,
+      "export": 3.4,
+      "lisDone": 8,
+      "lisTotal": 8,
+      "status": "этап присоединения"
+    },
+    "Шатурская Б": {
+      "perf": 103,
+      "tat": 26.9,
+      "delivery": 11,
+      "export": 1.8,
+      "lisDone": 11,
+      "lisTotal": 14,
+      "status": "этап присоединения"
+    },
+    "Шаховская Б": {
+      "perf": 88,
+      "tat": 19,
+      "delivery": 13.5,
+      "export": 1.4,
+      "lisDone": 10,
+      "lisTotal": 10,
+      "status": "этап присоединения"
+    },
+    "Щёлковская Б": {
+      "perf": 106,
+      "tat": 19.7,
+      "delivery": 10.8,
+      "export": 2.2,
+      "lisDone": 18,
+      "lisTotal": 18,
+      "status": "маршрут активен"
+    },
+    "Электростальская Б": {
+      "perf": 106,
+      "tat": 23.4,
+      "delivery": 13.5,
+      "export": 3.5,
+      "lisDone": 12,
+      "lisTotal": 12,
+      "status": "подключено"
+    }
+  },
+  "clusters": {
+    "Истринская КБ": {
+      "perf": 93,
+      "tat": 21.3,
+      "delivery": 12.1,
+      "export": 2.3,
+      "lisDone": 88,
+      "lisTotal": 90,
+      "status": "активен"
+    },
+    "Лобненская Б": {
+      "perf": 96,
+      "tat": 24.1,
+      "delivery": 12.8,
+      "export": 2.6,
+      "lisDone": 62,
+      "lisTotal": 68,
+      "status": "активен"
+    },
+    "Одинцовская ОБ": {
+      "perf": 95,
+      "tat": 23.9,
+      "delivery": 13.5,
+      "export": 2.1,
+      "lisDone": 58,
+      "lisTotal": 58,
+      "status": "активен"
+    },
+    "Королёвская Б": {
+      "perf": 101,
+      "tat": 22.8,
+      "delivery": 11,
+      "export": 2.3,
+      "lisDone": 110,
+      "lisTotal": 110,
+      "status": "активен"
+    },
+    "Балашихинская Б": {
+      "perf": 98,
+      "tat": 24.2,
+      "delivery": 14,
+      "export": 3.1,
+      "lisDone": 82,
+      "lisTotal": 84,
+      "status": "активен"
+    },
+    "Домодедовская Б": {
+      "perf": 97,
+      "tat": 24.6,
+      "delivery": 13.7,
+      "export": 2.6,
+      "lisDone": 70,
+      "lisTotal": 70,
+      "status": "активен"
+    },
+    "Коломенская Б": {
+      "perf": 97,
+      "tat": 24,
+      "delivery": 11.2,
+      "export": 2.3,
+      "lisDone": 83,
+      "lisTotal": 88,
+      "status": "активен"
+    },
+    "Подольская ОКБ": {
+      "perf": 101,
+      "tat": 26.9,
+      "delivery": 11.4,
+      "export": 2.3,
+      "lisDone": 45,
+      "lisTotal": 46,
+      "status": "активен"
+    }
+  }
+}

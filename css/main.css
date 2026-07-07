@@ -20,8 +20,9 @@
 @import url('sections/speakers.css');     /* Спикеры конференции */
 @import url('sections/specialists.css');  /* Наша команда (О нас) */
 @import url('sections/contacts.css');
-@import url('sections/pages.css');
+@import url('sections/pages.css?v=20260706-map-layout14');
 @import url('sections/reports.css');
+@import url('sections/ckdl-map.css?v=20260706-map-layout14');
 @import url('sections/footer.css');
 @import url('sections/home.css');
 @import url('mobile.css'); /* Мобильная оптимизация */

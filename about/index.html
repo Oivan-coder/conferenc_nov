@@ -21,7 +21,7 @@
     <link rel="icon" type="image/png" href="images/favicon-32x32.png">
     
     <!-- CSS -->
-    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/main.css?v=20260706-map-layout14">
     
     <!-- Яндекс.Карты API - загружается только если нужна карта -->
     <script>
@@ -52,41 +52,119 @@
         <section class="about-hero">
             <div class="container">
                 <h1>Референс-центр лабораторной службы Московской области</h1>
+                <p class="about-hero__lead">Координируем централизацию лабораторной службы региона: маршруты, методологию, цифровой контур и управленческую аналитику ЦКДЛ.</p>
             </div>
         </section>
 
         <!-- ОСНОВНОЙ КОНТЕНТ -->
         <section class="about-content">
             <div class="container">
-                <div class="about-overview glass-card">
-                    <div class="about-overview__intro">
-                        <span class="about-overview__eyebrow">О референс-центре</span>
-                        <h2>Координация централизации и профессиональная площадка лабораторной службы</h2>
-                        <p><strong>Референс-центр лабораторной службы Московской области</strong> объединяет организационное сопровождение, методическую поддержку и профессиональную коммуникацию вокруг развития лабораторной службы региона.</p>
-                        <div class="about-overview__actions">
-                            <a href="https://datalens.yandex/8qep9stnqgiet" class="cta-button primary" target="_blank" rel="noopener noreferrer">Дашборд</a>
-                            <a href="/conf_mart2026" class="cta-button secondary">Мероприятия</a>
+                <div class="about-showcase" data-about-showcase>
+                    <div class="about-overview glass-card">
+                        <div class="about-overview__intro">
+                            <span class="about-overview__eyebrow">О референс-центре</span>
+                            <h2>Карта централизации лабораторной сети</h2>
+                            <p><strong>Референс-центр</strong> координирует маршрутизацию исследований между медицинскими организациями и ЦКДЛ Московской области. Карта показывает принадлежность территорий к кустам и расположение опорных центров.</p>
+                        </div>
+
+                        <div class="about-overview__kpis" aria-label="Ключевые показатели лабораторной сети">
+                            <article>
+                                <strong>48</strong>
+                                <span>территорий</span>
+                            </article>
+                            <article>
+                                <strong>8</strong>
+                                <span>кустов ЦКДЛ</span>
+                            </article>
+                            <article>
+                                <strong>51</strong>
+                                <span>медорганизация</span>
+                            </article>
+                        </div>
+
+                        <ul class="about-overview__benefits" aria-label="Что показывает карта">
+                            <li><span aria-hidden="true"></span>принадлежность территории к ЦКДЛ</li>
+                            <li><span aria-hidden="true"></span>состав куста при наведении</li>
+                            <li><span aria-hidden="true"></span>опорные центры лабораторной сети</li>
+                        </ul>
+                    </div>
+
+                    <!-- КАРТА ЛАБОРАТОРНОЙ СЕТИ -->
+                    <section class="about-network-section" aria-labelledby="aboutCkdlMapTitle">
+                        <div class="ckdl-map ckdl-map--about" data-ckdl-map data-map-mode="network">
+                    <div class="ckdl-map__header">
+                        <div>
+                            <span class="ckdl-map__eyebrow">Инфографика сети</span>
+                            <h2 id="aboutCkdlMapTitle">Лабораторная сеть Московской области</h2>
+                            <p class="ckdl-map__lead">Карта маршрутизации биоматериала и принадлежности территорий к ЦКДЛ</p>
+                        </div>
+                        <div class="ckdl-map__network-metrics" aria-label="Сводка сети ЦКДЛ">
+                            <span><b>8</b> ЦКДЛ</span>
+                            <span><b>48</b> территорий</span>
+                            <span><b>51</b> медорганизация</span>
+                        </div>
+                        <div class="ckdl-map__tools">
+                            <button class="ckdl-map__expand" type="button" data-map-expand-toggle aria-expanded="false">Развернуть</button>
+                            <div class="ckdl-map__status" data-map-load-status>
+                                <span></span>
+                                <b>Данные загружаются</b>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="about-overview__facts">
-                        <article class="about-fact">
-                            <h3>Централизация</h3>
-                            <p>Сопровождение развития централизованной лабораторной службы региона.</p>
+                    <div class="ckdl-map__fallback" data-map-fallback hidden>Данные карты временно недоступны</div>
+
+                    <div class="ckdl-map__layout">
+                        <article class="ckdl-map__map-panel" aria-label="Интерактивная карта принадлежности территорий к ЦКДЛ">
+                            <div class="ckdl-map__summary">
+                                <span>Сеть ЦКДЛ</span>
+                                <div>
+                                    <strong data-summary-clusters>0</strong><small>ЦКДЛ</small>
+                                    <strong data-summary-territories>0</strong><small>территорий</small>
+                                    <strong data-summary-lis>0</strong><small>медорг.</small>
+                                </div>
+                            </div>
+
+                            <div class="ckdl-map__stage">
+                                <svg class="ckdl-map__svg" viewBox="0 0 1100 850" role="img" aria-label="Геополигоны Московской области по кустам ЦКДЛ">
+                                    <g class="ckdl-map__base" data-map-base></g>
+                                    <g class="ckdl-map__regions" data-map-regions></g>
+                                    <g class="ckdl-map__hubs" data-map-hubs></g>
+                                </svg>
+                            </div>
+
                         </article>
-                        <article class="about-fact">
-                            <h3>Методическая поддержка</h3>
-                            <p>Подготовка и сопровождение материалов для единых рабочих подходов.</p>
-                        </article>
-                        <article class="about-fact">
-                            <h3>Профессиональные мероприятия</h3>
-                            <p>Конференции и профильные встречи для специалистов и управленцев.</p>
-                        </article>
-                        <article class="about-fact">
-                            <h3>Информационный контур</h3>
-                            <p>Страницы мероприятий, архив материалов и открытая информация о работе центра.</p>
-                        </article>
+
+                        <aside class="ckdl-map__side" aria-live="polite">
+                            <div class="ckdl-map__side-status"><span></span><b data-panel-status>Инфографика сети</b></div>
+                            <h2 data-panel-title>Структура кустов ЦКДЛ</h2>
+                            <p data-panel-subtitle>Выберите территорию на карте, чтобы увидеть ее ЦКДЛ и состав куста.</p>
+
+                            <div class="ckdl-map__divider"></div>
+                            <b class="ckdl-map__list-title" data-panel-list-title>Легенда ЦКДЛ</b>
+                            <div class="ckdl-map__list" data-panel-list></div>
+                            <p class="ckdl-map__note" data-panel-note>Наведение подсвечивает весь куст. Цвет территории совпадает с цветом точки ЦКДЛ.</p>
+
+                            <div class="ckdl-map__screen-data" hidden>
+                                <b data-panel-lis-text>0 / 0</b>
+                                <i data-panel-lis-bar></i>
+                                <strong data-panel-perf>—</strong>
+                                <strong data-panel-tat>—</strong>
+                                <strong data-panel-delivery>—</strong>
+                                <strong data-panel-export>—</strong>
+                            </div>
+                        </aside>
                     </div>
+
+                    <div class="ckdl-map__inline-stats" aria-label="Сводка сети">
+                        <span data-fact-routes>8 кустов ЦКДЛ</span>
+                        <span data-fact-lis>51 медорганизация</span>
+                        <span data-fact-territories>48 территорий</span>
+                    </div>
+
+                    <div class="ckdl-map__tooltip" data-map-tooltip role="status"></div>
+                        </div>
+                    </section>
                 </div>
             </div>
         </section>
@@ -178,6 +256,7 @@
     <!-- Общий модуль (загружается первым) -->
     <script src="js/common.js"></script>
     <!-- Модули -->
+    <script src="js/modules/ckdl-map.js" defer></script>
     <script src="js/modules/modal.js" defer></script>
     <!-- URL cleaner -->
     <script src="js/url-cleaner.js" defer></script>
