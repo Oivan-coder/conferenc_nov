@@ -182,18 +182,77 @@ class CookieConsentManager {
     }
 }
 
-function updateFooterContactRoles() {
-    document.querySelectorAll('.contact-person').forEach((element) => {
-        const text = element.textContent.trim();
-        if (text === 'Иван Михайлович, заведующий референс-центром') {
-            element.textContent = 'Иван Михайлович, заведующий Референс-центром лабораторной службы МО, специалист проекта «Централизация лабораторной службы» МЗ МО';
+function ensureFooterContactRoleStyles() {
+    if (document.getElementById('footer-contact-role-styles')) {
+        return;
+    }
+
+    const style = document.createElement('style');
+    style.id = 'footer-contact-role-styles';
+    style.textContent = `
+        .contact-person .contact-name {
+            display: block;
+            color: #ffffff;
+            font-weight: 800;
+            font-size: 1.05em;
+            line-height: 1.25;
+            margin-bottom: 8px;
+            letter-spacing: 0.01em;
         }
+
+        .contact-person .contact-role {
+            display: block;
+            color: rgba(226, 241, 255, 0.86);
+            font-weight: 500;
+            line-height: 1.5;
+        }
+    `;
+    document.head.appendChild(style);
+}
+
+function setContactPersonMarkup(element, name, role) {
+    element.innerHTML = '';
+
+    const nameNode = document.createElement('span');
+    nameNode.className = 'contact-name';
+    nameNode.textContent = name;
+
+    const roleNode = document.createElement('span');
+    roleNode.className = 'contact-role';
+    roleNode.textContent = role;
+
+    element.appendChild(nameNode);
+    element.appendChild(roleNode);
+}
+
+function updateFooterContactRoles() {
+    ensureFooterContactRoleStyles();
+
+    document.querySelectorAll('.contact-person').forEach((element) => {
+        const text = element.textContent.trim().replace(/\s+/g, ' ');
+
+        if (
+            text === 'Иван Михайлович, заведующий референс-центром' ||
+            text === 'Иван Михайлович, заведующий Референс-центром лабораторной службы МО, специалист проекта «Централизация лабораторной службы» МЗ МО'
+        ) {
+            setContactPersonMarkup(
+                element,
+                'Иван Михайлович',
+                'заведующий Референс-центром лабораторной службы МО, специалист проекта «Централизация лабораторной службы» МЗ МО'
+            );
+        }
+
         if (
             text === 'Ирина Владимировна, куратор проекта' ||
             text === 'Ирина Владимировна, куратор референс-центра' ||
-            text === 'Ирина Владимировна, руководитель проекта централизации лабораторной службы МО, главный внештатный специалист по лабораторной диагностике'
+            text === 'Ирина Владимировна, руководитель проекта централизации лабораторной службы МО, главный внештатный специалист по лабораторной диагностике' ||
+            text === 'Ирина Владимировна, руководитель проекта централизации лабораторной службы МО, главный внештатный специалист по клинической лабораторной диагностике'
         ) {
-            element.textContent = 'Ирина Владимировна, руководитель проекта централизации лабораторной службы МО, главный внештатный специалист по клинической лабораторной диагностике';
+            setContactPersonMarkup(
+                element,
+                'Ирина Владимировна',
+                'руководитель проекта централизации лабораторной службы МО, главный внештатный специалист по клинической лабораторной диагностике'
+            );
         }
     });
 }
