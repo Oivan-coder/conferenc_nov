@@ -182,7 +182,16 @@ class CookieConsentManager {
     }
 }
 
+function updateFooterContactRoles() {
+    document.querySelectorAll('.contact-person').forEach((element) => {
+        if (element.textContent.trim() === 'Ирина Владимировна, куратор проекта') {
+            element.textContent = 'Ирина Владимировна, куратор референс-центра';
+        }
+    });
+}
+
 // Запускаем при загрузке страницы
 document.addEventListener('DOMContentLoaded', function() {
     new CookieConsentManager();
+    updateFooterContactRoles();
 });
