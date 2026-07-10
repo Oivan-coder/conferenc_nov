@@ -184,8 +184,9 @@ class CookieConsentManager {
 
 function updateFooterContactRoles() {
     document.querySelectorAll('.contact-person').forEach((element) => {
-        if (element.textContent.trim() === 'Ирина Владимировна, куратор проекта') {
-            element.textContent = 'Ирина Владимировна, куратор референс-центра';
+        const text = element.textContent.trim();
+        if (text === 'Ирина Владимировна, куратор проекта' || text === 'Ирина Владимировна, куратор референс-центра') {
+            element.textContent = 'Ирина Владимировна, руководитель проекта централизации лабораторной службы МО, главный внештатный специалист по лабораторной диагностике';
         }
     });
 }
