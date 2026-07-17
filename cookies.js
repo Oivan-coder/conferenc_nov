@@ -32,13 +32,13 @@ class CookieConsentManager {
         title.textContent = 'Использование cookies';
 
         const description = document.createElement('p');
-        description.appendChild(document.createTextNode('Мы используем файлы cookie для улучшения работы сайта. Продолжая использование, вы соглашаетесь с нашей '));
+        description.appendChild(document.createTextNode('Мы используем аналитические cookies только после вашего согласия. Подробнее — в '));
 
         const privacyLink = document.createElement('a');
-        privacyLink.href = 'privacy.html';
+        privacyLink.href = '/privacy/';
         privacyLink.target = '_blank';
         privacyLink.rel = 'noopener noreferrer';
-        privacyLink.textContent = 'Политикой конфиденциальности';
+        privacyLink.textContent = 'Политике конфиденциальности';
 
         description.appendChild(privacyLink);
         description.appendChild(document.createTextNode('.'));
@@ -53,12 +53,18 @@ class CookieConsentManager {
         acceptBtn.type = 'button';
         acceptBtn.textContent = 'Принять';
 
+        const declineBtn = document.createElement('button');
+        declineBtn.className = 'cookie-banner-btn cookie-info-btn';
+        declineBtn.type = 'button';
+        declineBtn.textContent = 'Отклонить';
+
         const infoBtn = document.createElement('button');
         infoBtn.className = 'cookie-banner-btn cookie-info-btn';
         infoBtn.type = 'button';
         infoBtn.textContent = 'Подробнее';
 
         buttons.appendChild(acceptBtn);
+        buttons.appendChild(declineBtn);
         buttons.appendChild(infoBtn);
         content.appendChild(textBlock);
         content.appendChild(buttons);
@@ -70,8 +76,14 @@ class CookieConsentManager {
             this.hideBanner(banner);
         });
 
+        declineBtn.addEventListener('click', () => {
+            this.setCookieValue(this.consentCookieName, 'false', 365);
+            this.hideBanner(banner);
+            this.showToast('Аналитические cookies отключены.');
+        });
+
         infoBtn.addEventListener('click', () => {
-            window.open('privacy.html', '_blank', 'noopener,noreferrer');
+            window.open('/privacy/', '_blank', 'noopener,noreferrer');
         });
     }
 
@@ -85,7 +97,7 @@ class CookieConsentManager {
     acceptCookies() {
         this.setCookieValue(this.consentCookieName, 'true', 365);
         this.loadYandexMetrika();
-        this.showToast('Спасибо! Cookies приняты.');
+        this.showToast('Аналитические cookies включены.');
     }
 
     loadYandexMetrika() {
@@ -103,7 +115,7 @@ class CookieConsentManager {
                     clickmap: true,
                     trackLinks: true,
                     accurateTrackBounce: true,
-                    webvisor: true
+                    webvisor: false
                 });
             }
         };
