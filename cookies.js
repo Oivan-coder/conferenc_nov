@@ -1,4 +1,4 @@
-// cookies.js - РАБОЧАЯ версия с красивыми стилями
+// cookies.js — управление cookies и общие корректировки интерфейса
 class CookieConsentManager {
     constructor() {
         this.consentCookieName = 'cookie_consent_accepted';
@@ -9,17 +9,14 @@ class CookieConsentManager {
     initialize() {
         if (this.getStoredCookie(this.consentCookieName) === 'true') {
             this.loadYandexMetrika();
-        } else {
-            setTimeout(() => {
-                this.showBanner();
-            }, 2000);
+            return;
         }
+
+        window.setTimeout(() => this.showBanner(), 2000);
     }
 
     showBanner() {
-        if (document.getElementById(this.bannerId)) {
-            return;
-        }
+        if (document.getElementById(this.bannerId)) return;
 
         const banner = document.createElement('div');
         banner.id = this.bannerId;
@@ -45,7 +42,6 @@ class CookieConsentManager {
 
         description.appendChild(privacyLink);
         description.appendChild(document.createTextNode('.'));
-
         textBlock.appendChild(title);
         textBlock.appendChild(description);
 
@@ -69,65 +65,39 @@ class CookieConsentManager {
         banner.appendChild(content);
         document.body.appendChild(banner);
 
-        this.setupEventHandlers(banner);
-    }
-
-    setupEventHandlers(banner) {
-        const acceptBtn = banner?.querySelector('.cookie-accept-btn');
-        const infoBtn = banner?.querySelector('.cookie-info-btn');
-        if (!acceptBtn || !infoBtn || !banner) {
-            return;
-        }
-
         acceptBtn.addEventListener('click', () => {
             this.acceptCookies();
             this.hideBanner(banner);
         });
 
         infoBtn.addEventListener('click', () => {
-            window.open('privacy.html', '_blank');
+            window.open('privacy.html', '_blank', 'noopener,noreferrer');
         });
     }
 
     hideBanner(banner) {
         if (!banner) return;
-        
         banner.style.opacity = '0';
         banner.style.transform = 'translateY(100px)';
-        
-        setTimeout(() => {
-            if (banner.parentNode) {
-                banner.remove();
-            }
-        }, 500);
+        window.setTimeout(() => banner.remove(), 500);
     }
 
     acceptCookies() {
-        // Сохраняем согласие на 1 год
         this.setCookieValue(this.consentCookieName, 'true', 365);
-        
-        // Запускаем Яндекс.Метрику
         this.loadYandexMetrika();
-        
-        // Показываем уведомление
         this.showToast('Спасибо! Cookies приняты.');
     }
 
     loadYandexMetrika() {
-        // Проверяем, не загружена ли уже Метрика
-        if (window.ym || document.querySelector('script[data-analytics="yandex-metrika"]')) {
-            return;
-        }
-        
-        // Безопасная загрузка Яндекс.Метрики через внешний скрипт
+        if (window.ym || document.querySelector('script[data-analytics="yandex-metrika"]')) return;
+
         const script = document.createElement('script');
         script.type = 'text/javascript';
         script.async = true;
         script.src = 'https://mc.yandex.ru/metrika/tag.js';
         script.setAttribute('data-analytics', 'yandex-metrika');
-        
-        script.onload = function() {
-            // Инициализация после загрузки скрипта
+
+        script.onload = () => {
             if (window.ym) {
                 window.ym(105271987, 'init', {
                     clickmap: true,
@@ -137,15 +107,11 @@ class CookieConsentManager {
                 });
             }
         };
-        
-        // Не создаем inline-fallback: это ухудшает CSP-совместимость и
-        // дублирует внешнюю загрузку.
-        script.onerror = function() {
-            if (window.debugLog) {
-                window.debugLog('Не удалось загрузить Яндекс.Метрику');
-            }
+
+        script.onerror = () => {
+            if (window.debugLog) window.debugLog('Не удалось загрузить Яндекс.Метрику');
         };
-        
+
         document.head.appendChild(script);
     }
 
@@ -154,38 +120,28 @@ class CookieConsentManager {
         toast.className = 'cookie-toast';
         toast.textContent = message;
         document.body.appendChild(toast);
-
-        setTimeout(() => {
-            if (toast.parentNode) {
-                toast.remove();
-            }
-        }, 3000);
+        window.setTimeout(() => toast.remove(), 3000);
     }
 
     setCookieValue(name, value, days) {
         const date = new Date();
-        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-        const expires = "expires=" + date.toUTCString();
+        date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
         const secure = window.location.protocol === 'https:' ? ';Secure' : '';
-        document.cookie = name + "=" + value + ";" + expires + ";path=/;SameSite=Lax" + secure;
+        document.cookie = `${name}=${value};expires=${date.toUTCString()};path=/;SameSite=Lax${secure}`;
     }
 
     getStoredCookie(name) {
-        const nameEQ = name + "=";
-        const ca = document.cookie.split(';');
-        for (let i = 0; i < ca.length; i++) {
-            let c = ca[i];
-            while (c.charAt(0) === ' ') c = c.substring(1, c.length);
-            if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
-        }
-        return null;
+        const prefix = `${name}=`;
+        return document.cookie
+            .split(';')
+            .map((item) => item.trim())
+            .find((item) => item.startsWith(prefix))
+            ?.slice(prefix.length) || null;
     }
 }
 
 function ensureFooterContactRoleStyles() {
-    if (document.getElementById('footer-contact-role-styles')) {
-        return;
-    }
+    if (document.getElementById('footer-contact-role-styles')) return;
 
     const style = document.createElement('style');
     style.id = 'footer-contact-role-styles';
@@ -257,8 +213,27 @@ function updateFooterContactRoles() {
     });
 }
 
-// Запускаем при загрузке страницы
-document.addEventListener('DOMContentLoaded', function() {
+function removeReportsFromPublicNavigation() {
+    const removeLinks = () => {
+        document.querySelectorAll('a[href="/reports"], a[href="/reports/"], a[href="reports"], a[href="reports/"]').forEach((link) => {
+            const menuItem = link.closest('li');
+            if (menuItem) {
+                menuItem.remove();
+            } else {
+                link.remove();
+            }
+        });
+    };
+
+    removeLinks();
+
+    const observer = new MutationObserver(removeLinks);
+    observer.observe(document.documentElement, { childList: true, subtree: true });
+    window.setTimeout(() => observer.disconnect(), 5000);
+}
+
+document.addEventListener('DOMContentLoaded', () => {
     new CookieConsentManager();
     updateFooterContactRoles();
+    removeReportsFromPublicNavigation();
 });
