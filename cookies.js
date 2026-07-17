@@ -225,6 +225,29 @@ function updateFooterContactRoles() {
     });
 }
 
+function updateFooterInstitutionLabels() {
+    const applyLabels = () => {
+        document.querySelectorAll('.footer-block').forEach((block) => {
+            const organization = block.querySelector('.footer-org-name')?.textContent.trim();
+            const label = block.querySelector('.footer-label');
+            if (!organization || !label) return;
+
+            if (organization === 'Министерство здравоохранения Московской области') {
+                label.textContent = 'Во взаимодействии с';
+            }
+
+            if (organization === 'Центр внедрения изменений и обеспечения деятельности МЗ') {
+                label.textContent = 'Организационное сопровождение';
+            }
+        });
+    };
+
+    applyLabels();
+    const observer = new MutationObserver(applyLabels);
+    observer.observe(document.documentElement, { childList: true, subtree: true });
+    window.setTimeout(() => observer.disconnect(), 5000);
+}
+
 function removeReportsFromPublicNavigation() {
     const removeLinks = () => {
         document.querySelectorAll('a[href="/reports"], a[href="/reports/"], a[href="reports"], a[href="reports/"]').forEach((link) => {
@@ -247,5 +270,6 @@ function removeReportsFromPublicNavigation() {
 document.addEventListener('DOMContentLoaded', () => {
     new CookieConsentManager();
     updateFooterContactRoles();
+    updateFooterInstitutionLabels();
     removeReportsFromPublicNavigation();
 });
