@@ -232,11 +232,17 @@ function updateFooterInstitutionLabels() {
             const label = block.querySelector('.footer-label');
             if (!organization || !label) return;
 
-            if (organization === 'Министерство здравоохранения Московской области') {
+            if (
+                organization === 'Министерство здравоохранения Московской области' &&
+                label.textContent !== 'Во взаимодействии с'
+            ) {
                 label.textContent = 'Во взаимодействии с';
             }
 
-            if (organization === 'Центр внедрения изменений и обеспечения деятельности МЗ') {
+            if (
+                organization === 'Центр внедрения изменений и обеспечения деятельности МЗ' &&
+                label.textContent !== 'Организационное сопровождение'
+            ) {
                 label.textContent = 'Организационное сопровождение';
             }
         });
