@@ -1,8 +1,8 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ru" id="top">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
 <title>Еженедельный отчет — Централизация лабораторной службы</title>
 <style>
 :root{--bg:#04111f;--bg2:#071b31;--panel:#0b1b31;--panel2:#0a182b;--line:rgba(127,164,210,.17);--text:#eaf2ff;--muted:#9fb3cf;--green:#35d09a;--red:#ff6f79;--amber:#ffbe5c;--blue:#73a9ff;--danger1:rgba(111,23,37,.34);--danger2:rgba(58,12,21,.38);--danger-border:rgba(255,111,121,.24)}
@@ -17,173 +17,127 @@
 @media(max-width:1200px){.hero-summary,.metrics-grid,.mini-grid,.chart-grid,.insight-grid,.task-groups,.side-grid,.plan-score,.ticket-list,.anchor-links{grid-template-columns:repeat(2,minmax(0,1fr))}.hero-box{min-height:auto}.task-group:last-child{grid-column:1/-1}.task-group:last-child .task-items{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:760px){.page{padding:10px}.hero{padding:18px 16px}.hero h1{font-size:30px}.hero-summary,.metrics-grid,.mini-grid,.chart-grid,.insight-grid,.task-groups,.side-grid,.plan-score,.ticket-list,.anchor-links{grid-template-columns:1fr}.task-group:last-child{grid-column:auto}.task-group:last-child .task-items{grid-template-columns:1fr}.topnav{display:grid;grid-template-columns:1fr 1fr}.card-head{padding:18px 16px 0;flex-direction:column}.card-body{padding:16px}.hero-v{font-size:36px}.metric-value{font-size:28px}.score-v{font-size:30px}.chart-card{padding:16px}.chart-card svg{height:235px}.chart-head{flex-direction:column}.chart-head span{white-space:normal}.task-group-header{flex-direction:column}.metric-title{padding-right:50px}}
 @media(max-width:420px){.topnav{grid-template-columns:1fr}.hero h1{font-size:28px}.hero-v,.score-v{font-size:28px}.metric-value{font-size:26px}}
-
-.table-wrap{overflow:auto;border-radius:20px;border:1px solid rgba(255,255,255,.07)}
-.data-table{width:100%;border-collapse:collapse;min-width:760px;background:rgba(255,255,255,.025)}
-.data-table th,.data-table td{padding:13px 15px;text-align:left;border-bottom:1px solid rgba(255,255,255,.07)}
-.data-table th{font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:#a7bdd7;background:rgba(255,255,255,.035)}
-.data-table td{font-size:14px}.data-table td:not(:first-child){font-weight:700}.data-table small{display:block;color:#8fa8c4;font-weight:500;margin-top:3px}
-.data-table tr:last-child td{border-bottom:0}.data-table .total td{background:rgba(85,136,214,.12);color:#dce9ff}
-.chart-js{width:100%;height:260px;display:block}
 </style>
 </head>
-<body><div class="page">
+<body>
+<div class="page">
 <section class="hero">
 <div class="eyebrow">Референс-центр лабораторной службы · ЦВИОД · Министерство здравоохранения Московской области</div>
 <h1>Централизация лабораторной службы</h1>
 <p>Еженедельный отчет за период 20.07.2026–24.07.2026.</p>
-<div class="vks"><strong>ВКС+:</strong> приглашения на совещания осуществляются через сервис <a href="https://vks.mosreg.ru/calendar" target="_blank" rel="noopener noreferrer">vks.mosreg.ru/calendar</a>.</div>
+<div class="vks"><strong>ВКС+:</strong> приглашения на совещания осуществляются через сервис <a href="https://vks.mosreg.ru/calendar" rel="noopener noreferrer" target="_blank">vks.mosreg.ru/calendar</a>.</div>
 <div class="hero-summary">
 <div class="hero-box production"><div class="hero-k">Производственный контур</div><div class="hero-v">93,6%</div><div class="hero-note">304 526 результатов выполнено в срок · 580 333 направления · 367 276 сдано БМ</div></div>
-<div class="hero-box project"><div class="hero-k">План / дополнительная нагрузка</div><div class="hero-v">7 + 1</div><div class="hero-note">7 из 8 плановых позиций закрыто; дополнительно проведено совещание по маршрутизации; 1 пункт перенесён</div></div>
-<div class="hero-box risk"><div class="hero-k">Контур рисков</div><div class="hero-v">108</div><div class="hero-note">просроченных задач в Битрикс, из них 45 — с исполнителями на уровне главных врачей</div></div>
+<div class="hero-box project"><div class="hero-k">План / дополнительная нагрузка</div><div class="hero-v">7 + 1</div><div class="hero-note">7 из 8 плановых позиций закрыто; дополнительно проведено 1 совещание; 1 пункт перенесен в следующий период</div></div>
+<div class="hero-box risk"><div class="hero-k">Риск-контур</div><div class="hero-v">108</div><div class="hero-note">просроченных задач в Битрикс, из них 45 задач — на исполнителях уровня главных врачей</div></div>
 </div>
-<div class="context"><strong>Ключевое изменение недели:</strong> объём полученных результатов вырос на 10%, но доля выполнения в срок снизилась до 93,6%. Наиболее выраженный рост задержек после доставки отмечен в Королёвской Б.</div>
-<nav class="topnav">
-<a href="#dashboard">Мини-дашборд</a><a href="#planfact">План / факт</a><a href="#done">Выполненные работы</a><a href="#tickets">Доработки</a><a href="#risks">Риски</a><a href="#next">Следующая неделя</a>
-</nav>
+<div class="context"><strong>Контекст недели:</strong> выполнены совещания и рабочие направления по СЭМД, репродуктивному здоровью, проблематике лабораторного звена ПМСП, НПА ТМ «Аптека», СЭЗ и лицензированию, а также НПА ЧС. Кустовое совещание перенесено. Дополнительно проведена проработка маршрутизации лабораторных исследований Королёвской Б и МОЦОМД.</div>
+<nav class="topnav"><a href="#summary">Операционный статус</a><a href="#dashboard">Мини-дашборд</a><a href="#planfact">План / факт</a><a href="#done">Выполненные работы</a><a href="#tickets">Доработки</a><a href="#risks">Красные зоны</a><a href="#issues">Проблематика</a><a href="#nextplan">План недели</a></nav>
 </section>
 
-<section class="section card" id="dashboard">
-<div class="card-head"><h2>Мини-дашборд</h2><span class="badge blue">13.07–19.07.2026</span></div>
-<div class="card-body">
+<section class="section card" id="summary"><div class="card-head"><h2>Операционный статус недели</h2><span class="badge blue">Итог периода</span></div><div class="card-body"><p class="lead">За отчетный период подготовлены правки по распоряжению № 301-Р, перечень анализаторов в собственности для подключения к ЛИС, аналитика нарушений маршрута пробирки и объемов исследований Королёвского куста, материалы по внелабораторным подразделениям, чек-лист статуса второго этапа ЦЛС, сценарий видеоролика, перечень бумажных направлений для закрытия в ЕМИАС, драфт НПА ТМ «Аптека», материалы по проблематике ПМСП, технические задания по взаимодействию ЦКДЛ и Центра СПИД и доработкам ЛИС, а также обновленная еженедельная презентация для РГ.</p></div></section>
+
+<section class="section card" id="dashboard"><div class="card-head"><h2>Мини-дашборд показателей ЦКДЛ</h2><span class="badge green">13.07–19.07.2026</span></div><div class="card-body">
 <div class="metrics-grid">
-<div class="metric-card"><div class="metric-icon">↘</div><div class="metric-title">Направления</div><div class="metric-value">580 333</div><div class="metric-change negative">−3%</div><div class="metric-foot">к предыдущей неделе</div></div>
-<div class="metric-card"><div class="metric-icon">↗</div><div class="metric-title">Сдано биоматериала</div><div class="metric-value">367 276</div><div class="metric-change positive">+5%</div><div class="metric-foot">к предыдущей неделе</div></div>
-<div class="metric-card"><div class="metric-icon">↗</div><div class="metric-title">Получено результатов</div><div class="metric-value">325 256</div><div class="metric-change positive">+10%</div><div class="metric-foot">к предыдущей неделе</div></div>
-<div class="metric-card"><div class="metric-icon">✓</div><div class="metric-title">Выполнено в срок</div><div class="metric-value">304 526</div><div class="metric-change positive">+8%</div><div class="metric-foot">93,6% от всех результатов</div></div>
+<div class="metric-card"><div class="metric-icon">📨</div><div class="metric-title">Всего направлений</div><div class="metric-value">580 333</div><div class="metric-change negative">−3% к предыдущей неделе</div><div class="metric-foot">Свод за 13.07–19.07.2026</div></div>
+<div class="metric-card"><div class="metric-icon">🧫</div><div class="metric-title">Сдано БМ</div><div class="metric-value">367 276</div><div class="metric-change positive">+5% к предыдущей неделе</div><div class="metric-foot">Биоматериал, принятый в контур ЦКДЛ</div></div>
+<div class="metric-card"><div class="metric-icon">🧪</div><div class="metric-title">Получено результатов</div><div class="metric-value">325 256</div><div class="metric-change positive">+10% к предыдущей неделе</div><div class="metric-foot">Результаты за отчетную неделю</div></div>
+<div class="metric-card"><div class="metric-icon">⏱️</div><div class="metric-title">Выполнено в срок</div><div class="metric-value">304 526</div><div class="metric-change negative">93,6% от результатов</div><div class="metric-foot">304 526 из 325 256 результатов</div></div>
 </div>
 <div class="mini-grid">
-<div class="mini-stat purple"><div class="mini-title">Чрезмерные назначения</div><div class="mini-value">3 558</div><div class="mini-note">+4% за неделю</div></div>
-<div class="mini-stat red"><div class="mini-title">Брак / отклонения</div><div class="mini-value">257</div><div class="mini-note">+10% за неделю</div></div>
-<div class="mini-stat amber"><div class="mini-title">Задержка взятие → доставка</div><div class="mini-value">6.7%</div><div class="mini-note">30 209 из 448 425 БМ</div></div>
-<div class="mini-stat red"><div class="mini-title">Задержка доставка → результат</div><div class="mini-value">2.6%</div><div class="mini-note">11 635 исследований</div></div>
+<div class="mini-stat purple"><div class="mini-title">Чрезмерные назначения</div><div class="mini-value">3 558</div><div class="mini-note">+4% к предыдущей неделе</div></div>
+<div class="mini-stat green"><div class="mini-title">Брак</div><div class="mini-value">257</div><div class="mini-note">+10% к предыдущей неделе</div></div>
+<div class="mini-stat red"><div class="mini-title">Задержки &gt;24 ч: взятие → доставка</div><div class="mini-value">30 209</div><div class="mini-note">6,74% от БМ по 8 ЦКДЛ</div></div>
+<div class="mini-stat amber"><div class="mini-title">Задержки &gt;72 ч: доставка → результат</div><div class="mini-value">11 635</div><div class="mini-note">2,59% от БМ по 8 ЦКДЛ</div></div>
 </div>
 <div class="chart-grid">
-<div class="chart-card"><div class="chart-head"><h3>Производственная динамика</h3><span>5 недель</span></div><svg class="chart-js" id="prodChart"></svg></div>
-<div class="chart-card"><div class="chart-head"><h3>Доля выполнения в срок</h3><span>целевой ориентир — 95%</span></div><svg class="chart-js" id="timeChart"></svg></div>
+<div class="chart-card"><div class="chart-head"><h3>Общий объем направлений</h3><span>динамика за 5 недель</span></div><svg aria-label="Общий объем направлений" role="img" viewBox="0 0 680 270"><line class="gridline" x1="54" x2="654" y1="28.00" y2="28.00"></line><line class="gridline" x1="54" x2="654" y1="77.00" y2="77.00"></line><line class="gridline" x1="54" x2="654" y1="126.00" y2="126.00"></line><line class="gridline" x1="54" x2="654" y1="175.00" y2="175.00"></line><line class="gridline" x1="54" x2="654" y1="224.00" y2="224.00"></line><path class="area" d="M54.00,224.00 L54.00,84.88 L204.00,68.33 L354.00,53.94 L504.00,112.27 L654.00,198.06 L654.00,224.00 Z" fill="#ff6f79"></path><path class="series" d="M54.00,84.88 L204.00,68.33 L354.00,53.94 L504.00,112.27 L654.00,198.06" stroke="#ff6f79"></path><circle cx="54.00" cy="84.88" fill="#ff6f79" r="5.5"></circle><text class="point-label" text-anchor="middle" x="54.00" y="71.88">604k</text><circle cx="204.00" cy="68.33" fill="#ff6f79" r="5.5"></circle><text class="point-label" text-anchor="middle" x="204.00" y="55.33">607k</text><circle cx="354.00" cy="53.94" fill="#ff6f79" r="5.5"></circle><text class="point-label" text-anchor="middle" x="354.00" y="40.94">610k</text><circle cx="504.00" cy="112.27" fill="#ff6f79" r="5.5"></circle><text class="point-label" text-anchor="middle" x="504.00" y="99.27">598k</text><circle cx="654.00" cy="198.06" fill="#ff6f79" r="5.5"></circle><text class="point-label" text-anchor="middle" x="654.00" y="185.06">580k</text><text class="axis-label" text-anchor="middle" x="54.00" y="256.00">15–21.06</text><text class="axis-label" text-anchor="middle" x="204.00" y="256.00">22–28.06</text><text class="axis-label" text-anchor="middle" x="354.00" y="256.00">29.06–05.07</text><text class="axis-label" text-anchor="middle" x="504.00" y="256.00">06–12.07</text><text class="axis-label" text-anchor="middle" x="654.00" y="256.00">13–19.07</text></svg></div>
+<div class="chart-card"><div class="chart-head"><h3>Выполнение в срок</h3><span>динамика за 5 недель</span></div><svg aria-label="Выполнение в срок" role="img" viewBox="0 0 680 270"><line class="gridline" x1="54" x2="654" y1="28.00" y2="28.00"></line><line class="gridline" x1="54" x2="654" y1="77.00" y2="77.00"></line><line class="gridline" x1="54" x2="654" y1="126.00" y2="126.00"></line><line class="gridline" x1="54" x2="654" y1="175.00" y2="175.00"></line><line class="gridline" x1="54" x2="654" y1="224.00" y2="224.00"></line><line class="target-line" x1="54" x2="654" y1="53.94" y2="53.94"></line><text class="target-text" text-anchor="end" x="654" y="45.94">Цель ≥ 98%</text><path class="area" d="M54.00,224.00 L54.00,198.06 L204.00,157.71 L354.00,120.24 L504.00,126.00 L654.00,180.76 L654.00,224.00 Z" fill="#ffbe5c"></path><path class="series" d="M54.00,198.06 L204.00,157.71 L354.00,120.24 L504.00,126.00 L654.00,180.76" stroke="#ffbe5c"></path><circle cx="54.00" cy="198.06" fill="#ffbe5c" r="5.5"></circle><text class="point-label" text-anchor="middle" x="54.00" y="185.06">93,0%</text><circle cx="204.00" cy="157.71" fill="#ffbe5c" r="5.5"></circle><text class="point-label" text-anchor="middle" x="204.00" y="144.71">94,4%</text><circle cx="354.00" cy="120.24" fill="#ffbe5c" r="5.5"></circle><text class="point-label" text-anchor="middle" x="354.00" y="107.24">95,7%</text><circle cx="504.00" cy="126.00" fill="#ffbe5c" r="5.5"></circle><text class="point-label" text-anchor="middle" x="504.00" y="113.00">95,5%</text><circle cx="654.00" cy="180.76" fill="#ffbe5c" r="5.5"></circle><text class="point-label" text-anchor="middle" x="654.00" y="167.76">93,6%</text><text class="axis-label" text-anchor="middle" x="54.00" y="256.00">15–21.06</text><text class="axis-label" text-anchor="middle" x="204.00" y="256.00">22–28.06</text><text class="axis-label" text-anchor="middle" x="354.00" y="256.00">29.06–05.07</text><text class="axis-label" text-anchor="middle" x="504.00" y="256.00">06–12.07</text><text class="axis-label" text-anchor="middle" x="654.00" y="256.00">13–19.07</text></svg></div>
 </div>
 <div class="insight-grid">
-<div class="insight"><strong>Рост выпуска</strong>Получено на 30 226 результатов больше, чем неделей ранее.</div>
-<div class="insight danger"><strong>Снижение своевременности</strong>При росте выпуска доля выполнения в срок снизилась с 95,5% до 93,6%.</div>
-<div class="insight danger"><strong>Задержки после доставки</strong>Королёвская Б — 4 536 исследований; Подольская ОКБ — максимальная доля 5,2%.</div>
+<div class="insight"><strong>Суммарные задержки: взятие → доставка</strong>30 209 случаев, или 6,74% от объема БМ по 8 ЦКДЛ.</div>
+<div class="insight danger"><strong>Взятие → доставка</strong>Наибольшее число — Королёвская Б: 6 692 случая. Максимальная доля — Одинцовская ОБ: 11,7% от БМ.</div>
+<div class="insight danger"><strong>Доставка → результат</strong>Наибольшее число — Королёвская Б: 4 536 случаев. Максимальная доля — Одинцовская ОБ: 6,2% от БМ.</div>
 </div>
-<div class="table-wrap" style="margin-top:16px"><table class="data-table"><thead><tr><th>ЦКДЛ</th><th>Сдано БМ</th><th>&gt;24 ч: взятие → доставка</th><th>&gt;72 ч: доставка → результат</th></tr></thead><tbody>
-<tr><td>Одинцовская ОБ</td><td>37 721</td><td>4 412<small>11.7%</small></td><td>2 325<small>6.2%</small></td></tr>
-<tr><td>Домодедовская Б</td><td>56 926</td><td>4 070<small>7.1%</small></td><td>618<small>1.1%</small></td></tr>
-<tr><td>Лобненская Б</td><td>43 934</td><td>2 446<small>5.6%</small></td><td>737<small>1.7%</small></td></tr>
-<tr><td>Подольская ОКБ</td><td>36 354</td><td>3 215<small>8.8%</small></td><td>1 886<small>5.2%</small></td></tr>
-<tr><td>Коломенская Б</td><td>47 282</td><td>1 670<small>3.5%</small></td><td>93<small>0.2%</small></td></tr>
-<tr><td>Балашихинская Б</td><td>58 006</td><td>4 049<small>7.0%</small></td><td>1 185<small>2.0%</small></td></tr>
-<tr><td>Королёвская Б</td><td>108 566</td><td>6 692<small>6.2%</small></td><td>4 536<small>4.2%</small></td></tr>
-<tr><td>Истринская КБ</td><td>59 636</td><td>3 655<small>6.1%</small></td><td>255<small>0.4%</small></td></tr>
-<tr class="total"><td>Итого</td><td>448 425</td><td>30 209<small>6.74%</small></td><td>11 635<small>2.59%</small></td></tr>
-</tbody></table></div>
 </div></section>
 
-<section class="section card" id="planfact">
-<div class="card-head"><h2>Выполнение плана текущей недели</h2><span class="badge green">7 выполнено</span></div>
-<div class="card-body">
-<div class="plan-context"><strong>План:</strong> 8 позиций — 4 совещания и 4 рабочих направления. Закрыто 7, перенесено 1. Дополнительно проведено совещание по маршрутизации Королёвской Б и МОЦОМД.</div>
+<section class="section card" id="planfact"><div class="card-head"><h2>Сверка прошлого плана с фактом</h2><span class="badge green">План / факт</span></div><div class="card-body">
 <div class="plan-score">
-<div class="score"><div class="score-k">Запланировано</div><div class="score-v">8</div><div class="score-n">позиций</div></div>
-<div class="score"><div class="score-k">Выполнено</div><div class="score-v">7</div><div class="score-n">87,5% плана</div></div>
-<div class="score"><div class="score-k">Перенесено</div><div class="score-v">1</div><div class="score-n">кустовое совещание</div></div>
-<div class="score"><div class="score-k">Дополнительно</div><div class="score-v">1</div><div class="score-n">совещание</div></div>
+<div class="score"><div class="score-k">Плановых позиций</div><div class="score-v">8</div><div class="score-n">4 совещания и 4 рабочих направления</div></div>
+<div class="score"><div class="score-k">Закрыто</div><div class="score-v">7</div><div class="score-n">выполнено в отчетном периоде</div></div>
+<div class="score"><div class="score-k">Частично / в работе</div><div class="score-v">0</div><div class="score-n">частично закрытых пунктов нет</div></div>
+<div class="score"><div class="score-k">Перенос</div><div class="score-v">1</div><div class="score-n">кустовое совещание перенесено</div></div>
 </div>
+<div class="plan-context"><strong>Контекст исполнения плана:</strong> выполнены РГ, совещание по СЭМД и реестрам счетов, проработка репродуктивного здоровья с МОПЦ и Дубненской Б, материалы по ПМСП, НПА ТМ «Аптека», еженедельная статистика СЭЗ и лицензирования и НПА ЧС. Кустовое совещание перенесено на следующий период. Дополнительно проведено совещание Королёвской Б и МОЦОМД по маршрутизации лабораторных исследований.</div>
 <div class="match-panel"><h3>Детальная сверка</h3><ul class="match-list">
-<li class="done"><em>Выполнено:</em> рабочие группы 20.07 и 23.07.</li>
-<li class="done"><em>Выполнено:</em> СЭМД и реестры счетов — 21.07.</li>
-<li class="transfer"><em>Перенос:</em> кустовое совещание — на следующую неделю.</li>
-<li class="done"><em>Выполнено:</em> МОПЦ и Дубненская Б — репродуктивное здоровье, 22.07.</li>
-<li class="done"><em>Выполнено:</em> проблематика лабораторного звена в ПМСП.</li>
-<li class="done"><em>Выполнено:</em> драфт НПА по ТМ «Аптека».</li>
-<li class="done"><em>Выполнено:</em> еженедельная статистика СЭЗ и лицензирования по этапам 1 и 2.</li>
-<li class="done"><em>Выполнено:</em> отработка задачи ЦКДЛ по НПА ЧС.</li>
-<li class="done"><em>Дополнительно:</em> Королёвская Б и МОЦОМД — маршрутизация лабораторных исследований, 21.07.</li>
+<li class="done"><strong>РГ — 20.07 и 23.07</strong><br/><em>Выполнено:</em> совещания проведены.</li>
+<li class="done"><strong>СЭМД и реестры счетов — 21.07</strong><br/><em>Выполнено:</em> совещание проведено.</li>
+<li class="transfer"><strong>Кустовое совещание — 21.07</strong><br/><em>Перенос:</em> включено в план следующего периода.</li>
+<li class="done"><strong>МОПЦ и Дубненская Б — репродуктивное здоровье, 22.07</strong><br/><em>Выполнено:</em> совещание и проработка проведены.</li>
+<li class="done"><strong>Проблематика лабораторного звена в ПМСП</strong><br/><em>Выполнено:</em> материалы подготовлены.</li>
+<li class="done"><strong>Драфт НПА ТМ «Аптека»</strong><br/><em>Выполнено:</em> драфт доработан.</li>
+<li class="done"><strong>Еженедельная статистика СЭЗ и лицензирования по этапам 1 и 2</strong><br/><em>Выполнено:</em> статистика подготовлена.</li>
+<li class="done"><strong>НПА ЧС: отработка задачи ЦКДЛ</strong><br/><em>Выполнено:</em> задача отработана.</li>
+<li class="done"><strong>Королёвская Б и МОЦОМД — маршрутизация лабораторных исследований, 21.07</strong><br/><em>Дополнительно выполнено:</em> совещание проведено сверх первоначального плана.</li>
 </ul></div>
 </div></section>
 
-<section class="section card" id="done">
-<div class="card-head"><h2>Выполненные работы и материалы</h2><span class="badge blue">16 позиций</span></div>
-<div class="card-body"><div class="task-groups">
-<div class="task-group"><div class="task-group-header"><h3>Маршрутизация, оборудование и контроль</h3><span>8 материалов</span></div><div class="task-items"><div class="task-item"><div class="task-name">Правки по распоряжению № 301-Р от МОНИКИ</div><div class="task-links"><a href="https://disk.yandex.ru/i/4Rf7cBF2YeOSSA" target="_blank" rel="noopener noreferrer">Открыть материал</a></div></div><div class="task-item"><div class="task-name">Перечень анализаторов в собственности для подключения к ЛИС</div><div class="task-links"><a href="https://disk.yandex.ru/i/eBZ8eWTJUUoP7g" target="_blank" rel="noopener noreferrer">Открыть материал</a></div></div><div class="task-item"><div class="task-name">Статистика лабораторных исследований с нарушением маршрута пробирки</div><div class="task-links"><a href="https://disk.yandex.ru/d/81TCroCsRciAKA" target="_blank" rel="noopener noreferrer">Открыть материал</a></div></div><div class="task-item"><div class="task-name">Анализ объемов исследований филиалов МОККВД, МОКНД и МОКПТД Королёвского куста</div><div class="task-links"><a href="https://disk.yandex.ru/i/UJkeGe3-tGd2kw" target="_blank" rel="noopener noreferrer">Открыть материал</a></div></div><div class="task-item"><div class="task-name">Свод по МО, создавшим внелабораторное подразделение</div><div class="task-links"><a href="https://disk.yandex.ru/i/gzjJogleaTIfiA" target="_blank" rel="noopener noreferrer">Открыть материал</a></div></div><div class="task-item"><div class="task-name">Анализ заказанных услуг во внелабораторных подразделениях</div><div class="task-links"><a href="https://disk.yandex.ru/i/Z0ZVBs9_QJn82w" target="_blank" rel="noopener noreferrer">Открыть материал</a></div></div><div class="task-item"><div class="task-name">Чек-лист «Статус ЦЛС, этап 2»: создание</div><div class="task-links"><a href="https://disk.yandex.ru/d/CdpkQiShAfjRkw" target="_blank" rel="noopener noreferrer">Открыть материал</a></div></div><div class="task-item"><div class="task-name">Чек-лист «Статус ЦЛС, этап 2»: сбор и анализ</div><div class="task-links"><a href="https://disk.yandex.ru/d/3WQ5bXoEF-fZbw" target="_blank" rel="noopener noreferrer">Открыть материал</a></div></div></div></div>
-<div class="task-group"><div class="task-group-header"><h3>НПА, ЛИС и методические материалы</h3><span>8 материалов</span></div><div class="task-items"><div class="task-item"><div class="task-name">Сценарий видеоролика по централизации лабораторной службы</div><div class="task-links"><a href="https://disk.yandex.ru/i/lD7kI-6unDWBjw" target="_blank" rel="noopener noreferrer">Открыть материал</a></div></div><div class="task-item"><div class="task-name">Список бумажных направлений для закрытия в ЕМИАС</div><div class="task-links"><a href="https://disk.yandex.ru/i/fYKCFRn8VgrtaQ" target="_blank" rel="noopener noreferrer">Открыть материал</a></div></div><div class="task-item"><div class="task-name">Драфт НПА по ТМ «Аптека»</div><div class="task-links"><a href="https://disk.yandex.ru/i/8LXWjij3DjdaXQ" target="_blank" rel="noopener noreferrer">Открыть материал</a></div></div><div class="task-item"><div class="task-name">Проблематика лабораторного звена в ПМСП</div><div class="task-links"><a href="https://disk.yandex.ru/i/h4iADackQA3tQQ" target="_blank" rel="noopener noreferrer">Открыть материал</a></div></div><div class="task-item"><div class="task-name">Техническое задание на взаимодействие ЛИС ЦКДЛ и Центра СПИД</div><div class="task-links"><a href="https://disk.yandex.ru/d/0OvbuIvPAyhBwQ" target="_blank" rel="noopener noreferrer">Открыть материал</a></div></div><div class="task-item"><div class="task-name">ТЗ на доработку ЛИС: ВИЧ, сифилис, вирусные гепатиты</div><div class="task-links"><a href="https://disk.yandex.ru/i/c-QtinRVVTO4Vw" target="_blank" rel="noopener noreferrer">Открыть материал</a></div></div><div class="task-item"><div class="task-name">Обновление еженедельной презентации для РГ: новый визуал и автоматизация</div><div class="task-links"><a href="https://disk.yandex.ru/d/ElSaTEmdNaCWnw" target="_blank" rel="noopener noreferrer">Открыть материал</a></div></div><div class="task-item"><div class="task-name">Корректировка перечня услуг и постановка СТП-задач, включая НЛУ 714252, 713886, 713834</div></div></div></div>
-</div></div></section>
+<section class="full-grid">
+<article class="card" id="done"><div class="card-head"><h2>Выполненные работы и материалы</h2><span class="badge green">16 направлений</span></div><div class="card-body"><div class="task-groups">
+<section class="task-group"><div class="task-group-header"><h3>Маршрутизация, оборудование и статус ЦЛС</h3><span>6 направл.</span></div><div class="task-items"><div class="task-item"><div class="task-name">Правки по распоряжению № 301-Р от МОНИКИ</div><div class="task-links"><a href="https://disk.yandex.ru/i/4Rf7cBF2YeOSSA" rel="noopener noreferrer" target="_blank">Открыть правки</a></div></div><div class="task-item"><div class="task-name">Перечень анализаторов в собственности для подключения к ЛИС</div><div class="task-links"><a href="https://disk.yandex.ru/i/eBZ8eWTJUUoP7g" rel="noopener noreferrer" target="_blank">Открыть перечень</a></div></div><div class="task-item"><div class="task-name">Статистика по лабораторным исследованиям с нарушением маршрута пробирки</div><div class="task-links"><a href="https://disk.yandex.ru/d/81TCroCsRciAKA" rel="noopener noreferrer" target="_blank">Открыть статистику</a></div></div><div class="task-item"><div class="task-name">Анализ объемов лабораторных исследований филиалов МОККВД, МОКНД и МОКПТД Королёвского куста</div><div class="task-links"><a href="https://disk.yandex.ru/i/UJkeGe3-tGd2kw" rel="noopener noreferrer" target="_blank">Открыть анализ</a></div></div><div class="task-item"><div class="task-name">Чек-лист «Статус ЦЛС, этап 2»: создание формы</div><div class="task-links"><a href="https://disk.yandex.ru/d/CdpkQiShAfjRkw" rel="noopener noreferrer" target="_blank">Открыть чек-лист</a></div></div><div class="task-item"><div class="task-name">Чек-лист «Статус ЦЛС, этап 2»: сбор и анализ</div><div class="task-links"><a href="https://disk.yandex.ru/d/3WQ5bXoEF-fZbw" rel="noopener noreferrer" target="_blank">Открыть анализ</a></div></div></div></section>
+<section class="task-group"><div class="task-group-header"><h3>Внелабораторный контур и контроль направлений</h3><span>5 направл.</span></div><div class="task-items"><div class="task-item"><div class="task-name">Свод по медицинским организациям, обеспечившим создание внелабораторного подразделения</div><div class="task-links"><a href="https://disk.yandex.ru/i/gzjJogleaTIfiA" rel="noopener noreferrer" target="_blank">Открыть свод</a></div></div><div class="task-item"><div class="task-name">Анализ заказанных услуг во внелабораторных подразделениях</div><div class="task-links"><a href="https://disk.yandex.ru/i/Z0ZVBs9_QJn82w" rel="noopener noreferrer" target="_blank">Открыть анализ</a></div></div><div class="task-item"><div class="task-name">Сценарий видеоролика по централизации лабораторной службы</div><div class="task-links"><a href="https://disk.yandex.ru/i/lD7kI-6unDWBjw" rel="noopener noreferrer" target="_blank">Открыть сценарий</a></div></div><div class="task-item"><div class="task-name">Список направлений, выданных на бумажном носителе, для закрытия в ЕМИАС</div><div class="task-links"><a href="https://disk.yandex.ru/i/fYKCFRn8VgrtaQ" rel="noopener noreferrer" target="_blank">Открыть список</a></div></div><div class="task-item"><div class="task-name">Проблематика лабораторного звена в первичной медико-санитарной помощи</div><div class="task-links"><a href="https://disk.yandex.ru/i/h4iADackQA3tQQ" rel="noopener noreferrer" target="_blank">Открыть материал</a></div></div></div></section>
+<section class="task-group"><div class="task-group-header"><h3>НПА, ЛИС и презентационные материалы</h3><span>5 направл.</span></div><div class="task-items"><div class="task-item"><div class="task-name">Драфт нормативного правового акта по ТМ «Аптека»</div><div class="task-links"><a href="https://disk.yandex.ru/i/8LXWjij3DjdaXQ" rel="noopener noreferrer" target="_blank">Открыть драфт</a></div></div><div class="task-item"><div class="task-name">Техническое задание на взаимодействие ЛИС ЦКДЛ и Центра СПИД</div><div class="task-links"><a href="https://disk.yandex.ru/d/0OvbuIvPAyhBwQ" rel="noopener noreferrer" target="_blank">Открыть ТЗ</a></div></div><div class="task-item"><div class="task-name">Техническое задание на доработку ЛИС: ВИЧ, сифилис и вирусные гепатиты</div><div class="task-links"><a href="https://disk.yandex.ru/i/c-QtinRVVTO4Vw" rel="noopener noreferrer" target="_blank">Открыть ТЗ</a></div></div><div class="task-item"><div class="task-name">Обновление еженедельной презентации для РГ: изменение визуала и автоматизация</div><div class="task-links"><a href="https://disk.yandex.ru/d/ElSaTEmdNaCWnw" rel="noopener noreferrer" target="_blank">Открыть презентацию</a></div></div><div class="task-item"><div class="task-name">Корректировка перечня услуг: постановка СТП-задач, добавление НЛУ 714252, 713886 и 713834</div></div></div></section>
+</div></div></article>
+</section>
 
-<section class="section card" id="tickets">
-<div class="card-head"><h2>Доработки и заявки</h2><span class="badge red">2 просрочено</span></div>
-<div class="card-body"><div class="ticket-stack">
-<div class="ticket-pane overdue"><h3>Просрочено</h3><ul class="ticket-list">
-<li><strong>СТП-701095</strong><br>Шаблоны результатов цитологии в ЕМИАС.<br><small>Регламентный срок: 20.04; комментарии о сроках не поступали. Ответственная: Шепелева Г.А.</small></li>
-<li><strong>СТП-701093</strong><br>Шаблоны результатов микробиологии в ЕМИАС.<br><small>Регламентный срок: 20.04; комментарии о сроках не поступали. Ответственная: Шепелева Г.А.</small></li>
-</ul></div>
-<div class="ticket-pane active"><h3>Ожидают выполнения</h3><ul class="ticket-list">
-<li><strong>Битрикс № 1431141</strong><br>Аналитический дашборд по МО.<br><small>Срок — согласно ТПР. Ответственная: Дмитриева О.Н.</small></li>
-<li><strong>Битрикс № 1506196</strong><br>Расчёт себестоимости для модуля «Склад».<br><small>Ответственная: Шепелева Г.А.</small></li>
-<li><strong>СТП-695382</strong><br>Обязательные первичные данные при назначении группы крови.<br><small>Доработка перенесена на 2027 год.</small></li>
-<li><strong>Битрикс № 1617139</strong><br>Выгрузка невыполненной цитологии Королёвской Б.<br><small>Срок: 03.08.2026. Ответственная: Дмитриева О.Н.</small></li>
-</ul></div>
-</div></div></section>
+<article class="card" id="tickets"><div class="card-head"><h2>Доработки и заявки</h2><span class="badge blue">Контроль исполнения</span></div><div class="card-body"><div class="ticket-stack">
+<section class="ticket-pane overdue"><h3>Просрочено</h3><ul class="ticket-list">
+<li>СТП-701095 — шаблоны результатов по цитологии в ЕМИАС; регламентный срок — 20.04; информация о сроках выполнения не представлена; ответственный: Шепелева Г.А.</li>
+<li>СТП-701093 — шаблоны результатов по микробиологии в ЕМИАС; регламентный срок — 20.04; информация о сроках выполнения не представлена; ответственный: Шепелева Г.А.</li>
+</ul></section>
+<section class="ticket-pane active"><h3>Ждут выполнения / в работе</h3><ul class="ticket-list">
+<li>Битрикс №1431141 — аналитический дашборд по медицинским организациям; срок согласуется с ТПР; ответственный: Дмитриева О.Н.</li>
+<li>Битрикс №1506196 — расчет себестоимости для модуля «Склад»; ответственный: Шепелева Г.А.</li>
+<li>СТП-695382 — обязательное указание первичных данных при назначении исследования на определение группы крови; регламентный срок — 11.03.2026; доработка перенесена на 2027 год; ответственный: Шепелева Г.А.</li>
+<li>Битрикс №1617139 — выгрузка по невыполненной цитологии Королёвской Б; срок — до 03.08.2026; ответственный: Дмитриева О.Н.</li>
+</ul></section>
+</div></div></article>
 
-<div class="side-grid">
-<section class="card danger-card" id="risks"><div class="card-head"><h2>Красные зоны</h2><span class="badge red">5 рисков</span></div><div class="card-body"><ul class="simple-list">
-<li>Сдвиг сетевой связанности и связанных доработок к концу 2026 года; сдвиг НПА по этапу 2 ЦЛС.</li>
-<li>Нет интеграции оборудования, предоставленного по ДБП, в УРО. ЕИСБУ — конец июля; тестирование — август; выгрузка КПД — 1 сентября.</li>
-<li>Не завершена интеграция результатов исследований внешнего подрядчика.</li>
-<li>Интеграция ЛИС «Склад» с ЕИС закупок перенесена с марта на сентябрь 2026 года.</li>
-<li>Не решена потребность дооснащения психиатрических больниц Московской области.</li>
-</ul></div></section>
+<section class="side-grid">
+<article class="card danger-card" id="risks"><div class="card-head"><h2>Красные зоны</h2><span class="badge red">Риски</span></div><div class="card-body"><ul class="simple-list">
+<li>Сдвиг сроков по сетевой связанности и доработкам к концу 2026 года.</li>
+<li>Сдвиг сроков выпуска нормативных правовых актов по проекту ЦЛС 2 этап.</li>
+<li>Отсутствует интеграция лабораторного оборудования, предоставленного по ДБП, в УРО. Работа со стороны ЕИСБУ: срок — конец июля; тестирование — август 2026 года; на 1 сентября запланирована выгрузка по КПД лаборатории.</li>
+<li>Требуется интеграция результатов лабораторных исследований из базы внешнего подрядчика.</li>
+<li>Интеграция модуля «Склад» ЛИС с ЕИС закупки: срок сдвинут с марта на сентябрь 2026 года; ответственный — подрядчик по государственному контракту.</li>
+<li>Не решен вопрос потребности в дооснащении психиатрических больниц Московской области.</li>
+</ul></div></article>
+<article class="card danger-card" id="issues"><div class="card-head"><h2>Проблематика</h2><span class="badge red">Требует внимания</span></div><div class="card-body"><ul class="simple-list">
+<li>108 задач просрочено в Битрикс, из них 45 задач — на исполнителях уровня главных врачей.</li>
+<li>Протокольные поручения не отрабатываются ответственными лицами медицинских организаций в установленный срок.</li>
+<li>Организация лабораторной диагностики ВИЧ-инфекции: нарушены сроки выпуска нормативного правового акта по организации лабораторной диагностики ВИЧ-инфекции в Московской области.</li>
+<li>Отсутствует рабочий механизм маршрутизации первично положительных образцов и передачи данных между ЦКДЛ и СПИД-центром. Ожидаются временное техническое решение и статус взаимодействия с ЛИС-Брегис.</li>
+<li>Дата взятия биоматериала не передается в результат в ЕМИАС. Подтверждена передача только поля «Дата поступления БМ»; подтверждающие материалы по передаче даты взятия до настоящего времени не представлены.</li>
+<li>Перевод сотрудников специализированной помощи в новые юридические лица ЦКДЛ: из 24 медицинских организаций к работе в контуре ЦКДЛ подключены 12; продолжаются перевод сотрудников и актуализация сведений в ЛИС.</li>
+</ul></div></article>
+</section>
 
-<section class="card danger-card"><div class="card-head"><h2>Проблематика</h2><span class="badge red">4 блока</span></div><div class="card-body"><ul class="simple-list">
-<li><strong>108 просроченных задач</strong> в Битрикс; 45 исполнителей — главные врачи. Протокольные поручения не закрываются в срок.</li>
-<li><strong>ВИЧ-диагностика:</strong> сорван выпуск НПА; отсутствует рабочая маршрутизация первично-положительных образцов и обмен ЦКДЛ ↔ СПИД-центр.</li>
-<li><strong>Дата взятия БМ:</strong> в ЕМИАС подтверждена передача только даты поступления; материалы о корректной передаче даты взятия не представлены.</li>
-<li><strong>Специализированная помощь:</strong> в контур ЦКДЛ подключены 12 из 24 МО; продолжаются перевод сотрудников и актуализация ЛИС.</li>
-</ul></div></section>
-</div>
-
-<section class="section card" id="next">
-<div class="card-head"><h2>План на следующую неделю</h2><span class="badge amber">27.07–31.07.2026</span></div>
-<div class="card-body"><ul class="simple-list">
+<section class="full-grid">
+<article class="card" id="nextplan"><div class="card-head"><h2>План на следующую неделю</h2><span class="badge blue">27.07.2026–31.07.2026</span></div><div class="card-body"><ul class="simple-list">
 <li>РГ — 27.07 и 30.07.</li>
 <li>Оптимизация штата и оборудования МОНИИАГ–МОНИКИ; правки в распоряжение № 301-Р — 27.07.</li>
 <li>СЭМД и реестры счетов — 28.07.</li>
 <li>Кустовое совещание — 28.07.</li>
 <li>Совещание с заведующими ЦКДЛ — 27.07.</li>
-<li>Подготовить презентационные материалы для главных врачей по дублям группы крови и порядку первичного определения.</li>
-<li>Проработать объёмы исследований по репродуктивному здоровью мужчин: НПА, коды и наименования услуг, наличие в МИС, ЛИС и фонде.</li>
-<li>Скорректировать ТЗ на выгрузку данных по дублирующим назначениям креатинина и мочевины.</li>
-<li>Включить актуальную проблематику и риски в материалы для доклада Министерству здравоохранения Московской области.</li>
-</ul></div></section>
-
-<section class="section card"><div class="card-head"><h2>Навигация</h2></div><div class="card-body"><div class="anchor-links">
-<a href="#top">К началу отчета</a><a href="#dashboard">Мини-дашборд</a><a href="#planfact">План / факт</a><a href="#done">Материалы</a><a href="#tickets">Доработки</a><a href="#risks">Риски</a><a href="#next">Следующая неделя</a>
-</div></div></section>
+<li>Подготовить презентационные материалы для главных врачей по дублирующим назначениям группы крови и порядку первичного определения группы крови.</li>
+<li>Проработать объемы лабораторных исследований по направлению «Репродуктивное здоровье мужчин»: нормативный контур, выверка кодов и наименований услуг, наличие в МИС, ЛИС и системе фонда.</li>
+<li>Скорректировать техническое задание на выгрузку данных по дублирующим назначениям креатинина и мочевины.</li>
+<li>Включить актуальную проблематику и риски в презентационные материалы для доклада Министерству здравоохранения Московской области.</li>
+</ul></div></article>
+<article class="card"><div class="card-head"><h2>Навигация по разделам</h2><span class="badge amber">Быстрые переходы</span></div><div class="card-body"><div class="anchor-links">
+<a href="#summary">Операционный статус</a><a href="#dashboard">Мини-дашборд</a><a href="#planfact">Сверка плана с фактом</a><a href="#done">Выполненные работы</a><a href="#tickets">Доработки и заявки</a><a href="#risks">Красные зоны</a><a href="#issues">Проблематика</a><a href="#nextplan">План следующей недели</a><a href="#top">Наверх</a>
+</div></div></article>
+</section>
 </div>
-
-<script>
-const labels=["15–21.06", "22–28.06", "29.06–05.07", "06–12.07", "13–19.07"];
-const prodSeries={"Направления": [603944, 607398, 610399, 598231, 580333], "Сдано БМ": [392525, 349169, 354262, 348577, 367276], "Результаты": [344419, 292044, 298860, 295030, 325256]};
-const timeSeries=[93.0, 94.4, 95.7, 95.5, 93.6];
-function lineChart(svgId, dataMap, percent=false, target=null){
- const svg=document.getElementById(svgId), W=700,H=260,p={l:44,r:18,t:18,b:36};
- const all=Object.values(dataMap).flat();
- let min=percent?Math.min(90,Math.floor(Math.min(...all)-1)):Math.min(...all)*.92;
- let max=percent?100:Math.max(...all)*1.04;
- const x=i=>p.l+i*(W-p.l-p.r)/(labels.length-1), y=v=>p.t+(max-v)*(H-p.t-p.b)/(max-min);
- let s='';
- for(let i=0;i<5;i++){let yy=p.t+i*(H-p.t-p.b)/4;s+=`<line class="gridline" x1="${p.l}" y1="${yy}" x2="${W-p.r}" y2="${yy}"/>`;}
- if(target!==null){let yy=y(target);s+=`<line class="target-line" x1="${p.l}" y1="${yy}" x2="${W-p.r}" y2="${yy}"/><text class="target-text" x="${W-p.r-42}" y="${yy-6}">${target}%</text>`;}
- const colors=['#73a9ff','#35d09a','#ffbe5c'];
- Object.entries(dataMap).forEach(([name,vals],si)=>{
-   const pts=vals.map((v,i)=>`${x(i)},${y(v)}`).join(' ');
-   s+=`<polyline class="series" stroke="${colors[si]}" points="${pts}"/>`;
-   vals.forEach((v,i)=>s+=`<circle cx="${x(i)}" cy="${y(v)}" r="4.5" fill="${colors[si]}"/><text class="axis-label" x="${x(i)}" y="${H-12}" text-anchor="middle">${labels[i]}</text>`);
- });
- svg.setAttribute('viewBox',`0 0 ${W} ${H}`);svg.innerHTML=s;
-}
-lineChart('prodChart',prodSeries);
-lineChart('timeChart',{'В срок, %':timeSeries},true,95);
-</script>
-</body></html>
+</body>
+</html>
