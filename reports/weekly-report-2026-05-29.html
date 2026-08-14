@@ -1,0 +1,254 @@
+<!doctype html><html lang="ru" id="top"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Еженедельный отчет — Централизация лабораторной службы</title><style>
+:root{--bg:#04111f;--bg2:#071b31;--line:rgba(127,164,210,.16);--text:#e9f2ff;--muted:#9fb3cf;--blue:#6aaeff;--green:#35d09a;--amber:#ffbe5c;--red:#ff6f79;--radius:28px;--shadow:0 24px 60px rgba(0,0,0,.28);--danger-bg-1:rgba(111,23,37,.34);--danger-bg-2:rgba(58,12,21,.38);--danger-border:rgba(255,111,121,.22)}*{box-sizing:border-box}html{scroll-behavior:smooth}html,body{overflow-x:hidden}body{margin:0;color:var(--text);font-family:Inter,"Segoe UI",Arial,sans-serif;background:radial-gradient(1000px 600px at 0% 0%,rgba(68,128,255,.16),transparent 55%),radial-gradient(800px 500px at 100% 20%,rgba(58,212,255,.09),transparent 50%),linear-gradient(180deg,var(--bg) 0%,var(--bg2) 100%)}a{color:inherit}.page{max-width:1460px;margin:0 auto;padding:24px}.hero,.card{background:linear-gradient(180deg,rgba(12,27,49,.95),rgba(8,19,36,.96));border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow)}.hero{padding:28px}.eyebrow{font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:#b6cae4;margin-bottom:8px}.hero h1{margin:0 0 10px;font-size:40px;line-height:1.06}.hero p{margin:0;font-size:16px;color:#bed0e7;max-width:980px;line-height:1.55}.vks-note{margin-top:14px;padding:12px 14px;border-radius:18px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.07);color:#d7e4f6;font-size:14px}.vks-note a{text-decoration:none;font-weight:800;color:#bed7ff}.hero-summary{display:grid;grid-template-columns:1.05fr 1fr 1fr;gap:16px;margin-top:20px;align-items:stretch}.hero-box{position:relative;overflow:hidden;border-radius:24px;padding:18px 20px;border:1px solid rgba(255,255,255,.08);min-height:168px}.hero-box:before{content:"";position:absolute;right:-46px;top:-52px;width:160px;height:160px;border-radius:50%;background:rgba(255,255,255,.07)}.hero-box.production{background:linear-gradient(180deg,rgba(27,77,119,.48),rgba(11,35,68,.48));border-color:rgba(106,174,255,.26)}.hero-box.project{background:linear-gradient(180deg,rgba(19,84,65,.52),rgba(8,40,35,.52));border-color:rgba(53,208,154,.28)}.hero-box.risk{background:linear-gradient(180deg,rgba(110,27,40,.48),rgba(58,15,23,.46));border-color:rgba(255,111,121,.24)}.hero-k{font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:#afc4e1}.hero-v{font-size:42px;font-weight:800;line-height:1;margin-top:10px;letter-spacing:-.03em}.hero-note{margin-top:8px;color:#d1def1;font-size:13px;line-height:1.45;max-width:96%}.topnav{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}.topnav a{text-decoration:none;padding:10px 14px;border-radius:999px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.06);font-size:14px}.section,.full-grid,.side-grid{margin-top:18px}.full-grid{display:grid;grid-template-columns:1fr;gap:18px}.side-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}.card-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;padding:22px 22px 0}.card-body{padding:18px 22px 22px}.card-head h2{margin:0;font-size:22px;line-height:1.15}.lead{margin:0;color:var(--muted);line-height:1.58}.badge{padding:9px 14px;border-radius:999px;font-size:13px;font-weight:700;white-space:nowrap}.badge.blue{background:rgba(85,136,214,.22);color:#aecdff}.badge.green{background:rgba(53,208,154,.18);color:#8ef2cb}.badge.red{background:rgba(255,111,121,.18);color:#ffb6be;border:1px solid rgba(255,111,121,.30)}.badge.amber{background:rgba(255,190,92,.18);color:#ffd28b}.plan-score{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;margin-bottom:16px}.score{padding:16px;border-radius:22px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07)}.score-k{font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:#a6bdd8}.score-v{font-size:34px;font-weight:800;line-height:1;margin-top:8px}.score-n{margin-top:6px;color:#8fa8c4;font-size:12px}.match-panel,.task-group,.ticket-pane{background:linear-gradient(180deg,rgba(13,27,47,.96),rgba(10,21,38,.98));border:1px solid rgba(255,255,255,.07);border-radius:24px;padding:16px}.match-panel h3,.ticket-pane h3{margin:0 0 12px;font-size:18px}.match-list,.simple-list,.ticket-list{margin:0;padding-left:0;list-style:none}.match-list{display:grid;gap:10px}.match-list li,.simple-list li{padding:14px 16px;border-radius:18px;border:1px solid rgba(255,255,255,.07);background:rgba(255,255,255,.04);line-height:1.48}.match-list li.done{background:rgba(19,84,65,.36);border-color:rgba(53,208,154,.22)}.match-list li.partial{background:rgba(73,43,16,.34);border-color:rgba(255,190,92,.2)}.match-list li.fail{background:linear-gradient(180deg,rgba(255,111,121,.115),rgba(255,111,121,.055));border-color:rgba(255,111,121,.20)}.match-list em{font-style:normal;font-weight:700}.task-groups{display:grid;grid-template-columns:1fr 1.25fr 1fr;gap:16px}.task-group-header{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;margin-bottom:12px}.task-group-header h3{margin:0;font-size:18px;line-height:1.25}.task-group-header span{font-size:12px;color:#9fb3cf;background:rgba(255,255,255,.05);padding:7px 10px;border-radius:999px}.task-items{display:grid;gap:12px}.task-item{padding:14px;border-radius:18px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06)}.task-name{font-weight:600;line-height:1.48}.task-links{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}.task-links a{text-decoration:none;padding:9px 12px;border-radius:999px;background:rgba(85,136,214,.2);border:1px solid rgba(106,174,255,.22);color:#bed7ff;font-size:13px;font-weight:700}.ticket-stack{display:grid;gap:16px}.ticket-pane.red,.danger-card{background:linear-gradient(180deg,var(--danger-bg-1),var(--danger-bg-2));border-color:var(--danger-border);box-shadow:inset 5px 0 0 rgba(255,111,121,.82)}.ticket-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.ticket-list li{padding:14px 15px;border-radius:18px;line-height:1.48;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.07)}.ticket-pane.red .ticket-list li,.danger-card .simple-list li{background:linear-gradient(180deg,rgba(255,111,121,.105),rgba(255,111,121,.055));border-color:rgba(255,111,121,.20)}.anchor-links{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.anchor-links a{text-decoration:none;padding:13px 14px;border-radius:16px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.07);font-weight:700}@media(max-width:1100px){.hero-summary,.task-groups,.side-grid,.plan-score,.ticket-list,.anchor-links{grid-template-columns:1fr 1fr}.hero-box{min-height:auto}}@media(max-width:760px){.page{padding:10px}.hero{padding:18px 16px}.hero h1{font-size:30px}.hero p{font-size:15px}.hero-summary,.task-groups,.side-grid,.plan-score,.ticket-list,.anchor-links{grid-template-columns:1fr}.topnav{display:grid;grid-template-columns:1fr 1fr}.card-head{padding:18px 16px 0;flex-direction:column;align-items:flex-start}.card-body{padding:16px}.hero-v{font-size:36px}.score-v{font-size:30px}.task-group-header{flex-direction:column;align-items:flex-start}}@media(max-width:420px){.topnav{grid-template-columns:1fr}.hero h1{font-size:28px}.hero-v,.score-v{font-size:28px}}
+
+.chart-x{font-size:10.5px}#nextplan{display:block;width:100%;clear:both}.hero-context,.plan-context{margin-top:16px;padding:15px 16px;border-radius:20px;background:linear-gradient(180deg,rgba(73,43,16,.34),rgba(45,28,13,.30));border:1px solid rgba(255,190,92,.22);color:#e7d6bf;line-height:1.55}.plan-context{margin:0 0 16px}.hero-context strong,.plan-context strong{color:#ffd28b}</style>
+
+<style id="dashboard-layout-fix-v3">
+#dashboard .card-body{
+  overflow:hidden;
+}
+
+#dashboard .metrics-grid{
+  display:grid !important;
+  grid-template-columns:repeat(4,minmax(0,1fr)) !important;
+  gap:16px !important;
+}
+
+#dashboard .metric-card{
+  min-width:0 !important;
+  overflow:hidden !important;
+  background:linear-gradient(180deg,rgba(18,34,58,.96),rgba(12,24,44,.98)) !important;
+  border:1px solid rgba(255,255,255,.07) !important;
+  border-radius:24px !important;
+  padding:18px !important;
+}
+
+#dashboard .metric-top{
+  display:flex !important;
+  gap:12px !important;
+  align-items:flex-start !important;
+}
+
+#dashboard .metric-icon{
+  width:38px !important;
+  height:38px !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  flex:0 0 38px !important;
+  border-radius:12px !important;
+  background:rgba(255,255,255,.08) !important;
+  font-size:18px !important;
+}
+
+#dashboard .metric-title{
+  font-size:12px !important;
+  text-transform:uppercase !important;
+  letter-spacing:.05em !important;
+  color:#a7bdd7 !important;
+  font-weight:700 !important;
+  line-height:1.4 !important;
+}
+
+#dashboard .metric-value{
+  font-size:34px !important;
+  font-weight:800 !important;
+  line-height:1 !important;
+  margin-top:18px !important;
+  letter-spacing:.02em !important;
+  white-space:nowrap !important;
+}
+
+#dashboard .metric-change{
+  margin-top:8px !important;
+  font-size:14px !important;
+  font-weight:700 !important;
+}
+
+#dashboard .metric-change.good{color:#90e4bf !important}
+#dashboard .metric-change.bad{color:#ff9a8d !important}
+
+#dashboard .metric-foot{
+  margin-top:6px !important;
+  color:#89a3bf !important;
+  font-size:12px !important;
+  line-height:1.45 !important;
+}
+
+#dashboard .mini-grid{
+  display:grid !important;
+  grid-template-columns:repeat(4,minmax(0,1fr)) !important;
+  gap:16px !important;
+  margin-top:16px !important;
+}
+
+#dashboard .mini-stat{
+  min-width:0 !important;
+  overflow:hidden !important;
+  padding:15px 16px !important;
+  border-radius:20px !important;
+  border:1px solid rgba(255,255,255,.08) !important;
+  background:rgba(255,255,255,.04) !important;
+}
+
+#dashboard .mini-title{
+  color:#a7bdd7 !important;
+  font-size:12px !important;
+  text-transform:uppercase !important;
+  letter-spacing:.05em !important;
+}
+
+#dashboard .mini-value{
+  margin-top:10px !important;
+  font-size:28px !important;
+  font-weight:800 !important;
+  line-height:1 !important;
+  white-space:nowrap !important;
+}
+
+#dashboard .mini-note{
+  margin-top:6px !important;
+  color:#90a8c3 !important;
+  font-size:12px !important;
+  line-height:1.45 !important;
+}
+
+#dashboard .mini-stat.accent-purple{box-shadow:inset 0 0 0 1px rgba(197,139,255,.18) !important}
+#dashboard .mini-stat.accent-green{box-shadow:inset 0 0 0 1px rgba(53,208,154,.18) !important}
+#dashboard .mini-stat.accent-red{box-shadow:inset 0 0 0 1px rgba(255,111,121,.18) !important}
+#dashboard .mini-stat.accent-amber{box-shadow:inset 0 0 0 1px rgba(255,190,92,.18) !important}
+
+#dashboard .chart-grid{
+  display:grid !important;
+  grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+  gap:16px !important;
+  margin-top:16px !important;
+}
+
+#dashboard .chart-card{
+  min-width:0 !important;
+  overflow:hidden !important;
+  background:linear-gradient(180deg,rgba(15,31,54,.98),rgba(11,23,43,.98)) !important;
+  border:1px solid rgba(255,255,255,.07) !important;
+  border-radius:24px !important;
+  padding:20px !important;
+}
+
+#dashboard .chart-head{
+  display:flex !important;
+  justify-content:space-between !important;
+  align-items:flex-start !important;
+  gap:12px !important;
+  margin-bottom:8px !important;
+}
+
+#dashboard .chart-head h3{
+  margin:0 !important;
+  font-size:18px !important;
+  line-height:1.25 !important;
+}
+
+#dashboard .chart-note{
+  font-size:13px !important;
+  color:#96aecb !important;
+  white-space:nowrap !important;
+}
+
+#dashboard .chart-svg{
+  width:100% !important;
+  height:260px !important;
+  display:block !important;
+  overflow:visible !important;
+}
+
+#dashboard .chart-x{
+  font-size:10px !important;
+  fill:#89a2bf !important;
+}
+
+#dashboard .chart-point{
+  font-size:10.5px !important;
+  font-weight:700 !important;
+  fill:#f8b291 !important;
+}
+
+#dashboard .chart-target{
+  font-size:10.5px !important;
+  font-weight:700 !important;
+  fill:#77dfb0 !important;
+}
+
+#dashboard .insight-grid{
+  display:grid !important;
+  grid-template-columns:repeat(3,minmax(0,1fr)) !important;
+  gap:16px !important;
+  margin-top:16px !important;
+}
+
+#dashboard .insight{
+  min-width:0 !important;
+  padding:16px !important;
+  border-radius:22px !important;
+  background:rgba(255,255,255,.04) !important;
+  border:1px solid rgba(255,255,255,.07) !important;
+  color:#d7e4f6 !important;
+  line-height:1.55 !important;
+}
+
+#dashboard .insight strong{
+  display:block !important;
+  margin-bottom:4px !important;
+}
+
+#dashboard .insight.red{
+  background:linear-gradient(180deg,var(--danger-bg-1),var(--danger-bg-2)) !important;
+  border-color:var(--danger-border) !important;
+  box-shadow:inset 5px 0 0 rgba(255,111,121,.82) !important;
+}
+
+@media (max-width:1200px){
+  #dashboard .metrics-grid,
+  #dashboard .mini-grid,
+  #dashboard .chart-grid,
+  #dashboard .insight-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+  }
+}
+
+@media (max-width:760px){
+  #dashboard .metrics-grid,
+  #dashboard .mini-grid,
+  #dashboard .chart-grid,
+  #dashboard .insight-grid{
+    grid-template-columns:1fr !important;
+  }
+
+  #dashboard .metric-card,
+  #dashboard .chart-card{
+    padding:16px !important;
+  }
+
+  #dashboard .metric-value{
+    font-size:28px !important;
+  }
+
+  #dashboard .mini-value{
+    font-size:26px !important;
+  }
+
+  #dashboard .chart-svg{
+    height:235px !important;
+  }
+
+  #dashboard .chart-head{
+    flex-direction:column !important;
+    align-items:flex-start !important;
+  }
+
+  #dashboard .chart-note{
+    white-space:normal !important;
+  }
+}
+</style>
+
+</head><body><div class="page"><section class="hero"><div class="eyebrow">Референс-центр лабораторной службы · ЦВИОД · Министерство здравоохранения Московской области</div><h1>Централизация лабораторной службы</h1><p>Еженедельный отчет за период 25.05.2026–29.05.2026.</p><div class="vks-note"><strong>ВКС+:</strong> приглашения на совещания осуществляются через сервис <a href="https://vks.mosreg.ru/calendar" target="_blank" rel="noopener noreferrer">vks.mosreg.ru/calendar</a>.</div><div class="hero-summary"><div class="hero-box production"><div class="hero-k">Производственный контур</div><div class="hero-v">97,7%</div><div class="hero-note">253 520 результатов выполнено в срок · 590 516 направлений · 318 715 сдано БМ</div></div><div class="hero-box project"><div class="hero-k">План / новые вводные</div><div class="hero-v">7 + 9</div><div class="hero-note">7 пунктов закрыто по плану; 1 направление остается частично в работе; дополнительно выполнено 9 крупных результатов по срочным вводным и аналитическим задачам периода</div></div><div class="hero-box risk"><div class="hero-k">Риск-контур</div><div class="hero-v">83</div><div class="hero-note">просроченные задачи в Битрикс, из них 28 задач на исполнителях уровня главных врачей</div></div></div><div class="hero-context"><strong>Контекст недели:</strong> выполнение плана проходило параллельно с внеплановой нагрузкой: статус ЦЛС, разбор преднапечатанных штрихкодов, нарушения маршрута пробирки, оборудование спецпомощи, аутсорс, ошибки ГИП, дополнительные ТЗ, микробиология Дубненской Б, реагенты ЦКДЛ, Королёвская ЦКДЛ и оценка 12-й ЦКДЛ.</div><nav class="topnav"><a href="#summary">Операционный статус</a><a href="#dashboard">Мини-дашборд</a><a href="#planfact">План / факт</a><a href="#done">Выполненные работы</a><a href="#tickets">Доработки</a><a href="#risks">Красные зоны</a><a href="#issues">Проблематика</a><a href="#nextplan">План недели</a></nav></section><section class="section card" id="summary"><div class="card-head"><h2>Операционный статус недели</h2><span class="badge blue">Итог периода</span></div><div class="card-body"><p class="lead">За отчетный период подготовлены материалы по статусу централизации лабораторной службы, выполнен разбор преднапечатанных штрихкодов и нарушений маршрута пробирки, сформированы своды по оборудованию, аутсорсу и ошибкам ГИП, подготовлены ТЗ на выгрузки, проведен анализ микробиологии Дубненской Б, обеспеченности реагентами ЦКДЛ, статуса Королёвской ЦКДЛ и целесообразности создания 12-й ЦКДЛ инфекционного профиля.</p></div></section><section class="section card" id="dashboard"><div class="card-head"><h2>Мини-дашборд показателей ЦКДЛ</h2><span class="badge green">18–24.05.2026</span></div><div class="card-body"><div class="metrics-grid"><div class="metric-card"><div class="metric-top"><div class="metric-icon">📨</div><div class="metric-title">Всего направлений</div></div><div class="metric-value">590 516</div><div class="metric-change good">+3% к предыдущей неделе</div><div class="metric-foot">Свод за 18.05–24.05.2026</div></div><div class="metric-card"><div class="metric-top"><div class="metric-icon">🧫</div><div class="metric-title">Сдано БМ</div></div><div class="metric-value">318 715</div><div class="metric-change good">+14% к предыдущей неделе</div><div class="metric-foot">Биоматериал, принятый в контур ЦКДЛ</div></div><div class="metric-card"><div class="metric-top"><div class="metric-icon">🧪</div><div class="metric-title">Получено результатов</div></div><div class="metric-value">259 412</div><div class="metric-change good">+22% к предыдущей неделе</div><div class="metric-foot">Результаты за отчетную неделю</div></div><div class="metric-card"><div class="metric-top"><div class="metric-icon">⏱️</div><div class="metric-title">Выполнено в срок</div></div><div class="metric-value">253 520</div><div class="metric-change bad">97,7% от результатов</div><div class="metric-foot">253 520 из 259 412 результатов</div></div></div><div class="mini-grid"><div class="mini-stat accent-purple"><div class="mini-title">Чрезмерные</div><div class="mini-value">3 026</div><div class="mini-note">+11% к предыдущей неделе</div></div><div class="mini-stat accent-green"><div class="mini-title">Брак</div><div class="mini-value">90</div><div class="mini-note">+15% к предыдущей неделе</div></div><div class="mini-stat accent-red"><div class="mini-title">Задержки взятие → доставка</div><div class="mini-value">36 291</div><div class="mini-note">7,37% от БМ по 8 ЦКДЛ</div></div><div class="mini-stat accent-amber"><div class="mini-title">Задержки доставка → результат</div><div class="mini-value">7 781</div><div class="mini-note">1,58% от БМ по 8 ЦКДЛ</div></div></div><div class="chart-grid"><div class="chart-card"><div class="chart-head"><h3>Общий объем направлений</h3><div class="chart-note">динамика за 5 недель</div></div><svg viewBox="0 0 640 260" class="chart-svg" preserveAspectRatio="none"><line x1="48" y1="22.0" x2="622" y2="22.0" stroke="rgba(255,255,255,.08)" stroke-width="1"/><line x1="48" y1="70.5" x2="622" y2="70.5" stroke="rgba(255,255,255,.08)" stroke-width="1"/><line x1="48" y1="119.0" x2="622" y2="119.0" stroke="rgba(255,255,255,.08)" stroke-width="1"/><line x1="48" y1="167.5" x2="622" y2="167.5" stroke="rgba(255,255,255,.08)" stroke-width="1"/><line x1="48" y1="216.0" x2="622" y2="216.0" stroke="rgba(255,255,255,.08)" stroke-width="1"/><path d="M48.0,216.0 L48.0,85.2 L191.5,197.2 L335.0,40.8 L478.5,99.6 L622.0,77.8 L622.0,216.0 Z" fill="rgba(255,111,121,.10)" stroke="none"/><path d="M48.0,85.2 L191.5,197.2 L335.0,40.8 L478.5,99.6 L622.0,77.8" fill="none" stroke="#ff6f79" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="48.0" cy="85.2" r="5.2" fill="#ff6f79" stroke="#fff" stroke-width="1.5"/><text x="48.0" y="72.2" text-anchor="middle" class="chart-point">583k</text><circle cx="191.5" cy="197.2" r="5.2" fill="#ff6f79" stroke="#fff" stroke-width="1.5"/><text x="191.5" y="184.2" text-anchor="middle" class="chart-point">480k</text><circle cx="335.0" cy="40.8" r="5.2" fill="#ff6f79" stroke="#fff" stroke-width="1.5"/><text x="335.0" y="27.8" text-anchor="middle" class="chart-point">624k</text><circle cx="478.5" cy="99.6" r="5.2" fill="#ff6f79" stroke="#fff" stroke-width="1.5"/><text x="478.5" y="86.6" text-anchor="middle" class="chart-point">570k</text><circle cx="622.0" cy="77.8" r="5.2" fill="#ff6f79" stroke="#fff" stroke-width="1.5"/><text x="622.0" y="64.8" text-anchor="middle" class="chart-point">590k</text><text x="48.0" y="248.0" text-anchor="middle" class="chart-x">20–26.04</text><text x="191.5" y="248.0" text-anchor="middle" class="chart-x">27.04–03.05</text><text x="335.0" y="248.0" text-anchor="middle" class="chart-x">04–10.05</text><text x="478.5" y="248.0" text-anchor="middle" class="chart-x">11–17.05</text><text x="622.0" y="248.0" text-anchor="middle" class="chart-x">18–24.05</text></svg></div><div class="chart-card"><div class="chart-head"><h3>Выполнение в срок</h3><div class="chart-note">доля от полученных результатов</div></div><svg viewBox="0 0 640 260" class="chart-svg" preserveAspectRatio="none"><line x1="48" y1="22.0" x2="622" y2="22.0" stroke="rgba(255,255,255,.08)" stroke-width="1"/><line x1="48" y1="70.5" x2="622" y2="70.5" stroke="rgba(255,255,255,.08)" stroke-width="1"/><line x1="48" y1="119.0" x2="622" y2="119.0" stroke="rgba(255,255,255,.08)" stroke-width="1"/><line x1="48" y1="167.5" x2="622" y2="167.5" stroke="rgba(255,255,255,.08)" stroke-width="1"/><line x1="48" y1="216.0" x2="622" y2="216.0" stroke="rgba(255,255,255,.08)" stroke-width="1"/><line x1="48" y1="110.3" x2="622" y2="110.3" stroke="#4cc38a" stroke-width="2" stroke-dasharray="8 8"/><text x="622" y="102.3" text-anchor="end" class="chart-target">Цель ≥ 98%</text><path d="M48.0,216.0 L48.0,197.2 L191.5,75.5 L335.0,101.6 L478.5,40.8 L622.0,123.3 L622.0,216.0 Z" fill="rgba(255,190,92,.10)" stroke="none"/><path d="M48.0,197.2 L191.5,75.5 L335.0,101.6 L478.5,40.8 L622.0,123.3" fill="none" stroke="#ffbe5c" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="48.0" cy="197.2" r="5.2" fill="#ffbe5c" stroke="#fff" stroke-width="1.5"/><text x="48.0" y="184.2" text-anchor="middle" class="chart-point">96,0%</text><circle cx="191.5" cy="75.5" r="5.2" fill="#ffbe5c" stroke="#fff" stroke-width="1.5"/><text x="191.5" y="62.5" text-anchor="middle" class="chart-point">98,8%</text><circle cx="335.0" cy="101.6" r="5.2" fill="#ffbe5c" stroke="#fff" stroke-width="1.5"/><text x="335.0" y="88.6" text-anchor="middle" class="chart-point">98,2%</text><circle cx="478.5" cy="40.8" r="5.2" fill="#ffbe5c" stroke="#fff" stroke-width="1.5"/><text x="478.5" y="27.8" text-anchor="middle" class="chart-point">99,6%</text><circle cx="622.0" cy="123.3" r="5.2" fill="#ffbe5c" stroke="#fff" stroke-width="1.5"/><text x="622.0" y="110.3" text-anchor="middle" class="chart-point">97,7%</text><text x="48.0" y="248.0" text-anchor="middle" class="chart-x">20–26.04</text><text x="191.5" y="248.0" text-anchor="middle" class="chart-x">27.04–03.05</text><text x="335.0" y="248.0" text-anchor="middle" class="chart-x">04–10.05</text><text x="478.5" y="248.0" text-anchor="middle" class="chart-x">11–17.05</text><text x="622.0" y="248.0" text-anchor="middle" class="chart-x">18–24.05</text></svg></div><div class="chart-card"><div class="chart-head"><h3>Чрезмерные назначения</h3><div class="chart-note">динамика за 5 недель</div></div><svg viewBox="0 0 640 260" class="chart-svg" preserveAspectRatio="none"><line x1="48" y1="22.0" x2="622" y2="22.0" stroke="rgba(255,255,255,.08)" stroke-width="1"/><line x1="48" y1="70.5" x2="622" y2="70.5" stroke="rgba(255,255,255,.08)" stroke-width="1"/><line x1="48" y1="119.0" x2="622" y2="119.0" stroke="rgba(255,255,255,.08)" stroke-width="1"/><line x1="48" y1="167.5" x2="622" y2="167.5" stroke="rgba(255,255,255,.08)" stroke-width="1"/><line x1="48" y1="216.0" x2="622" y2="216.0" stroke="rgba(255,255,255,.08)" stroke-width="1"/><path d="M48.0,216.0 L48.0,187.5 L191.5,197.2 L335.0,189.7 L478.5,71.5 L622.0,40.8 L622.0,216.0 Z" fill="rgba(197,139,255,.10)" stroke="none"/><path d="M48.0,187.5 L191.5,197.2 L335.0,189.7 L478.5,71.5 L622.0,40.8" fill="none" stroke="#c58bff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="48.0" cy="187.5" r="5.2" fill="#c58bff" stroke="#fff" stroke-width="1.5"/><text x="48.0" y="174.5" text-anchor="middle" class="chart-point">1 583</text><circle cx="191.5" cy="197.2" r="5.2" fill="#c58bff" stroke="#fff" stroke-width="1.5"/><text x="191.5" y="184.2" text-anchor="middle" class="chart-point">1 487</text><circle cx="335.0" cy="189.7" r="5.2" fill="#c58bff" stroke="#fff" stroke-width="1.5"/><text x="335.0" y="176.7" text-anchor="middle" class="chart-point">1 561</text><circle cx="478.5" cy="71.5" r="5.2" fill="#c58bff" stroke="#fff" stroke-width="1.5"/><text x="478.5" y="58.5" text-anchor="middle" class="chart-point">2 724</text><circle cx="622.0" cy="40.8" r="5.2" fill="#c58bff" stroke="#fff" stroke-width="1.5"/><text x="622.0" y="27.8" text-anchor="middle" class="chart-point">3 026</text><text x="48.0" y="248.0" text-anchor="middle" class="chart-x">20–26.04</text><text x="191.5" y="248.0" text-anchor="middle" class="chart-x">27.04–03.05</text><text x="335.0" y="248.0" text-anchor="middle" class="chart-x">04–10.05</text><text x="478.5" y="248.0" text-anchor="middle" class="chart-x">11–17.05</text><text x="622.0" y="248.0" text-anchor="middle" class="chart-x">18–24.05</text></svg></div><div class="chart-card"><div class="chart-head"><h3>Брак</h3><div class="chart-note">динамика за 5 недель</div></div><svg viewBox="0 0 640 260" class="chart-svg" preserveAspectRatio="none"><line x1="48" y1="22.0" x2="622" y2="22.0" stroke="rgba(255,255,255,.08)" stroke-width="1"/><line x1="48" y1="70.5" x2="622" y2="70.5" stroke="rgba(255,255,255,.08)" stroke-width="1"/><line x1="48" y1="119.0" x2="622" y2="119.0" stroke="rgba(255,255,255,.08)" stroke-width="1"/><line x1="48" y1="167.5" x2="622" y2="167.5" stroke="rgba(255,255,255,.08)" stroke-width="1"/><line x1="48" y1="216.0" x2="622" y2="216.0" stroke="rgba(255,255,255,.08)" stroke-width="1"/><path d="M48.0,216.0 L48.0,190.6 L191.5,197.2 L335.0,117.3 L478.5,80.7 L622.0,40.8 L622.0,216.0 Z" fill="rgba(53,208,154,.10)" stroke="none"/><path d="M48.0,190.6 L191.5,197.2 L335.0,117.3 L478.5,80.7 L622.0,40.8" fill="none" stroke="#35d09a" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="48.0" cy="190.6" r="5.2" fill="#35d09a" stroke="#fff" stroke-width="1.5"/><text x="48.0" y="177.6" text-anchor="middle" class="chart-point">45</text><circle cx="191.5" cy="197.2" r="5.2" fill="#35d09a" stroke="#fff" stroke-width="1.5"/><text x="191.5" y="184.2" text-anchor="middle" class="chart-point">43</text><circle cx="335.0" cy="117.3" r="5.2" fill="#35d09a" stroke="#fff" stroke-width="1.5"/><text x="335.0" y="104.3" text-anchor="middle" class="chart-point">67</text><circle cx="478.5" cy="80.7" r="5.2" fill="#35d09a" stroke="#fff" stroke-width="1.5"/><text x="478.5" y="67.7" text-anchor="middle" class="chart-point">78</text><circle cx="622.0" cy="40.8" r="5.2" fill="#35d09a" stroke="#fff" stroke-width="1.5"/><text x="622.0" y="27.8" text-anchor="middle" class="chart-point">90</text><text x="48.0" y="248.0" text-anchor="middle" class="chart-x">20–26.04</text><text x="191.5" y="248.0" text-anchor="middle" class="chart-x">27.04–03.05</text><text x="335.0" y="248.0" text-anchor="middle" class="chart-x">04–10.05</text><text x="478.5" y="248.0" text-anchor="middle" class="chart-x">11–17.05</text><text x="622.0" y="248.0" text-anchor="middle" class="chart-x">18–24.05</text></svg></div></div><div class="insight-grid"><div class="insight"><strong>Суммарные задержки: взятие → доставка</strong>36 291 случаев, что составляет 7,37% от объема БМ по 8 ЦКДЛ.</div><div class="insight red"><strong>Наибольшее число задержек: взятие → доставка</strong>Королёвская Б — 8 276 случаев. Максимальная доля — Одинцовская ОБ: 11,3% от БМ.</div><div class="insight red"><strong>Наибольшее число задержек: доставка → результат</strong>Королёвская Б — 3 107 случаев. Максимальная доля — Одинцовская ОБ: 3,3% от БМ.</div></div></div></section><section class="section card" id="planfact"><div class="card-head"><h2>Сверка прошлого плана с фактом</h2><span class="badge green">План / факт</span></div><div class="card-body"><div class="plan-score"><div class="score"><div class="score-k">Плановых пунктов</div><div class="score-v">11</div><div class="score-n">детализированный план</div></div><div class="score"><div class="score-k">Закрыто</div><div class="score-v">7</div><div class="score-n">выполнено в отчетном периоде</div></div><div class="score"><div class="score-k">Частично / в работе</div><div class="score-v">1</div><div class="score-n">продолжается исполнение</div></div><div class="score"><div class="score-k">Перенос</div><div class="score-v">3</div><div class="score-n">перенесено в контроль следующей недели</div></div></div><div class="plan-context"><strong>Контекст исполнения плана:</strong> плановые мероприятия выполнены с учетом приоритизации срочных задач отчетного периода. Дополнительно закрыт значимый внеплановый блок: статус ЦЛС, оборудование спецпомощи, аутсорс, ТЗ по выгрузкам, микробиология Дубненской Б, реагенты, Королёвская ЦКДЛ и оценка 12-й ЦКДЛ. Направление по ошибкам ГИП переведено в частично выполненные, поскольку первичный разбор проведен, а детализация причин и ответственных контуров продолжается в следующем периоде.</div><div class="match-panel"><h3>Детальная сверка</h3><ul class="match-list"><li class="done"><strong>РГ (25.05, 28.05)</strong><br><em>Выполнено:</em> совещания проведены.</li><li class="done"><strong>Дубна и цитология (25.05)</strong><br><em>Выполнено:</em> совещание проведено.</li><li class="done"><strong>СЭМД (26.05)</strong><br><em>Выполнено:</em> совещание проведено.</li><li class="partial"><strong>Путь регистрации направления на лабораторное исследование, включая ключи в МИС и ЛИС: анализ ошибок ГИП</strong><br><em>Частично / в работе:</em> первичный разбор выполнен; детализация причин, медицинских организаций и ответственных контуров продолжается в плане следующей недели.</li><li class="done"><strong>Подготовка перечня лабораторного оборудования для подключения к ЛИС в рамках проекта 2026</strong><br><em>Выполнено:</em> перечень подготовлен.</li><li class="done"><strong>Подготовка перечня лабораторных исследований, выполненных внешними подрядчиками за 2025 год и 1 квартал 2026 года</strong><br><em>Выполнено:</em> перечень подготовлен.</li><li class="fail"><strong>Утверждение маршрута новорожденных</strong><br><em>Перенос:</em> не готово, переносится в контроль следующего периода.</li><li class="done"><strong>Презентационные материалы: реорганизация Дубненской Б</strong><br><em>Выполнено:</em> материалы подготовлены.</li><li class="done"><strong>Презентационные материалы: готовность выполнения ЖЦ и ВПЧ ЦКДЛ</strong><br><em>Выполнено:</em> материалы подготовлены.</li><li class="fail"><strong>Презентационные материалы: анализ перераспределения потоков на МОКПТД</strong><br><em>Перенос:</em> не готово, переносится на следующую неделю.</li><li class="fail"><strong>Передать ГВС по медицинскому сестринскому делу перечень МО, где ошибочно используют преднапечатанные штрихкоды</strong><br><em>Перенос:</em> не выполнено, переносится в контроль следующего периода.</li></ul></div></div></section><section class="full-grid"><article class="card" id="done"><div class="card-head"><h2>Выполненные работы и материалы</h2><span class="badge green">9 направлений</span></div><div class="card-body"><div class="task-groups"><section class="task-group"><div class="task-group-header"><h3>Статус ЦЛС, маршрутизация и штрихкоды</h3><span>4 направл.</span></div><div class="task-items"><div class="task-item"><div class="task-name">Статистика по работе ЦКДЛ за неделю</div><div class="task-links"><a href="https://disk.yandex.ru/d/wAaQbCbUQz5RWQ" target="_blank" rel="noopener noreferrer">Открыть статистику</a></div></div><div class="task-item"><div class="task-name">Разбор фактов использования преднапечатанных штрихкодов</div><div class="task-links"><a href="https://disk.yandex.ru/i/75XDylhu_PmQGA" target="_blank" rel="noopener noreferrer">Открыть разбор</a></div></div><div class="task-item"><div class="task-name">Статистика по лабораторным исследованиям с нарушением маршрута пробирки</div><div class="task-links"><a href="https://disk.yandex.ru/i/Zf72ihlgNHcy7Q" target="_blank" rel="noopener noreferrer">Открыть статистику</a></div></div><div class="task-item"><div class="task-name">Презентация для РГ с заместителем Председателя Правительства Московской области — министром здравоохранения Московской области М.В. Забелиным</div><div class="task-links"><a href="https://disk.yandex.ru/d/ZfvJDOcZImXSJQ" target="_blank" rel="noopener noreferrer">Открыть презентацию</a></div></div></div></section><section class="task-group"><div class="task-group-header"><h3>Аналитика, оборудование, аутсорс и ГИП</h3><span>6 направл.</span></div><div class="task-items"><div class="task-item"><div class="task-name">Свод по оборудованию для передачи в ЦКДЛ из присоединяющихся медицинских организаций специализированной помощи</div><div class="task-links"><a href="https://disk.yandex.ru/i/1WP2mMk1AES3Jw" target="_blank" rel="noopener noreferrer">Открыть свод</a></div></div><div class="task-item"><div class="task-name">Аналитика и статистика по аутсорсу лабораторных исследований Московской области</div><div class="task-links"><a href="https://disk.yandex.ru/i/j-0c3YZCb2MKOg" target="_blank" rel="noopener noreferrer">Открыть аналитику</a></div></div><div class="task-item"><div class="task-name">Разбор ошибок ГИП: причины, механизм и план по устранению</div><div class="task-links"><a href="https://disk.yandex.ru/i/0eCJC0EKIxv81w" target="_blank" rel="noopener noreferrer">Открыть разбор</a></div></div><div class="task-item"><div class="task-name">ТЗ по дублирующимся направлениям на лабораторные исследования из ЕМИАС</div><div class="task-links"><a href="https://bitrix24.mz.mosreg.ru/company/personal/user/3544/tasks/task/view/1569841/" target="_blank" rel="noopener noreferrer">Открыть задачу</a></div></div><div class="task-item"><div class="task-name">ТЗ по конкретным лабораторным исследованиям за отчетный период</div><div class="task-links"><a href="https://bitrix24.mz.mosreg.ru/company/personal/user/3544/tasks/task/view/1565296/" target="_blank" rel="noopener noreferrer">Открыть задачу</a></div></div><div class="task-item"><div class="task-name">ТЗ: анализ направлений на микробиологические исследования в Дубненской Б</div><div class="task-links"><a href="https://bitrix24.mz.mosreg.ru/company/personal/user/3544/tasks/task/view/1564895/" target="_blank" rel="noopener noreferrer">Открыть задачу</a></div></div></div></section><section class="task-group"><div class="task-group-header"><h3>Микробиология, реагенты, Королёв и 12-я ЦКДЛ</h3><span>5 направл.</span></div><div class="task-items"><div class="task-item"><div class="task-name">Анализ выполнения микробиологических исследований в Дубненской Б</div><div class="task-links"><a href="https://disk.yandex.ru/i/H67B6D3NhoF_CA" target="_blank" rel="noopener noreferrer">Открыть презентацию</a></div></div><div class="task-item"><div class="task-name">Анализ обеспечения реагентами ЦКДЛ</div><div class="task-links"><a href="https://disk.yandex.ru/i/wJNuEyXXnKsJ2g" target="_blank" rel="noopener noreferrer">Открыть презентацию</a></div></div><div class="task-item"><div class="task-name">Разбор статуса централизации: Королёвская ЦКДЛ</div><div class="task-links"><a href="https://disk.yandex.ru/d/0vPFu2eSjivsPw" target="_blank" rel="noopener noreferrer">Открыть презентацию</a></div></div><div class="task-item"><div class="task-name">Оценка целесообразности создания 12-й ЦКДЛ инфекционного профиля</div><div class="task-links"><a href="https://disk.yandex.ru/i/SsDsvUALyk8cCg" target="_blank" rel="noopener noreferrer">Открыть презентацию</a></div></div><div class="task-item"><div class="task-name">Анализ объемов выполнения лабораторных исследований Королёвского и Балашихинского куста</div><div class="task-links"><a href="https://disk.yandex.ru/d/xV9_yhbgweQ0-g" target="_blank" rel="noopener noreferrer">Открыть анализ</a></div></div></div></section></div></div></article><article class="card" id="tickets"><div class="card-head"><h2>Доработки и заявки</h2><span class="badge blue">Контроль исполнения</span></div><div class="card-body"><div class="ticket-stack"><section class="ticket-pane red"><h3>Просрочено</h3><ul class="ticket-list"><li>СТП-701095 — шаблоны результатов цитология (ЕМИАС); регламентный срок 20.04; комментариев о сроках выполнения не поступало; ответственный: Шепелева Г.А.</li><li>СТП-701093 — шаблоны результатов микробиология (ЕМИАС); регламентный срок 20.04; комментариев о сроках выполнения не поступало; ответственный: Шепелева Г.А.</li><li>Битрикс №1472203 — 1.6. Информационные системы; срок 24.04; ответственный: Жиляев П.С.</li></ul></section><section class="ticket-pane blue"><h3>На согласовании результата</h3><ul class="ticket-list"><li>Битрикс №1514770 — анализ назначения исследований на определение групп крови; выполнено 24.04, задача на этапе оценки технической возможности доработки; ответственный: Дмитриева О.Н.</li><li>СТП-697675 — корректировка услуг; в работе; регламентный срок 26.03, первоначальный срок от МИАЦ — 29.04, перенос на 15.05; ответственный: Шепелева Г.А.</li><li>Битрикс №1415958 — реализация системного отчета по невыполненным исследованиям; представлен доработанный отчет, корректность на этапе анализа; ответственный: Дмитриева О.Н.</li></ul></section><section class="ticket-pane blue"><h3>Ждут выполнения / в работе</h3><ul class="ticket-list"><li>Битрикс №1431141 — аналитический дашборд по МО; срок согласуется с ТПР; ответственный: Дмитриева О.Н.</li><li>Битрикс №1506196 — расчет себестоимости для модуля «Склад»; ответственный: Шепелева Г.А.</li><li>СТП-695382 — обязательное указание первичных данных при назначении группы крови; доработка перенесена на 2027 год; ответственный: Шепелева Г.А.</li><li>Битрикс №1565296 — получение статистики по конкретным лабораторным исследованиям за отчетный период; оценка срока реализации — до 29.05; ответственный: Дмитриева О.Н.</li><li>Битрикс №1569841 — формирование выгрузки по дублирующимся направлениям на лабораторные исследования; оценка срока реализации — до 03.06; ответственный: Дмитриева О.Н.</li></ul></section></div></div></article></section><section class="side-grid"><article class="card danger-card" id="risks"><div class="card-head"><h2>Красные зоны</h2><span class="badge red">Риски</span></div><div class="card-body"><ul class="simple-list"><li>Контракт с подрядчиком ЛИС-Брегис закончился 15.04.2026.</li><li>Сдвиг сроков по сетевой связанности и доработкам к концу 2026 года.</li><li>Отсутствует интеграция лабораторного оборудования, предоставленного по ДБП, в УРО. Требуется доработка: разработка интерфейса — июнь 2026, реализация — август 2026.</li><li>Требуется интеграция результатов лабораторных исследований из базы внешнего подрядчика.</li><li>Интеграция ЛИС модуля «Склад» с ЕИС закупки: сдвиг сроков вправо с марта на сентябрь 2026 года. Ответственный — подрядчик по ГК.</li><li>Отсутствуют НПА в рамках централизации плана на 2026 год, СПИД и КВД. Срок — 13.03.2026, на согласовании, просрочено.</li><li>ЦКДЛ отказались от большинства предлагаемого оборудования, вероятно рассчитывая на ДБП от поставщиков. При этом нет подтвержденного перечня анализаторов для 1 уровня и экспресс-уровня, из-за чего сохраняется риск неполного итогового перечня оборудования для подключения к ЛИС Брегис.</li></ul></div></article><article class="card danger-card" id="issues"><div class="card-head"><h2>Проблематика</h2><span class="badge red">Требует внимания</span></div><div class="card-body"><ul class="simple-list"><li>83 задачи просрочено в Битрикс, из них 28 задач — на исполнителях уровня главных врачей.</li><li>Протокольные поручения не отрабатываются ответственными лицами МО в срок.</li><li>Организация лабораторной диагностики ВИЧ-инфекции: не реализовано отражение серии (лота) и срока годности реагентов в бланке результата согласно СанПиН 3.3686-21.</li><li>Сохраняется риск срыва сроков выпуска нормативного правового акта по организации лабораторной диагностики ВИЧ-инфекции в Московской области.</li><li>Некорректное автоматическое определение лаборатории-исполнителя при формировании маршрутных листов в ЕМИАС.</li><li>С 21.04.2026 отсутствует содействие со стороны ГВС по эпидемиологии в части производственного контроля.</li></ul></div></article></section><section class="full-grid"><article class="card" id="nextplan"><div class="card-head"><h2>План на следующую неделю</h2><span class="badge blue">01.06.2026–05.06.2026</span></div><div class="card-body"><ul class="simple-list"><li>Совещания: РГ (01.06, 04.06), СЭМД (02.06).</li><li>Разбор ошибок ГИП: подготовить таблицу с детализацией ошибок по причинам, медицинским организациям и ответственным контурам; подготовить краткую схему механизма возникновения ошибок и точек устранения.</li><li>Дата взятия биоматериала: согласовать сроки интеграции поля ЛИС/ЕМИАС.</li><li>Новорожденные: провести анализ выгрузки из ЕМИАС и подготовить таблицу по объему исследований и вариантам маршрутизации.</li><li>Передать перечень ГВС по медицинскому сестринскому делу.</li><li>Подготовить презентацию по перераспределению потоков лабораторных исследований.</li><li>НПА по централизации: зафиксировать статус проекта изменений по 301-р совместно с МОНИКИ; зафиксировать статус нормативного оформления маршрутов по СПИД и КВД.</li><li>ИТ-доработки: обновить таблицу просроченных заявок ЕМИАС / ЛИС; отдельно выделить заявки, влияющие на маршрутизацию, результаты и отчетность.</li><li>НПА по централизации специализированной медицинской помощи: определить дальнейший сценарий подготовки НПА с учетом сроков дорожной карты и статуса контракта сопровождения ЛИС.</li><li>Маршрутизация исследований Балашихи во внешнюю лабораторию Диалаб: определить порядок маршрутизации до возобновления работ с БД ЛИС-Брегис.</li><li>Назначение лабораторных исследований группами: разобрать обращения Мытищинской и Красногорской Б и определить корректный порядок назначения услуг в ЕМИАС.</li><li>Выявить список анализаторов спецпомощи, которые есть на месте и подключены к Брегис; по остальным подать заявку на подключение к ЛИС.</li></ul></div></article><article class="card" id="links"><div class="card-head"><h2>Навигация по разделам</h2><span class="badge amber">Быстрые переходы</span></div><div class="card-body"><div class="anchor-links"><a href="#summary">Операционный статус</a><a href="#dashboard">Мини-дашборд</a><a href="#planfact">Сверка плана с фактом</a><a href="#done">Выполненные работы</a><a href="#tickets">Доработки и заявки</a><a href="#risks">Красные зоны</a><a href="#issues">Проблематика</a><a href="#nextplan">План следующей недели</a><a href="#top">Наверх</a></div></div></article></section></div></body></html>
