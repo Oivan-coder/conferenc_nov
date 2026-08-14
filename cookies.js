@@ -254,28 +254,8 @@ function updateFooterInstitutionLabels() {
     window.setTimeout(() => observer.disconnect(), 5000);
 }
 
-function removeReportsFromPublicNavigation() {
-    const removeLinks = () => {
-        document.querySelectorAll('a[href="/reports"], a[href="/reports/"], a[href="reports"], a[href="reports/"]').forEach((link) => {
-            const menuItem = link.closest('li');
-            if (menuItem) {
-                menuItem.remove();
-            } else {
-                link.remove();
-            }
-        });
-    };
-
-    removeLinks();
-
-    const observer = new MutationObserver(removeLinks);
-    observer.observe(document.documentElement, { childList: true, subtree: true });
-    window.setTimeout(() => observer.disconnect(), 5000);
-}
-
 document.addEventListener('DOMContentLoaded', () => {
     new CookieConsentManager();
     updateFooterContactRoles();
     updateFooterInstitutionLabels();
-    removeReportsFromPublicNavigation();
 });

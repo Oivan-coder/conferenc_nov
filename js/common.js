@@ -9,12 +9,11 @@ const SITE_LOADER_SESSION_KEY = 'rclsmo-loader-full-shown';
 
 const SITE_NAV = [
     { id: 'home', href: '/', label: 'Главная' },
-    { id: 'reports', href: '/reports', label: 'Отчеты' },
     {
         id: 'events',
         label: 'Мероприятия',
         children: [
-            { id: 'conf-mart-2026', href: '/conf_mart2026', label: 'Форум март 2026' },
+            { id: 'conference-2026', href: '/conference-2026/', label: 'Форум 7 октября 2026' },
             { id: 'conf-nov-2025', href: '/conf_nov2025', label: 'Форум ноябрь 2025' },
             { id: 'conf-sen-2025', href: '/conf_sen2025', label: 'Сентябрь 2025' }
         ]
@@ -72,9 +71,9 @@ function getPageContext() {
     if (body.classList.contains('home-page')) return 'home';
     if (body.classList.contains('about-page')) return 'about';
     if (body.classList.contains('registration-page')) return 'registration';
-    if (body.classList.contains('reports-page')) return 'reports';
     if (body.classList.contains('ask-page')) return 'feedback';
     if (body.classList.contains('privacy-page')) return 'privacy';
+    if (path.includes('conference-2026')) return 'conference-2026';
     if (path.includes('conf_mart2026')) return 'conf-mart-2026';
     if (path.includes('conf_nov2025')) return 'conf-nov-2025';
     if (path.includes('conf_sen2025')) return 'conf-sen-2025';
@@ -159,7 +158,7 @@ function initMediaFallbacks() {
 function buildHeaderHtml(activePage) {
     const topLevelLinks = SITE_NAV.map((item) => {
         if (item.children) {
-            const isActive = activePage.startsWith('conf-');
+            const isActive = item.children.some((child) => child.id === activePage);
             const childLinks = item.children.map((child) => `
                 <li>
                     <a href="${child.href}"${child.id === activePage ? ' class="active"' : ''}>${child.label}</a>
