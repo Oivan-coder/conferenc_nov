@@ -21,10 +21,10 @@
 @import url('sections/specialists.css');  /* Наша команда (О нас) */
 @import url('sections/contacts.css');
 @import url('sections/pages.css?v=20260706-map-layout14');
-@import url('sections/reports.css');
 @import url('sections/ckdl-map.css?v=20260706-map-layout14');
 @import url('sections/footer.css');
 @import url('sections/home.css');
+@import url('sections/conference-2026.css?v=20260814');
 @import url('mobile.css'); /* Мобильная оптимизация */
 
 /* ===== RESPONSIVE DESIGN ===== */
