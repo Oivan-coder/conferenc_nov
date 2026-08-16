@@ -9,13 +9,18 @@ $result = null;
 $error = null;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (is_file(TEST_MARKER)) {
-        $error = 'Тест уже был выполнен.';
+    $lock = @fopen(TEST_MARKER, 'x');
+    if ($lock === false) {
+        $error = 'Тест уже был выполнен или выполняется.';
     } elseif (!is_readable(TEST_KEY_PATH)) {
+        fclose($lock);
+        @unlink(TEST_MARKER);
         $error = 'Не найден тестовый ключ.';
     } else {
         $email = trim((string)($_POST['email'] ?? ''));
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            fclose($lock);
+            @unlink(TEST_MARKER);
             $error = 'Введите корректный email.';
         } else {
             $payload = [
@@ -45,13 +50,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             $raw = @file_get_contents('https://rclsmo.ru/api/register.php', false, $context);
             if ($raw === false) {
+                fclose($lock);
+                @unlink(TEST_MARKER);
                 $error = 'Не удалось вызвать регистрацию.';
             } else {
                 $decoded = json_decode($raw, true);
                 if (!is_array($decoded) || empty($decoded['ok'])) {
+                    fclose($lock);
+                    @unlink(TEST_MARKER);
                     $error = 'Регистрация вернула ошибку: ' . htmlspecialchars($raw, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
                 } else {
-                    @file_put_contents(TEST_MARKER, date('c'));
+                    ftruncate($lock, 0);
+                    fwrite($lock, date('c'));
+                    fclose($lock);
                     $result = $decoded;
                 }
             }
