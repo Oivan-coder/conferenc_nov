@@ -35,6 +35,50 @@ function normalizePhone(string $value): string {
     return $digits;
 }
 
+function sendConfirmationEmail(string $to, string $fullName, string $participantCode, string $format): bool {
+    $safeName = htmlspecialchars($fullName, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+    $safeCode = htmlspecialchars($participantCode, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+    $formatText = $format === 'offline' ? 'Очное участие' : 'Онлайн-участие';
+    $safeFormat = htmlspecialchars($formatText, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+
+    $subjectText = 'Подтверждение регистрации — Форум лабораторных инноваций 2026';
+    $subject = mb_encode_mimeheader($subjectText, 'UTF-8', 'B', "\r\n");
+
+    $htmlBody = '<!doctype html><html lang="ru"><body style="margin:0;padding:0;background:#f4f7f5;font-family:Arial,sans-serif;color:#173126;">'
+        . '<div style="max-width:620px;margin:0 auto;padding:28px 16px;">'
+        . '<div style="background:#ffffff;border-radius:16px;overflow:hidden;border:1px solid #dfe8e2;">'
+        . '<div style="background:#214f3b;color:#ffffff;padding:28px 30px;">'
+        . '<div style="font-size:13px;letter-spacing:.08em;text-transform:uppercase;opacity:.8;">Референс-центр лабораторной службы Московской области</div>'
+        . '<h1 style="font-size:24px;line-height:1.25;margin:10px 0 0;">Регистрация подтверждена</h1>'
+        . '</div>'
+        . '<div style="padding:30px;">'
+        . '<p style="font-size:16px;line-height:1.6;margin:0 0 18px;">Здравствуйте, <strong>' . $safeName . '</strong>.</p>'
+        . '<p style="font-size:16px;line-height:1.6;margin:0 0 22px;">Вы зарегистрированы на Форум лабораторных инноваций 2026.</p>'
+        . '<div style="background:#f1f6f3;border-radius:12px;padding:20px;margin:0 0 22px;">'
+        . '<div style="font-size:13px;color:#5d7468;margin-bottom:6px;">Код участника</div>'
+        . '<div style="font-size:24px;font-weight:700;letter-spacing:.06em;color:#214f3b;">' . $safeCode . '</div>'
+        . '</div>'
+        . '<p style="font-size:15px;line-height:1.7;margin:0 0 8px;"><strong>Дата:</strong> 7 октября 2026 года</p>'
+        . '<p style="font-size:15px;line-height:1.7;margin:0 0 8px;"><strong>Формат:</strong> ' . $safeFormat . '</p>'
+        . '<p style="font-size:15px;line-height:1.7;margin:0 0 22px;"><strong>Место:</strong> Дом Правительства Московской области, Красногорск</p>'
+        . '<p style="font-size:14px;line-height:1.6;color:#607268;margin:0;">QR-код и дополнительная организационная информация будут направлены отдельным письмом после завершения настройки регистрации.</p>'
+        . '</div>'
+        . '<div style="padding:18px 30px;background:#f8faf9;border-top:1px solid #e8eeea;font-size:13px;color:#66776f;">'
+        . 'По вопросам регистрации: <a href="mailto:info@rclsmo.ru" style="color:#214f3b;">info@rclsmo.ru</a>'
+        . '</div>'
+        . '</div></div></body></html>';
+
+    $headers = [
+        'MIME-Version: 1.0',
+        'Content-Type: text/html; charset=UTF-8',
+        'From: =?UTF-8?B?' . base64_encode('Референс-центр лабораторной службы МО') . '?= <info@rclsmo.ru>',
+        'Reply-To: info@rclsmo.ru',
+        'X-Content-Type-Options: nosniff'
+    ];
+
+    return mail($to, $subject, $htmlBody, implode("\r\n", $headers), '-finfo@rclsmo.ru');
+}
+
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     respond(405, ['ok' => false, 'error' => 'method_not_allowed']);
 }
@@ -191,10 +235,13 @@ try {
         throw new RuntimeException('Unable to generate participant code');
     }
 
+    $emailSent = sendConfirmationEmail($email, $fullName, $participantCode, $format);
+
     respond(201, [
         'ok' => true,
         'participant_code' => $participantCode,
-        'duplicate_override' => $duplicateReasons !== []
+        'duplicate_override' => $duplicateReasons !== [],
+        'email_sent' => $emailSent
     ]);
 } catch (Throwable $e) {
     respond(500, ['ok' => false, 'error' => 'server_error']);
