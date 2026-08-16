@@ -41,24 +41,42 @@ if ($method === 'POST' && !chat_same_origin()) {
 
 $body = $method === 'POST' ? chat_body() : [];
 $token = strtolower(trim((string)($method === 'GET' ? ($_GET['t'] ?? '') : ($body['token'] ?? ''))));
-if (!preg_match('/^[a-f0-9]{64}$/', $token)) {
-    chat_json(['ok' => false, 'error' => 'invalid_token'], 401);
-}
 
 try {
     $pdo = qa_pdo();
     qa_ensure_schema($pdo);
 
-    $participantStmt = $pdo->prepare(
-        "SELECT id, participant_code, full_name, organization
-         FROM participants
-         WHERE online_token = :token
-           AND participation_format = 'online'
-           AND registration_status = 'confirmed'
-         LIMIT 1"
-    );
-    $participantStmt->execute([':token' => $token]);
-    $participant = $participantStmt->fetch(PDO::FETCH_ASSOC) ?: null;
+    $participant = null;
+
+    if (preg_match('/^[a-f0-9]{64}$/', $token)) {
+        $participantStmt = $pdo->prepare(
+            "SELECT id, participant_code, full_name, organization, participation_format
+             FROM participants
+             WHERE online_token = :token
+               AND participation_format = 'online'
+               AND registration_status = 'confirmed'
+             LIMIT 1"
+        );
+        $participantStmt->execute([':token' => $token]);
+        $participant = $participantStmt->fetch(PDO::FETCH_ASSOC) ?: null;
+    }
+
+    if (!$participant && isset($_SESSION['conference_attendee_id'])) {
+        $hallId = filter_var($_SESSION['conference_attendee_id'], FILTER_VALIDATE_INT);
+        if ($hallId) {
+            $participantStmt = $pdo->prepare(
+                "SELECT id, participant_code, full_name, organization, participation_format
+                 FROM participants
+                 WHERE id = :id
+                   AND participation_format = 'offline'
+                   AND registration_status = 'confirmed'
+                 LIMIT 1"
+            );
+            $participantStmt->execute([':id' => $hallId]);
+            $participant = $participantStmt->fetch(PDO::FETCH_ASSOC) ?: null;
+        }
+    }
+
     if (!$participant) {
         chat_json(['ok' => false, 'error' => 'participant_not_found'], 401);
     }
@@ -103,6 +121,7 @@ try {
                 'id' => (int)$participant['id'],
                 'name' => $participant['full_name'],
                 'organization' => $participant['organization'],
+                'format' => $participant['participation_format'],
             ],
             'session' => $session,
             'messages' => $messages,
