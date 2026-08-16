@@ -32,13 +32,9 @@ function qa_h(?string $value): string
 function qa_expected_pin(): string
 {
     foreach (QA_PIN_PATHS as $path) {
-        if (!is_readable($path)) {
-            continue;
-        }
+        if (!is_readable($path)) continue;
         $value = trim((string)file_get_contents($path));
-        if ($value !== '') {
-            return $value;
-        }
+        if ($value !== '') return $value;
     }
     return '';
 }
@@ -69,7 +65,7 @@ function qa_process_auth(string $redirectPath): array
             exit;
         }
         usleep(350000);
-        $error = $expected === '' ? 'PIN для тестового Q&A ещё не настроен.' : 'Неверный PIN.';
+        $error = $expected === '' ? 'PIN для Q&A ещё не настроен.' : 'Неверный PIN.';
     }
 
     return [qa_is_authorized(), $expected !== '', $error];
@@ -96,9 +92,7 @@ function qa_verify_csrf(): void
 function qa_pdo(): PDO
 {
     $pdo = require QA_DB_CONFIG_PATH;
-    if (!$pdo instanceof PDO) {
-        throw new RuntimeException('Database config invalid');
-    }
+    if (!$pdo instanceof PDO) throw new RuntimeException('Database config invalid');
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     return $pdo;
 }
@@ -135,6 +129,37 @@ function qa_ensure_schema(PDO $pdo): void
         KEY idx_event_status_created (event_id, status, created_at),
         KEY idx_session_status (session_id, status)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci");
+
+    $pdo->exec("CREATE TABLE IF NOT EXISTS conference_messages (
+        id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+        event_id VARCHAR(100) NOT NULL,
+        participant_id BIGINT UNSIGNED NOT NULL,
+        participant_name VARCHAR(255) NOT NULL,
+        organization VARCHAR(255) NOT NULL,
+        session_id BIGINT UNSIGNED NULL,
+        message_type ENUM('chat','question') NOT NULL DEFAULT 'chat',
+        reply_to_id BIGINT UNSIGNED NULL,
+        message_text TEXT NOT NULL,
+        status VARCHAR(20) NOT NULL DEFAULT 'visible',
+        created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        approved_at DATETIME NULL,
+        on_air_at DATETIME NULL,
+        answered_at DATETIME NULL,
+        hidden_at DATETIME NULL,
+        PRIMARY KEY (id),
+        KEY idx_event_created (event_id, created_at),
+        KEY idx_event_type_status (event_id, message_type, status, created_at),
+        KEY idx_session_type_status (session_id, message_type, status),
+        KEY idx_participant_created (participant_id, created_at)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci");
+
+    $pdo->exec("CREATE TABLE IF NOT EXISTS conference_message_votes (
+        message_id BIGINT UNSIGNED NOT NULL,
+        participant_id BIGINT UNSIGNED NOT NULL,
+        created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        PRIMARY KEY (message_id, participant_id),
+        KEY idx_participant (participant_id)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci");
 }
 
 function qa_current_session(PDO $pdo): ?array
@@ -145,14 +170,12 @@ function qa_current_session(PDO $pdo): ?array
     return $row ?: null;
 }
 
-function qa_login_markup(bool $pinConfigured, string $error, string $title = 'Тестовый Q&A'): string
+function qa_login_markup(bool $pinConfigured, string $error, string $title = 'Q&A'): string
 {
     $notice = !$pinConfigured
         ? '<div class="notice">PIN не найден. Можно создать <code>.private/qa_pin</code>; иначе используется существующий <code>checkin_pin</code> или <code>dashboard_pass</code>.</div>'
         : '';
-    if ($error !== '') {
-        $notice .= '<div class="notice">' . qa_h($error) . '</div>';
-    }
+    if ($error !== '') $notice .= '<div class="notice">' . qa_h($error) . '</div>';
 
     return '<div class="login-card"><div class="brand">Форум лабораторных инноваций 2026</div><h1>' . qa_h($title) . '</h1>' . $notice . '<form method="post" autocomplete="off"><label for="qa_pin">PIN доступа</label><input id="qa_pin" name="qa_pin" type="password" inputmode="numeric" autocomplete="off" autofocus required><button type="submit">Войти</button></form></div>';
 }
