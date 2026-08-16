@@ -2,7 +2,8 @@
     'use strict';
 
     const config = window.CONFERENCE_CHAT_CONFIG || {};
-    if (!config.enabled || !config.token) return;
+    const sessionMode = config.authMode === 'session';
+    if (!config.enabled || (!sessionMode && !config.token)) return;
 
     const endpoint = config.endpoint || '/api/conference-chat.php';
     const list = document.querySelector('[data-chat-list]');
@@ -106,7 +107,7 @@
         if (message.message_type === 'question' && ['on_air', 'answered'].includes(message.status)) {
             const marker = document.createElement('div');
             marker.className = 'chat-question-status ' + (message.status === 'answered' ? 'answered' : 'on-air');
-            marker.textContent = message.status === 'answered' ? '✓ Отвечено спикером' : '● Сейчас у спикера';
+            marker.textContent = message.status === 'answered' ? '✓ Отвечено спикером' : '● Передано спикеру';
             article.appendChild(marker);
         }
 
@@ -128,7 +129,7 @@
                         method: 'POST',
                         headers: {'Content-Type': 'application/json'},
                         credentials: 'same-origin',
-                        body: JSON.stringify({action: 'vote', token: config.token, message_id: Number(message.id)})
+                        body: JSON.stringify({action: 'vote', token: sessionMode ? '' : config.token, message_id: Number(message.id)})
                     });
                     const data = await response.json().catch(() => null);
                     if (!response.ok || !data?.ok) throw new Error('vote');
@@ -179,10 +180,12 @@
 
     async function loadMessages() {
         try {
-            const response = await fetch(`${endpoint}?t=${encodeURIComponent(config.token)}`, {
-                cache: 'no-store',
-                credentials: 'same-origin'
-            });
+            const url = sessionMode ? endpoint : `${endpoint}?t=${encodeURIComponent(config.token)}`;
+            const response = await fetch(url, {cache: 'no-store', credentials: 'same-origin'});
+            if (response.status === 401 && sessionMode) {
+                location.reload();
+                return;
+            }
             if (!response.ok) throw new Error('load');
             const data = await response.json();
             if (!data?.ok) throw new Error('api');
@@ -211,7 +214,7 @@
                 credentials: 'same-origin',
                 body: JSON.stringify({
                     action: 'send',
-                    token: config.token,
+                    token: sessionMode ? '' : config.token,
                     message_type: selectedType,
                     message_text: text,
                     reply_to_id: replyToId
@@ -223,7 +226,7 @@
             }
             input.value = '';
             clearReply();
-            setStatus(selectedType === 'question' ? 'Вопрос отправлен и появился в общем обсуждении.' : 'Сообщение отправлено.');
+            setStatus(selectedType === 'question' ? 'Вопрос отправлен спикеру и опубликован в обсуждении.' : 'Сообщение отправлено.');
             lastSignature = '';
             await loadMessages();
         } catch (error) {
