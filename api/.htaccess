@@ -1,0 +1,2 @@
+php_value mail.add_x_header 1
+php_value mail.log /home/c/cx314477/public_html/.private/mail.log
