@@ -31,8 +31,8 @@ try {
     http_response_code(200);
 } catch (Throwable $e) {
     $diagnostics['error_type'] = get_class($e);
-
     $message = $e->getMessage();
+
     if (str_contains($message, 'Access denied for user')) {
         $diagnostics['error_code'] = 'database_auth_failed';
     } elseif (str_contains($message, 'could not find driver')) {
@@ -41,12 +41,15 @@ try {
         $diagnostics['error_code'] = 'config_require_failed';
     } elseif (str_contains($message, 'DB config did not return PDO')) {
         $diagnostics['error_code'] = 'config_return_invalid';
-    } elseif (str_contains($message, 'Call to a member function')) {
-        $diagnostics['error_code'] = 'config_return_invalid';
     } else {
         $diagnostics['error_code'] = 'other';
     }
 
+    // Temporary, sanitized diagnostic: never expose credentials or the full server path.
+    $safeMessage = str_replace('/home/c/cx314477', '[HOME]', $message);
+    $safeMessage = preg_replace('/include_path=.*$/', 'include_path=[redacted]', $safeMessage);
+    $diagnostics['error_message_safe'] = $safeMessage;
+    $diagnostics['error_line'] = $e->getLine();
     http_response_code(500);
 }
 
