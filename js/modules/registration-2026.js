@@ -31,6 +31,83 @@
         });
     }
 
+    async function refreshAvailability() {
+        if (!config.availabilityEndpoint) return;
+
+        const offlineRadio = document.querySelector('input[name="participationFormat"][value="offline"]');
+        const onlineRadio = document.querySelector('input[name="participationFormat"][value="online"]');
+        const note = document.querySelector('[data-offline-availability]');
+
+        try {
+            const response = await fetch(config.availabilityEndpoint, { cache: 'no-store' });
+            const result = await response.json().catch(() => ({}));
+            if (!response.ok || !result.ok) return;
+
+            if (offlineRadio) offlineRadio.disabled = !result.offline?.available;
+            if (onlineRadio) onlineRadio.disabled = !result.online?.available;
+
+            if (note) {
+                if (result.offline?.state === 'full') {
+                    note.textContent = 'Свободные места для очного участия закончились. Доступны онлайн-участие и лист ожидания.';
+                } else if (result.offline?.state === 'limited') {
+                    note.textContent = 'Количество мест для очного участия ограничено.';
+                } else {
+                    note.textContent = 'Очное участие доступно. Количество мест ограничено.';
+                }
+            }
+        } catch (error) {
+            if (note) note.textContent = 'Количество мест для очного участия ограничено.';
+        }
+    }
+
+    async function processDuplicate(response, result, payload, message) {
+        if (response.status !== 409 || result.error !== 'possible_duplicate') return { response, result };
+
+        const reasons = Array.isArray(result.reasons) ? result.reasons : [];
+        const confirmed = window.confirm(duplicateMessage(reasons));
+        if (!confirmed) {
+            if (message) message.textContent = 'Регистрация не отправлена. Проверьте данные участника.';
+            return { cancelled: true };
+        }
+
+        payload.confirmDuplicate = true;
+        if (message) message.textContent = 'Отправляем регистрацию…';
+        const retryResponse = await sendRegistration(payload);
+        const retryResult = await retryResponse.json().catch(() => ({}));
+        return { response: retryResponse, result: retryResult };
+    }
+
+    async function processOfflineFull(response, result, payload, form, message) {
+        if (response.status !== 409 || result.error !== 'offline_full') return { response, result };
+
+        if (result.can_switch_online) {
+            const switchOnline = window.confirm('Свободные места для очного участия закончились. Перейти на онлайн-участие?');
+            if (switchOnline) {
+                payload.participationFormat = 'online';
+                const onlineRadio = form.querySelector('input[name="participationFormat"][value="online"]');
+                if (onlineRadio) onlineRadio.checked = true;
+                if (message) message.textContent = 'Оформляем онлайн-регистрацию…';
+                const retryResponse = await sendRegistration(payload);
+                const retryResult = await retryResponse.json().catch(() => ({}));
+                return { response: retryResponse, result: retryResult };
+            }
+        }
+
+        if (result.can_join_waitlist) {
+            const joinWaitlist = window.confirm('Добавить заявку в лист ожидания на очное участие?');
+            if (joinWaitlist) {
+                payload.waitlistIfFull = true;
+                if (message) message.textContent = 'Добавляем в лист ожидания…';
+                const retryResponse = await sendRegistration(payload);
+                const retryResult = await retryResponse.json().catch(() => ({}));
+                return { response: retryResponse, result: retryResult };
+            }
+        }
+
+        if (message) message.textContent = 'Очная регистрация не отправлена.';
+        return { cancelled: true };
+    }
+
     async function submitRegistration(event) {
         event.preventDefault();
         const form = event.currentTarget;
@@ -49,39 +126,55 @@
             let response = await sendRegistration(payload);
             let result = await response.json().catch(() => ({}));
 
-            if (response.status === 409 && result.error === 'possible_duplicate') {
-                const reasons = Array.isArray(result.reasons) ? result.reasons : [];
-                const confirmed = window.confirm(duplicateMessage(reasons));
+            let processed = await processDuplicate(response, result, payload, message);
+            if (processed.cancelled) return;
+            response = processed.response;
+            result = processed.result;
 
-                if (!confirmed) {
-                    if (message) message.textContent = 'Регистрация не отправлена. Проверьте данные участника.';
-                    return;
-                }
-
-                payload.confirmDuplicate = true;
-                if (message) message.textContent = 'Отправляем регистрацию…';
-                response = await sendRegistration(payload);
-                result = await response.json().catch(() => ({}));
-            }
+            processed = await processOfflineFull(response, result, payload, form, message);
+            if (processed.cancelled) return;
+            response = processed.response;
+            result = processed.result;
 
             if (!response.ok || !result.ok) {
+                if (result.error === 'offline_closed') throw new Error('offline_closed');
+                if (result.error === 'online_closed') throw new Error('online_closed');
                 throw new Error(result.error || 'Registration request failed');
             }
 
             form.reset();
             if (message) {
-                message.textContent = `Регистрация принята. Код участника: ${result.participant_code}. Подтверждение будет направлено на указанную почту.`;
+                if (result.registration_status === 'waitlist') {
+                    message.textContent = `Заявка добавлена в лист ожидания. Код: ${result.participant_code}. Подтверждение направлено на почту.`;
+                } else if (result.participation_format === 'online') {
+                    message.textContent = `Онлайн-регистрация подтверждена. Код участника: ${result.participant_code}. Персональная ссылка направлена на почту.`;
+                } else {
+                    message.textContent = `Очная регистрация подтверждена. Код участника: ${result.participant_code}. QR-билет направлен на почту.`;
+                }
             }
+
+            await refreshAvailability();
         } catch (error) {
-            if (message) message.textContent = 'Не удалось отправить заявку. Попробуйте ещё раз или свяжитесь с организаторами.';
+            if (message) {
+                if (error.message === 'offline_closed') {
+                    message.textContent = 'Очная регистрация сейчас закрыта. Выберите онлайн-участие.';
+                } else if (error.message === 'online_closed') {
+                    message.textContent = 'Онлайн-регистрация сейчас закрыта.';
+                } else {
+                    message.textContent = 'Не удалось отправить заявку. Попробуйте ещё раз или свяжитесь с организаторами.';
+                }
+            }
         } finally {
             submitButton.disabled = false;
         }
     }
 
-    document.addEventListener('DOMContentLoaded', () => {
+    document.addEventListener('DOMContentLoaded', async () => {
         const isOpen = setRegistrationState();
         const form = document.querySelector('[data-registration-form]');
-        if (isOpen && form) form.addEventListener('submit', submitRegistration);
+        if (isOpen && form) {
+            form.addEventListener('submit', submitRegistration);
+            await refreshAvailability();
+        }
     });
 })();
