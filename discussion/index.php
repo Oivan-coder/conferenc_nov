@@ -18,6 +18,31 @@ function h(?string $value): string
     return htmlspecialchars((string)$value, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
 }
 
+function normalize_name(string $value): string
+{
+    $value = trim(mb_strtolower($value, 'UTF-8'));
+    $value = str_replace('ё', 'е', $value);
+    $value = (string)preg_replace('/\s+/u', ' ', $value);
+    return trim($value);
+}
+
+function name_matches(string $storedName, string $inputName): bool
+{
+    $stored = normalize_name($storedName);
+    $input = normalize_name($inputName);
+    if ($stored === '' || $input === '') return false;
+    if ($stored === $input) return true;
+
+    $storedParts = explode(' ', $stored);
+    $inputParts = explode(' ', $input);
+
+    if (count($inputParts) === 2 && count($storedParts) >= 2) {
+        return $inputParts[0] === $storedParts[0] && $inputParts[1] === $storedParts[1];
+    }
+
+    return false;
+}
+
 if (isset($_POST['logout'])) {
     unset($_SESSION['conference_attendee_id']);
     session_regenerate_id(true);
@@ -27,34 +52,69 @@ if (isset($_POST['logout'])) {
 
 $error = '';
 $participant = null;
+$loginMode = (string)($_POST['login_mode'] ?? 'name');
+$nameValue = trim((string)($_POST['full_name'] ?? ''));
+$codeValue = strtoupper(trim((string)($_POST['participant_code'] ?? '')));
 
 try {
     $pdo = require DB_CONFIG_PATH;
     if (!$pdo instanceof PDO) throw new RuntimeException('Database config invalid');
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['participant_code'])) {
-        $code = strtoupper(trim((string)$_POST['participant_code']));
-        if (!preg_match('/^LE[A-F0-9]{8}$/', $code)) {
-            $error = 'Проверьте код участника. Он начинается с LE.';
-        } else {
-            $stmt = $pdo->prepare(
-                "SELECT id, participant_code, full_name, position, organization
-                 FROM participants
-                 WHERE participant_code = :code
-                   AND participation_format = 'offline'
-                   AND registration_status = 'confirmed'
-                 LIMIT 1"
-            );
-            $stmt->execute([':code' => $code]);
-            $found = $stmt->fetch(PDO::FETCH_ASSOC) ?: null;
-            if (!$found) {
-                $error = 'Участник с таким кодом не найден среди очных регистраций.';
+    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login_mode'])) {
+        if ($loginMode === 'code') {
+            if (!preg_match('/^LE[A-F0-9]{8}$/', $codeValue)) {
+                $error = 'Проверьте код участника. Он начинается с LE.';
             } else {
-                session_regenerate_id(true);
-                $_SESSION['conference_attendee_id'] = (int)$found['id'];
-                header('Location: /discussion/');
-                exit;
+                $stmt = $pdo->prepare(
+                    "SELECT id, participant_code, full_name, position, organization
+                     FROM participants
+                     WHERE participant_code = :code
+                       AND participation_format = 'offline'
+                       AND registration_status = 'confirmed'
+                     LIMIT 1"
+                );
+                $stmt->execute([':code' => $codeValue]);
+                $found = $stmt->fetch(PDO::FETCH_ASSOC) ?: null;
+                if (!$found) {
+                    $error = 'Участник с таким кодом не найден среди очных регистраций.';
+                } else {
+                    session_regenerate_id(true);
+                    $_SESSION['conference_attendee_id'] = (int)$found['id'];
+                    header('Location: /discussion/');
+                    exit;
+                }
+            }
+        } else {
+            $normalized = normalize_name($nameValue);
+            if ($normalized === '' || mb_strlen($normalized, 'UTF-8') < 5 || count(explode(' ', $normalized)) < 2) {
+                $error = 'Введите фамилию и имя, как при регистрации.';
+            } else {
+                $stmt = $pdo->prepare(
+                    "SELECT id, participant_code, full_name, position, organization
+                     FROM participants
+                     WHERE participation_format = 'offline'
+                       AND registration_status = 'confirmed'
+                     ORDER BY id"
+                );
+                $stmt->execute();
+                $matches = [];
+                foreach ($stmt->fetchAll(PDO::FETCH_ASSOC) as $row) {
+                    if (name_matches((string)$row['full_name'], $nameValue)) $matches[] = $row;
+                }
+
+                if (count($matches) === 1) {
+                    session_regenerate_id(true);
+                    $_SESSION['conference_attendee_id'] = (int)$matches[0]['id'];
+                    header('Location: /discussion/');
+                    exit;
+                }
+                if (count($matches) > 1) {
+                    $error = 'Нашли несколько участников с таким именем. В этом случае войдите по коду с бейджа.';
+                    $loginMode = 'code';
+                } else {
+                    $error = 'Не нашли такую очную регистрацию. Проверьте написание ФИО или войдите по коду.';
+                }
             }
         }
     }
@@ -86,7 +146,7 @@ try {
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="robots" content="noindex,nofollow,noarchive">
 <title>Обсуждение форума — 7 октября 2026</title>
-<link rel="stylesheet" href="/discussion/style.css?v=20260816-1">
+<link rel="stylesheet" href="/discussion/style.css?v=20260816-2">
 </head>
 <body>
 <?php if (!$participant): ?>
@@ -98,25 +158,54 @@ try {
         <p class="access-lead">Или присоединитесь к общему обсуждению прямо со своего телефона.</p>
 
         <div class="access-steps">
-            <div><span>1</span><p>Введите код участника с письма или бейджа.</p></div>
+            <div><span>1</span><p>Найдите себя по фамилии и имени. Код с бейджа — запасной вариант.</p></div>
             <div><span>2</span><p>Пишите в общий чат или выберите «Вопрос спикеру».</p></div>
             <div><span>3</span><p>Вопрос попадёт модератору и останется виден в обсуждении.</p></div>
         </div>
 
         <?php if ($error): ?><div class="access-error"><?= h($error) ?></div><?php endif; ?>
 
-        <form method="post" class="access-form" autocomplete="off">
-            <label for="participant_code">Код участника</label>
-            <div class="code-row">
-                <input id="participant_code" name="participant_code" type="text" inputmode="text" autocapitalize="characters" maxlength="10" placeholder="LE12AB34CD" required autofocus>
+        <div class="login-switch" role="tablist" aria-label="Способ входа">
+            <button type="button" class="login-switch__btn <?= $loginMode !== 'code' ? 'active' : '' ?>" data-login-tab="name">По ФИО</button>
+            <button type="button" class="login-switch__btn <?= $loginMode === 'code' ? 'active' : '' ?>" data-login-tab="code">По коду</button>
+        </div>
+
+        <form method="post" class="access-form <?= $loginMode === 'code' ? 'is-hidden' : '' ?>" data-login-panel="name" autocomplete="off">
+            <input type="hidden" name="login_mode" value="name">
+            <label for="full_name">Фамилия и имя</label>
+            <div class="code-row name-row">
+                <input id="full_name" name="full_name" type="text" maxlength="255" placeholder="Иванов Иван" value="<?= h($nameValue) ?>" autocomplete="name" required>
                 <button type="submit">Войти</button>
             </div>
-            <p>Код указан в подтверждении регистрации. После входа повторно вводить ФИО и организацию не нужно.</p>
+            <p>Отчество можно не вводить. Если найдутся однофамильцы, система попросит использовать код с бейджа.</p>
+        </form>
+
+        <form method="post" class="access-form <?= $loginMode !== 'code' ? 'is-hidden' : '' ?>" data-login-panel="code" autocomplete="off">
+            <input type="hidden" name="login_mode" value="code">
+            <label for="participant_code">Код участника</label>
+            <div class="code-row">
+                <input id="participant_code" name="participant_code" type="text" inputmode="text" autocapitalize="characters" maxlength="10" placeholder="LE12AB34CD" value="<?= h($codeValue) ?>" required>
+                <button type="submit">Войти</button>
+            </div>
+            <p>Код указан в подтверждении регистрации и на бейдже. Это запасной способ входа.</p>
         </form>
 
         <div class="access-footer">7 октября 2026 · Дом Правительства Московской области</div>
     </section>
 </main>
+<script>
+(() => {
+    const buttons = [...document.querySelectorAll('[data-login-tab]')];
+    const panels = [...document.querySelectorAll('[data-login-panel]')];
+    buttons.forEach((button) => button.addEventListener('click', () => {
+        const mode = button.dataset.loginTab;
+        buttons.forEach((item) => item.classList.toggle('active', item === button));
+        panels.forEach((panel) => panel.classList.toggle('is-hidden', panel.dataset.loginPanel !== mode));
+        const field = document.querySelector(mode === 'name' ? '#full_name' : '#participant_code');
+        field?.focus();
+    }));
+})();
+</script>
 <?php else: ?>
 <div class="discussion-shell">
     <header class="discussion-topbar">
