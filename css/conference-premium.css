@@ -1,0 +1,374 @@
+:root{
+  --c26-ink:#102b21;
+  --c26-green:#164b38;
+  --c26-green-2:#0d382a;
+  --c26-green-3:#2d7656;
+  --c26-mint:#e9f3ee;
+  --c26-paper:#f6f8f6;
+  --c26-white:#ffffff;
+  --c26-line:#dbe6df;
+  --c26-muted:#667b70;
+  --c26-gold:#c9a85c;
+  --c26-shadow:0 24px 70px rgba(14,55,39,.10);
+  --c26-shadow-soft:0 12px 34px rgba(14,55,39,.07);
+  --c26-radius:24px;
+}
+
+.conference-2026-page,
+.registration-2026-page,
+.ticket-premium-page,
+.live-premium-page{
+  background:
+    radial-gradient(circle at 90% 8%,rgba(45,118,86,.08),transparent 26rem),
+    radial-gradient(circle at 6% 28%,rgba(201,168,92,.05),transparent 22rem),
+    var(--c26-paper);
+  color:var(--c26-ink);
+}
+
+.conference-2026-page main,
+.registration-2026-page main{overflow:hidden}
+
+/* ===== Conference hero ===== */
+.conference-2026-page .c26-hero{
+  position:relative;
+  min-height:760px;
+  background:var(--c26-green-2);
+  isolation:isolate;
+  overflow:hidden;
+  border-radius:0 0 34px 34px;
+  box-shadow:0 18px 60px rgba(6,35,25,.18);
+}
+.conference-2026-page .c26-hero::before{
+  content:"";
+  position:absolute;
+  inset:auto -10% -35% auto;
+  width:760px;
+  height:760px;
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:50%;
+  z-index:1;
+}
+.conference-2026-page .c26-hero::after{
+  content:"";
+  position:absolute;
+  width:420px;
+  height:420px;
+  left:-180px;
+  top:170px;
+  border:1px solid rgba(201,168,92,.20);
+  border-radius:50%;
+  z-index:1;
+}
+.conference-2026-page .c26-hero__media{position:absolute;inset:0;z-index:0}
+.conference-2026-page .c26-hero__media img{
+  width:100%;height:100%;object-fit:cover;object-position:center 42%;
+  filter:saturate(.78) contrast(1.05) brightness(.72);
+  transform:scale(1.02);
+}
+.conference-2026-page .c26-hero__overlay{
+  position:absolute;inset:0;
+  background:
+    linear-gradient(90deg,rgba(7,45,32,.98) 0%,rgba(7,45,32,.93) 38%,rgba(7,45,32,.60) 68%,rgba(7,45,32,.18) 100%),
+    linear-gradient(0deg,rgba(6,34,25,.55),transparent 45%);
+}
+.conference-2026-page .photo-header{position:relative;z-index:4}
+.conference-2026-page .c26-hero__content{
+  position:relative;z-index:2;
+  padding-top:116px;padding-bottom:74px;
+  max-width:1280px;
+}
+.conference-2026-page .c26-hero__eyebrow{
+  display:inline-flex;align-items:center;gap:10px;
+  color:rgba(255,255,255,.76);font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+  margin-bottom:22px;
+}
+.conference-2026-page .c26-hero__eyebrow::before{content:"";width:32px;height:1px;background:var(--c26-gold)}
+.conference-2026-page .c26-hero h1{
+  max-width:790px;margin:0;
+  color:#fff;font-family:Georgia,'Times New Roman',serif;
+  font-size:clamp(52px,6vw,88px);font-weight:600;line-height:.98;letter-spacing:-.035em;
+  text-wrap:balance;
+}
+.conference-2026-page .c26-hero__lead{
+  max-width:710px;margin:28px 0 0;color:rgba(255,255,255,.82);
+  font-size:19px;line-height:1.58;
+}
+.conference-2026-page .c26-facts{
+  margin-top:38px;max-width:940px;
+  display:grid;grid-template-columns:repeat(4,1fr);
+  background:rgba(255,255,255,.095);border:1px solid rgba(255,255,255,.16);
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  border-radius:20px;overflow:hidden;
+}
+.conference-2026-page .c26-fact{padding:18px 21px;min-width:0;position:relative}
+.conference-2026-page .c26-fact+ .c26-fact{border-left:1px solid rgba(255,255,255,.13)}
+.conference-2026-page .c26-fact span{display:block;color:rgba(255,255,255,.55);font-size:11px;letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px}
+.conference-2026-page .c26-fact strong{display:block;color:#fff;font-size:15px;line-height:1.35}
+.conference-2026-page .c26-hero__actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}
+.c26-button{
+  min-height:50px;padding:0 22px;border-radius:13px;
+  display:inline-flex;align-items:center;justify-content:center;gap:9px;
+  font-weight:750;text-decoration:none!important;transition:.2s ease;border:1px solid transparent;cursor:pointer;
+}
+.c26-button--primary{background:linear-gradient(135deg,#2d7656,#205f46);color:#fff!important;box-shadow:0 12px 28px rgba(21,85,60,.25)}
+.c26-button--primary:hover{transform:translateY(-2px);box-shadow:0 16px 34px rgba(21,85,60,.30)}
+.c26-button--secondary{background:#fff;color:var(--c26-ink)!important;border-color:rgba(16,43,33,.10);box-shadow:0 10px 26px rgba(5,32,22,.10)}
+.c26-button--secondary:hover{transform:translateY(-2px)}
+.conference-2026-page .c26-hero__metrics{
+  display:flex;gap:34px;flex-wrap:wrap;margin-top:34px;color:#fff;
+}
+.conference-2026-page .c26-hero__metrics>div{display:flex;align-items:baseline;gap:9px}
+.conference-2026-page .c26-hero__metrics strong{font-family:Georgia,serif;font-size:27px;font-weight:600}
+.conference-2026-page .c26-hero__metrics span{font-size:13px;color:rgba(255,255,255,.60)}
+
+/* ===== Generic conference sections ===== */
+.conference-2026-page .container,.registration-2026-page .container{max-width:1220px}
+.conference-2026-page .c26-intro,
+.conference-2026-page .c26-program,
+.conference-2026-page .c26-tracks,
+.conference-2026-page .c26-audience,
+.conference-2026-page .c26-location,
+.conference-2026-page .c26-registration-cta{padding:92px 0}
+.conference-2026-page .c26-intro{padding-top:112px}
+.conference-2026-page .c26-section-heading{max-width:780px;margin:0 auto 44px;text-align:center}
+.conference-2026-page .c26-section-heading--left{margin-left:0;text-align:left}
+.conference-2026-page .c26-section-heading>span{
+  color:var(--c26-green-3);font-size:11px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;
+}
+.conference-2026-page .c26-section-heading h2{
+  margin:10px 0 14px;color:var(--c26-ink);font-family:Georgia,serif;
+  font-size:clamp(34px,4vw,52px);font-weight:600;line-height:1.08;letter-spacing:-.025em;
+}
+.conference-2026-page .c26-section-heading p{color:var(--c26-muted);font-size:17px;line-height:1.7;margin:0}
+.conference-2026-page .c26-intro__grid{display:grid;grid-template-columns:.95fr 1.05fr;gap:54px;align-items:start}
+.conference-2026-page .c26-principles{display:grid;gap:14px}
+.conference-2026-page .c26-principles article,
+.conference-2026-page .c26-tracks__grid article{
+  background:#fff;border:1px solid var(--c26-line);border-radius:20px;padding:24px;
+  box-shadow:var(--c26-shadow-soft);transition:.2s ease;
+}
+.conference-2026-page .c26-principles article:hover,
+.conference-2026-page .c26-tracks__grid article:hover{transform:translateY(-3px);box-shadow:var(--c26-shadow)}
+.conference-2026-page .c26-principles article>span,
+.conference-2026-page .c26-tracks__grid article>b{
+  display:inline-flex;width:38px;height:38px;border-radius:12px;align-items:center;justify-content:center;
+  background:var(--c26-mint);color:var(--c26-green-3);font-size:12px;letter-spacing:.06em;
+}
+.conference-2026-page .c26-principles h3,
+.conference-2026-page .c26-tracks__grid h3{margin:14px 0 8px;font-size:20px;color:var(--c26-ink)}
+.conference-2026-page .c26-principles p,
+.conference-2026-page .c26-tracks__grid p{margin:0;color:var(--c26-muted);line-height:1.6}
+.conference-2026-page .c26-program{background:linear-gradient(180deg,#eef4f0,#f8faf8)}
+.conference-2026-page .c26-agenda{max-width:980px;margin:0 auto;position:relative}
+.conference-2026-page .c26-agenda::before{content:"";position:absolute;left:123px;top:12px;bottom:12px;width:1px;background:#d7e3dc}
+.conference-2026-page .c26-agenda__item{
+  display:grid;grid-template-columns:105px 1fr;gap:34px;position:relative;padding:17px 0;
+}
+.conference-2026-page .c26-agenda__item::before{
+  content:"";position:absolute;left:117px;top:31px;width:13px;height:13px;border-radius:50%;
+  background:#fff;border:3px solid var(--c26-green-3);z-index:1;
+}
+.conference-2026-page .c26-agenda__item time{padding-top:8px;color:var(--c26-green);font-weight:800;font-size:13px}
+.conference-2026-page .c26-agenda__item>div{
+  background:#fff;border:1px solid var(--c26-line);border-radius:18px;padding:20px 22px;box-shadow:0 8px 28px rgba(14,55,39,.05)
+}
+.conference-2026-page .c26-agenda__item>div>span{font-size:10px;font-weight:800;letter-spacing:.13em;text-transform:uppercase;color:var(--c26-green-3)}
+.conference-2026-page .c26-agenda__item h3{font-size:19px;margin:6px 0;color:var(--c26-ink)}
+.conference-2026-page .c26-agenda__item p{margin:0;color:var(--c26-muted);line-height:1.55}
+.conference-2026-page .c26-agenda__item--key>div{border-left:4px solid var(--c26-green-3)}
+.conference-2026-page .c26-agenda__item--interactive>div{border-left:4px solid var(--c26-gold)}
+.conference-2026-page .c26-agenda__item--break>div,.conference-2026-page .c26-agenda__item--service>div{background:#f8faf8}
+.conference-2026-page .c26-tracks__grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.conference-2026-page .c26-audience{background:#fff}
+.conference-2026-page .c26-audience__layout{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center}
+.conference-2026-page .c26-audience__list{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.conference-2026-page .c26-audience__list li{
+  background:var(--c26-paper);border:1px solid var(--c26-line);border-radius:15px;padding:16px 18px 16px 47px;position:relative;color:#385448;line-height:1.45
+}
+.conference-2026-page .c26-audience__list li::before{content:"✓";position:absolute;left:18px;top:15px;width:20px;height:20px;border-radius:50%;display:grid;place-items:center;background:var(--c26-mint);color:var(--c26-green-3);font-weight:900;font-size:12px}
+.conference-2026-page .c26-location__grid{display:grid;grid-template-columns:1.1fr .9fr;gap:18px}
+.conference-2026-page .c26-location__map-wrap,
+.conference-2026-page .c26-location__card{background:#fff;border:1px solid var(--c26-line);border-radius:22px;overflow:hidden;box-shadow:var(--c26-shadow-soft)}
+.conference-2026-page .interactive-map-full{min-height:440px}
+.conference-2026-page .c26-location__card img{width:100%;height:235px;object-fit:cover}
+.conference-2026-page .c26-location__card>div{padding:24px}
+.conference-2026-page .c26-location__card span{font-size:11px;color:var(--c26-green-3);font-weight:800;letter-spacing:.1em;text-transform:uppercase}
+.conference-2026-page .c26-location__card h3{font-family:Georgia,serif;font-size:27px;margin:8px 0 10px}
+.conference-2026-page .c26-location__card p{color:var(--c26-muted);line-height:1.5}
+.conference-2026-page .c26-location__actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.conference-2026-page .c26-location__actions button,.conference-2026-page .c26-location__actions a{border:1px solid var(--c26-line);background:#fff;color:var(--c26-green);border-radius:10px;padding:10px 13px;text-decoration:none;font-weight:700;cursor:pointer}
+.conference-2026-page .c26-registration-cta__card{
+  background:
+    radial-gradient(circle at 90% 10%,rgba(255,255,255,.10),transparent 240px),
+    linear-gradient(135deg,#0f3b2c,#1d5a42);
+  color:#fff;border-radius:28px;padding:44px 46px;box-shadow:0 24px 65px rgba(14,55,39,.20);
+  display:flex;align-items:center;justify-content:space-between;gap:36px;position:relative;overflow:hidden
+}
+.conference-2026-page .c26-registration-cta__card::after{content:"";position:absolute;width:360px;height:360px;border:1px solid rgba(255,255,255,.09);border-radius:50%;right:-110px;bottom:-240px}
+.conference-2026-page .c26-registration-cta__card>div:first-child{max-width:730px;position:relative;z-index:1}
+.conference-2026-page .c26-registration-cta__card span{font-size:11px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#b7d5c7}
+.conference-2026-page .c26-registration-cta__card h2{font-family:Georgia,serif;font-size:38px;line-height:1.08;margin:9px 0 12px;color:#fff}
+.conference-2026-page .c26-registration-cta__card p{margin:0;color:rgba(255,255,255,.70);line-height:1.6}
+.conference-2026-page .c26-registration-cta__actions{display:flex;gap:10px;flex-wrap:wrap;position:relative;z-index:1}
+
+/* ===== Registration ===== */
+.registration-2026-page .photo-header{position:relative;z-index:3;background:var(--c26-green-2)}
+.registration-2026-page .r26-hero{
+  position:relative;padding:76px 0 84px;color:#fff;overflow:hidden;
+  background:
+    radial-gradient(circle at 90% 20%,rgba(201,168,92,.10),transparent 300px),
+    linear-gradient(135deg,#0d382a,#174e39 58%,#0f3a2d);
+}
+.registration-2026-page .r26-hero::after{content:"";position:absolute;width:520px;height:520px;right:-160px;top:-250px;border:1px solid rgba(255,255,255,.10);border-radius:50%}
+.registration-2026-page .r26-back{display:inline-flex;color:rgba(255,255,255,.70);text-decoration:none;margin-bottom:30px;font-size:13px;font-weight:700}
+.registration-2026-page .r26-hero__grid{display:grid;grid-template-columns:1.35fr .65fr;gap:34px;align-items:end}
+.registration-2026-page .r26-kicker{font-size:11px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#b7d5c7}
+.registration-2026-page .r26-hero h1{margin:10px 0 16px;max-width:760px;font-family:Georgia,serif;font-size:clamp(44px,5vw,68px);font-weight:600;line-height:1.02;letter-spacing:-.03em}
+.registration-2026-page .r26-hero p{max-width:690px;color:rgba(255,255,255,.70);font-size:17px;line-height:1.65;margin:0}
+.registration-2026-page .r26-status{padding:23px;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.08);backdrop-filter:blur(12px);border-radius:18px;position:relative;z-index:1}
+.registration-2026-page .r26-status>span{font-size:10px;text-transform:uppercase;letter-spacing:.13em;color:#b7d5c7;font-weight:800}
+.registration-2026-page .r26-status strong{display:block;margin:8px 0;font-size:19px;color:#fff}
+.registration-2026-page .r26-status p{font-size:13px;line-height:1.5;color:rgba(255,255,255,.65)}
+.registration-2026-page .r26-content{padding:66px 0 24px}
+.registration-2026-page .r26-content__grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.registration-2026-page .r26-card{background:#fff;border:1px solid var(--c26-line);border-radius:20px;padding:24px;box-shadow:var(--c26-shadow-soft)}
+.registration-2026-page .r26-card__number{display:grid;place-items:center;width:38px;height:38px;border-radius:11px;background:var(--c26-mint);color:var(--c26-green-3);font-size:11px;font-weight:850}
+.registration-2026-page .r26-card h2{font-family:Georgia,serif;font-size:23px;margin:15px 0 8px}
+.registration-2026-page .r26-card p{color:var(--c26-muted);line-height:1.6;margin:0}
+.registration-2026-page .r26-form-zone{padding:50px 0 100px}
+.registration-2026-page .r26-form-zone__header{max-width:760px;margin:0 auto 30px;text-align:center}
+.registration-2026-page .r26-form-zone__header>span{font-size:11px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--c26-green-3)}
+.registration-2026-page .r26-form-zone__header h2{font-family:Georgia,serif;font-size:42px;line-height:1.1;margin:9px 0 12px}
+.registration-2026-page .r26-form-zone__header p{color:var(--c26-muted);line-height:1.6}
+.registration-2026-page .r26-form-preview,
+.registration-2026-page .r26-form{
+  max-width:900px;margin:0 auto;background:#fff;border:1px solid var(--c26-line);border-radius:24px;padding:30px;box-shadow:var(--c26-shadow)
+}
+.registration-2026-page .r26-form-preview{display:flex;justify-content:space-between;align-items:center;gap:24px}
+.registration-2026-page .r26-form-preview strong{font-family:Georgia,serif;font-size:24px}
+.registration-2026-page .r26-form-preview p{color:var(--c26-muted);margin:7px 0 0}
+.registration-2026-page .r26-form{grid-template-columns:repeat(2,1fr);gap:18px 16px}
+.registration-2026-page .r26-form:not([hidden]){display:grid}
+.registration-2026-page .r26-field{min-width:0;border:0;padding:0;margin:0}
+.registration-2026-page .r26-field--wide{grid-column:1/-1}
+.registration-2026-page .r26-field label,.registration-2026-page .r26-field legend{display:block;font-size:12px;font-weight:800;color:#3e574b;margin-bottom:7px}
+.registration-2026-page .r26-field input[type="text"],
+.registration-2026-page .r26-field input[type="email"],
+.registration-2026-page .r26-field input[type="tel"]{
+  width:100%;height:50px;border:1px solid #d3e0d8;background:#fbfcfb;border-radius:12px;padding:0 14px;color:var(--c26-ink);outline:none;transition:.18s ease
+}
+.registration-2026-page .r26-field input:focus{border-color:#73a68e;box-shadow:0 0 0 4px rgba(45,118,86,.10);background:#fff}
+.registration-2026-page fieldset.r26-field{background:#f7faf8;border:1px solid var(--c26-line);border-radius:14px;padding:14px 16px}
+.registration-2026-page fieldset.r26-field label{display:inline-flex;align-items:center;gap:8px;margin:5px 18px 3px 0;font-size:14px;font-weight:700}
+.registration-2026-page .r26-consent{display:flex;gap:11px;align-items:flex-start;background:#f7faf8;border-radius:14px;padding:16px;color:#51685d;font-size:13px;line-height:1.55}
+.registration-2026-page .r26-consent a{color:var(--c26-green);font-weight:750}
+.registration-2026-page .r26-form__message{color:var(--c26-muted);font-size:13px;line-height:1.5;margin:10px 0 0}
+.registration-2026-page .r26-form button[type="submit"]{min-width:220px}
+
+/* ===== Ticket + live shared ===== */
+.ticket-premium-page,.live-premium-page{min-height:100vh;font-family:Arial,sans-serif}
+.event-shell{max-width:1180px;margin:0 auto;padding:30px 18px 60px}
+.event-brandbar{
+  min-height:174px;border-radius:26px;padding:32px 36px;color:#fff;position:relative;overflow:hidden;
+  background:
+    radial-gradient(circle at 88% 10%,rgba(201,168,92,.14),transparent 220px),
+    linear-gradient(135deg,#0d382a,#1a563f);
+  box-shadow:0 20px 58px rgba(14,55,39,.18)
+}
+.event-brandbar::before{content:"";position:absolute;width:360px;height:360px;border-radius:50%;border:1px solid rgba(255,255,255,.10);right:-85px;top:-220px}
+.event-brandbar__eyebrow{font-size:11px;font-weight:800;letter-spacing:.13em;text-transform:uppercase;color:#bdd8ca;position:relative;z-index:1}
+.event-brandbar h1{font-family:Georgia,serif;font-size:clamp(34px,5vw,52px);font-weight:600;line-height:1.05;margin:10px 0 0;position:relative;z-index:1}
+.event-panel{margin-top:18px;background:#fff;border:1px solid var(--c26-line);border-radius:24px;box-shadow:var(--c26-shadow);overflow:hidden}
+.event-chip{display:inline-flex;align-items:center;gap:7px;background:var(--c26-mint);color:var(--c26-green);border-radius:999px;padding:7px 11px;font-size:12px;font-weight:800}
+.event-muted{color:var(--c26-muted)}
+
+/* ticket */
+.ticket-premium-page .ticket-layout{display:grid;grid-template-columns:1.2fr .8fr;min-height:620px}
+.ticket-premium-page .ticket-main{padding:42px 44px;border-right:1px solid var(--c26-line);display:flex;flex-direction:column}
+.ticket-premium-page .ticket-person h2{font-family:Georgia,serif;font-size:34px;margin:12px 0 6px}
+.ticket-premium-page .ticket-person p{margin:0;color:var(--c26-muted);font-size:16px}
+.ticket-premium-page .ticket-qrbox{margin:34px auto 0;text-align:center;max-width:430px}
+.ticket-premium-page .ticket-qrframe{display:inline-grid;place-items:center;background:#fff;border:1px solid var(--c26-line);border-radius:22px;padding:22px;box-shadow:0 15px 44px rgba(16,43,33,.09)}
+.ticket-premium-page .ticket-qr{display:block;width:310px;height:310px;max-width:65vw}
+.ticket-premium-page .ticket-code{font-family:Georgia,serif;font-size:27px;letter-spacing:.08em;color:var(--c26-green);font-weight:700;margin-top:20px}
+.ticket-premium-page .ticket-hint{margin-top:8px;color:var(--c26-muted);font-size:13px}
+.ticket-premium-page .ticket-side{padding:36px 30px;background:linear-gradient(180deg,#fbfcfb,#f4f8f5)}
+.ticket-premium-page .ticket-side h3{font-family:Georgia,serif;font-size:26px;margin:18px 0 20px}
+.ticket-premium-page .ticket-detail{padding:15px 0;border-top:1px solid var(--c26-line)}
+.ticket-premium-page .ticket-detail:first-of-type{border-top:0}
+.ticket-premium-page .ticket-detail span{display:block;font-size:10px;color:#7a8e84;text-transform:uppercase;letter-spacing:.12em;font-weight:800;margin-bottom:5px}
+.ticket-premium-page .ticket-detail strong{font-size:15px;line-height:1.45}
+.ticket-premium-page .ticket-note{margin-top:24px;padding:15px;border-radius:14px;background:#eaf3ee;color:#466457;font-size:13px;line-height:1.55}
+.ticket-premium-page .ticket-contact{margin-top:auto;padding-top:28px;font-size:13px;color:var(--c26-muted)}
+.ticket-premium-page .ticket-contact a{color:var(--c26-green);font-weight:750}
+
+/* live */
+.live-premium-page .live-layout{display:grid;grid-template-columns:minmax(0,1fr) 330px;gap:18px;margin-top:18px}
+.live-premium-page .live-stage,.live-premium-page .live-side,.live-premium-page .live-person{background:#fff;border:1px solid var(--c26-line);border-radius:22px;box-shadow:var(--c26-shadow-soft);overflow:hidden}
+.live-premium-page .live-player{aspect-ratio:16/9;background:linear-gradient(145deg,#0a2e22,#153f30);position:relative;display:grid;place-items:center;color:#fff;overflow:hidden}
+.live-premium-page .live-player::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 50% 50%,rgba(255,255,255,.06),transparent 40%),linear-gradient(115deg,transparent 45%,rgba(255,255,255,.025) 45% 52%,transparent 52%)}
+.live-premium-page .live-player iframe{width:100%;height:100%;border:0;position:relative;z-index:1}
+.live-premium-page .live-placeholder{max-width:570px;padding:34px;text-align:center;position:relative;z-index:1;line-height:1.7;color:rgba(255,255,255,.72)}
+.live-premium-page .live-placeholder::before{content:"◉";display:grid;place-items:center;width:54px;height:54px;margin:0 auto 18px;border:1px solid rgba(255,255,255,.22);border-radius:50%;color:#b7d5c7;font-size:20px}
+.live-premium-page .live-placeholder strong{display:block;color:#fff;font-family:Georgia,serif;font-size:27px;font-weight:600;margin-bottom:4px}
+.live-premium-page .live-person{margin-top:18px;padding:25px 28px}
+.live-premium-page .live-person h2{font-family:Georgia,serif;font-size:28px;margin:0 0 6px}
+.live-premium-page .live-person p{margin:0;color:var(--c26-muted)}
+.live-premium-page .live-person .live-person__note{margin-top:16px;padding-top:15px;border-top:1px solid var(--c26-line);font-size:13px;line-height:1.55;color:#6c8076}
+.live-premium-page .live-side{padding:27px;background:linear-gradient(180deg,#fff,#f6f9f7)}
+.live-premium-page .live-side h3{font-family:Georgia,serif;font-size:26px;margin:18px 0 18px}
+.live-premium-page .live-detail{padding:14px 0;border-top:1px solid var(--c26-line)}
+.live-premium-page .live-detail span{display:block;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#7b8f84;font-weight:800;margin-bottom:4px}
+.live-premium-page .live-detail strong{font-size:15px;line-height:1.45}
+.live-premium-page .live-presence{margin-top:18px;border-radius:14px;padding:15px;background:#eaf3ee;color:#466457;font-size:13px;line-height:1.55}
+.live-premium-page .live-presence b{color:var(--c26-green)}
+.live-premium-page .live-help{margin-top:15px;font-size:12px;color:#72867b;line-height:1.5}
+
+/* ===== Responsive ===== */
+@media(max-width:900px){
+  .conference-2026-page .c26-hero{min-height:auto;border-radius:0 0 24px 24px}
+  .conference-2026-page .c26-hero__content{padding-top:90px}
+  .conference-2026-page .c26-facts{grid-template-columns:repeat(2,1fr)}
+  .conference-2026-page .c26-fact:nth-child(3){border-left:0;border-top:1px solid rgba(255,255,255,.13)}
+  .conference-2026-page .c26-fact:nth-child(4){border-top:1px solid rgba(255,255,255,.13)}
+  .conference-2026-page .c26-intro__grid,.conference-2026-page .c26-audience__layout,.conference-2026-page .c26-location__grid{grid-template-columns:1fr}
+  .conference-2026-page .c26-tracks__grid{grid-template-columns:repeat(2,1fr)}
+  .conference-2026-page .c26-registration-cta__card{display:block;padding:36px}
+  .conference-2026-page .c26-registration-cta__actions{margin-top:24px}
+  .registration-2026-page .r26-hero__grid{grid-template-columns:1fr}
+  .registration-2026-page .r26-content__grid{grid-template-columns:1fr}
+  .ticket-premium-page .ticket-layout{grid-template-columns:1fr}
+  .ticket-premium-page .ticket-main{border-right:0;border-bottom:1px solid var(--c26-line);padding:32px 24px}
+  .live-premium-page .live-layout{grid-template-columns:1fr}
+}
+@media(max-width:620px){
+  .conference-2026-page .c26-hero__content{padding-top:72px;padding-bottom:54px}
+  .conference-2026-page .c26-hero h1{font-size:48px}
+  .conference-2026-page .c26-facts{grid-template-columns:1fr}
+  .conference-2026-page .c26-fact+ .c26-fact{border-left:0;border-top:1px solid rgba(255,255,255,.13)}
+  .conference-2026-page .c26-hero__metrics{gap:18px}
+  .conference-2026-page .c26-intro,.conference-2026-page .c26-program,.conference-2026-page .c26-tracks,.conference-2026-page .c26-audience,.conference-2026-page .c26-location,.conference-2026-page .c26-registration-cta{padding:64px 0}
+  .conference-2026-page .c26-agenda::before{left:7px}
+  .conference-2026-page .c26-agenda__item{grid-template-columns:1fr;gap:7px;padding-left:25px}
+  .conference-2026-page .c26-agenda__item::before{left:1px;top:28px}
+  .conference-2026-page .c26-agenda__item time{padding-top:0}
+  .conference-2026-page .c26-tracks__grid{grid-template-columns:1fr}
+  .conference-2026-page .c26-registration-cta__card{padding:28px 24px;border-radius:22px}
+  .conference-2026-page .c26-registration-cta__card h2{font-size:32px}
+  .registration-2026-page .r26-hero{padding:54px 0 62px}
+  .registration-2026-page .r26-hero h1{font-size:42px}
+  .registration-2026-page .r26-form-preview{display:block;padding:24px}
+  .registration-2026-page .r26-form-preview .c26-button{margin-top:18px}
+  .registration-2026-page .r26-form{grid-template-columns:1fr;padding:22px}
+  .registration-2026-page .r26-field--wide{grid-column:auto}
+  .event-shell{padding:16px 12px 34px}
+  .event-brandbar{min-height:150px;padding:25px 22px;border-radius:20px}
+  .event-brandbar h1{font-size:36px}
+  .ticket-premium-page .ticket-person h2{font-size:29px}
+  .ticket-premium-page .ticket-qrframe{padding:15px}
+  .ticket-premium-page .ticket-qr{width:270px;height:270px}
+  .ticket-premium-page .ticket-side{padding:26px 22px}
+  .live-premium-page .live-placeholder{padding:25px 18px;font-size:14px}
+  .live-premium-page .live-placeholder strong{font-size:23px}
+  .live-premium-page .live-person,.live-premium-page .live-side{padding:22px}
+}
