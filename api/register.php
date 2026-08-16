@@ -48,49 +48,58 @@ function qrImageUrl(string $qrToken): string {
     return 'https://rclsmo.ru/api/qr.php?t=' . rawurlencode($qrToken);
 }
 
-function sendConfirmationEmail(string $to, string $fullName, string $participantCode, string $format, string $qrToken): bool {
-    $safeName = htmlspecialchars($fullName, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
-    $safeCode = htmlspecialchars($participantCode, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
-    $safeFormat = $format === 'offline' ? 'Очное участие' : 'Онлайн-участие';
-    $safeFormat = htmlspecialchars($safeFormat, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
-    $safeTicketUrl = htmlspecialchars(ticketUrl($qrToken), ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
-    $safeQrUrl = htmlspecialchars(qrImageUrl($qrToken), ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+function liveUrl(string $onlineToken): string {
+    return 'https://rclsmo.ru/live/?t=' . rawurlencode($onlineToken);
+}
 
-    $subject = mb_encode_mimeheader('Подтверждение регистрации — Форум лабораторных инноваций 2026', 'UTF-8', 'B');
-
-    $htmlBody = '<!doctype html><html lang="ru"><body style="margin:0;padding:0;background:#f3f6f4;font-family:Arial,sans-serif;color:#173126;">'
-        . '<table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background:#f3f6f4;"><tr><td align="center" style="padding:24px 12px;">'
-        . '<table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="max-width:620px;background:#ffffff;border:1px solid #dfe8e2;border-radius:14px;overflow:hidden;">'
-        . '<tr><td style="background:#214f3b;color:#ffffff;padding:26px 28px;">'
-        . '<div style="font-size:12px;line-height:1.5;letter-spacing:.06em;text-transform:uppercase;opacity:.82;">Референс-центр лабораторной службы Московской области</div>'
-        . '<div style="font-size:24px;line-height:1.25;font-weight:700;margin-top:8px;">Регистрация подтверждена</div>'
-        . '</td></tr><tr><td style="padding:28px;">'
-        . '<p style="font-size:16px;line-height:1.6;margin:0 0 14px;">Здравствуйте, <strong>' . $safeName . '</strong>.</p>'
-        . '<p style="font-size:16px;line-height:1.6;margin:0 0 22px;">Вы зарегистрированы на Форум лабораторных инноваций 2026.</p>'
-        . '<table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background:#f1f6f3;border-radius:12px;margin-bottom:22px;"><tr><td style="padding:18px;">'
-        . '<div style="font-size:12px;color:#607268;margin-bottom:5px;">Код участника</div>'
-        . '<div style="font-size:24px;font-weight:700;letter-spacing:.05em;color:#214f3b;">' . $safeCode . '</div>'
-        . '</td></tr></table>'
-        . '<div style="text-align:center;margin:18px 0 24px;">'
-        . '<img src="' . $safeQrUrl . '" width="260" height="260" alt="QR-код участника" style="display:block;width:260px;height:260px;max-width:100%;margin:0 auto;border:0;">'
-        . '<div style="font-size:13px;line-height:1.5;color:#607268;margin-top:10px;">Покажите этот QR-код на регистрации.</div>'
-        . '</div>'
-        . '<p style="font-size:15px;line-height:1.7;margin:0 0 7px;"><strong>Дата:</strong> 7 октября 2026 года</p>'
-        . '<p style="font-size:15px;line-height:1.7;margin:0 0 7px;"><strong>Формат:</strong> ' . $safeFormat . '</p>'
-        . '<p style="font-size:15px;line-height:1.7;margin:0 0 22px;"><strong>Место:</strong> Дом Правительства Московской области, Красногорск</p>'
-        . '<div style="text-align:center;margin:24px 0 8px;"><a href="' . $safeTicketUrl . '" style="display:inline-block;background:#214f3b;color:#ffffff;text-decoration:none;font-size:15px;font-weight:700;padding:13px 20px;border-radius:9px;">Открыть билет с QR-кодом</a></div>'
-        . '<p style="font-size:12px;line-height:1.6;color:#738078;margin:18px 0 0;">Если изображение QR-кода не отображается в почтовом приложении, используйте кнопку «Открыть билет с QR-кодом».</p>'
-        . '</td></tr><tr><td style="padding:17px 28px;background:#f8faf9;border-top:1px solid #e8eeea;font-size:13px;color:#66776f;">По вопросам регистрации: <a href="mailto:info@rclsmo.ru" style="color:#214f3b;">info@rclsmo.ru</a></td></tr>'
-        . '</table></td></tr></table></body></html>';
-
-    $headers = implode("\r\n", [
+function mailHeaders(): string {
+    return implode("\r\n", [
         'MIME-Version: 1.0',
         'Content-Type: text/html; charset=UTF-8',
         'From: RCLSMO <info@rclsmo.ru>',
         'Reply-To: info@rclsmo.ru'
     ]);
+}
 
-    return mail($to, $subject, $htmlBody, $headers, '-finfo@rclsmo.ru');
+function sendOfflineConfirmationEmail(string $to, string $fullName, string $participantCode, string $qrToken): bool {
+    $safeName = htmlspecialchars($fullName, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+    $safeCode = htmlspecialchars($participantCode, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+    $safeTicketUrl = htmlspecialchars(ticketUrl($qrToken), ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+    $safeQrUrl = htmlspecialchars(qrImageUrl($qrToken), ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+    $subject = mb_encode_mimeheader('Подтверждение очной регистрации — Форум лабораторных инноваций 2026', 'UTF-8', 'B');
+
+    $htmlBody = '<!doctype html><html lang="ru"><body style="margin:0;padding:0;background:#f3f6f4;font-family:Arial,sans-serif;color:#173126;">'
+        . '<table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background:#f3f6f4;"><tr><td align="center" style="padding:24px 12px;">'
+        . '<table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="max-width:620px;background:#ffffff;border:1px solid #dfe8e2;border-radius:14px;overflow:hidden;">'
+        . '<tr><td style="background:#214f3b;color:#ffffff;padding:26px 28px;"><div style="font-size:12px;line-height:1.5;letter-spacing:.06em;text-transform:uppercase;opacity:.82;">Референс-центр лабораторной службы Московской области</div><div style="font-size:24px;line-height:1.25;font-weight:700;margin-top:8px;">Регистрация подтверждена</div></td></tr>'
+        . '<tr><td style="padding:28px;"><p style="font-size:16px;line-height:1.6;margin:0 0 14px;">Здравствуйте, <strong>' . $safeName . '</strong>.</p><p style="font-size:16px;line-height:1.6;margin:0 0 22px;">Вы зарегистрированы для очного участия в Форуме лабораторных инноваций 2026.</p>'
+        . '<table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background:#f1f6f3;border-radius:12px;margin-bottom:22px;"><tr><td style="padding:18px;"><div style="font-size:12px;color:#607268;margin-bottom:5px;">Код участника</div><div style="font-size:24px;font-weight:700;letter-spacing:.05em;color:#214f3b;">' . $safeCode . '</div></td></tr></table>'
+        . '<div style="text-align:center;margin:18px 0 24px;"><img src="' . $safeQrUrl . '" width="260" height="260" alt="QR-код участника" style="display:block;width:260px;height:260px;max-width:100%;margin:0 auto;border:0;"><div style="font-size:13px;line-height:1.5;color:#607268;margin-top:10px;">Покажите этот QR-код на стойке регистрации.</div></div>'
+        . '<p style="font-size:15px;line-height:1.7;margin:0 0 7px;"><strong>Дата:</strong> 7 октября 2026 года</p><p style="font-size:15px;line-height:1.7;margin:0 0 7px;"><strong>Формат:</strong> Очное участие</p><p style="font-size:15px;line-height:1.7;margin:0 0 22px;"><strong>Место:</strong> Дом Правительства Московской области, Красногорск</p>'
+        . '<div style="text-align:center;margin:24px 0 8px;"><a href="' . $safeTicketUrl . '" style="display:inline-block;background:#214f3b;color:#ffffff;text-decoration:none;font-size:15px;font-weight:700;padding:13px 20px;border-radius:9px;">Открыть билет с QR-кодом</a></div><p style="font-size:12px;line-height:1.6;color:#738078;margin:18px 0 0;">Если QR-код не отображается в письме, откройте билет по кнопке выше.</p></td></tr>'
+        . '<tr><td style="padding:17px 28px;background:#f8faf9;border-top:1px solid #e8eeea;font-size:13px;color:#66776f;">По вопросам регистрации: <a href="mailto:info@rclsmo.ru" style="color:#214f3b;">info@rclsmo.ru</a></td></tr></table></td></tr></table></body></html>';
+
+    return mail($to, $subject, $htmlBody, mailHeaders(), '-finfo@rclsmo.ru');
+}
+
+function sendOnlineConfirmationEmail(string $to, string $fullName, string $participantCode, string $onlineToken): bool {
+    $safeName = htmlspecialchars($fullName, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+    $safeCode = htmlspecialchars($participantCode, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+    $safeLiveUrl = htmlspecialchars(liveUrl($onlineToken), ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+    $subject = mb_encode_mimeheader('Подтверждение онлайн-регистрации — Форум лабораторных инноваций 2026', 'UTF-8', 'B');
+
+    $htmlBody = '<!doctype html><html lang="ru"><body style="margin:0;padding:0;background:#f3f6f4;font-family:Arial,sans-serif;color:#173126;">'
+        . '<table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background:#f3f6f4;"><tr><td align="center" style="padding:24px 12px;">'
+        . '<table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="max-width:620px;background:#ffffff;border:1px solid #dfe8e2;border-radius:14px;overflow:hidden;">'
+        . '<tr><td style="background:#214f3b;color:#ffffff;padding:26px 28px;"><div style="font-size:12px;line-height:1.5;letter-spacing:.06em;text-transform:uppercase;opacity:.82;">Референс-центр лабораторной службы Московской области</div><div style="font-size:24px;line-height:1.25;font-weight:700;margin-top:8px;">Онлайн-регистрация подтверждена</div></td></tr>'
+        . '<tr><td style="padding:28px;"><p style="font-size:16px;line-height:1.6;margin:0 0 14px;">Здравствуйте, <strong>' . $safeName . '</strong>.</p><p style="font-size:16px;line-height:1.6;margin:0 0 22px;">Вы зарегистрированы для онлайн-участия в Форуме лабораторных инноваций 2026.</p>'
+        . '<table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background:#f1f6f3;border-radius:12px;margin-bottom:22px;"><tr><td style="padding:18px;"><div style="font-size:12px;color:#607268;margin-bottom:5px;">Код участника</div><div style="font-size:24px;font-weight:700;letter-spacing:.05em;color:#214f3b;">' . $safeCode . '</div></td></tr></table>'
+        . '<p style="font-size:15px;line-height:1.7;margin:0 0 7px;"><strong>Дата:</strong> 7 октября 2026 года</p><p style="font-size:15px;line-height:1.7;margin:0 0 20px;"><strong>Формат:</strong> Онлайн-участие</p>'
+        . '<div style="text-align:center;margin:26px 0 12px;"><a href="' . $safeLiveUrl . '" style="display:inline-block;background:#214f3b;color:#ffffff;text-decoration:none;font-size:16px;font-weight:700;padding:14px 24px;border-radius:9px;">Открыть страницу трансляции</a></div>'
+        . '<p style="font-size:13px;line-height:1.6;color:#607268;margin:18px 0 0;">Ссылка персональная. По ней система фиксирует фактическое онлайн-присутствие участника. Не пересылайте её другим людям.</p><p style="font-size:13px;line-height:1.6;color:#607268;margin:10px 0 0;">Трансляция станет доступна на этой странице в день мероприятия.</p></td></tr>'
+        . '<tr><td style="padding:17px 28px;background:#f8faf9;border-top:1px solid #e8eeea;font-size:13px;color:#66776f;">По вопросам регистрации: <a href="mailto:info@rclsmo.ru" style="color:#214f3b;">info@rclsmo.ru</a></td></tr></table></td></tr></table></body></html>';
+
+    return mail($to, $subject, $htmlBody, mailHeaders(), '-finfo@rclsmo.ru');
 }
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') respond(405, ['ok' => false, 'error' => 'method_not_allowed']);
@@ -108,16 +117,17 @@ $data = json_decode(file_get_contents('php://input') ?: '', true);
 if (!is_array($data)) respond(400, ['ok' => false, 'error' => 'invalid_json']);
 
 if ($isTestRequest && $data === []) {
+    $testFormat = (($_GET['mode'] ?? '') === 'online') ? 'online' : 'offline';
     $data = [
         'eventId' => 'forum-lab-innovations-2026-10-07',
         'lastName' => 'Тестов',
-        'firstName' => 'Тест',
+        'firstName' => $testFormat === 'online' ? 'Онлайн' : 'Тест',
         'middleName' => 'Тестович',
         'position' => 'Врач КЛД',
         'organization' => 'Тестовая МО',
         'email' => 'info@rclsmo.ru',
-        'phone' => '+79990000000',
-        'participationFormat' => 'offline',
+        'phone' => $testFormat === 'online' ? '+79990000001' : '+79990000000',
+        'participationFormat' => $testFormat,
         'privacyConsent' => true,
         'confirmDuplicate' => true
     ];
@@ -190,11 +200,11 @@ try {
     }
 
     $sql = 'INSERT INTO participants (
-        participant_code, qr_token, last_name, first_name, middle_name, full_name,
+        participant_code, qr_token, online_token, last_name, first_name, middle_name, full_name,
         position, organization, email, email_normalized, phone, phone_normalized,
         participation_format, privacy_consent, consent_version, consent_at, created_at
     ) VALUES (
-        :participant_code, :qr_token, :last_name, :first_name, :middle_name, :full_name,
+        :participant_code, :qr_token, :online_token, :last_name, :first_name, :middle_name, :full_name,
         :position, :organization, :email, :email_normalized, :phone, :phone_normalized,
         :participation_format, 1, :consent_version, NOW(), NOW()
     )';
@@ -202,14 +212,18 @@ try {
     $stmt = $pdo->prepare($sql);
     $participantCode = null;
     $qrToken = null;
+    $onlineToken = null;
 
     for ($attempt = 0; $attempt < 5; $attempt++) {
         $participantCode = 'LE' . strtoupper(bin2hex(random_bytes(4)));
         $qrToken = bin2hex(random_bytes(32));
+        $onlineToken = $format === 'online' ? bin2hex(random_bytes(32)) : null;
+
         try {
             $stmt->execute([
                 ':participant_code' => $participantCode,
                 ':qr_token' => $qrToken,
+                ':online_token' => $onlineToken,
                 ':last_name' => $lastName,
                 ':first_name' => $firstName,
                 ':middle_name' => $middleName !== '' ? $middleName : null,
@@ -228,25 +242,37 @@ try {
             if ($e->getCode() !== '23000' || $attempt === 4) throw $e;
             $participantCode = null;
             $qrToken = null;
+            $onlineToken = null;
         }
     }
 
-    if ($participantCode === null || $qrToken === null) throw new RuntimeException('Unable to generate participant token');
+    if ($participantCode === null || $qrToken === null || ($format === 'online' && $onlineToken === null)) {
+        throw new RuntimeException('Unable to generate participant token');
+    }
 
-    $emailSent = sendConfirmationEmail($email, $fullName, $participantCode, $format, $qrToken);
-    if ($emailSent) {
-        $pdo->prepare('UPDATE participants SET qr_sent_at = NOW() WHERE participant_code = :code')
-            ->execute([':code' => $participantCode]);
+    if ($format === 'online') {
+        $emailSent = sendOnlineConfirmationEmail($email, $fullName, $participantCode, (string)$onlineToken);
+    } else {
+        $emailSent = sendOfflineConfirmationEmail($email, $fullName, $participantCode, $qrToken);
+        if ($emailSent) {
+            $pdo->prepare('UPDATE participants SET qr_sent_at = NOW() WHERE participant_code = :code')
+                ->execute([':code' => $participantCode]);
+        }
     }
 
     $response = [
         'ok' => true,
         'participant_code' => $participantCode,
+        'participation_format' => $format,
         'duplicate_override' => $duplicateReasons !== [],
         'email_sent' => $emailSent,
         'test_mode' => $isTestRequest
     ];
-    if ($isTestRequest) $response['ticket_url'] = ticketUrl($qrToken);
+
+    if ($isTestRequest) {
+        if ($format === 'online') $response['live_url'] = liveUrl((string)$onlineToken);
+        else $response['ticket_url'] = ticketUrl($qrToken);
+    }
 
     respond(201, $response);
 } catch (Throwable $e) {
