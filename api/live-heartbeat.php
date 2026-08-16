@@ -7,6 +7,7 @@ const DB_CONFIG_PATH = '/home/c/cx314477/public_html/.private/db.php';
 const TEST_KEY_PATH = '/home/c/cx314477/public_html/.private/registration_test_key';
 const EVENT_START = '2026-10-07 07:00:00';
 const EVENT_END = '2026-10-07 20:00:00';
+const TEST_ORGANIZATION = 'Тестовая МО';
 
 function respond(int $status, array $payload): never {
     http_response_code($status);
@@ -38,10 +39,7 @@ if (!is_array($data)) respond(400, ['ok' => false, 'error' => 'invalid_json']);
 $token = strtolower(trim((string)($data['token'] ?? '')));
 if (!preg_match('/^[a-f0-9]{64}$/', $token)) respond(422, ['ok' => false, 'error' => 'invalid_token']);
 
-$isTest = authorizedTestRequest();
-if (!$isTest && !trackingWindowOpen()) {
-    respond(200, ['ok' => true, 'tracking_active' => false]);
-}
+$isHeaderTest = authorizedTestRequest();
 
 try {
     $pdo = require DB_CONFIG_PATH;
@@ -49,7 +47,7 @@ try {
 
     $pdo->beginTransaction();
     $stmt = $pdo->prepare(
-        'SELECT id, online_first_join_at, online_last_seen_at, online_watch_seconds, online_session_count
+        'SELECT id, organization, online_first_join_at, online_last_seen_at, online_watch_seconds, online_session_count
          FROM participants
          WHERE online_token = :token AND participation_format = "online"
          LIMIT 1 FOR UPDATE'
@@ -60,6 +58,12 @@ try {
     if (!$participant) {
         $pdo->rollBack();
         respond(404, ['ok' => false, 'error' => 'participant_not_found']);
+    }
+
+    $isTestParticipant = trim((string)$participant['organization']) === TEST_ORGANIZATION;
+    if (!$isHeaderTest && !$isTestParticipant && !trackingWindowOpen()) {
+        $pdo->rollBack();
+        respond(200, ['ok' => true, 'tracking_active' => false]);
     }
 
     $now = new DateTimeImmutable('now', new DateTimeZone('Europe/Moscow'));
@@ -111,7 +115,7 @@ try {
         'watch_seconds' => $watchSeconds,
         'session_count' => $sessionCount,
         'present_15m' => $watchSeconds >= 900,
-        'test_mode' => $isTest
+        'test_mode' => $isHeaderTest || $isTestParticipant
     ]);
 } catch (Throwable $e) {
     if (isset($pdo) && $pdo instanceof PDO && $pdo->inTransaction()) $pdo->rollBack();
