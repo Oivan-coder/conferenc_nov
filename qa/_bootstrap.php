@@ -65,7 +65,7 @@ function qa_process_auth(string $redirectPath): array
             exit;
         }
         usleep(350000);
-        $error = $expected === '' ? 'PIN для Q&A ещё не настроен.' : 'Неверный PIN.';
+        $error = $expected === '' ? 'PIN для вопросов ещё не настроен.' : 'Неверный PIN.';
     }
 
     return [qa_is_authorized(), $expected !== '', $error];
@@ -111,25 +111,6 @@ function qa_ensure_schema(PDO $pdo): void
         KEY idx_event_current (event_id, is_current)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci");
 
-    $pdo->exec("CREATE TABLE IF NOT EXISTS conference_questions (
-        id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-        event_id VARCHAR(100) NOT NULL,
-        participant_id BIGINT UNSIGNED NULL,
-        participant_name VARCHAR(255) NOT NULL,
-        organization VARCHAR(255) NOT NULL,
-        session_id BIGINT UNSIGNED NULL,
-        question_text TEXT NOT NULL,
-        status VARCHAR(20) NOT NULL DEFAULT 'new',
-        votes INT UNSIGNED NOT NULL DEFAULT 0,
-        created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-        approved_at DATETIME NULL,
-        on_air_at DATETIME NULL,
-        answered_at DATETIME NULL,
-        PRIMARY KEY (id),
-        KEY idx_event_status_created (event_id, status, created_at),
-        KEY idx_session_status (session_id, status)
-    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci");
-
     $pdo->exec("CREATE TABLE IF NOT EXISTS conference_messages (
         id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
         event_id VARCHAR(100) NOT NULL,
@@ -170,10 +151,10 @@ function qa_current_session(PDO $pdo): ?array
     return $row ?: null;
 }
 
-function qa_login_markup(bool $pinConfigured, string $error, string $title = 'Q&A'): string
+function qa_login_markup(bool $pinConfigured, string $error, string $title = 'Вопросы спикеру'): string
 {
     $notice = !$pinConfigured
-        ? '<div class="notice">PIN не найден. Можно создать <code>.private/qa_pin</code>; иначе используется существующий <code>checkin_pin</code> или <code>dashboard_pass</code>.</div>'
+        ? '<div class="notice">PIN не найден. Используется отдельный служебный доступ.</div>'
         : '';
     if ($error !== '') $notice .= '<div class="notice">' . qa_h($error) . '</div>';
 
