@@ -89,6 +89,7 @@
                         <legend>Формат участия</legend>
                         <label><input type="radio" name="participationFormat" value="offline" required> Очно</label>
                         <label><input type="radio" name="participationFormat" value="online" required> Онлайн</label>
+                        <p class="r26-form__message" data-offline-availability>Количество мест для очного участия ограничено.</p>
                     </fieldset>
                     <div class="r26-field r26-field--wide">
                         <label for="organization">Медицинская организация</label>
@@ -126,10 +127,11 @@
         window.REGISTRATION_CONFIG = {
             state: 'closed',
             endpoint: '/api/register.php',
+            availabilityEndpoint: '/api/registration-availability.php',
             eventId: 'forum-lab-innovations-2026-10-07'
         };
     </script>
-    <script src="js/modules/registration-2026.js?v=20260816" defer></script>
+    <script src="js/modules/registration-2026.js?v=20260816-capacity" defer></script>
     <script src="js/url-cleaner.js" defer></script>
     <script src="cookies.js" defer></script>
 </body>
