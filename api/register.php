@@ -3,6 +3,8 @@ header('Content-Type: application/json; charset=utf-8');
 header('Cache-Control: no-store');
 header('X-Content-Type-Options: nosniff');
 
+const REGISTRATION_OPEN = false;
+
 function respond(int $status, array $payload): never {
     http_response_code($status);
     echo json_encode($payload, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
@@ -11,6 +13,10 @@ function respond(int $status, array $payload): never {
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     respond(405, ['ok' => false, 'error' => 'method_not_allowed']);
+}
+
+if (!REGISTRATION_OPEN) {
+    respond(503, ['ok' => false, 'error' => 'registration_closed']);
 }
 
 if ((int)($_SERVER['CONTENT_LENGTH'] ?? 0) > 32768) {
