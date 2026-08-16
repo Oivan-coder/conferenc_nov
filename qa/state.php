@@ -13,7 +13,23 @@ try {
     qa_ensure_schema($pdo);
     $session = qa_current_session($pdo);
 
-    $stmt = $pdo->prepare("SELECT q.id, q.participant_name, q.organization, q.question_text, q.created_at, s.title AS session_title, s.speaker_name FROM conference_questions q LEFT JOIN conference_sessions s ON s.id = q.session_id WHERE q.event_id = :event_id AND q.status = 'on_air' ORDER BY q.on_air_at DESC, q.id DESC LIMIT 1");
+    $stmt = $pdo->prepare(
+        "SELECT
+            m.id,
+            m.participant_name,
+            m.organization,
+            m.message_text AS question_text,
+            m.created_at,
+            s.title AS session_title,
+            s.speaker_name
+         FROM conference_messages m
+         LEFT JOIN conference_sessions s ON s.id = m.session_id
+         WHERE m.event_id = :event_id
+           AND m.message_type = 'question'
+           AND m.status = 'on_air'
+         ORDER BY m.on_air_at DESC, m.id DESC
+         LIMIT 1"
+    );
     $stmt->execute([':event_id' => QA_EVENT_ID]);
     $question = $stmt->fetch(PDO::FETCH_ASSOC) ?: null;
 
