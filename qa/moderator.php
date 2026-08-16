@@ -103,7 +103,7 @@ if ($authorized) {
         $error = $e->getMessage();
     } catch (Throwable $e) {
         if (isset($pdo) && $pdo instanceof PDO && $pdo->inTransaction()) $pdo->rollBack();
-        $error = 'Ошибка работы Q&A. Проверьте подключение к БД.';
+        $error = 'Ошибка работы вопросов. Проверьте подключение к БД.';
     }
 }
 
@@ -123,18 +123,18 @@ $statusLabels = ['new' => 'Новый', 'on_air' => 'У спикера', 'answer
 <?= qa_login_markup($pinConfigured, $loginError, 'Вопросы · модератор') ?>
 <?php else: ?>
 <div class="wrap">
-<div class="topbar"><div class="nav"><a href="/qa/">← управление</a><a href="/qa/speaker.php" target="_blank">Экран спикера ↗</a></div><form method="post"><button class="btn ghost" name="qa_logout" value="1">Выйти</button></form></div>
-<section class="hero"><div class="brand" style="color:#b9d2c7">Панель модератора</div><h1>Вопросы из общего чата</h1><p>Участник пишет вопрос на своей странице трансляции. Здесь он появляется автоматически. Нажмите «Показать спикеру» — вопрос сразу появится на отдельном экране возле сцены.</p></section>
+<div class="topbar"><div class="nav"><a href="/discussion/poster.php" target="_blank">QR для зала ↗</a><a href="/qa/speaker.php" target="_blank">Экран спикера ↗</a></div><form method="post"><button class="btn ghost" name="qa_logout" value="1">Выйти</button></form></div>
+<section class="hero"><div class="brand" style="color:#b9d2c7">Панель модератора</div><h1>Вопросы спикеру</h1><p>Сюда попадают вопросы и от онлайн-участников, и от участников в зале. Для зала используется общий QR-код; онлайн задаёт вопрос прямо на странице трансляции.</p></section>
 <?php if ($error): ?><div class="notice"><?= qa_h($error) ?></div><?php endif; ?>
 <div class="stats" style="margin-bottom:16px"><div class="stat"><span class="brand">Новые</span><b><?= $counts['new'] ?></b></div><div class="stat"><span class="brand">У спикера</span><b><?= $counts['on_air'] ?></b></div><div class="stat"><span class="brand">Отвечены</span><b><?= $counts['answered'] ?></b></div><div class="stat"><span class="brand">Скрыты</span><b><?= $counts['hidden'] ?></b></div></div>
 <div class="grid">
 <section class="card two">
 <div class="brand">Текущий доклад</div>
-<?php if ($currentSession): ?><div class="session" style="margin-top:8px"><div><strong><?= qa_h($currentSession['speaker_name']) ?></strong><p class="muted" style="margin:5px 0 0"><?= qa_h($currentSession['title']) ?></p></div><span class="pill live">● текущий</span></div><?php else: ?><h3 style="margin:8px 0">Не выбран</h3><p class="muted">Вопросы будут сохраняться, но без привязки к конкретному докладу.</p><?php endif; ?>
+<?php if ($currentSession): ?><div class="session" style="margin-top:8px"><div><strong><?= qa_h($currentSession['speaker_name']) ?></strong><p class="muted" style="margin:5px 0 0"><?= qa_h($currentSession['title']) ?></p></div><span class="pill live">● текущий</span></div><?php else: ?><h3 style="margin:8px 0">Не выбран</h3><p class="muted">Вопросы сохранятся и без этого, но выбор текущего доклада автоматически привязывает новые вопросы к нужному спикеру.</p><?php endif; ?>
 <?php if ($currentSession): ?><form method="post" style="margin-top:14px"><input type="hidden" name="csrf" value="<?= qa_h(qa_csrf_token()) ?>"><button class="btn ghost" name="action" value="clear_session">Завершить текущий доклад</button></form><?php endif; ?>
 </section>
 <section class="card two">
-<h3>Переключить спикера</h3>
+<h3>Кто сейчас выступает</h3>
 <form method="post" class="form-grid" autocomplete="off">
 <input type="hidden" name="csrf" value="<?= qa_h(qa_csrf_token()) ?>">
 <div class="field"><label for="speaker_name">Спикер</label><input id="speaker_name" name="speaker_name" maxlength="255" placeholder="Иванов И.И." required></div>
@@ -143,8 +143,8 @@ $statusLabels = ['new' => 'Новый', 'on_air' => 'У спикера', 'answer
 </form>
 </section>
 <section class="card">
-<div class="session"><div><div class="brand">Очередь</div><h2 style="margin:6px 0 0">Вопросы спикеру</h2></div><span class="pill">обновление 3 сек</span></div>
-<?php if (!$questions): ?><p class="muted">Пока вопросов нет. Они появятся здесь, когда участник выберет «Вопрос спикеру» в общем чате.</p><?php endif; ?>
+<div class="session"><div><div class="brand">Общая очередь</div><h2 style="margin:6px 0 0">Вопросы из зала и онлайн</h2></div><span class="pill">обновление 3 сек</span></div>
+<?php if (!$questions): ?><p class="muted">Пока вопросов нет. Они появятся здесь автоматически, когда участник выберет «Вопрос спикеру».</p><?php endif; ?>
 <?php foreach ($questions as $q): ?>
 <div class="question <?= $q['status'] === 'on_air' ? 'onair' : '' ?>">
 <div class="question-head"><div><span class="pill <?= qa_h($q['status']) ?>"><?= qa_h($statusLabels[$q['status']] ?? $q['status']) ?></span><?php if ($q['speaker_name']): ?> <span class="pill"><?= qa_h($q['speaker_name']) ?></span><?php endif; ?><?php if ((int)$q['votes'] > 0): ?> <span class="pill">👍 <?= (int)$q['votes'] ?></span><?php endif; ?></div><strong>#<?= (int)$q['id'] ?></strong></div>
