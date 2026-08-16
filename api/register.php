@@ -5,6 +5,8 @@ header('X-Content-Type-Options: nosniff');
 
 const REGISTRATION_OPEN = false;
 const TEST_KEY_PATH = '/home/c/cx314477/public_html/.private/registration_test_key';
+const DB_CONFIG_PATH = '/home/c/cx314477/public_html/.private/db.php';
+const CONSENT_VERSION = 'draft-2026-08-16';
 
 function respond(int $status, array $payload): never {
     http_response_code($status);
@@ -17,8 +19,7 @@ function cleanText(string $value): string {
 }
 
 function normalizeName(string $value): string {
-    $value = mb_strtolower(cleanText($value));
-    return str_replace('ё', 'е', $value);
+    return str_replace('ё', 'е', mb_strtolower(cleanText($value)));
 }
 
 function normalizeEmail(string $value): string {
@@ -27,92 +28,84 @@ function normalizeEmail(string $value): string {
 
 function normalizePhone(string $value): string {
     $digits = preg_replace('/\D+/', '', $value) ?? '';
-    if (strlen($digits) === 10) {
-        return '7' . $digits;
-    }
-    if (strlen($digits) === 11 && $digits[0] === '8') {
-        return '7' . substr($digits, 1);
-    }
+    if (strlen($digits) === 10) return '7' . $digits;
+    if (strlen($digits) === 11 && $digits[0] === '8') return '7' . substr($digits, 1);
     return $digits;
 }
 
 function isAuthorizedTestRequest(): bool {
     $provided = trim((string)($_SERVER['HTTP_X_REGISTRATION_TEST'] ?? ''));
-    if ($provided === '' || !is_readable(TEST_KEY_PATH)) {
-        return false;
-    }
-
+    if ($provided === '' || !is_readable(TEST_KEY_PATH)) return false;
     $expected = trim((string)file_get_contents(TEST_KEY_PATH));
     return $expected !== '' && hash_equals($expected, $provided);
 }
 
-function sendConfirmationEmail(string $to, string $fullName, string $participantCode, string $format): bool {
+function ticketUrl(string $qrToken): string {
+    return 'https://rclsmo.ru/ticket.php?t=' . rawurlencode($qrToken);
+}
+
+function qrImageUrl(string $qrToken): string {
+    return 'https://rclsmo.ru/api/qr.php?t=' . rawurlencode($qrToken);
+}
+
+function sendConfirmationEmail(string $to, string $fullName, string $participantCode, string $format, string $qrToken): bool {
     $safeName = htmlspecialchars($fullName, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
     $safeCode = htmlspecialchars($participantCode, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
-    $formatText = $format === 'offline' ? 'Очное участие' : 'Онлайн-участие';
-    $safeFormat = htmlspecialchars($formatText, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+    $safeFormat = $format === 'offline' ? 'Очное участие' : 'Онлайн-участие';
+    $safeFormat = htmlspecialchars($safeFormat, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+    $safeTicketUrl = htmlspecialchars(ticketUrl($qrToken), ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+    $safeQrUrl = htmlspecialchars(qrImageUrl($qrToken), ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
 
-    $subjectText = 'Подтверждение регистрации — Форум лабораторных инноваций 2026';
-    $subject = mb_encode_mimeheader($subjectText, 'UTF-8', 'B', "\r\n");
+    $subject = mb_encode_mimeheader('Подтверждение регистрации — Форум лабораторных инноваций 2026', 'UTF-8', 'B');
 
-    $htmlBody = '<!doctype html><html lang="ru"><body style="margin:0;padding:0;background:#f4f7f5;font-family:Arial,sans-serif;color:#173126;">'
-        . '<div style="max-width:620px;margin:0 auto;padding:28px 16px;">'
-        . '<div style="background:#ffffff;border-radius:16px;overflow:hidden;border:1px solid #dfe8e2;">'
-        . '<div style="background:#214f3b;color:#ffffff;padding:28px 30px;">'
-        . '<div style="font-size:13px;letter-spacing:.08em;text-transform:uppercase;opacity:.8;">Референс-центр лабораторной службы Московской области</div>'
-        . '<h1 style="font-size:24px;line-height:1.25;margin:10px 0 0;">Регистрация подтверждена</h1>'
-        . '</div>'
-        . '<div style="padding:30px;">'
-        . '<p style="font-size:16px;line-height:1.6;margin:0 0 18px;">Здравствуйте, <strong>' . $safeName . '</strong>.</p>'
+    $htmlBody = '<!doctype html><html lang="ru"><body style="margin:0;padding:0;background:#f3f6f4;font-family:Arial,sans-serif;color:#173126;">'
+        . '<table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background:#f3f6f4;"><tr><td align="center" style="padding:24px 12px;">'
+        . '<table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="max-width:620px;background:#ffffff;border:1px solid #dfe8e2;border-radius:14px;overflow:hidden;">'
+        . '<tr><td style="background:#214f3b;color:#ffffff;padding:26px 28px;">'
+        . '<div style="font-size:12px;line-height:1.5;letter-spacing:.06em;text-transform:uppercase;opacity:.82;">Референс-центр лабораторной службы Московской области</div>'
+        . '<div style="font-size:24px;line-height:1.25;font-weight:700;margin-top:8px;">Регистрация подтверждена</div>'
+        . '</td></tr><tr><td style="padding:28px;">'
+        . '<p style="font-size:16px;line-height:1.6;margin:0 0 14px;">Здравствуйте, <strong>' . $safeName . '</strong>.</p>'
         . '<p style="font-size:16px;line-height:1.6;margin:0 0 22px;">Вы зарегистрированы на Форум лабораторных инноваций 2026.</p>'
-        . '<div style="background:#f1f6f3;border-radius:12px;padding:20px;margin:0 0 22px;">'
-        . '<div style="font-size:13px;color:#5d7468;margin-bottom:6px;">Код участника</div>'
-        . '<div style="font-size:24px;font-weight:700;letter-spacing:.06em;color:#214f3b;">' . $safeCode . '</div>'
+        . '<table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background:#f1f6f3;border-radius:12px;margin-bottom:22px;"><tr><td style="padding:18px;">'
+        . '<div style="font-size:12px;color:#607268;margin-bottom:5px;">Код участника</div>'
+        . '<div style="font-size:24px;font-weight:700;letter-spacing:.05em;color:#214f3b;">' . $safeCode . '</div>'
+        . '</td></tr></table>'
+        . '<div style="text-align:center;margin:18px 0 24px;">'
+        . '<img src="' . $safeQrUrl . '" width="260" height="260" alt="QR-код участника" style="display:block;width:260px;height:260px;max-width:100%;margin:0 auto;border:0;">'
+        . '<div style="font-size:13px;line-height:1.5;color:#607268;margin-top:10px;">Покажите этот QR-код на регистрации.</div>'
         . '</div>'
-        . '<p style="font-size:15px;line-height:1.7;margin:0 0 8px;"><strong>Дата:</strong> 7 октября 2026 года</p>'
-        . '<p style="font-size:15px;line-height:1.7;margin:0 0 8px;"><strong>Формат:</strong> ' . $safeFormat . '</p>'
+        . '<p style="font-size:15px;line-height:1.7;margin:0 0 7px;"><strong>Дата:</strong> 7 октября 2026 года</p>'
+        . '<p style="font-size:15px;line-height:1.7;margin:0 0 7px;"><strong>Формат:</strong> ' . $safeFormat . '</p>'
         . '<p style="font-size:15px;line-height:1.7;margin:0 0 22px;"><strong>Место:</strong> Дом Правительства Московской области, Красногорск</p>'
-        . '<p style="font-size:14px;line-height:1.6;color:#607268;margin:0;">QR-код и дополнительная организационная информация будут направлены отдельным письмом после завершения настройки регистрации.</p>'
-        . '</div>'
-        . '<div style="padding:18px 30px;background:#f8faf9;border-top:1px solid #e8eeea;font-size:13px;color:#66776f;">'
-        . 'По вопросам регистрации: <a href="mailto:info@rclsmo.ru" style="color:#214f3b;">info@rclsmo.ru</a>'
-        . '</div>'
-        . '</div></div></body></html>';
+        . '<div style="text-align:center;margin:24px 0 8px;"><a href="' . $safeTicketUrl . '" style="display:inline-block;background:#214f3b;color:#ffffff;text-decoration:none;font-size:15px;font-weight:700;padding:13px 20px;border-radius:9px;">Открыть билет с QR-кодом</a></div>'
+        . '<p style="font-size:12px;line-height:1.6;color:#738078;margin:18px 0 0;">Если изображение QR-кода не отображается в почтовом приложении, используйте кнопку «Открыть билет с QR-кодом».</p>'
+        . '</td></tr><tr><td style="padding:17px 28px;background:#f8faf9;border-top:1px solid #e8eeea;font-size:13px;color:#66776f;">По вопросам регистрации: <a href="mailto:info@rclsmo.ru" style="color:#214f3b;">info@rclsmo.ru</a></td></tr>'
+        . '</table></td></tr></table></body></html>';
 
-    $headers = [
+    $headers = implode("\r\n", [
         'MIME-Version: 1.0',
         'Content-Type: text/html; charset=UTF-8',
-        'From: =?UTF-8?B?' . base64_encode('Референс-центр лабораторной службы МО') . '?= <info@rclsmo.ru>',
-        'Reply-To: info@rclsmo.ru',
-        'X-Content-Type-Options: nosniff'
-    ];
+        'From: RCLSMO <info@rclsmo.ru>',
+        'Reply-To: info@rclsmo.ru'
+    ]);
 
-    return mail($to, $subject, $htmlBody, implode("\r\n", $headers), '-finfo@rclsmo.ru');
+    return mail($to, $subject, $htmlBody, $headers, '-finfo@rclsmo.ru');
 }
 
-if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    respond(405, ['ok' => false, 'error' => 'method_not_allowed']);
-}
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') respond(405, ['ok' => false, 'error' => 'method_not_allowed']);
 
 $isTestRequest = isAuthorizedTestRequest();
-if (!REGISTRATION_OPEN && !$isTestRequest) {
-    respond(503, ['ok' => false, 'error' => 'registration_closed']);
-}
-
-if ((int)($_SERVER['CONTENT_LENGTH'] ?? 0) > 32768) {
-    respond(413, ['ok' => false, 'error' => 'request_too_large']);
-}
+if (!REGISTRATION_OPEN && !$isTestRequest) respond(503, ['ok' => false, 'error' => 'registration_closed']);
+if ((int)($_SERVER['CONTENT_LENGTH'] ?? 0) > 32768) respond(413, ['ok' => false, 'error' => 'request_too_large']);
 
 $origin = $_SERVER['HTTP_ORIGIN'] ?? '';
 if ($origin !== '' && !in_array($origin, ['https://rclsmo.ru', 'https://www.rclsmo.ru'], true)) {
     respond(403, ['ok' => false, 'error' => 'origin_not_allowed']);
 }
 
-$raw = file_get_contents('php://input');
-$data = json_decode($raw ?: '', true);
-if (!is_array($data)) {
-    respond(400, ['ok' => false, 'error' => 'invalid_json']);
-}
+$data = json_decode(file_get_contents('php://input') ?: '', true);
+if (!is_array($data)) respond(400, ['ok' => false, 'error' => 'invalid_json']);
 
 if ($isTestRequest && $data === []) {
     $data = [
@@ -139,8 +132,7 @@ $organization = cleanText((string)($data['organization'] ?? ''));
 $email = trim((string)($data['email'] ?? ''));
 $phone = cleanText((string)($data['phone'] ?? ''));
 $format = trim((string)($data['participationFormat'] ?? ''));
-$consentRaw = $data['privacyConsent'] ?? false;
-$consent = in_array($consentRaw, [true, 1, '1', 'true', 'on', 'yes'], true);
+$consent = in_array($data['privacyConsent'] ?? false, [true, 1, '1', 'true', 'on', 'yes'], true);
 $confirmDuplicate = in_array($data['confirmDuplicate'] ?? false, [true, 1, '1', 'true', 'on', 'yes'], true);
 
 $fullName = implode(' ', array_values(array_filter([$lastName, $firstName, $middleName], static fn($v) => $v !== '')));
@@ -158,31 +150,22 @@ if (!filter_var($emailNormalized, FILTER_VALIDATE_EMAIL) || mb_strlen($emailNorm
 if ($phone !== '' && (strlen($phoneNormalized) < 10 || strlen($phoneNormalized) > 15)) $errors['phone'] = 'invalid';
 if (!in_array($format, ['offline', 'online'], true)) $errors['participationFormat'] = 'invalid';
 if (!$consent) $errors['privacyConsent'] = 'required';
-
-if ($errors) {
-    respond(422, ['ok' => false, 'error' => 'validation_failed', 'fields' => $errors]);
-}
+if ($errors) respond(422, ['ok' => false, 'error' => 'validation_failed', 'fields' => $errors]);
 
 try {
-    $pdo = require '/home/c/cx314477/public_html/.private/db.php';
-    if (!$pdo instanceof PDO) {
-        throw new RuntimeException('Database config invalid');
-    }
+    $pdo = require DB_CONFIG_PATH;
+    if (!$pdo instanceof PDO) throw new RuntimeException('Database config invalid');
 
     $duplicateReasons = [];
 
     $stmtEmail = $pdo->prepare('SELECT id FROM participants WHERE email_normalized = :email LIMIT 1');
     $stmtEmail->execute([':email' => $emailNormalized]);
-    if ($stmtEmail->fetchColumn()) {
-        $duplicateReasons[] = 'email';
-    }
+    if ($stmtEmail->fetchColumn()) $duplicateReasons[] = 'email';
 
     if ($phoneNormalized !== '') {
         $stmtPhone = $pdo->prepare('SELECT id FROM participants WHERE phone_normalized = :phone LIMIT 1');
         $stmtPhone->execute([':phone' => $phoneNormalized]);
-        if ($stmtPhone->fetchColumn()) {
-            $duplicateReasons[] = 'phone';
-        }
+        if ($stmtPhone->fetchColumn()) $duplicateReasons[] = 'phone';
     }
 
     $stmtPerson = $pdo->prepare(
@@ -199,40 +182,30 @@ try {
         ':middle_name' => normalizeName($middleName),
         ':organization' => $organization
     ]);
-    if ($stmtPerson->fetchColumn()) {
-        $duplicateReasons[] = 'same_person';
-    }
+    if ($stmtPerson->fetchColumn()) $duplicateReasons[] = 'same_person';
 
     $duplicateReasons = array_values(array_unique($duplicateReasons));
     if ($duplicateReasons && !$confirmDuplicate) {
-        respond(409, [
-            'ok' => false,
-            'error' => 'possible_duplicate',
-            'reasons' => $duplicateReasons
-        ]);
+        respond(409, ['ok' => false, 'error' => 'possible_duplicate', 'reasons' => $duplicateReasons]);
     }
 
     $sql = 'INSERT INTO participants (
-        participant_code, qr_token,
-        last_name, first_name, middle_name, full_name,
-        position, organization,
-        email, email_normalized, phone, phone_normalized,
+        participant_code, qr_token, last_name, first_name, middle_name, full_name,
+        position, organization, email, email_normalized, phone, phone_normalized,
         participation_format, privacy_consent, consent_version, consent_at, created_at
     ) VALUES (
-        :participant_code, :qr_token,
-        :last_name, :first_name, :middle_name, :full_name,
-        :position, :organization,
-        :email, :email_normalized, :phone, :phone_normalized,
+        :participant_code, :qr_token, :last_name, :first_name, :middle_name, :full_name,
+        :position, :organization, :email, :email_normalized, :phone, :phone_normalized,
         :participation_format, 1, :consent_version, NOW(), NOW()
     )';
 
     $stmt = $pdo->prepare($sql);
     $participantCode = null;
+    $qrToken = null;
 
     for ($attempt = 0; $attempt < 5; $attempt++) {
         $participantCode = 'LE' . strtoupper(bin2hex(random_bytes(4)));
         $qrToken = bin2hex(random_bytes(32));
-
         try {
             $stmt->execute([
                 ':participant_code' => $participantCode,
@@ -248,30 +221,34 @@ try {
                 ':phone' => $phone !== '' ? $phone : null,
                 ':phone_normalized' => $phoneNormalized !== '' ? $phoneNormalized : null,
                 ':participation_format' => $format,
-                ':consent_version' => 'draft-2026-08-16'
+                ':consent_version' => CONSENT_VERSION
             ]);
             break;
         } catch (PDOException $e) {
-            if ($e->getCode() !== '23000' || $attempt === 4) {
-                throw $e;
-            }
+            if ($e->getCode() !== '23000' || $attempt === 4) throw $e;
             $participantCode = null;
+            $qrToken = null;
         }
     }
 
-    if ($participantCode === null) {
-        throw new RuntimeException('Unable to generate participant code');
+    if ($participantCode === null || $qrToken === null) throw new RuntimeException('Unable to generate participant token');
+
+    $emailSent = sendConfirmationEmail($email, $fullName, $participantCode, $format, $qrToken);
+    if ($emailSent) {
+        $pdo->prepare('UPDATE participants SET qr_sent_at = NOW() WHERE participant_code = :code')
+            ->execute([':code' => $participantCode]);
     }
 
-    $emailSent = sendConfirmationEmail($email, $fullName, $participantCode, $format);
-
-    respond(201, [
+    $response = [
         'ok' => true,
         'participant_code' => $participantCode,
         'duplicate_override' => $duplicateReasons !== [],
         'email_sent' => $emailSent,
         'test_mode' => $isTestRequest
-    ]);
+    ];
+    if ($isTestRequest) $response['ticket_url'] = ticketUrl($qrToken);
+
+    respond(201, $response);
 } catch (Throwable $e) {
     respond(500, ['ok' => false, 'error' => 'server_error']);
 }
