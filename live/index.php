@@ -58,65 +58,42 @@ $trackingActive = $participant && ($state === 'live' || $isTestParticipant);
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="robots" content="noindex,nofollow,noarchive">
     <title><?= $participant ? 'Онлайн-трансляция — Форум лабораторных инноваций 2026' : 'Ссылка недействительна' ?></title>
-    <link rel="icon" type="image/png" href="/images/favicon-32x32.png">
-    <link rel="stylesheet" href="/css/conference-premium.css?v=20260816-01">
+    <style>
+        *{box-sizing:border-box}body{margin:0;background:#f3f6f4;color:#173126;font-family:Arial,sans-serif}.wrap{max-width:1100px;margin:0 auto;padding:24px 16px 44px}.top{background:#214f3b;color:#fff;border-radius:18px;padding:28px;margin-bottom:20px}.eyebrow{font-size:12px;letter-spacing:.06em;text-transform:uppercase;opacity:.8}.top h1{margin:8px 0 0;font-size:30px;line-height:1.2}.grid{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:20px}.card{background:#fff;border:1px solid #dfe8e2;border-radius:16px;overflow:hidden}.player{aspect-ratio:16/9;background:#13221c;display:flex;align-items:center;justify-content:center;color:#fff;text-align:center}.player iframe{width:100%;height:100%;border:0}.placeholder{padding:30px;max-width:560px;line-height:1.6}.body{padding:22px}.body h2{margin:0 0 8px;font-size:22px}.muted{color:#62756c;line-height:1.55}.info{padding:22px}.info p{margin:7px 0;line-height:1.5}.badge{display:inline-block;padding:7px 11px;border-radius:999px;background:#eef5f1;color:#214f3b;font-size:13px;font-weight:700}.test{margin-top:14px;padding:12px;border-radius:10px;background:#fff6d9;color:#695400;font-size:13px;line-height:1.5}.error{max-width:680px;margin:80px auto;background:#fff;border:1px solid #dfe8e2;border-radius:16px;padding:36px;text-align:center}.small{font-size:13px;color:#6f8078;line-height:1.5;margin-top:14px}@media(max-width:800px){.grid{grid-template-columns:1fr}.top h1{font-size:25px}.wrap{padding-top:14px}.top{padding:22px}}
+    </style>
 </head>
-<body class="live-premium-page">
-<div class="event-shell">
-    <header class="event-brandbar">
-        <div class="event-brandbar__eyebrow">Референс-центр лабораторной службы Московской области</div>
-        <h1>Форум лабораторных инноваций 2026</h1>
-    </header>
-
-    <?php if (!$participant): ?>
-        <main class="event-panel" style="padding:48px;text-align:center">
-            <span class="event-chip">Ошибка</span>
-            <h2 style="font-family:Georgia,serif;font-size:34px;margin:18px 0 8px">Ссылка недействительна</h2>
-            <p class="event-muted">Проверьте ссылку из письма о регистрации или обратитесь по адресу info@rclsmo.ru.</p>
-        </main>
-    <?php else: ?>
-        <main class="live-layout">
-            <div>
-                <section class="live-stage">
-                    <div class="live-player">
-                        <?php if ($state === 'live' && LIVE_EMBED_URL !== ''): ?>
-                            <iframe src="<?= h(LIVE_EMBED_URL) ?>" allow="autoplay; encrypted-media; fullscreen; picture-in-picture" allowfullscreen title="Прямая трансляция"></iframe>
-                        <?php elseif ($state === 'before'): ?>
-                            <div class="live-placeholder"><strong>Трансляция ещё не началась</strong>Вернитесь на эту страницу 7 октября 2026 года. Персональная ссылка останется той же.</div>
-                        <?php elseif ($state === 'after'): ?>
-                            <div class="live-placeholder"><strong>Прямая трансляция завершена</strong>Информация о записи мероприятия будет опубликована дополнительно.</div>
-                        <?php else: ?>
-                            <div class="live-placeholder"><strong>Страница трансляции готова</strong>Источник видеопотока будет подключён организаторами перед мероприятием.</div>
-                        <?php endif; ?>
-                    </div>
-                </section>
-
-                <section class="live-person">
-                    <h2><?= h($participant['full_name']) ?></h2>
-                    <p><?= h($participant['organization']) ?> · <?= h($participant['position']) ?></p>
-                    <div class="live-person__note">Это персональная ссылка участника. Она используется для учёта фактического онлайн-присутствия, поэтому не пересылайте её другим людям.</div>
-                </section>
-            </div>
-
-            <aside class="live-side">
-                <span class="event-chip">Онлайн-участие</span>
-                <h3>Ваш доступ к форуму</h3>
-
-                <div class="live-detail"><span>Код участника</span><strong><?= h($participant['participant_code']) ?></strong></div>
-                <div class="live-detail"><span>Дата</span><strong>7 октября 2026 года</strong></div>
-                <div class="live-detail"><span>Статус трансляции</span><strong><?= $state === 'before' ? 'Ожидает начала' : ($state === 'after' ? 'Завершена' : 'В эфире') ?></strong></div>
-                <div class="live-detail"><span>Учёт присутствия</span><strong><?= $isTestParticipant ? 'Тестовый режим активен' : 'Активен во время мероприятия' ?></strong></div>
-
-                <div class="live-presence">Фактическое онлайн-присутствие учитывается при суммарном активном времени на странице от <b>15 минут</b>.</div>
-                <?php if ($isTestParticipant): ?>
-                    <div class="live-presence" style="margin-top:10px;background:#fff5d9;color:#6a5607">Тест: накоплено <b data-watch-seconds><?= (int)$participant['online_watch_seconds'] ?></b> сек. Оставьте вкладку открытой примерно минуту.</div>
+<body>
+<?php if (!$participant): ?>
+    <div class="error"><h1>Ссылка недействительна</h1><p class="muted">Проверьте ссылку из письма о регистрации или обратитесь по адресу info@rclsmo.ru.</p></div>
+<?php else: ?>
+<div class="wrap">
+    <div class="top"><div class="eyebrow">Референс-центр лабораторной службы Московской области</div><h1>Форум лабораторных инноваций 2026</h1></div>
+    <div class="grid">
+        <section class="card">
+            <div class="player">
+                <?php if ($state === 'live' && LIVE_EMBED_URL !== ''): ?>
+                    <iframe src="<?= h(LIVE_EMBED_URL) ?>" allow="autoplay; encrypted-media; fullscreen; picture-in-picture" allowfullscreen title="Прямая трансляция"></iframe>
+                <?php elseif ($state === 'before'): ?>
+                    <div class="placeholder"><strong>Трансляция ещё не началась.</strong><br>Вернитесь на эту страницу 7 октября 2026 года. Ссылка останется той же.</div>
+                <?php elseif ($state === 'after'): ?>
+                    <div class="placeholder"><strong>Прямая трансляция завершена.</strong><br>Информация о записи мероприятия будет опубликована дополнительно.</div>
+                <?php else: ?>
+                    <div class="placeholder"><strong>Страница трансляции готова.</strong><br>Источник видеопотока будет подключён организаторами перед мероприятием.</div>
                 <?php endif; ?>
-                <div class="live-help">Если страница или трансляция не открывается, напишите на <a href="mailto:info@rclsmo.ru" style="color:#164b38;font-weight:700">info@rclsmo.ru</a>.</div>
-            </aside>
-        </main>
-    <?php endif; ?>
+            </div>
+            <div class="body"><h2><?= h($participant['full_name']) ?></h2><div class="muted"><?= h($participant['organization']) ?> · <?= h($participant['position']) ?></div><div class="small">Персональная ссылка используется для учёта фактического онлайн-присутствия. Не пересылайте её другим участникам.</div></div>
+        </section>
+        <aside class="card info">
+            <span class="badge">Онлайн-участие</span>
+            <p><strong>Код:</strong> <?= h($participant['participant_code']) ?></p>
+            <p><strong>Дата:</strong> 7 октября 2026 года</p>
+            <p><strong>Учёт присутствия:</strong> <?= $isTestParticipant ? 'тестовый режим активен' : 'активен только во время мероприятия' ?></p>
+            <p class="small">Участник считается фактически присутствовавшим онлайн при суммарном активном времени на странице от 15 минут.</p>
+            <?php if ($isTestParticipant): ?><div class="test">Тест: накоплено <strong data-watch-seconds><?= (int)$participant['online_watch_seconds'] ?></strong> сек. Оставьте вкладку открытой примерно минуту.</div><?php endif; ?>
+        </aside>
+    </div>
 </div>
-
+<?php endif; ?>
 <?php if ($participant && $trackingActive): ?>
 <script>
 (() => {
