@@ -23,9 +23,7 @@ if (preg_match('/^[a-f0-9]{64}$/', $token)) {
     }
 }
 
-if (!$participant) {
-    http_response_code(404);
-}
+if (!$participant) http_response_code(404);
 
 function h(?string $value): string {
     return htmlspecialchars((string)$value, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
@@ -38,31 +36,66 @@ function h(?string $value): string {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="robots" content="noindex,nofollow,noarchive">
     <title><?= $participant ? 'Билет участника — Форум лабораторных инноваций 2026' : 'Билет не найден' ?></title>
-    <style>
-        *{box-sizing:border-box}body{margin:0;background:#f3f6f4;color:#173126;font-family:Arial,sans-serif}.wrap{max-width:620px;margin:0 auto;padding:28px 16px}.card{background:#fff;border:1px solid #dfe8e2;border-radius:18px;overflow:hidden;box-shadow:0 12px 36px rgba(25,57,43,.08)}.head{background:#214f3b;color:#fff;padding:28px}.eyebrow{font-size:12px;line-height:1.5;letter-spacing:.06em;text-transform:uppercase;opacity:.8}.head h1{font-size:26px;line-height:1.2;margin:8px 0 0}.body{padding:28px}.name{font-size:24px;font-weight:700;margin:0 0 6px}.muted{color:#63766d;line-height:1.5}.qr{display:block;width:300px;height:300px;max-width:100%;margin:26px auto 12px}.code{text-align:center;font-size:23px;font-weight:700;letter-spacing:.06em;color:#214f3b}.info{margin-top:26px;padding:18px;background:#f1f6f3;border-radius:12px}.info p{margin:6px 0;line-height:1.55}.hint{text-align:center;color:#63766d;font-size:13px;line-height:1.5;margin-top:12px}.error{text-align:center;padding:50px 28px}.error h1{font-size:24px}.footer{padding:17px 28px;background:#f8faf9;border-top:1px solid #e8eeea;color:#66776f;font-size:13px}.footer a{color:#214f3b}</style>
+    <link rel="icon" type="image/png" href="/images/favicon-32x32.png">
+    <link rel="stylesheet" href="/css/conference-premium.css?v=20260816-01">
 </head>
-<body>
-<div class="wrap">
-    <div class="card">
-        <?php if ($participant): ?>
-            <div class="head"><div class="eyebrow">Референс-центр лабораторной службы Московской области</div><h1>Форум лабораторных инноваций 2026</h1></div>
-            <div class="body">
-                <div class="name"><?= h($participant['full_name']) ?></div>
-                <div class="muted"><?= h($participant['organization']) ?> · <?= h($participant['position']) ?></div>
-                <img class="qr" src="/api/qr.php?t=<?= h($token) ?>" alt="QR-код участника">
-                <div class="code"><?= h($participant['participant_code']) ?></div>
-                <div class="hint">Покажите этот QR-код на стойке регистрации.</div>
-                <div class="info">
-                    <p><strong>Дата:</strong> 7 октября 2026 года</p>
-                    <p><strong>Место:</strong> Дом Правительства Московской области, Красногорск</p>
-                    <p><strong>Формат:</strong> <?= $participant['participation_format'] === 'offline' ? 'Очное участие' : 'Онлайн-участие' ?></p>
+<body class="ticket-premium-page">
+<div class="event-shell">
+    <header class="event-brandbar">
+        <div class="event-brandbar__eyebrow">Референс-центр лабораторной службы Московской области</div>
+        <h1>Форум лабораторных инноваций 2026</h1>
+    </header>
+
+    <?php if ($participant): ?>
+        <main class="event-panel ticket-layout">
+            <section class="ticket-main">
+                <div class="ticket-person">
+                    <span class="event-chip">Очное участие · билет подтверждён</span>
+                    <h2><?= h($participant['full_name']) ?></h2>
+                    <p><?= h($participant['organization']) ?> · <?= h($participant['position']) ?></p>
                 </div>
-            </div>
-            <div class="footer">По вопросам регистрации: <a href="mailto:info@rclsmo.ru">info@rclsmo.ru</a></div>
-        <?php else: ?>
-            <div class="error"><h1>Билет не найден</h1><p class="muted">Ссылка недействительна или регистрация была изменена.</p></div>
-        <?php endif; ?>
-    </div>
+
+                <div class="ticket-qrbox">
+                    <div class="ticket-qrframe">
+                        <img class="ticket-qr" src="/api/qr.php?t=<?= h($token) ?>" alt="QR-код участника">
+                    </div>
+                    <div class="ticket-code"><?= h($participant['participant_code']) ?></div>
+                    <div class="ticket-hint">Покажите этот QR-код на стойке регистрации</div>
+                </div>
+            </section>
+
+            <aside class="ticket-side">
+                <span class="event-chip">7 октября 2026</span>
+                <h3>Ваш электронный билет</h3>
+
+                <div class="ticket-detail">
+                    <span>Дата</span>
+                    <strong>7 октября 2026 года</strong>
+                </div>
+                <div class="ticket-detail">
+                    <span>Время начала регистрации</span>
+                    <strong>09:30</strong>
+                </div>
+                <div class="ticket-detail">
+                    <span>Место</span>
+                    <strong>Дом Правительства Московской области, Красногорск</strong>
+                </div>
+                <div class="ticket-detail">
+                    <span>Формат</span>
+                    <strong><?= $participant['participation_format'] === 'offline' ? 'Очное участие' : 'Онлайн-участие' ?></strong>
+                </div>
+
+                <div class="ticket-note">Сохраните эту страницу или письмо с билетом. На площадке достаточно показать QR-код с экрана телефона.</div>
+                <div class="ticket-contact">Вопросы по регистрации: <a href="mailto:info@rclsmo.ru">info@rclsmo.ru</a></div>
+            </aside>
+        </main>
+    <?php else: ?>
+        <main class="event-panel" style="padding:48px;text-align:center">
+            <span class="event-chip">Ошибка</span>
+            <h2 style="font-family:Georgia,serif;font-size:34px;margin:18px 0 8px">Билет не найден</h2>
+            <p class="event-muted">Ссылка недействительна или регистрация была изменена.</p>
+        </main>
+    <?php endif; ?>
 </div>
 </body>
 </html>
