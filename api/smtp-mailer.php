@@ -39,7 +39,7 @@ function sendConfiguredMail(string $to, string $subject, string $htmlBody): bool
         $mail->addAddress($to);
 
         $mail->isHTML(true);
-        $mail->Subject = mb_decode_mimeheader($subject);
+        $mail->Subject = str_starts_with($subject, '=?') ? mb_decode_mimeheader($subject) : $subject;
         $mail->Body = $htmlBody;
         $mail->AltBody = trim(html_entity_decode(strip_tags(str_replace(['<br>', '<br/>', '<br />', '</p>', '</div>'], ["\n", "\n", "\n", "\n", "\n"], $htmlBody)), ENT_QUOTES | ENT_HTML5, 'UTF-8'));
 
