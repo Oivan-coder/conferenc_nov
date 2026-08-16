@@ -4,6 +4,7 @@ header('Cache-Control: no-store');
 header('X-Content-Type-Options: nosniff');
 
 const REGISTRATION_OPEN = false;
+const TEST_KEY_PATH = '/home/c/cx314477/public_html/.private/registration_test_key';
 
 function respond(int $status, array $payload): never {
     http_response_code($status);
@@ -33,6 +34,16 @@ function normalizePhone(string $value): string {
         return '7' . substr($digits, 1);
     }
     return $digits;
+}
+
+function isAuthorizedTestRequest(): bool {
+    $provided = trim((string)($_SERVER['HTTP_X_REGISTRATION_TEST'] ?? ''));
+    if ($provided === '' || !is_readable(TEST_KEY_PATH)) {
+        return false;
+    }
+
+    $expected = trim((string)file_get_contents(TEST_KEY_PATH));
+    return $expected !== '' && hash_equals($expected, $provided);
 }
 
 function sendConfirmationEmail(string $to, string $fullName, string $participantCode, string $format): bool {
@@ -83,7 +94,8 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     respond(405, ['ok' => false, 'error' => 'method_not_allowed']);
 }
 
-if (!REGISTRATION_OPEN) {
+$isTestRequest = isAuthorizedTestRequest();
+if (!REGISTRATION_OPEN && !$isTestRequest) {
     respond(503, ['ok' => false, 'error' => 'registration_closed']);
 }
 
@@ -100,6 +112,22 @@ $raw = file_get_contents('php://input');
 $data = json_decode($raw ?: '', true);
 if (!is_array($data)) {
     respond(400, ['ok' => false, 'error' => 'invalid_json']);
+}
+
+if ($isTestRequest && $data === []) {
+    $data = [
+        'eventId' => 'forum-lab-innovations-2026-10-07',
+        'lastName' => 'Тестов',
+        'firstName' => 'Тест',
+        'middleName' => 'Тестович',
+        'position' => 'Врач КЛД',
+        'organization' => 'Тестовая МО',
+        'email' => 'info@rclsmo.ru',
+        'phone' => '+79990000000',
+        'participationFormat' => 'offline',
+        'privacyConsent' => true,
+        'confirmDuplicate' => true
+    ];
 }
 
 $eventId = trim((string)($data['eventId'] ?? ''));
@@ -241,7 +269,8 @@ try {
         'ok' => true,
         'participant_code' => $participantCode,
         'duplicate_override' => $duplicateReasons !== [],
-        'email_sent' => $emailSent
+        'email_sent' => $emailSent,
+        'test_mode' => $isTestRequest
     ]);
 } catch (Throwable $e) {
     respond(500, ['ok' => false, 'error' => 'server_error']);
