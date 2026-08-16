@@ -12,7 +12,7 @@
     <meta property="og:type" content="website">
     <base href="/">
     <link rel="icon" type="image/png" href="images/favicon-32x32.png">
-    <link rel="stylesheet" href="css/main.css?v=20260814-registration">
+    <link rel="stylesheet" href="css/main.css?v=20260816-registration">
 </head>
 <body class="registration-2026-page" data-page="registration" data-registration-state="closed">
     <header class="photo-header" data-site-shell="header"></header>
@@ -61,7 +61,7 @@
                 <div class="r26-form-zone__header">
                     <span>Форма участника</span>
                     <h2 id="registrationFormTitle">Что потребуется для регистрации</h2>
-                    <p>ФИО, должность, медицинская организация, формат участия и контакт для подтверждения.</p>
+                    <p>Фамилия, имя, отчество, должность, медицинская организация, формат участия и контакт для подтверждения.</p>
                 </div>
 
                 <div class="r26-form-preview" data-registration-closed>
@@ -73,34 +73,42 @@
                 </div>
 
                 <form class="r26-form" data-registration-form hidden novalidate>
-                    <div class="r26-field r26-field--wide">
-                        <label for="participantName">Фамилия, имя, отчество</label>
-                        <input id="participantName" name="participantName" type="text" autocomplete="name" required>
+                    <div class="r26-field">
+                        <label for="lastName">Фамилия</label>
+                        <input id="lastName" name="lastName" type="text" autocomplete="family-name" maxlength="100" required>
                     </div>
-                    <fieldset class="r26-field r26-field--wide">
+                    <div class="r26-field">
+                        <label for="firstName">Имя</label>
+                        <input id="firstName" name="firstName" type="text" autocomplete="given-name" maxlength="100" required>
+                    </div>
+                    <div class="r26-field">
+                        <label for="middleName">Отчество <span aria-hidden="true">(при наличии)</span></label>
+                        <input id="middleName" name="middleName" type="text" autocomplete="additional-name" maxlength="100">
+                    </div>
+                    <fieldset class="r26-field">
                         <legend>Формат участия</legend>
                         <label><input type="radio" name="participationFormat" value="offline" required> Очно</label>
                         <label><input type="radio" name="participationFormat" value="online" required> Онлайн</label>
                     </fieldset>
                     <div class="r26-field r26-field--wide">
                         <label for="organization">Медицинская организация</label>
-                        <input id="organization" name="organization" type="text" autocomplete="organization" required>
+                        <input id="organization" name="organization" type="text" autocomplete="organization" maxlength="255" required>
                     </div>
                     <div class="r26-field">
                         <label for="position">Должность</label>
-                        <input id="position" name="position" type="text" autocomplete="organization-title" required>
+                        <input id="position" name="position" type="text" autocomplete="organization-title" maxlength="255" required>
                     </div>
                     <div class="r26-field">
                         <label for="email">Электронная почта</label>
-                        <input id="email" name="email" type="email" autocomplete="email" required>
+                        <input id="email" name="email" type="email" autocomplete="email" maxlength="255" required>
                     </div>
                     <div class="r26-field">
                         <label for="phone">Телефон</label>
-                        <input id="phone" name="phone" type="tel" autocomplete="tel">
+                        <input id="phone" name="phone" type="tel" autocomplete="tel" maxlength="32">
                     </div>
                     <label class="r26-consent r26-field--wide">
                         <input type="checkbox" name="privacyConsent" required>
-                        <span>Я ознакомлен(а) с условиями обработки персональных данных.</span>
+                        <span>Даю согласие на обработку персональных данных и подтверждаю ознакомление с <a href="/privacy/" target="_blank" rel="noopener noreferrer">Политикой конфиденциальности</a>.</span>
                     </label>
                     <div class="r26-field--wide">
                         <button class="c26-button c26-button--primary" type="submit">Зарегистрироваться</button>
@@ -117,11 +125,11 @@
     <script>
         window.REGISTRATION_CONFIG = {
             state: 'closed',
-            endpoint: '',
+            endpoint: '/api/register.php',
             eventId: 'forum-lab-innovations-2026-10-07'
         };
     </script>
-    <script src="js/modules/registration-2026.js" defer></script>
+    <script src="js/modules/registration-2026.js?v=20260816" defer></script>
     <script src="js/url-cleaner.js" defer></script>
     <script src="cookies.js" defer></script>
 </body>
