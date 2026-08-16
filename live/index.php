@@ -9,6 +9,7 @@ const DB_CONFIG_PATH = '/home/c/cx314477/public_html/.private/db.php';
 const LIVE_EMBED_URL = '';
 const EVENT_START = '2026-10-07 07:00:00';
 const EVENT_END = '2026-10-07 20:00:00';
+const TEST_ORGANIZATION = 'Тестовая МО';
 
 function h(?string $value): string {
     return htmlspecialchars((string)$value, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
@@ -47,7 +48,8 @@ if (preg_match('/^[a-f0-9]{64}$/', $token)) {
 
 if (!$participant) http_response_code(404);
 $state = eventWindowState();
-$trackingActive = $participant && $state === 'live';
+$isTestParticipant = $participant && trim((string)$participant['organization']) === TEST_ORGANIZATION;
+$trackingActive = $participant && ($state === 'live' || $isTestParticipant);
 ?>
 <!doctype html>
 <html lang="ru">
@@ -57,7 +59,7 @@ $trackingActive = $participant && $state === 'live';
     <meta name="robots" content="noindex,nofollow,noarchive">
     <title><?= $participant ? 'Онлайн-трансляция — Форум лабораторных инноваций 2026' : 'Ссылка недействительна' ?></title>
     <style>
-        *{box-sizing:border-box}body{margin:0;background:#f3f6f4;color:#173126;font-family:Arial,sans-serif}.wrap{max-width:1100px;margin:0 auto;padding:24px 16px 44px}.top{background:#214f3b;color:#fff;border-radius:18px;padding:28px;margin-bottom:20px}.eyebrow{font-size:12px;letter-spacing:.06em;text-transform:uppercase;opacity:.8}.top h1{margin:8px 0 0;font-size:30px;line-height:1.2}.grid{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:20px}.card{background:#fff;border:1px solid #dfe8e2;border-radius:16px;overflow:hidden}.player{aspect-ratio:16/9;background:#13221c;display:flex;align-items:center;justify-content:center;color:#fff;text-align:center}.player iframe{width:100%;height:100%;border:0}.placeholder{padding:30px;max-width:560px;line-height:1.6}.body{padding:22px}.body h2{margin:0 0 8px;font-size:22px}.muted{color:#62756c;line-height:1.55}.info{padding:22px}.info p{margin:7px 0;line-height:1.5}.badge{display:inline-block;padding:7px 11px;border-radius:999px;background:#eef5f1;color:#214f3b;font-size:13px;font-weight:700}.error{max-width:680px;margin:80px auto;background:#fff;border:1px solid #dfe8e2;border-radius:16px;padding:36px;text-align:center}.small{font-size:13px;color:#6f8078;line-height:1.5;margin-top:14px}@media(max-width:800px){.grid{grid-template-columns:1fr}.top h1{font-size:25px}.wrap{padding-top:14px}.top{padding:22px}}
+        *{box-sizing:border-box}body{margin:0;background:#f3f6f4;color:#173126;font-family:Arial,sans-serif}.wrap{max-width:1100px;margin:0 auto;padding:24px 16px 44px}.top{background:#214f3b;color:#fff;border-radius:18px;padding:28px;margin-bottom:20px}.eyebrow{font-size:12px;letter-spacing:.06em;text-transform:uppercase;opacity:.8}.top h1{margin:8px 0 0;font-size:30px;line-height:1.2}.grid{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:20px}.card{background:#fff;border:1px solid #dfe8e2;border-radius:16px;overflow:hidden}.player{aspect-ratio:16/9;background:#13221c;display:flex;align-items:center;justify-content:center;color:#fff;text-align:center}.player iframe{width:100%;height:100%;border:0}.placeholder{padding:30px;max-width:560px;line-height:1.6}.body{padding:22px}.body h2{margin:0 0 8px;font-size:22px}.muted{color:#62756c;line-height:1.55}.info{padding:22px}.info p{margin:7px 0;line-height:1.5}.badge{display:inline-block;padding:7px 11px;border-radius:999px;background:#eef5f1;color:#214f3b;font-size:13px;font-weight:700}.test{margin-top:14px;padding:12px;border-radius:10px;background:#fff6d9;color:#695400;font-size:13px;line-height:1.5}.error{max-width:680px;margin:80px auto;background:#fff;border:1px solid #dfe8e2;border-radius:16px;padding:36px;text-align:center}.small{font-size:13px;color:#6f8078;line-height:1.5;margin-top:14px}@media(max-width:800px){.grid{grid-template-columns:1fr}.top h1{font-size:25px}.wrap{padding-top:14px}.top{padding:22px}}
     </style>
 </head>
 <body>
@@ -85,8 +87,9 @@ $trackingActive = $participant && $state === 'live';
             <span class="badge">Онлайн-участие</span>
             <p><strong>Код:</strong> <?= h($participant['participant_code']) ?></p>
             <p><strong>Дата:</strong> 7 октября 2026 года</p>
-            <p><strong>Учёт присутствия:</strong> активен только во время мероприятия</p>
+            <p><strong>Учёт присутствия:</strong> <?= $isTestParticipant ? 'тестовый режим активен' : 'активен только во время мероприятия' ?></p>
             <p class="small">Участник считается фактически присутствовавшим онлайн при суммарном активном времени на странице от 15 минут.</p>
+            <?php if ($isTestParticipant): ?><div class="test">Тест: накоплено <strong data-watch-seconds><?= (int)$participant['online_watch_seconds'] ?></strong> сек. Оставьте вкладку открытой примерно минуту.</div><?php endif; ?>
         </aside>
     </div>
 </div>
@@ -96,18 +99,21 @@ $trackingActive = $participant && $state === 'live';
 (() => {
     const token = <?= json_encode($token, JSON_UNESCAPED_SLASHES) ?>;
     const endpoint = '/api/live-heartbeat.php';
+    const watchEl = document.querySelector('[data-watch-seconds]');
     let timer = null;
 
     async function heartbeat() {
         if (document.visibilityState !== 'visible') return;
         try {
-            await fetch(endpoint, {
+            const response = await fetch(endpoint, {
                 method: 'POST',
                 headers: {'Content-Type':'application/json'},
                 body: JSON.stringify({token}),
                 credentials: 'same-origin',
                 keepalive: true
             });
+            const data = await response.json().catch(() => null);
+            if (watchEl && data && data.tracking_active) watchEl.textContent = String(data.watch_seconds || 0);
         } catch (_) {}
     }
 
