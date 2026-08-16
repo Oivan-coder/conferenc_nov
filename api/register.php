@@ -9,6 +9,8 @@ const DB_CONFIG_PATH = '/home/c/cx314477/public_html/.private/db.php';
 const CONSENT_VERSION = 'draft-2026-08-16';
 const EVENT_ID = 'forum-lab-innovations-2026-10-07';
 
+require_once __DIR__ . '/smtp-mailer.php';
+
 function respond(int $status, array $payload): never {
     http_response_code($status);
     echo json_encode($payload, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
@@ -91,7 +93,7 @@ function sendOfflineConfirmationEmail(string $to, string $fullName, string $part
         . '<div style="text-align:center;margin:24px 0 8px;"><a href="' . $safeTicketUrl . '" style="display:inline-block;background:#214f3b;color:#ffffff;text-decoration:none;font-size:15px;font-weight:700;padding:13px 20px;border-radius:9px;">Открыть билет с QR-кодом</a></div>'
         . '<p style="font-size:12px;line-height:1.6;color:#738078;margin:18px 0 0;">Если QR-код не отображается в письме, откройте билет по кнопке выше.</p>';
 
-    return mail($to, $subject, mailShell('Регистрация подтверждена', $body), mailHeaders(), '-finfo@rclsmo.ru');
+    return sendConfiguredMail($to, $subject, mailShell('Регистрация подтверждена', $body));
 }
 
 function sendOnlineConfirmationEmail(string $to, string $fullName, string $participantCode, string $onlineToken): bool {
@@ -107,7 +109,7 @@ function sendOnlineConfirmationEmail(string $to, string $fullName, string $parti
         . '<div style="text-align:center;margin:26px 0 12px;"><a href="' . $safeLiveUrl . '" style="display:inline-block;background:#214f3b;color:#ffffff;text-decoration:none;font-size:16px;font-weight:700;padding:14px 24px;border-radius:9px;">Открыть страницу трансляции</a></div>'
         . '<p style="font-size:13px;line-height:1.6;color:#607268;margin:18px 0 0;">Ссылка персональная. По ней система фиксирует фактическое онлайн-присутствие участника. Не пересылайте её другим людям.</p><p style="font-size:13px;line-height:1.6;color:#607268;margin:10px 0 0;">Трансляция станет доступна на этой странице в день мероприятия.</p>';
 
-    return mail($to, $subject, mailShell('Онлайн-регистрация подтверждена', $body), mailHeaders(), '-finfo@rclsmo.ru');
+    return sendConfiguredMail($to, $subject, mailShell('Онлайн-регистрация подтверждена', $body));
 }
 
 function sendWaitlistEmail(string $to, string $fullName, string $participantCode): bool {
@@ -120,7 +122,7 @@ function sendWaitlistEmail(string $to, string $fullName, string $participantCode
         . '<table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background:#f1f6f3;border-radius:12px;margin-bottom:22px;"><tr><td style="padding:18px;"><div style="font-size:12px;color:#607268;margin-bottom:5px;">Код заявки</div><div style="font-size:24px;font-weight:700;letter-spacing:.05em;color:#214f3b;">' . $safeCode . '</div></td></tr></table>'
         . '<p style="font-size:14px;line-height:1.6;color:#607268;margin:0;">Это письмо не является подтверждением очного места. Если место освободится, мы направим отдельное подтверждение с QR-кодом.</p>';
 
-    return mail($to, $subject, mailShell('Вы в листе ожидания', $body), mailHeaders(), '-finfo@rclsmo.ru');
+    return sendConfiguredMail($to, $subject, mailShell('Вы в листе ожидания', $body));
 }
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') respond(405, ['ok' => false, 'error' => 'method_not_allowed']);
