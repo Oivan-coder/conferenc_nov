@@ -14,6 +14,23 @@
         return canOpen;
     }
 
+    function duplicateMessage(reasons) {
+        const lines = [];
+        if (reasons.includes('same_person')) lines.push('Участник с таким ФИО и медицинской организацией уже зарегистрирован.');
+        if (reasons.includes('email')) lines.push('На этот email уже есть регистрация.');
+        if (reasons.includes('phone')) lines.push('На этот номер телефона уже есть регистрация.');
+        lines.push('', 'Если это действительно другой участник или повторная регистрация нужна, нажмите «ОК».');
+        return lines.join('\n');
+    }
+
+    async function sendRegistration(payload) {
+        return fetch(config.endpoint, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        });
+    }
+
     async function submitRegistration(event) {
         event.preventDefault();
         const form = event.currentTarget;
@@ -23,21 +40,38 @@
         if (!form.reportValidity() || !config.endpoint) return;
 
         submitButton.disabled = true;
-        if (message) message.textContent = 'Отправляем заявку…';
+        if (message) message.textContent = 'Проверяем данные…';
 
         const payload = Object.fromEntries(new FormData(form).entries());
         payload.eventId = config.eventId;
 
         try {
-            const response = await fetch(config.endpoint, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload)
-            });
+            let response = await sendRegistration(payload);
+            let result = await response.json().catch(() => ({}));
 
-            if (!response.ok) throw new Error('Registration request failed');
+            if (response.status === 409 && result.error === 'possible_duplicate') {
+                const reasons = Array.isArray(result.reasons) ? result.reasons : [];
+                const confirmed = window.confirm(duplicateMessage(reasons));
+
+                if (!confirmed) {
+                    if (message) message.textContent = 'Регистрация не отправлена. Проверьте данные участника.';
+                    return;
+                }
+
+                payload.confirmDuplicate = true;
+                if (message) message.textContent = 'Отправляем регистрацию…';
+                response = await sendRegistration(payload);
+                result = await response.json().catch(() => ({}));
+            }
+
+            if (!response.ok || !result.ok) {
+                throw new Error(result.error || 'Registration request failed');
+            }
+
             form.reset();
-            if (message) message.textContent = 'Заявка принята. Подтверждение будет направлено на указанную почту.';
+            if (message) {
+                message.textContent = `Регистрация принята. Код участника: ${result.participant_code}. Подтверждение будет направлено на указанную почту.`;
+            }
         } catch (error) {
             if (message) message.textContent = 'Не удалось отправить заявку. Попробуйте ещё раз или свяжитесь с организаторами.';
         } finally {
