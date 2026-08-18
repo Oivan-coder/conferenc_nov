@@ -2,15 +2,141 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
     <title>Регистрация — Форум лабораторных инноваций 2026</title>
-    <link rel="canonical" href="https://rclsmo.ru/registration/">
-    <meta http-equiv="refresh" content="0; url=/registration/">
-    <script>
-        window.location.replace('/registration/' + window.location.search + window.location.hash);
-    </script>
+    <meta name="description" content="Статус регистрации на Форум лабораторных инноваций 7 октября 2026 года. Очное и онлайн-участие.">
+    <link rel="canonical" href="https://rclsmo.ru/registration">
+    <meta property="og:title" content="Регистрация — Форум лабораторных инноваций 2026">
+    <meta property="og:description" content="7 октября 2026 · очное и онлайн-участие · регистрация готовится к открытию">
+    <meta property="og:url" content="https://rclsmo.ru/registration">
+    <meta property="og:type" content="website">
+    <base href="/">
+    <link rel="icon" type="image/png" href="images/favicon-32x32.png">
+    <link rel="stylesheet" href="css/main.css?v=20260816-registration">
 </head>
-<body>
-    <p>Переход на страницу <a href="/registration/">регистрации</a>…</p>
+<body class="registration-2026-page" data-page="registration" data-registration-state="closed">
+    <header class="photo-header" data-site-shell="header"></header>
+
+    <main>
+        <section class="r26-hero">
+            <div class="container">
+                <a class="r26-back" href="/conference-2026/">← Вернуться к конференции</a>
+                <div class="r26-hero__grid">
+                    <div>
+                        <span class="r26-kicker">7 октября 2026 · Красногорск</span>
+                        <h1>Регистрация на Форум лабораторных инноваций</h1>
+                        <p>Форма готовится к открытию. Будут доступны очный и онлайн-форматы участия.</p>
+                    </div>
+                    <div class="r26-status" role="status" aria-live="polite">
+                        <span>Текущий статус</span>
+                        <strong>Регистрация ещё не открыта</strong>
+                        <p>На этой странице появится рабочая форма без перехода на посторонние страницы.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="r26-content">
+            <div class="container r26-content__grid">
+                <article class="r26-card">
+                    <span class="r26-card__number">01</span>
+                    <h2>Два формата участия</h2>
+                    <p>При регистрации можно будет выбрать очное присутствие в Красногорске или подключение к онлайн-трансляции.</p>
+                </article>
+                <article class="r26-card">
+                    <span class="r26-card__number">02</span>
+                    <h2>Учёт медицинских организаций</h2>
+                    <p>Медицинская организация станет обязательным полем. Это позволит корректно считать участников и представительство учреждений.</p>
+                </article>
+                <article class="r26-card">
+                    <span class="r26-card__number">03</span>
+                    <h2>Подтверждение участия</h2>
+                    <p>После открытия формы участник получит подтверждение регистрации и информацию о порядке подключения или посещения площадки.</p>
+                </article>
+            </div>
+        </section>
+
+        <section class="r26-form-zone" aria-labelledby="registrationFormTitle">
+            <div class="container">
+                <div class="r26-form-zone__header">
+                    <span>Форма участника</span>
+                    <h2 id="registrationFormTitle">Что потребуется для регистрации</h2>
+                    <p>Фамилия, имя, отчество, должность, медицинская организация, формат участия и контакт для подтверждения.</p>
+                </div>
+
+                <div class="r26-form-preview" data-registration-closed>
+                    <div>
+                        <strong>Форма появится здесь</strong>
+                        <p>Сейчас сайт не принимает и не передаёт персональные данные участников.</p>
+                    </div>
+                    <a class="c26-button c26-button--secondary" href="#contacts">Связаться с организаторами</a>
+                </div>
+
+                <form class="r26-form" data-registration-form hidden novalidate>
+                    <div class="r26-field">
+                        <label for="lastName">Фамилия</label>
+                        <input id="lastName" name="lastName" type="text" autocomplete="family-name" maxlength="100" required>
+                    </div>
+                    <div class="r26-field">
+                        <label for="firstName">Имя</label>
+                        <input id="firstName" name="firstName" type="text" autocomplete="given-name" maxlength="100" required>
+                    </div>
+                    <div class="r26-field">
+                        <label for="middleName">Отчество <span aria-hidden="true">(при наличии)</span></label>
+                        <input id="middleName" name="middleName" type="text" autocomplete="additional-name" maxlength="100">
+                    </div>
+                    <fieldset class="r26-field">
+                        <legend>Формат участия</legend>
+                        <label><input type="radio" name="participationFormat" value="offline" required> Очно</label>
+                        <label><input type="radio" name="participationFormat" value="online" required> Онлайн</label>
+                        <p class="r26-form__message" data-offline-availability>Количество мест для очного участия ограничено.</p>
+                    </fieldset>
+                    <div class="r26-field r26-field--wide">
+                        <label for="organization">Медицинская организация</label>
+                        <input id="organization" name="organization" type="text" list="organizationOptions" autocomplete="organization" maxlength="255" placeholder="Начните вводить название организации" required>
+                        <datalist id="organizationOptions"></datalist>
+                        <p class="r26-form__message">Государственные медицинские организации можно выбрать из списка. Если организации нет в списке — укажите название вручную.</p>
+                    </div>
+                    <div class="r26-field">
+                        <label for="position">Должность</label>
+                        <input id="position" name="position" type="text" autocomplete="organization-title" maxlength="255" required>
+                    </div>
+                    <div class="r26-field">
+                        <label for="email">Электронная почта</label>
+                        <input id="email" name="email" type="email" autocomplete="email" maxlength="255" required>
+                    </div>
+                    <div class="r26-field">
+                        <label for="phone">Телефон</label>
+                        <input id="phone" name="phone" type="tel" autocomplete="tel" maxlength="32">
+                    </div>
+                    <label class="r26-consent r26-field--wide">
+                        <input type="checkbox" name="privacyConsent" required>
+                        <span>Даю согласие на обработку персональных данных и подтверждаю ознакомление с <a href="/privacy/" target="_blank" rel="noopener noreferrer">Политикой конфиденциальности</a>.</span>
+                    </label>
+                    <div class="r26-field--wide">
+                        <button class="c26-button c26-button--primary" type="submit">Зарегистрироваться</button>
+                        <p class="r26-form__message" data-registration-message aria-live="polite"></p>
+                    </div>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <footer class="main-footer" id="contacts" data-site-shell="footer"></footer>
+    <button id="backToTop" class="back-to-top" aria-label="Наверх">↑</button>
+    <script src="js/common.js"></script>
+    <script>
+        window.REGISTRATION_CONFIG = {
+            state: 'closed',
+            endpoint: '/api/register.php',
+            availabilityEndpoint: '/api/registration-availability.php',
+            eventId: 'forum-lab-innovations-2026-10-07'
+        };
+    </script>
+    <script src="js/data/organizations-2026.js?v=20260816" defer></script>
+    <script src="js/data/organizations-external-2026.js?v=20260816" defer></script>
+    <script src="js/modules/registration-2026.js?v=20260816-capacity" defer></script>
+    <script src="js/url-cleaner.js" defer></script>
+    <script src="cookies.js" defer></script>
 </body>
 </html>
