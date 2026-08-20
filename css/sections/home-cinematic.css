@@ -274,7 +274,27 @@
 }
 
 .home-cinema__metrics > div:last-child {
+    min-height: 96px;
+    grid-template-columns: 1fr;
+    align-content: center;
+    gap: 5px;
+    padding-block: 12px;
     border-bottom: 0;
+}
+
+.home-cinema__metrics > div:last-child dd {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    column-gap: 8px;
+    line-height: 1;
+}
+
+.home-cinema__metrics > div:last-child dd span {
+    flex-basis: 100%;
+    margin: 5px 0 0;
+    line-height: 1.25;
 }
 
 .home-cinema__metrics dt {
