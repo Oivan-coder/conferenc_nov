@@ -286,14 +286,14 @@
     overflow: hidden;
     padding: 150px 0 90px;
     background: url('../../images/hero/20240416_145146.jpg') center 56% / cover no-repeat;
-    text-align: left;
+    text-align: center;
 }
 
 .about-page .about-hero::before {
     z-index: -1;
     background:
-        linear-gradient(90deg, rgba(5, 15, 29, 0.97) 0%, rgba(5, 15, 29, 0.88) 48%, rgba(5, 15, 29, 0.36) 78%, rgba(5, 15, 29, 0.62) 100%),
-        linear-gradient(0deg, #07111f 0%, transparent 40%);
+        linear-gradient(0deg, #07111f 0%, rgba(5, 15, 29, 0.7) 48%, rgba(5, 15, 29, 0.76) 100%),
+        radial-gradient(circle at 50% 44%, rgba(9, 34, 55, 0.18), rgba(5, 15, 29, 0.72) 72%);
 }
 
 .about-page .about-hero::after {
@@ -307,7 +307,7 @@
 
 .about-page .about-hero h1 {
     max-width: 900px;
-    margin: 0;
+    margin: 0 auto;
     color: #ffffff;
     background: none;
     -webkit-text-fill-color: currentColor;
@@ -315,22 +315,23 @@
     font-weight: 900;
     letter-spacing: -0.05em;
     line-height: 0.98;
-    text-align: left;
+    text-align: center;
     text-shadow: 0 15px 40px rgba(0, 0, 0, 0.42);
 }
 
 .about-page .about-hero__lead {
     max-width: 760px;
-    margin: 25px 0 0;
+    margin: 25px auto 0;
     color: #dbe9f4;
     font-size: clamp(1.08rem, 2vw, 1.36rem);
     line-height: 1.6;
-    text-align: left;
+    text-align: center;
 }
 
 .about-hero__actions {
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
     gap: 12px;
     margin-top: 30px;
 }
@@ -591,7 +592,7 @@
 
     .home-hero {
         min-height: auto;
-        align-items: flex-start;
+        align-items: center;
         padding: 112px 0 54px;
     }
 
@@ -704,10 +705,10 @@
 
     .about-page .about-hero {
         min-height: auto !important;
-        align-items: flex-start;
+        align-items: center;
         padding: 116px 0 62px !important;
         background-position: 64% center;
-        text-align: left !important;
+        text-align: center !important;
     }
 
     .about-page .about-hero::before {
@@ -718,19 +719,23 @@
         max-width: 15ch !important;
         font-size: clamp(2.35rem, 11vw, 3.35rem) !important;
         line-height: 0.99 !important;
-        text-align: left !important;
+        margin-inline: auto !important;
+        text-align: center !important;
         overflow-wrap: anywhere;
     }
 
     .about-page .about-hero__lead {
         font-size: 1rem;
         line-height: 1.58;
-        text-align: left;
+        margin-inline: auto;
+        text-align: center;
     }
 
     .about-hero__actions {
         display: grid;
         grid-template-columns: 1fr;
+        width: min(100%, 460px);
+        margin-inline: auto;
     }
 
     .about-hero__actions .c26-button {
