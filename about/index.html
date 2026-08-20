@@ -21,7 +21,8 @@
     <link rel="icon" type="image/png" href="images/favicon-32x32.png">
     
     <!-- CSS -->
-    <link rel="stylesheet" href="css/main.css?v=20260706-map-layout14">
+    <link rel="stylesheet" href="css/main.css?v=20260820-site-polish">
+    <link rel="stylesheet" href="css/sections/site-polish.css?v=20260820">
     
     <!-- Яндекс.Карты API - загружается только если нужна карта -->
     <script>
@@ -51,8 +52,13 @@
         <!-- ГЕРОЙ СЕКЦИЯ -->
         <section class="about-hero">
             <div class="container">
+                <span class="about-hero__eyebrow">О референс-центре</span>
                 <h1>Референс-центр лабораторной службы Московской области</h1>
                 <p class="about-hero__lead">Координируем централизацию лабораторной службы региона: маршруты, методологию, цифровой контур и управленческую аналитику ЦКДЛ.</p>
+                <div class="about-hero__actions">
+                    <a class="c26-button c26-button--primary" href="#network">Лабораторная сеть</a>
+                    <a class="c26-button c26-button--secondary" href="#team">Команда центра</a>
+                </div>
             </div>
         </section>
 
@@ -90,7 +96,7 @@
                     </div>
 
                     <!-- КАРТА ЛАБОРАТОРНОЙ СЕТИ -->
-                    <section class="about-network-section" aria-labelledby="aboutCkdlMapTitle">
+                    <section id="network" class="about-network-section" aria-labelledby="aboutCkdlMapTitle">
                         <div class="ckdl-map ckdl-map--about" data-ckdl-map data-map-mode="network">
                     <div class="ckdl-map__header">
                         <div>
