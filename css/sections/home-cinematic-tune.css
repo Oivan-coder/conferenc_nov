@@ -1,0 +1,40 @@
+/* Homepage cinematic hero · focused visual tune
+   Loaded after the public bundle so these isolated homepage overrides stay low-risk. */
+
+/* Let more of the people/video remain visible on the left while preserving text contrast. */
+.home-cinema__grade {
+    background:
+        linear-gradient(90deg, rgba(3, 10, 19, 0.90) 0%, rgba(3, 10, 19, 0.79) 35%, rgba(3, 10, 19, 0.42) 67%, rgba(3, 10, 19, 0.76) 100%),
+        linear-gradient(0deg, #07111f 0%, rgba(4, 12, 23, 0.10) 30%, rgba(4, 12, 23, 0.24) 100%);
+}
+
+/* Desktop: keep the third metric on the same visual axis as 8 / 48. */
+@media (min-width: 981px) {
+    .home-cinema__metrics > div:last-child {
+        min-height: 96px;
+        grid-template-columns: minmax(0, 1fr) auto;
+        align-items: center;
+        align-content: normal;
+        gap: 18px;
+        padding-block: 12px;
+    }
+
+    .home-cinema__metrics > div:last-child dd {
+        width: auto;
+        display: flex;
+        flex-direction: column;
+        flex-wrap: nowrap;
+        align-items: flex-end;
+        justify-content: center;
+        line-height: 1;
+        text-align: right;
+    }
+
+    .home-cinema__metrics > div:last-child dd span {
+        flex-basis: auto;
+        margin: 6px 0 0;
+        max-width: 15rem;
+        line-height: 1.2;
+        text-align: right;
+    }
+}
