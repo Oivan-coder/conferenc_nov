@@ -33,8 +33,6 @@
             const isOpen = disclosure.open;
             label.textContent = isOpen ? 'Свернуть расписание' : 'Показать полное расписание';
 
-            // Legacy .c26-agenda styles force display:grid and override the browser's
-            // native closed <details> state. Inline display fixes that reliably.
             if (isOpen) {
                 agenda.style.removeProperty('display');
                 agenda.querySelectorAll('.c26-agenda__item').forEach((item) => {
@@ -49,7 +47,39 @@
         syncDisclosure();
     }
 
+    function initMobileMenuLayerFix() {
+        if (document.getElementById('c26-mobile-menu-layer-fix')) return;
+
+        const style = document.createElement('style');
+        style.id = 'c26-mobile-menu-layer-fix';
+        style.textContent = `
+            @media (max-width: 968px) {
+                .conference-2026-page .c26-hero {
+                    isolation: auto;
+                }
+
+                .conference-2026-page .c26-hero__media {
+                    z-index: 0;
+                }
+
+                .conference-2026-page .c26-hero__overlay {
+                    z-index: 1;
+                }
+
+                .conference-2026-page .c26-hero__content {
+                    z-index: 2;
+                }
+
+                .conference-2026-page .c26-hero .photo-header {
+                    z-index: 1000;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    }
+
     document.addEventListener('DOMContentLoaded', () => {
+        initMobileMenuLayerFix();
         updateEventState();
         markAgendaOnScroll();
         initAgendaDisclosure();
