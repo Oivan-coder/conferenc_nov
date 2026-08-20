@@ -54,6 +54,10 @@
         style.id = 'c26-mobile-menu-layer-fix';
         style.textContent = `
             @media (max-width: 968px) {
+                .conference-2026-page .skip-link {
+                    display: none !important;
+                }
+
                 .conference-2026-page .c26-hero {
                     isolation: auto;
                 }
