@@ -26,22 +26,27 @@
     function initAgendaDisclosure() {
         const disclosure = document.querySelector('[data-agenda-disclosure]');
         const label = disclosure?.querySelector('[data-agenda-toggle-label]');
-        if (!disclosure || !label) return;
+        const agenda = disclosure?.querySelector('.c26-agenda');
+        if (!disclosure || !label || !agenda) return;
 
-        const syncLabel = () => {
-            label.textContent = disclosure.open ? 'Свернуть расписание' : 'Показать полное расписание';
-        };
+        const syncDisclosure = () => {
+            const isOpen = disclosure.open;
+            label.textContent = isOpen ? 'Свернуть расписание' : 'Показать полное расписание';
 
-        disclosure.addEventListener('toggle', () => {
-            syncLabel();
-            if (disclosure.open) {
-                disclosure.querySelectorAll('.c26-agenda__item').forEach((item) => {
+            // Legacy .c26-agenda styles force display:grid and override the browser's
+            // native closed <details> state. Inline display fixes that reliably.
+            if (isOpen) {
+                agenda.style.removeProperty('display');
+                agenda.querySelectorAll('.c26-agenda__item').forEach((item) => {
                     item.classList.add('is-visible');
                 });
+            } else {
+                agenda.style.display = 'none';
             }
-        });
+        };
 
-        syncLabel();
+        disclosure.addEventListener('toggle', syncDisclosure);
+        syncDisclosure();
     }
 
     document.addEventListener('DOMContentLoaded', () => {
