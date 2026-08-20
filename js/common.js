@@ -158,7 +158,7 @@ function initMediaFallbacks() {
 function buildHeaderHtml(activePage) {
     const topLevelLinks = SITE_NAV.map((item) => {
         if (item.children) {
-            const isActive = item.children.some((child) => child.id === activePage);
+            const isCurrent = item.children.some((child) => child.id === activePage);
             const childLinks = item.children.map((child) => `
                 <li>
                     <a href="${child.href}"${child.id === activePage ? ' class="active"' : ''}>${child.label}</a>
@@ -166,8 +166,8 @@ function buildHeaderHtml(activePage) {
             `).join('');
 
             return `
-                <li class="menu-dropdown${isActive ? ' active' : ''}">
-                    <button type="button" class="dropdown-toggle${isActive ? ' active' : ''}" aria-expanded="${isActive ? 'true' : 'false'}" aria-haspopup="true">
+                <li class="menu-dropdown${isCurrent ? ' current' : ''}">
+                    <button type="button" class="dropdown-toggle${isCurrent ? ' current' : ''}" aria-expanded="false" aria-haspopup="true">
                         ${item.label}
                     </button>
                     <ul class="dropdown-menu">
@@ -375,6 +375,18 @@ function closeBurgerMenu() {
     }
 }
 
+function closeDropdownMenu() {
+    const dropdownToggle = document.querySelector('.dropdown-toggle');
+    const menuDropdown = document.querySelector('.menu-dropdown');
+
+    if (dropdownToggle) {
+        dropdownToggle.setAttribute('aria-expanded', 'false');
+    }
+    if (menuDropdown) {
+        menuDropdown.classList.remove('active');
+    }
+}
+
 function initBurgerMenu() {
     const burgerMenu = document.getElementById('burgerMenu');
     const navMenu = document.getElementById('navMenu');
@@ -401,11 +413,20 @@ function initBurgerMenu() {
         if (navMenu.classList.contains('active') && !navMenu.contains(event.target) && !burgerMenu.contains(event.target)) {
             closeBurgerMenu();
         }
+
+        const menuDropdown = navMenu.querySelector('.menu-dropdown');
+        if (menuDropdown?.classList.contains('active') && !menuDropdown.contains(event.target)) {
+            closeDropdownMenu();
+        }
     });
 
     document.addEventListener('keydown', (event) => {
-        if (event.key === 'Escape' && navMenu.classList.contains('active')) {
-            closeBurgerMenu();
+        if (event.key === 'Escape') {
+            if (navMenu.classList.contains('active')) {
+                closeBurgerMenu();
+            } else {
+                closeDropdownMenu();
+            }
         }
     });
 

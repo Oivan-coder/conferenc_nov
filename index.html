@@ -21,40 +21,37 @@
     <link rel="icon" type="image/png" href="images/favicon-32x32.png">
     
     <!-- CSS -->
-    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/main.css?v=20260820-site-polish">
+    <link rel="stylesheet" href="css/sections/site-polish.css?v=20260820">
     
 </head>
 <body class="home-page" data-page="home">
     <!-- Хедер -->
     <header class="photo-header" data-site-shell="header"></header>
 
-    <!-- ВИДЕО ГЕРОЙ (используем ту же структуру что в conf-nov2025.html) -->
-    <section class="video-hero">
-        <!-- Видео фон -->
-        <div class="video-container">
-            <video class="hero-video" autoplay muted loop playsinline preload="metadata" poster="images/hero-placeholder.svg">
-                <source src="conference-video.mp4" type="video/mp4">
-                <!-- Фолбэк на изображение если видео не поддерживается -->
-                <img src="images/hero-placeholder.svg" alt="Форум лабораторных инноваций">
-            </video>
-            <!-- Затемнение фона для лучшей читаемости текста -->
-            <div class="video-overlay"></div>
+    <!-- Главный экран в едином стиле с форумом 2026 -->
+    <section class="home-hero" aria-labelledby="homeTitle">
+        <div class="home-hero__media" aria-hidden="true">
+            <img src="images/hero/2026-08-17 11.31.52.jpg" alt="" loading="eager">
+            <div class="home-hero__overlay"></div>
         </div>
-        
-        <!-- Информационная плашка поверх видео -->
-        <div class="hero-content">
-            <div class="hero-info-card">
-                <h1>Референс-центр лабораторной службы Московской области</h1>
-                <div class="hero-subtitle">Координация централизации лабораторной службы, аналитика, аудит лабораторий и профильные мероприятия Московской области</div>
-                
-                <div class="hero-buttons">
-                    <a href="#projects" class="cta-button primary">
-                        Мероприятия
-                    </a>
-                    <a href="https://datalens.yandex/8qep9stnqgiet" class="cta-button secondary" target="_blank" rel="noopener noreferrer">
-                        Открыть дашборд
-                    </a>
-                </div>
+
+        <div class="container home-hero__content">
+            <div class="home-hero__eyebrow">Лабораторная служба · Московская область</div>
+            <h1 id="homeTitle">Референс-центр лабораторной службы</h1>
+            <p class="home-hero__lead">Координируем централизацию, маршрутизацию исследований и управленческую аналитику лабораторной сети региона.</p>
+
+            <div class="home-hero__facts" aria-label="Лабораторная сеть Московской области">
+                <div><span>Сеть</span><strong>8 кустов ЦКДЛ</strong></div>
+                <div><span>Охват</span><strong>48 территорий</strong></div>
+                <div><span>Медорганизации</span><strong>51 организация</strong></div>
+                <div><span>Ближайший форум</span><strong>7 октября 2026</strong></div>
+            </div>
+
+            <div class="home-hero__actions">
+                <a href="/conference-2026/" class="c26-button c26-button--primary">Форум 7 октября</a>
+                <a href="#projects" class="c26-button c26-button--secondary">Все мероприятия</a>
+                <a href="https://datalens.yandex/8qep9stnqgiet" class="home-hero__text-link" target="_blank" rel="noopener noreferrer">Открыть дашборд ↗</a>
             </div>
         </div>
     </section>
@@ -63,8 +60,8 @@
         <div class="container">
             <div class="center-focus__content glass-card">
                 <span class="center-focus__eyebrow">Чем занимается центр</span>
-                <h2>Централизация лабораторной службы Московской области</h2>
-                <p>Референс-центр сопровождает развитие централизованной модели лабораторной службы региона, поддерживает единые подходы и ведет профессиональную повестку отрасли.</p>
+                <h2>От лабораторного результата — к управляемому маршруту</h2>
+                <p>Сопровождаем централизованную модель лабораторной службы региона: единые подходы, маршрутизация исследований, аналитика и профессиональная повестка.</p>
                 <div class="center-focus__tags">
                     <span>Централизация</span>
                     <span>Методическая поддержка</span>
