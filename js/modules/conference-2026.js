@@ -23,8 +23,30 @@
         items.forEach((item) => observer.observe(item));
     }
 
+    function initAgendaDisclosure() {
+        const disclosure = document.querySelector('[data-agenda-disclosure]');
+        const label = disclosure?.querySelector('[data-agenda-toggle-label]');
+        if (!disclosure || !label) return;
+
+        const syncLabel = () => {
+            label.textContent = disclosure.open ? 'Свернуть расписание' : 'Показать полное расписание';
+        };
+
+        disclosure.addEventListener('toggle', () => {
+            syncLabel();
+            if (disclosure.open) {
+                disclosure.querySelectorAll('.c26-agenda__item').forEach((item) => {
+                    item.classList.add('is-visible');
+                });
+            }
+        });
+
+        syncLabel();
+    }
+
     document.addEventListener('DOMContentLoaded', () => {
         updateEventState();
         markAgendaOnScroll();
+        initAgendaDisclosure();
     });
 })();
