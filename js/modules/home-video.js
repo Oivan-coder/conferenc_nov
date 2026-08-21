@@ -6,8 +6,10 @@
 
     if (!video || !source) return;
 
+    const connection = navigator.connection;
     const prefersReducedMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
-    const saveData = navigator.connection?.saveData === true;
+    const saveData = connection?.saveData === true;
+    const slowConnection = ['slow-2g', '2g', '3g'].includes(connection?.effectiveType || '');
 
     if (prefersReducedMotion || saveData) return;
 
@@ -17,7 +19,9 @@
         if (started) return;
         started = true;
 
-        source.src = source.dataset.src;
+        const useHighQuality = window.innerWidth >= 1180 && !slowConnection;
+        source.src = useHighQuality ? 'videos/hero-video.mp4' : source.dataset.src;
+        video.dataset.quality = useHighQuality ? 'high' : 'optimized';
         video.load();
 
         video.addEventListener('canplay', () => {
