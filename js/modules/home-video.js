@@ -15,15 +15,18 @@
     if (prefersReducedMotion || saveData) return;
 
     const optimizedSrc = source.dataset.src;
-    const highQualitySrc = 'videos/hero-video.mp4';
-    const useHighQuality = !slowConnection && (
-        window.innerWidth >= 900 ||
-        (window.devicePixelRatio > 1.25 && window.innerWidth >= 720)
-    );
+    const highQualitySrc = source.dataset.srcHq || optimizedSrc;
+    const downlink = Number(connection?.downlink || 0);
+    const hasComfortableBandwidth = !downlink || downlink >= 4;
+    const useHighQuality = highQualitySrc !== optimizedSrc &&
+        !slowConnection &&
+        hasComfortableBandwidth &&
+        window.innerWidth >= 1024;
 
     let currentSource = useHighQuality ? highQualitySrc : optimizedSrc;
     let fallbackTimer = null;
     let hasStartedPlaying = false;
+    let fallbackUsed = false;
 
     const markReady = () => {
         hasStartedPlaying = true;
@@ -35,12 +38,23 @@
         }
     };
 
+    const fallbackToOptimized = () => {
+        if (currentSource === optimizedSrc || fallbackUsed) return;
+        fallbackUsed = true;
+        loadSource(optimizedSrc, 'optimized-fallback');
+    };
+
     const tryPlay = () => {
+        video.muted = true;
+        video.defaultMuted = true;
         const playPromise = video.play();
         if (playPromise && typeof playPromise.then === 'function') {
-            playPromise.then(markReady).catch(() => {
+            playPromise.catch((error) => {
                 // Некоторые браузеры откладывают autoplay до первого взаимодействия.
                 video.classList.remove('is-ready');
+                if (error?.name === 'NotSupportedError') {
+                    fallbackToOptimized();
+                }
             });
         }
     };
@@ -51,30 +65,39 @@
         video.dataset.quality = quality;
         video.preload = 'auto';
         video.autoplay = true;
+        video.muted = true;
+        video.defaultMuted = true;
         video.load();
 
-        // loadeddata обычно наступает раньше canplay и позволяет убрать постер быстрее.
-        video.addEventListener('loadeddata', tryPlay, { once: true });
-        video.addEventListener('canplay', tryPlay, { once: true });
+        if (fallbackTimer) {
+            window.clearTimeout(fallbackTimer);
+            fallbackTimer = null;
+        }
+
+        if (src !== optimizedSrc) {
+            fallbackTimer = window.setTimeout(() => {
+                if (!hasStartedPlaying && video.readyState < 2) {
+                    fallbackToOptimized();
+                }
+            }, 6500);
+        }
     };
 
-    // Не ждём window.load/requestIdleCallback: hero-видео является содержимым первого экрана.
-    loadSource(currentSource, useHighQuality ? 'high' : 'optimized');
+    // Начинаем сетевую загрузку сразу после первого отображения постера и текста,
+    // чтобы видео не конкурировало с критическими ресурсами первого экрана.
+    window.requestAnimationFrame(() => {
+        window.requestAnimationFrame(() => {
+            loadSource(currentSource, useHighQuality ? 'high' : 'optimized');
+        });
+    });
 
-    // Если тяжёлый HQ-файл действительно не успел начать воспроизводиться,
-    // через несколько секунд переходим на лёгкую версию вместо вечного постера.
-    if (useHighQuality) {
-        fallbackTimer = window.setTimeout(() => {
-            if (!hasStartedPlaying && video.readyState < 3) {
-                loadSource(optimizedSrc, 'optimized-fallback');
-            }
-        }, 5500);
-    }
-
+    // loadeddata обычно наступает раньше canplay и позволяет убрать постер быстрее.
+    video.addEventListener('loadeddata', tryPlay);
+    video.addEventListener('canplay', tryPlay);
     video.addEventListener('playing', markReady);
     video.addEventListener('error', () => {
         if (currentSource !== optimizedSrc) {
-            loadSource(optimizedSrc, 'optimized-fallback');
+            fallbackToOptimized();
         } else {
             video.classList.add('is-fallback');
         }
