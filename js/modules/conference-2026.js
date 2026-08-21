@@ -1,6 +1,9 @@
 (function () {
     'use strict';
 
+    const VENUE_ADDRESS = 'б-р Строителей, 1, Красногорск, Московская область, 143407';
+    const VENUE_ROUTE_URL = 'https://yandex.ru/maps/?rtext=~55.816085%2C37.380812&rtt=auto';
+
     function updateEventState() {
         const root = document.querySelector('.conference-2026-page');
         if (!root) return;
@@ -47,6 +50,79 @@
         syncDisclosure();
     }
 
+    function copyTextFallback(text) {
+        const textarea = document.createElement('textarea');
+        textarea.value = text;
+        textarea.setAttribute('readonly', '');
+        textarea.style.position = 'fixed';
+        textarea.style.left = '-9999px';
+        textarea.style.opacity = '0';
+        document.body.appendChild(textarea);
+        textarea.select();
+        textarea.setSelectionRange(0, textarea.value.length);
+
+        let copied = false;
+        try {
+            copied = document.execCommand('copy');
+        } catch (error) {
+            copied = false;
+        }
+
+        textarea.remove();
+        return copied;
+    }
+
+    async function copyVenueAddress() {
+        if (navigator.clipboard && window.isSecureContext) {
+            try {
+                await navigator.clipboard.writeText(VENUE_ADDRESS);
+                return true;
+            } catch (error) {
+                // Older browsers or restrictive clipboard permissions fall back below.
+            }
+        }
+
+        return copyTextFallback(VENUE_ADDRESS);
+    }
+
+    function initLocationActions() {
+        const routeButton = document.getElementById('openNavigationMap');
+        const copyButton = document.getElementById('copyMapAddress');
+
+        if (routeButton) {
+            routeButton.addEventListener('click', () => {
+                const routeWindow = window.open(VENUE_ROUTE_URL, '_blank');
+                if (routeWindow) {
+                    routeWindow.opener = null;
+                } else {
+                    window.location.href = VENUE_ROUTE_URL;
+                }
+            });
+        }
+
+        if (copyButton) {
+            const originalLabel = copyButton.textContent;
+            let resetTimer = null;
+
+            copyButton.addEventListener('click', async () => {
+                const copied = await copyVenueAddress();
+
+                if (!copied) {
+                    window.prompt('Скопируйте адрес:', VENUE_ADDRESS);
+                    return;
+                }
+
+                copyButton.textContent = 'Адрес скопирован';
+                copyButton.setAttribute('aria-live', 'polite');
+
+                window.clearTimeout(resetTimer);
+                resetTimer = window.setTimeout(() => {
+                    copyButton.textContent = originalLabel;
+                }, 1800);
+            });
+        }
+    }
+
     function initMobileMenuLayerFix() {
         if (document.getElementById('c26-mobile-menu-layer-fix')) return;
 
@@ -87,5 +163,6 @@
         updateEventState();
         markAgendaOnScroll();
         initAgendaDisclosure();
+        initLocationActions();
     });
 })();
