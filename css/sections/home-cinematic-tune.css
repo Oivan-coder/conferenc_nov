@@ -6,12 +6,12 @@
 }
 
 .home-cinema__video {
-    filter: saturate(0.88) contrast(1.05) brightness(0.86);
-    transform: scale(1.01);
+    filter: saturate(0.92) contrast(1.06) brightness(0.88);
+    transform: scale(1.00);
 }
 
 .home-cinema__video.is-ready {
-    transform: scale(1.028);
+    transform: scale(1.012);
 }
 
 @media (min-width: 981px) {
