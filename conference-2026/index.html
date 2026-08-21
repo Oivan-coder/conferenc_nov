@@ -254,9 +254,9 @@
                             <h3>Дом Правительства Московской области</h3>
                             <p>б-р Строителей, 1, Красногорск, Московская область, 143407</p>
                             <div class="c26-location__actions">
-                                <button id="openNavigationMap" type="button">Построить маршрут</button>
+                                <a href="https://yandex.ru/maps/?rtext=~55.816085%2C37.380812&amp;rtt=auto" target="_blank" rel="noopener noreferrer">Построить маршрут</a>
                                 <a id="openExternalMap" href="https://yandex.ru/maps/?pt=37.380812,55.816085&amp;z=17&amp;l=map" target="_blank" rel="noopener noreferrer">Открыть карту</a>
-                                <button id="copyMapAddress" type="button">Скопировать адрес</button>
+                                <button type="button" data-copy-map-address data-address="б-р Строителей, 1, Красногорск, Московская область, 143407">Скопировать адрес</button>
                             </div>
                         </div>
                     </aside>
@@ -300,9 +300,56 @@
                 duration: 8.5
             }
         };
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const copyButton = document.querySelector('[data-copy-map-address]');
+            if (!copyButton) return;
+
+            copyButton.addEventListener('click', async function () {
+                const address = copyButton.dataset.address || '';
+                let copied = false;
+
+                if (navigator.clipboard && window.isSecureContext) {
+                    try {
+                        await navigator.clipboard.writeText(address);
+                        copied = true;
+                    } catch (error) {
+                        copied = false;
+                    }
+                }
+
+                if (!copied) {
+                    const textarea = document.createElement('textarea');
+                    textarea.value = address;
+                    textarea.setAttribute('readonly', '');
+                    textarea.style.position = 'fixed';
+                    textarea.style.left = '-9999px';
+                    document.body.appendChild(textarea);
+                    textarea.select();
+                    textarea.setSelectionRange(0, textarea.value.length);
+                    try {
+                        copied = document.execCommand('copy');
+                    } catch (error) {
+                        copied = false;
+                    }
+                    textarea.remove();
+                }
+
+                if (!copied) {
+                    window.prompt('Скопируйте адрес:', address);
+                    return;
+                }
+
+                const originalLabel = 'Скопировать адрес';
+                copyButton.textContent = 'Адрес скопирован';
+                window.setTimeout(function () {
+                    copyButton.textContent = originalLabel;
+                }, 1800);
+            });
+        });
     </script>
     <script src="js/modules/map.js" defer></script>
-    <script src="js/modules/conference-2026.js?v=20260820-mobile-menu2" defer></script>
+    <script src="js/modules/conference-2026.js?v=20260821-location-actions2" defer></script>
     <script src="js/url-cleaner.js" defer></script>
     <script src="cookies.js?v=20260821-consent1" defer></script>
 </body>
