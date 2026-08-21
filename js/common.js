@@ -297,7 +297,8 @@ function buildFooterHtml() {
                     <p>© ${currentYear} ${SITE_TITLE}.</p>
                     <p class="copyright-secondary">
                         Все права защищены |
-                        <a href="/privacy">Политика конфиденциальности</a>
+                        <a href="/privacy">Политика конфиденциальности</a> |
+                        <button type="button" class="footer-cookie-settings" data-cookie-settings>Настройки cookies</button>
                     </p>
                 </div>
             </div>
