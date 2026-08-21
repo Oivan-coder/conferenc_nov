@@ -5,6 +5,15 @@
         linear-gradient(0deg, #07111f 0%, rgba(4, 12, 23, 0.10) 30%, rgba(4, 12, 23, 0.24) 100%);
 }
 
+.home-cinema__video {
+    filter: saturate(0.88) contrast(1.05) brightness(0.86);
+    transform: scale(1.01);
+}
+
+.home-cinema__video.is-ready {
+    transform: scale(1.028);
+}
+
 @media (min-width: 981px) {
     .home-cinema__metrics > div:last-child {
         min-height: 96px;
