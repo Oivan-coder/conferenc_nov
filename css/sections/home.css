@@ -609,40 +609,6 @@
         font-size: 0.95rem;
     }
     
-    /* Футер адаптация */
-    .footer-main {
-        grid-template-columns: 1fr;
-        gap: var(--space-lg);
-    }
-    
-    .footer-logo-link {
-        flex-direction: column;
-        text-align: center;
-        gap: 0.5rem;
-    }
-    
-    .footer-org-name {
-        font-size: 0.9rem;
-    }
-    
-    .contact-person-group {
-        padding: 0.75rem;
-    }
-    
-    .contact-header {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 0.5rem;
-    }
-    
-    .contact-person {
-        font-size: 0.9rem;
-    }
-    
-    .contact-actions {
-        align-self: stretch;
-        justify-content: space-between;
-    }
 }
 
 @media (max-width: 360px) {

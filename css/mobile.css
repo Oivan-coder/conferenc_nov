@@ -266,49 +266,6 @@
     }
 }
 
-/* ===== ОПТИМИЗАЦИЯ ФУТЕРА ===== */
-
-@media (max-width: 768px) {
-    .main-footer,
-    .footer {
-        padding: var(--space-xl) 0 var(--space-lg) !important;
-    }
-    
-    .footer-main {
-        grid-template-columns: 1fr !important;
-        gap: var(--space-lg) !important;
-        text-align: center !important;
-    }
-    
-    .footer-block {
-        margin-bottom: var(--space-lg) !important;
-    }
-    
-    .footer-logo-link {
-        flex-direction: column !important;
-        align-items: center !important;
-        gap: var(--space-sm) !important;
-    }
-    
-    .contact-person-group {
-        padding: var(--space-md) !important;
-        margin-bottom: var(--space-md) !important;
-    }
-    
-    .contact-actions {
-        justify-content: center !important;
-        gap: var(--space-sm) !important;
-    }
-    
-    .contact-phone-button,
-    .messenger-button {
-        width: 44px !important;
-        height: 44px !important;
-        min-width: 44px !important;
-        min-height: 44px !important;
-    }
-}
-
 /* ===== ОПТИМИЗАЦИЯ ДЛЯ ОЧЕНЬ МАЛЕНЬКИХ ЭКРАНОВ ===== */
 
 @media (max-width: 480px) {

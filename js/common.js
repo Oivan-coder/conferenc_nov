@@ -215,54 +215,50 @@ function buildFooterHtml() {
     return `
         <footer class="main-footer" id="contacts">
             <div class="container">
-                <div class="footer-main">
-                    <div class="footer-block">
-                        <div class="footer-info">
-                            <span class="footer-label">Профильный ресурс</span>
-                            <div class="footer-logo-wrapper">
-                                <a href="https://mz.mosreg.ru/" target="_blank" rel="noopener noreferrer" class="footer-logo-link">
-                                    <img src="images/mz-mosreg-logo.png" alt="Министерство здравоохранения Московской области" class="footer-logo">
-                                    <span class="footer-org-name">Министерство здравоохранения Московской области</span>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
+                <div class="footer-main" aria-label="Информация о ресурсе">
+                    <section class="footer-block">
+                        <span class="footer-label">Во взаимодействии с</span>
+                        <a href="https://mz.mosreg.ru/" target="_blank" rel="noopener noreferrer" class="footer-entity">
+                            <span class="footer-entity__logo">
+                                <img src="images/mz-mosreg-logo.png" alt="" loading="lazy" decoding="async">
+                            </span>
+                            <span class="footer-entity__name">Министерство здравоохранения Московской области</span>
+                        </a>
+                    </section>
 
-                    <div class="footer-block">
-                        <div class="footer-info">
-                            <span class="footer-label">Профильный ресурс</span>
-                            <div class="footer-logo-wrapper">
-                                <a href="https://cvimz.ru/" target="_blank" rel="noopener noreferrer" class="footer-logo-link">
-                                    <img src="images/cvimz-logo.png" alt="Центр внедрения изменений и обеспечения деятельности МЗ" class="footer-logo">
-                                    <span class="footer-org-name">Центр внедрения изменений и обеспечения деятельности МЗ</span>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
+                    <section class="footer-block">
+                        <span class="footer-label">Организационное сопровождение</span>
+                        <a href="https://cvimz.ru/" target="_blank" rel="noopener noreferrer" class="footer-entity">
+                            <span class="footer-entity__logo">
+                                <img src="images/cvimz-logo.png" alt="" loading="lazy" decoding="async">
+                            </span>
+                            <span class="footer-entity__name">Центр внедрения изменений и обеспечения деятельности МЗ</span>
+                        </a>
+                    </section>
 
-                    <div class="footer-block footer-contacts">
-                        <div class="footer-info">
-                            <span class="footer-label">Контакт информационного ресурса</span>
-                            <div class="contact-items-wrapper">
-                                <div class="contact-person-group">
-                                    <div class="contact-header">
-                                        <a href="mailto:info@rclsmo.ru" class="contact-person" style="color:inherit;text-decoration:none;">info@rclsmo.ru</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <section class="footer-block footer-block--contact">
+                        <span class="footer-label">Контакт информационного ресурса</span>
+                        <a href="mailto:info@rclsmo.ru" class="footer-mail">
+                            <span class="footer-mail__mark" aria-hidden="true">@</span>
+                            <span class="footer-mail__content">
+                                <strong>info@rclsmo.ru</strong>
+                                <small>Общие вопросы и обратная связь</small>
+                            </span>
+                        </a>
+                    </section>
                 </div>
 
                 <div class="footer-divider"></div>
 
-                <div class="footer-copyright">
-                    <p>Информационный ресурс Референс-центра лабораторной службы Московской области.</p>
-                    <p class="copyright-secondary">
-                        Не является официальным интернет-порталом органа власти или медицинской организации |
-                        <a href="/privacy">Политика конфиденциальности</a> |
+                <div class="footer-bottom">
+                    <div class="footer-identity">
+                        <p class="footer-title">Информационный ресурс Референс-центра лабораторной службы Московской области</p>
+                        <p class="footer-disclaimer">Не является официальным интернет-порталом органа власти или медицинской организации</p>
+                    </div>
+                    <nav class="footer-links" aria-label="Правовая информация">
+                        <a href="/privacy/">Политика конфиденциальности</a>
                         <button type="button" class="footer-cookie-settings" data-cookie-settings>Настройки cookies</button>
-                    </p>
+                    </nav>
                 </div>
             </div>
         </footer>
