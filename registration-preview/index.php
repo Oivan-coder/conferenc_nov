@@ -46,11 +46,11 @@ $html = str_replace('Публичный приём заявок будет вк�
 $html = str_replace('<strong>Форма готова к внутренней проверке</strong>', '<strong>Тестовый режим активен</strong>', $html);
 $html = str_replace('Публичная регистрация пока отключена. На этой странице персональные данные участников не принимаются.', 'Используйте тестовые данные. Отправленные заявки записываются в базу и запускают обычный сценарий подтверждения регистрации.', $html);
 
-$endpoint = '/api/register-preview.php?key=' . rawurlencode($previewToken);
+$endpoint = '/api/register-safe.php?key=' . rawurlencode($previewToken);
 $oldConfig = <<<'HTML'
         window.REGISTRATION_CONFIG = {
             state: 'closed',
-            endpoint: '/api/register.php',
+            endpoint: '/api/register-safe.php',
             availabilityEndpoint: '/api/registration-availability.php',
             eventId: 'forum-lab-innovations-2026-10-07'
         };
