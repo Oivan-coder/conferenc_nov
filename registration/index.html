@@ -91,11 +91,11 @@
                 <form class="r26-form" data-registration-form hidden novalidate>
                     <div class="r26-field">
                         <label for="lastName">Фамилия</label>
-                        <input id="lastName" name="lastName" type="text" autocomplete="family-name" maxlength="100" required>
+                        <input id="lastName" name="lastName" type="text" autocomplete="family-name" minlength="2" maxlength="100" required>
                     </div>
                     <div class="r26-field">
                         <label for="firstName">Имя</label>
-                        <input id="firstName" name="firstName" type="text" autocomplete="given-name" maxlength="100" required>
+                        <input id="firstName" name="firstName" type="text" autocomplete="given-name" minlength="2" maxlength="100" required>
                     </div>
                     <div class="r26-field">
                         <label for="middleName">Отчество <span aria-hidden="true">(при наличии)</span></label>
@@ -109,21 +109,22 @@
                     </fieldset>
                     <div class="r26-field r26-field--wide">
                         <label for="organization">Медицинская организация</label>
-                        <input id="organization" name="organization" type="text" list="organizationOptions" autocomplete="organization" maxlength="255" placeholder="Начните вводить название организации" required>
+                        <input id="organization" name="organization" type="text" list="organizationOptions" autocomplete="organization" minlength="2" maxlength="255" placeholder="Начните вводить название организации" required>
                         <datalist id="organizationOptions"></datalist>
                         <p class="r26-form__message">Государственные медицинские организации можно выбрать из списка. Если организации нет в списке — укажите название вручную.</p>
                     </div>
                     <div class="r26-field">
                         <label for="position">Должность</label>
-                        <input id="position" name="position" type="text" autocomplete="organization-title" maxlength="255" required>
+                        <input id="position" name="position" type="text" autocomplete="organization-title" minlength="2" maxlength="255" required>
                     </div>
                     <div class="r26-field">
                         <label for="email">Электронная почта</label>
-                        <input id="email" name="email" type="email" autocomplete="email" maxlength="255" required>
+                        <input id="email" name="email" type="email" inputmode="email" autocomplete="email" autocapitalize="none" spellcheck="false" maxlength="255" placeholder="name@example.ru" required>
                     </div>
                     <div class="r26-field">
                         <label for="phone">Телефон <span aria-hidden="true">(необязательно)</span></label>
-                        <input id="phone" name="phone" type="tel" autocomplete="tel" maxlength="32">
+                        <input id="phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" maxlength="32" placeholder="+7 (999) 123-45-67" aria-describedby="phoneHint">
+                        <p class="r26-form__message" id="phoneHint">Российский номер: 10 цифр либо 11 цифр, начиная с +7 или 8.</p>
                     </div>
                     <label class="r26-consent r26-field--wide">
                         <input type="checkbox" name="privacyConsent" required>
@@ -148,14 +149,14 @@
     <script>
         window.REGISTRATION_CONFIG = {
             state: 'closed',
-            endpoint: '/api/register.php',
+            endpoint: '/api/register-safe.php',
             availabilityEndpoint: '/api/registration-availability.php',
             eventId: 'forum-lab-innovations-2026-10-07'
         };
     </script>
     <script src="js/data/organizations-2026.js?v=20260816" defer></script>
     <script src="js/data/organizations-external-2026.js?v=20260816" defer></script>
-    <script src="js/modules/registration-2026.js?v=20260816-capacity" defer></script>
+    <script src="js/modules/registration-2026.js?v=20260828-validation2" defer></script>
     <script src="js/url-cleaner.js" defer></script>
     <script src="cookies.js?v=20260821-consent1" defer></script>
 </body>
