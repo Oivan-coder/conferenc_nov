@@ -83,10 +83,10 @@ function sendOfflineConfirmationEmail(string $to, string $fullName, string $part
     $safeCode = htmlspecialchars($participantCode, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
     $safeTicketUrl = htmlspecialchars(ticketUrl($qrToken), ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
     $safeQrUrl = htmlspecialchars(qrImageUrl($qrToken), ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
-    $subject = mb_encode_mimeheader('Подтверждение очной регистрации — Форум лабораторных инноваций 2026', 'UTF-8', 'B');
+    $subject = mb_encode_mimeheader('Подтверждение очной регистрации — Форум лабораторных инноваций Московской области — 2026', 'UTF-8', 'B');
 
     $body = '<p style="font-size:16px;line-height:1.6;margin:0 0 14px;">Здравствуйте, <strong>' . $safeName . '</strong>.</p>'
-        . '<p style="font-size:16px;line-height:1.6;margin:0 0 22px;">Вы зарегистрированы для очного участия в Форуме лабораторных инноваций 2026.</p>'
+        . '<p style="font-size:16px;line-height:1.6;margin:0 0 22px;">Вы зарегистрированы для очного участия в Форуме лабораторных инноваций Московской области 2026 года.</p>'
         . '<table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background:#f1f6f3;border-radius:12px;margin-bottom:22px;"><tr><td style="padding:18px;"><div style="font-size:12px;color:#607268;margin-bottom:5px;">Код участника</div><div style="font-size:24px;font-weight:700;letter-spacing:.05em;color:#214f3b;">' . $safeCode . '</div></td></tr></table>'
         . '<div style="text-align:center;margin:18px 0 24px;"><img src="' . $safeQrUrl . '" width="260" height="260" alt="QR-код участника" style="display:block;width:260px;height:260px;max-width:100%;margin:0 auto;border:0;"><div style="font-size:13px;line-height:1.5;color:#607268;margin-top:10px;">Покажите этот QR-код на стойке регистрации.</div></div>'
         . '<p style="font-size:15px;line-height:1.7;margin:0 0 7px;"><strong>Дата:</strong> 7 октября 2026 года</p><p style="font-size:15px;line-height:1.7;margin:0 0 7px;"><strong>Формат:</strong> Очное участие</p><p style="font-size:15px;line-height:1.7;margin:0 0 22px;"><strong>Место:</strong> Дом Правительства Московской области, Красногорск</p>'
@@ -100,10 +100,10 @@ function sendOnlineConfirmationEmail(string $to, string $fullName, string $parti
     $safeName = htmlspecialchars($fullName, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
     $safeCode = htmlspecialchars($participantCode, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
     $safeLiveUrl = htmlspecialchars(liveUrl($onlineToken), ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
-    $subject = mb_encode_mimeheader('Подтверждение онлайн-регистрации — Форум лабораторных инноваций 2026', 'UTF-8', 'B');
+    $subject = mb_encode_mimeheader('Подтверждение онлайн-регистрации — Форум лабораторных инноваций Московской области — 2026', 'UTF-8', 'B');
 
     $body = '<p style="font-size:16px;line-height:1.6;margin:0 0 14px;">Здравствуйте, <strong>' . $safeName . '</strong>.</p>'
-        . '<p style="font-size:16px;line-height:1.6;margin:0 0 22px;">Вы зарегистрированы для онлайн-участия в Форуме лабораторных инноваций 2026.</p>'
+        . '<p style="font-size:16px;line-height:1.6;margin:0 0 22px;">Вы зарегистрированы для онлайн-участия в Форуме лабораторных инноваций Московской области 2026 года.</p>'
         . '<table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background:#f1f6f3;border-radius:12px;margin-bottom:22px;"><tr><td style="padding:18px;"><div style="font-size:12px;color:#607268;margin-bottom:5px;">Код участника</div><div style="font-size:24px;font-weight:700;letter-spacing:.05em;color:#214f3b;">' . $safeCode . '</div></td></tr></table>'
         . '<p style="font-size:15px;line-height:1.7;margin:0 0 7px;"><strong>Дата:</strong> 7 октября 2026 года</p><p style="font-size:15px;line-height:1.7;margin:0 0 20px;"><strong>Формат:</strong> Онлайн-участие</p>'
         . '<div style="text-align:center;margin:26px 0 12px;"><a href="' . $safeLiveUrl . '" style="display:inline-block;background:#214f3b;color:#ffffff;text-decoration:none;font-size:16px;font-weight:700;padding:14px 24px;border-radius:9px;">Открыть страницу трансляции</a></div>'
@@ -115,7 +115,7 @@ function sendOnlineConfirmationEmail(string $to, string $fullName, string $parti
 function sendWaitlistEmail(string $to, string $fullName, string $participantCode): bool {
     $safeName = htmlspecialchars($fullName, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
     $safeCode = htmlspecialchars($participantCode, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
-    $subject = mb_encode_mimeheader('Лист ожидания — Форум лабораторных инноваций 2026', 'UTF-8', 'B');
+    $subject = mb_encode_mimeheader('Лист ожидания — Форум лабораторных инноваций Московской области — 2026', 'UTF-8', 'B');
 
     $body = '<p style="font-size:16px;line-height:1.6;margin:0 0 14px;">Здравствуйте, <strong>' . $safeName . '</strong>.</p>'
         . '<p style="font-size:16px;line-height:1.6;margin:0 0 22px;">Свободные места для очного участия закончились. Ваша заявка добавлена в лист ожидания.</p>'

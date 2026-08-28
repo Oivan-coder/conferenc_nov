@@ -11738,6 +11738,21 @@ body.about-page .about-showcase .about-network-section {
     line-height: 0.96;
 }
 
+.c26-hero__region {
+    margin-top: 14px;
+    color: #9fddea;
+    font-size: clamp(0.88rem, 1.3vw, 1.06rem);
+    font-weight: 850;
+    letter-spacing: 0.1em;
+    line-height: 1.35;
+    text-transform: uppercase;
+}
+
+.c26-hero__region span {
+    margin-inline: 0.28em;
+    color: rgba(159, 221, 234, 0.62);
+}
+
 .c26-hero__lead {
     max-width: 760px;
     margin: 26px 0 0;
@@ -12238,6 +12253,12 @@ body.about-page .about-showcase .about-network-section {
         font-size: clamp(2.55rem, 13vw, 4rem);
     }
 
+    .c26-hero__region {
+        margin-top: 11px;
+        font-size: 0.78rem;
+        letter-spacing: 0.075em;
+    }
+
     .c26-hero__lead {
         font-size: 1.02rem;
     }
@@ -12392,6 +12413,17 @@ body.about-page .about-showcase .about-network-section {
     font-weight: 900;
     letter-spacing: -0.05em;
     line-height: 0.98;
+}
+
+.r26-brand-region {
+    display: block;
+    margin-top: 12px;
+    color: #9fddea;
+    font-size: clamp(0.86rem, 1.2vw, 1.02rem);
+    font-weight: 850;
+    letter-spacing: 0.09em;
+    line-height: 1.35;
+    text-transform: uppercase;
 }
 
 .r26-hero__grid > div:first-child > p {
@@ -12607,6 +12639,12 @@ body.about-page .about-showcase .about-network-section {
 
     .r26-hero h1 {
         font-size: clamp(2.45rem, 12vw, 3.7rem);
+    }
+
+    .r26-brand-region {
+        margin-top: 10px;
+        font-size: 0.76rem;
+        letter-spacing: 0.065em;
     }
 
     .r26-form-preview {
@@ -14044,6 +14082,17 @@ body.about-page .about-showcase .about-network-section {
     line-height: 1.25;
 }
 
+.home-page .project-brandline {
+    display: block;
+    margin: -2px 0 12px;
+    color: #70dbea;
+    font-size: 0.72rem;
+    font-weight: 850;
+    letter-spacing: 0.075em;
+    line-height: 1.35;
+    text-transform: uppercase;
+}
+
 .home-page .project-content > p:not(.project-date) {
     color: #a7bac9;
     line-height: 1.65;
@@ -14278,6 +14327,21 @@ body.about-page .about-showcase .about-network-section {
     border-radius: 24px;
     background: linear-gradient(145deg, rgba(17, 40, 66, 0.9), rgba(8, 24, 42, 0.9));
     box-shadow: 0 28px 75px rgba(0, 0, 0, 0.34);
+}
+
+.past-conference-page .past-hero-region {
+    margin: 10px 0 0;
+    color: #9fddea;
+    font-size: clamp(0.78rem, 1.2vw, 0.96rem);
+    font-weight: 850;
+    letter-spacing: 0.08em;
+    line-height: 1.4;
+    text-transform: uppercase;
+}
+
+.past-conference-page .past-hero-region span {
+    margin-inline: 0.24em;
+    color: rgba(159, 221, 234, 0.62);
 }
 
 .past-conference-page > section:not(.photo-hero),
@@ -14549,7 +14613,9 @@ body.about-page .about-showcase .about-network-section {
     .conference-2026-page .c26-hero h1 {
         max-width: 14ch;
         font-size: clamp(2.35rem, 11.5vw, 3.35rem);
-        overflow-wrap: anywhere;
+        overflow-wrap: normal;
+        word-break: normal;
+        hyphens: none;
     }
 
     .conference-2026-page .c26-facts {
@@ -14652,7 +14718,14 @@ body.about-page .about-showcase .about-network-section {
     .registration-2026-page .r26-hero h1 {
         max-width: 15ch;
         font-size: clamp(2.25rem, 11vw, 3.25rem);
-        overflow-wrap: anywhere;
+        overflow-wrap: normal;
+        word-break: normal;
+        hyphens: none;
+    }
+
+    .home-page .project-brandline,
+    .past-conference-page .past-hero-region {
+        letter-spacing: 0.055em;
     }
 
     .registration-2026-page .r26-status,
@@ -15112,6 +15185,19 @@ body.about-page .about-showcase .about-network-section {
     line-height: 1.35;
 }
 
+.home-cinema__event strong span,
+.home-cinema__event strong small {
+    display: block;
+}
+
+.home-cinema__event strong small {
+    margin-top: 3px;
+    color: #9db4c8;
+    font-size: 0.68rem;
+    font-weight: 760;
+    letter-spacing: 0.025em;
+}
+
 .home-cinema__event > i {
     color: var(--home-cinema-cyan);
     font-size: 1.4rem;
@@ -15390,6 +15476,10 @@ body.about-page .about-showcase .about-network-section {
 
     .home-cinema__event strong {
         font-size: 0.82rem;
+    }
+
+    .home-cinema__event strong small {
+        font-size: 0.64rem;
     }
 }
 

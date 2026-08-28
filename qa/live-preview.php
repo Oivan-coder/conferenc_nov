@@ -23,6 +23,6 @@ if ($authorized) {
 <?php if (!$authorized): ?>
 <?= qa_login_markup($pinConfigured, $loginError, 'Открыть тестовую трансляцию') ?>
 <?php else: ?>
-<div class="login-card"><div class="brand">Форум лабораторных инноваций 2026</div><h1>Тестовая трансляция</h1><div class="notice"><?= qa_h($error ?? 'Не удалось открыть страницу.') ?></div><a class="btn" href="/qa/">Вернуться</a></div>
+<div class="login-card"><div class="brand">Форум лабораторных инноваций Московской области — 2026</div><h1>Тестовая трансляция</h1><div class="notice"><?= qa_h($error ?? 'Не удалось открыть страницу.') ?></div><a class="btn" href="/qa/">Вернуться</a></div>
 <?php endif; ?>
 </body></html>

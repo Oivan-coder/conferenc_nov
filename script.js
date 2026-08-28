@@ -6,7 +6,7 @@ const CONFIG = {
         name: 'БЦ "Новатор"'
     },
     event: {
-        title: 'Форум лабораторных инноваций',
+        title: 'Форум лабораторных инноваций Московской области',
         description: 'Лабораторная служба будущего: практика и перспективы',
         date: '2025-11-21',
         time: '11:00',
@@ -714,7 +714,7 @@ function initYandexMap() {
                     <div class="map-balloon">
                         <h3>${CONFIG.location.name}</h3>
                         <p>${CONFIG.location.address}</p>
-                        <p><strong>Форум лабораторных инноваций</strong></p>
+                        <p><strong>Форум лабораторных инноваций Московской области</strong></p>
                         <p>21 ноября, 11:00</p>
                     </div>
                 `
@@ -761,7 +761,7 @@ function addToCalendar() {
 
         const icsContent = `BEGIN:VCALENDAR
 VERSION:2.0
-PRODID:-//Форум лабораторных инноваций//Conference 2025//RU
+PRODID:-//Форум лабораторных инноваций Московской области//Conference 2025//RU
 BEGIN:VEVENT
 UID:${Date.now()}@labforum2025.ru
 DTSTAMP:${formatDate(new Date())}
@@ -770,7 +770,7 @@ DTEND:${formatDate(endDate)}
 SUMMARY:${CONFIG.event.title}
 DESCRIPTION:${CONFIG.event.description}\\\\n\\\\n📅 Дата: 21 ноября 2025 г.\\\\n⏰ Время: 11:00\\\\n📍 Место: ${CONFIG.location.address}
 LOCATION:${CONFIG.location.address}
-ORGANIZER;CN="Форум лабораторных инноваций":mailto:info@rclsmo.ru
+ORGANIZER;CN="Форум лабораторных инноваций Московской области":mailto:info@rclsmo.ru
 STATUS:CONFIRMED
 END:VEVENT
 END:VCALENDAR`;
@@ -779,7 +779,7 @@ END:VCALENDAR`;
         const url = window.URL.createObjectURL(blob);
         const link = document.createElement('a');
         link.href = url;
-        link.download = 'Форум_лабораторных_инноваций_2025.ics';
+        link.download = 'Форум_лабораторных_инноваций_Московской_области_2025.ics';
         link.style.display = 'none';
         document.body.appendChild(link);
         link.click();

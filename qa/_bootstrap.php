@@ -158,5 +158,5 @@ function qa_login_markup(bool $pinConfigured, string $error, string $title = 'В
         : '';
     if ($error !== '') $notice .= '<div class="notice">' . qa_h($error) . '</div>';
 
-    return '<div class="login-card"><div class="brand">Форум лабораторных инноваций 2026</div><h1>' . qa_h($title) . '</h1>' . $notice . '<form method="post" autocomplete="off"><label for="qa_pin">PIN доступа</label><input id="qa_pin" name="qa_pin" type="password" inputmode="numeric" autocomplete="off" autofocus required><button type="submit">Войти</button></form></div>';
+    return '<div class="login-card"><div class="brand">Форум лабораторных инноваций Московской области — 2026</div><h1>' . qa_h($title) . '</h1>' . $notice . '<form method="post" autocomplete="off"><label for="qa_pin">PIN доступа</label><input id="qa_pin" name="qa_pin" type="password" inputmode="numeric" autocomplete="off" autofocus required><button type="submit">Войти</button></form></div>';
 }
