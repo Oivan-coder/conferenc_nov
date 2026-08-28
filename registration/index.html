@@ -34,12 +34,12 @@
                         <span class="r26-kicker">7 октября 2026 · Красногорск</span>
                         <h1>Регистрация на Форум лабораторных инноваций</h1>
                         <span class="r26-brand-region">Московской области</span>
-                        <p>Форма готовится к открытию. Будут доступны очный и онлайн-форматы участия.</p>
+                        <p>Форма подготовлена к запуску. После открытия будут доступны очный и онлайн-форматы участия.</p>
                     </div>
                     <div class="r26-status" role="status" aria-live="polite">
                         <span>Текущий статус</span>
                         <strong>Регистрация ещё не открыта</strong>
-                        <p>На этой странице появится рабочая форма без перехода на посторонние страницы.</p>
+                        <p>Публичный приём заявок будет включён после завершения внутренней проверки формы и базы данных.</p>
                     </div>
                 </div>
             </div>
@@ -55,12 +55,12 @@
                 <article class="r26-card">
                     <span class="r26-card__number">02</span>
                     <h2>Учёт медицинских организаций</h2>
-                    <p>Медицинская организация станет обязательным полем. Это позволит корректно считать участников и представительство учреждений.</p>
+                    <p>Медицинская организация является обязательным полем. Это позволяет корректно считать участников и представительство учреждений.</p>
                 </article>
                 <article class="r26-card">
                     <span class="r26-card__number">03</span>
                     <h2>Подтверждение участия</h2>
-                    <p>После открытия формы участник получит подтверждение регистрации и информацию о порядке подключения или посещения площадки.</p>
+                    <p>После регистрации участник получает подтверждение, QR-билет для очного формата или персональную ссылку для онлайн-участия.</p>
                 </article>
             </div>
         </section>
@@ -69,14 +69,21 @@
             <div class="container">
                 <div class="r26-form-zone__header">
                     <span>Форма участника</span>
-                    <h2 id="registrationFormTitle">Что потребуется для регистрации</h2>
+                    <h2 id="registrationFormTitle">Регистрация участника</h2>
                     <p>Фамилия, имя, отчество, должность, медицинская организация, формат участия и контакт для подтверждения.</p>
+                </div>
+
+                <div class="r26-card" style="margin-bottom:24px;">
+                    <span class="r26-card__number">ПДн</span>
+                    <h2>Оператор персональных данных</h2>
+                    <p><strong>ГБУЗ МО МОНИКИ им. М.Ф. Владимирского</strong>. Референс-центр лабораторной службы Московской области осуществляет организационное сопровождение регистрации как структурное подразделение МОНИКИ.</p>
+                    <p>Персональные данные регистрационной формы хранятся в базе данных на серверной инфраструктуре в Российской Федерации. Подробнее — в <a href="/privacy/" target="_blank" rel="noopener noreferrer">Политике обработки персональных данных</a>.</p>
                 </div>
 
                 <div class="r26-form-preview" data-registration-closed>
                     <div>
-                        <strong>Форма появится здесь</strong>
-                        <p>Сейчас сайт не принимает и не передаёт персональные данные участников.</p>
+                        <strong>Форма готова к внутренней проверке</strong>
+                        <p>Публичная регистрация пока отключена. На этой странице персональные данные участников не принимаются.</p>
                     </div>
                     <a class="c26-button c26-button--secondary" href="#contacts">Связаться с организаторами</a>
                 </div>
@@ -115,12 +122,16 @@
                         <input id="email" name="email" type="email" autocomplete="email" maxlength="255" required>
                     </div>
                     <div class="r26-field">
-                        <label for="phone">Телефон</label>
+                        <label for="phone">Телефон <span aria-hidden="true">(необязательно)</span></label>
                         <input id="phone" name="phone" type="tel" autocomplete="tel" maxlength="32">
                     </div>
                     <label class="r26-consent r26-field--wide">
                         <input type="checkbox" name="privacyConsent" required>
-                        <span>Даю согласие на обработку персональных данных и подтверждаю ознакомление с <a href="/privacy/" target="_blank" rel="noopener noreferrer">Политикой конфиденциальности</a>.</span>
+                        <span>Даю <a href="/consent/" target="_blank" rel="noopener noreferrer">согласие на обработку персональных данных</a> ГБУЗ МО МОНИКИ им. М.Ф. Владимирского для регистрации и участия в мероприятии.</span>
+                    </label>
+                    <label class="r26-consent r26-field--wide">
+                        <input type="checkbox" name="policyAcknowledged" required>
+                        <span>Подтверждаю, что ознакомлен(а) с <a href="/privacy/" target="_blank" rel="noopener noreferrer">Политикой обработки персональных данных</a>.</span>
                     </label>
                     <div class="r26-field--wide">
                         <button class="c26-button c26-button--primary" type="submit">Зарегистрироваться</button>
