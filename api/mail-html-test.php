@@ -29,7 +29,7 @@ $htmlBody = '<!doctype html><html lang="ru"><body style="margin:0;padding:0;back
     . '</div>'
     . '<div style="padding:30px;">'
     . '<p style="font-size:16px;line-height:1.6;margin:0 0 18px;">Здравствуйте, <strong>Тестов Тест Тестович</strong>.</p>'
-    . '<p style="font-size:16px;line-height:1.6;margin:0 0 22px;">Вы зарегистрированы на Форум лабораторных инноваций 2026.</p>'
+    . '<p style="font-size:16px;line-height:1.6;margin:0 0 22px;">Вы зарегистрированы на Форум лабораторных инноваций Московской области — 2026.</p>'
     . '<div style="background:#f1f6f3;border-radius:12px;padding:20px;margin:0 0 22px;">'
     . '<div style="font-size:13px;color:#5d7468;margin-bottom:6px;">Код участника</div>'
     . '<div style="font-size:24px;font-weight:700;letter-spacing:.06em;color:#214f3b;">LETEST2026</div>'

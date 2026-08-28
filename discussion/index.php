@@ -152,7 +152,7 @@ try {
 <?php if (!$participant): ?>
 <main class="access-shell">
     <section class="access-card">
-        <div class="access-kicker">Форум лабораторных инноваций 2026</div>
+        <div class="access-kicker">Форум лабораторных инноваций Московской области — 2026</div>
         <div class="access-icon" aria-hidden="true">?</div>
         <h1>Задайте вопрос спикеру</h1>
         <p class="access-lead">Или присоединитесь к общему обсуждению прямо со своего телефона.</p>
@@ -210,7 +210,7 @@ try {
 <div class="discussion-shell">
     <header class="discussion-topbar">
         <div>
-            <div class="discussion-kicker">Форум лабораторных инноваций 2026</div>
+            <div class="discussion-kicker">Форум лабораторных инноваций Московской области — 2026</div>
             <h1>Обсуждение</h1>
         </div>
         <form method="post"><button class="logout" name="logout" value="1" type="submit">Выйти</button></form>

@@ -357,6 +357,19 @@
     line-height: 1.35;
 }
 
+.home-cinema__event strong span,
+.home-cinema__event strong small {
+    display: block;
+}
+
+.home-cinema__event strong small {
+    margin-top: 3px;
+    color: #9db4c8;
+    font-size: 0.68rem;
+    font-weight: 760;
+    letter-spacing: 0.025em;
+}
+
 .home-cinema__event > i {
     color: var(--home-cinema-cyan);
     font-size: 1.4rem;
@@ -635,6 +648,10 @@
 
     .home-cinema__event strong {
         font-size: 0.82rem;
+    }
+
+    .home-cinema__event strong small {
+        font-size: 0.64rem;
     }
 }
 

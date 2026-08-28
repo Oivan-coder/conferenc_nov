@@ -19,7 +19,7 @@ require __DIR__ . '/_bootstrap.php';
 <div class="speaker-nav"><a href="/qa/moderator.php">← к модератору</a></div>
 <div class="speaker-status" id="connectionStatus">● подключение</div>
 <main class="speaker-card">
-<div class="speaker-kicker">Форум лабораторных инноваций 2026</div>
+<div class="speaker-kicker">Форум лабораторных инноваций Московской области — 2026</div>
 <div class="speaker-session" id="sessionLabel">Ожидаем текущий доклад</div>
 <div id="questionBlock" hidden>
 <div class="speaker-question" id="questionText"></div>

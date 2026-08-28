@@ -116,7 +116,7 @@ if ($authorized && isset($_POST['scan'])) {
 <form method="post" autocomplete="off"><label for="pin"><strong>PIN оператора</strong></label><p class="muted small">Введите PIN для доступа к сканированию участников.</p><input class="field" id="pin" name="pin" type="password" inputmode="numeric" autocomplete="off" autofocus required><div class="row"><button class="btn" type="submit">Войти</button></div></form>
 </div></div></div>
 <?php else: ?>
-<div class="wrap"><div class="card"><div class="head"><div class="topline"><div><div class="eyebrow">Форум лабораторных инноваций 2026</div><h1>Регистрация участников</h1></div><form class="logout" method="post"><button name="logout" value="1" type="submit">Выйти</button></form></div></div><div class="body">
+<div class="wrap"><div class="card"><div class="head"><div class="topline"><div><div class="eyebrow">Форум лабораторных инноваций Московской области — 2026</div><h1>Регистрация участников</h1></div><form class="logout" method="post"><button name="logout" value="1" type="submit">Выйти</button></form></div></div><div class="body">
 <form method="post" autocomplete="off" id="scanForm"><label for="scan"><strong>Сканируйте QR-код</strong></label><p class="muted">Курсор остаётся в поле. Поддерживается QR-ссылка, токен и код участника LE…</p><input class="field" id="scan" name="scan" type="text" autocomplete="off" autofocus required><div class="row"><button class="btn" type="submit">Отметить приход</button></div></form>
 <?php if ($result): ?><div class="result <?= h($resultType) ?>">
 <?php if ($resultType === 'success' || $resultType === 'warning'): $p=$result['participant']; ?>
