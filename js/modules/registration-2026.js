@@ -14,6 +14,113 @@
         return canOpen;
     }
 
+    function normalizeRussianPhone(value) {
+        const digits = String(value || '').replace(/\D+/g, '');
+        if (!digits) return '';
+        if (digits.length === 10) return `7${digits}`;
+        if (digits.length === 11 && (digits[0] === '7' || digits[0] === '8')) return `7${digits.slice(1)}`;
+        return null;
+    }
+
+    function formatRussianPhone(normalized) {
+        if (!normalized || normalized.length !== 11) return '';
+        return `+7 (${normalized.slice(1, 4)}) ${normalized.slice(4, 7)}-${normalized.slice(7, 9)}-${normalized.slice(9, 11)}`;
+    }
+
+    function isValidPersonName(value, required) {
+        const cleaned = String(value || '').trim().replace(/\s+/g, ' ');
+        if (!cleaned) return !required;
+        if (cleaned.length < 2 || cleaned.length > 100) return false;
+        return /^[\p{L}\p{M}][\p{L}\p{M}'’\- ]*$/u.test(cleaned);
+    }
+
+    function hasEnoughLetters(value, minimum = 2) {
+        const letters = String(value || '').match(/\p{L}/gu) || [];
+        return letters.length >= minimum;
+    }
+
+    function setFieldValidity(field, message) {
+        if (!field) return;
+        field.setCustomValidity(message || '');
+    }
+
+    function validateForm(form) {
+        const lastName = form.elements.lastName;
+        const firstName = form.elements.firstName;
+        const middleName = form.elements.middleName;
+        const position = form.elements.position;
+        const organization = form.elements.organization;
+        const email = form.elements.email;
+        const phone = form.elements.phone;
+
+        [lastName, firstName, middleName, position, organization, email, phone].forEach((field) => setFieldValidity(field, ''));
+
+        if (!isValidPersonName(lastName?.value, true)) {
+            setFieldValidity(lastName, 'Укажите фамилию буквами. Допустимы пробел, дефис и апостроф.');
+        }
+        if (!isValidPersonName(firstName?.value, true)) {
+            setFieldValidity(firstName, 'Укажите имя буквами. Допустимы пробел, дефис и апостроф.');
+        }
+        if (!isValidPersonName(middleName?.value, false)) {
+            setFieldValidity(middleName, 'Проверьте отчество: допустимы буквы, пробел, дефис и апостроф.');
+        }
+
+        if (position && (!hasEnoughLetters(position.value) || position.value.trim().length < 2)) {
+            setFieldValidity(position, 'Укажите должность текстом.');
+        }
+        if (organization && (!hasEnoughLetters(organization.value) || organization.value.trim().length < 2)) {
+            setFieldValidity(organization, 'Укажите наименование организации.');
+        }
+
+        if (email && email.value && !email.checkValidity()) {
+            setFieldValidity(email, 'Проверьте адрес электронной почты, например name@example.ru.');
+        }
+
+        if (phone && phone.value.trim()) {
+            const normalized = normalizeRussianPhone(phone.value);
+            if (!normalized) {
+                setFieldValidity(phone, 'Укажите российский номер: 10 цифр либо 11 цифр, начиная с +7 или 8.');
+            } else {
+                phone.value = formatRussianPhone(normalized);
+            }
+        }
+
+        return form.reportValidity();
+    }
+
+    function applyServerValidation(form, fields) {
+        if (!fields || typeof fields !== 'object') return false;
+
+        const messages = {
+            lastName: 'Проверьте фамилию: используйте буквы, пробел, дефис или апостроф.',
+            firstName: 'Проверьте имя: используйте буквы, пробел, дефис или апостроф.',
+            middleName: 'Проверьте отчество: используйте буквы, пробел, дефис или апостроф.',
+            position: 'Проверьте должность.',
+            organization: 'Проверьте наименование организации.',
+            email: 'Проверьте адрес электронной почты.',
+            phone: 'Проверьте телефон: нужен российский номер из 10 цифр либо 11 цифр, начиная с +7 или 8.',
+            privacyConsent: 'Необходимо дать согласие на обработку персональных данных.',
+            policyAcknowledged: 'Необходимо подтвердить ознакомление с Политикой обработки персональных данных.'
+        };
+
+        let firstInvalid = null;
+        Object.keys(fields).forEach((name) => {
+            const field = form.elements[name];
+            if (!field) return;
+            if (typeof field.setCustomValidity === 'function') {
+                field.setCustomValidity(messages[name] || 'Проверьте значение поля.');
+                if (!firstInvalid) firstInvalid = field;
+            }
+        });
+
+        if (firstInvalid) {
+            firstInvalid.reportValidity();
+            firstInvalid.focus?.();
+            return true;
+        }
+        return false;
+    }
+
     function duplicateMessage(reasons) {
         const lines = [];
         if (reasons.includes('same_person')) lines.push('Участник с таким ФИО и медицинской организацией уже зарегистрирован.');
@@ -114,7 +221,7 @@
         const message = form.querySelector('[data-registration-message]');
         const submitButton = form.querySelector('button[type="submit"]');
 
-        if (!form.reportValidity() || !config.endpoint) return;
+        if (!validateForm(form) || !config.endpoint) return;
 
         submitButton.disabled = true;
         if (message) message.textContent = 'Проверяем данные…';
@@ -125,6 +232,12 @@
         try {
             let response = await sendRegistration(payload);
             let result = await response.json().catch(() => ({}));
+
+            if (response.status === 422 && result.error === 'validation_failed') {
+                applyServerValidation(form, result.fields);
+                if (message) message.textContent = 'Проверьте выделенные поля формы.';
+                return;
+            }
 
             let processed = await processDuplicate(response, result, payload, message);
             if (processed.cancelled) return;
@@ -169,10 +282,36 @@
         }
     }
 
+    function wireValidation(form) {
+        const phone = form.elements.phone;
+        if (phone) {
+            phone.addEventListener('blur', () => {
+                setFieldValidity(phone, '');
+                if (!phone.value.trim()) return;
+                const normalized = normalizeRussianPhone(phone.value);
+                if (!normalized) {
+                    setFieldValidity(phone, 'Укажите российский номер: 10 цифр либо 11 цифр, начиная с +7 или 8.');
+                    return;
+                }
+                phone.value = formatRussianPhone(normalized);
+            });
+        }
+
+        form.addEventListener('input', (event) => {
+            const field = event.target;
+            if (field && typeof field.setCustomValidity === 'function') field.setCustomValidity('');
+        });
+        form.addEventListener('change', (event) => {
+            const field = event.target;
+            if (field && typeof field.setCustomValidity === 'function') field.setCustomValidity('');
+        });
+    }
+
     document.addEventListener('DOMContentLoaded', async () => {
         const isOpen = setRegistrationState();
         const form = document.querySelector('[data-registration-form]');
         if (isOpen && form) {
+            wireValidation(form);
             form.addEventListener('submit', submitRegistration);
             await refreshAvailability();
         }
