@@ -2,8 +2,8 @@
 session_start();
 header('Cache-Control: private, no-store, max-age=0');
 header('Pragma: no-cache');
-header('X-Robots-Tag: noindex, nofollow, noarchive', true);
-header('Referrer-Policy: no-referrer');
+header('X-Robots-Tag: noindex, nofollow,noarchive', true);
+header('Referrer-Policy: strict-origin-when-cross-origin');
 header('X-Content-Type-Options: nosniff');
 
 const DB_CONFIG_PATH = '/home/c/cx314477/public_html/.private/db.php';
@@ -13,11 +13,7 @@ function h(?string $value): string {
     return htmlspecialchars((string)$value, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
 }
 
-if (empty($_SESSION['conference_dashboard_auth'])) {
-    http_response_code(404);
-    exit;
-}
-
+$dashboardAuthenticated = !empty($_SESSION['conference_dashboard_auth']);
 $code = strtoupper(trim((string)($_GET['code'] ?? '')));
 $token = strtolower(trim((string)($_GET['t'] ?? '')));
 $participant = null;
@@ -26,7 +22,8 @@ try {
     $pdo = require DB_CONFIG_PATH;
     if (!$pdo instanceof PDO) throw new RuntimeException('DB unavailable');
 
-    if (preg_match('/^LE[A-F0-9]{8}$/', $code)) {
+    // Код участника можно использовать только из авторизованного дашборда.
+    if ($dashboardAuthenticated && preg_match('/^LE[A-F0-9]{8}$/', $code)) {
         $stmt = $pdo->prepare(
             'SELECT id, participant_code, full_name, position, organization, online_token, online_watch_seconds
              FROM participants
@@ -39,6 +36,7 @@ try {
         $participant = $stmt->fetch(PDO::FETCH_ASSOC) ?: null;
         if ($participant) $token = strtolower((string)$participant['online_token']);
     } elseif (preg_match('/^[a-f0-9]{64}$/', $token)) {
+        // Персональный online_token сам является секретом доступа и позволяет тестировать с другого устройства.
         $stmt = $pdo->prepare(
             'SELECT id, participant_code, full_name, position, organization, online_token, online_watch_seconds
              FROM participants
@@ -56,6 +54,9 @@ try {
 
 if (!$participant) {
     http_response_code(404);
+} else {
+    // Разрешаем ранний heartbeat только этому участнику в текущей браузерной сессии.
+    $_SESSION['conference_live_test_participant_id'] = (int)$participant['id'];
 }
 ?>
 <!doctype html>
@@ -71,20 +72,20 @@ if (!$participant) {
 </head>
 <body>
 <?php if (!$participant): ?>
-<div class="error"><h1>Онлайн-участник не найден</h1><p class="muted">Откройте тест с кодом подтверждённого онлайн-участника.</p></div>
+<div class="error"><h1>Онлайн-участник не найден</h1><p class="muted">Используйте персональную тестовую ссылку подтверждённого онлайн-участника.</p></div>
 <?php else: ?>
 <div class="wrap">
-<div class="top"><div class="eyebrow">Закрытый тест · только для организатора</div><h1>Форум лабораторных инноваций Московской области — 2026</h1></div>
+<div class="top"><div class="eyebrow">Закрытый тест · персональная ссылка участника</div><h1>Форум лабораторных инноваций Московской области — 2026</h1></div>
 <div class="grid">
 <section class="card"><div class="player"><iframe src="<?= h(TEST_EMBED_URL) ?>" allow="autoplay; encrypted-media; fullscreen; picture-in-picture" allowfullscreen title="Тестовый видеоплеер"></iframe></div><div class="body"><h2><?= h($participant['full_name']) ?></h2><div class="muted"><?= h($participant['organization']) ?> · <?= h($participant['position']) ?></div><div class="small">Это тестовый режим. В боевой персональной ссылке до 7 октября трансляция остаётся закрытой.</div></div></section>
-<aside class="card info"><span class="badge">Онлайн-участие · ТЕСТ</span><p><strong>Код:</strong> <?= h($participant['participant_code']) ?></p><p><strong>Дата:</strong> 7 октября 2026 года</p><p><strong>Учёт присутствия:</strong> тестовый режим активен</p><p class="small">Счётчик ниже пишет реальные тестовые секунды в БД этого участника.</p><div class="test">Накоплено <strong data-watch-seconds><?= (int)$participant['online_watch_seconds'] ?></strong> сек. После 900 сек. дашборд отметит онлайн-факт ≥15 мин.</div></aside>
+<aside class="card info"><span class="badge">Онлайн-участие · ТЕСТ</span><p><strong>Код:</strong> <?= h($participant['participant_code']) ?></p><p><strong>Дата:</strong> 7 октября 2026 года</p><p><strong>Учёт присутствия:</strong> тестовый режим активен</p><p class="small">Счётчик ниже пишет реальные тестовые секунды в БД именно этого участника.</p><div class="test">Накоплено <strong data-watch-seconds><?= (int)$participant['online_watch_seconds'] ?></strong> сек. После 900 сек. дашборд отметит онлайн-факт ≥15 мин.</div></aside>
 </div>
 <section class="card discussion" aria-labelledby="discussionTitle"><div class="discussion-head"><div><h2 id="discussionTitle">Обсуждение</h2><p class="muted">Тест общего чата и вопросов текущему спикеру.</p></div><div class="session-now"><strong>Текущий доклад</strong><span data-chat-session>Текущий спикер пока не выбран</span></div></div><div class="chat-list" data-chat-list><div class="chat-empty"><strong>Загружаем обсуждение…</strong><span>Сообщения появятся здесь.</span></div></div><form class="chat-compose" data-chat-form autocomplete="off"><div class="chat-reply-banner" data-reply-banner hidden><span data-reply-label></span><button type="button" data-reply-cancel>Отмена</button></div><div class="chat-modes" role="radiogroup" aria-label="Тип сообщения"><label class="chat-mode"><input type="radio" name="messageType" value="chat" checked><span>Сообщение в чат</span></label><label class="chat-mode"><input type="radio" name="messageType" value="question"><span>Вопрос спикеру</span></label></div><textarea data-chat-input maxlength="1000" placeholder="Напишите тестовое сообщение…" required></textarea><div class="chat-compose-bottom"><div class="chat-status" data-chat-status>Вопрос спикеру появится в общем чате и у модератора.</div><button class="chat-submit" type="submit">Отправить</button></div></form></section>
 </div>
 <script>
 window.CONFERENCE_CHAT_CONFIG={enabled:true,token:<?= json_encode($token, JSON_UNESCAPED_SLASHES) ?>,endpoint:'/api/conference-chat.php'};
 </script>
-<script src="/js/modules/live-chat.js?v=20260816-1" defer></script>
+<script src="/js/modules/live-chat.js?v=20260831-test2" defer></script>
 <script>
 (() => {
  const token=<?= json_encode($token, JSON_UNESCAPED_SLASHES) ?>;
