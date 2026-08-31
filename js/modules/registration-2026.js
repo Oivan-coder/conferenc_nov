@@ -268,7 +268,9 @@
 
             form.reset();
             const code = result.participant_code;
-            if (!result.email_sent) {
+            if (result.email_pending) {
+                setMessage(message, `Очная регистрация подтверждена. Код участника: ${code}. QR-билет формируется и будет направлен на почту.`, 'success');
+            } else if (!result.email_sent) {
                 setMessage(message, `Регистрация сохранена. Код участника: ${code}. Письмо пока не отправлено — сохраните код и напишите на info@rclsmo.ru.`, 'warning');
             } else if (result.registration_status === 'waitlist') {
                 setMessage(message, `Заявка добавлена в лист ожидания. Код: ${code}. Подтверждение направлено на почту.`, 'success');
