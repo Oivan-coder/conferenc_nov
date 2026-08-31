@@ -5,7 +5,6 @@ header('X-Content-Type-Options: nosniff');
 
 const DB_CONFIG_PATH = '/home/c/cx314477/public_html/.private/db.php';
 const EVENT_ID = 'forum-lab-innovations-2026-10-07';
-require_once __DIR__ . '/invite-access.php';
 
 function respond(int $status, array $payload): never {
     http_response_code($status);
@@ -28,10 +27,9 @@ try {
     $countStmt->execute([':event_id' => EVENT_ID]);
     $confirmedOffline = (int)$countStmt->fetchColumn();
 
-    $activeUnusedInvites = inviteActiveUnusedCount($pdo);
     $hallCapacity = max(0, (int)$settings['hall_capacity']);
     $configuredPublicLimit = max(0, (int)$settings['public_offline_limit']);
-    $effectivePublicLimit = min($configuredPublicLimit, max(0, $hallCapacity - $activeUnusedInvites));
+    $effectivePublicLimit = min($configuredPublicLimit, $hallCapacity);
     $remaining = max(0, $effectivePublicLimit - $confirmedOffline);
     $offlineOpen = (bool)$settings['offline_registration_open'];
     $onlineOpen = (bool)$settings['online_registration_open'];
