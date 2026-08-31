@@ -1,0 +1,139 @@
+name: Apply social preview metadata
+
+on:
+  push:
+    paths:
+      - '.github/workflows/apply-social-previews.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Patch social metadata
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import re
+
+          def replace_once(path, pattern, replacement):
+              p = Path(path)
+              text = p.read_text(encoding='utf-8')
+              new_text, count = re.subn(pattern, replacement, text, count=1, flags=re.S)
+              if count != 1:
+                  raise SystemExit(f'Expected one metadata block in {path}, found {count}')
+              p.write_text(new_text, encoding='utf-8')
+
+          home = '''    <!-- Open Graph / social preview -->
+              <meta property="og:locale" content="ru_RU">
+              <meta property="og:type" content="website">
+              <meta property="og:site_name" content="РЦЛСМО">
+              <meta property="og:title" content="Референс-центр лабораторной службы Московской области">
+              <meta property="og:description" content="Единый лабораторный контур Московской области: централизация, аналитика, маршрутизация и профильные мероприятия.">
+              <meta property="og:url" content="https://rclsmo.ru/">
+              <meta property="og:image" content="https://rclsmo.ru/images/hero/home-video-poster.jpg">
+              <meta property="og:image:secure_url" content="https://rclsmo.ru/images/hero/home-video-poster.jpg">
+              <meta property="og:image:type" content="image/jpeg">
+              <meta property="og:image:alt" content="Референс-центр лабораторной службы Московской области">
+              <meta name="twitter:card" content="summary_large_image">
+              <meta name="twitter:title" content="Референс-центр лабораторной службы Московской области">
+              <meta name="twitter:description" content="Единый лабораторный контур Московской области: централизация, аналитика, маршрутизация и профильные мероприятия.">
+              <meta name="twitter:image" content="https://rclsmo.ru/images/hero/home-video-poster.jpg">
+              <meta name="twitter:image:alt" content="Референс-центр лабораторной службы Московской области">
+              <meta name="theme-color" content="#07182b">
+              <base href="/">'''
+          replace_once(
+              'index.html',
+              r'    <!-- Open Graph -->.*?    <base href="/">',
+              home,
+          )
+
+          about = '''    <!-- Open Graph / social preview -->
+              <meta property="og:locale" content="ru_RU">
+              <meta property="og:type" content="website">
+              <meta property="og:site_name" content="РЦЛСМО">
+              <meta property="og:title" content="О центре | Референс-центр лабораторной службы Московской области">
+              <meta property="og:description" content="Команда, задачи и направления работы Референс-центра лабораторной службы Московской области.">
+              <meta property="og:url" content="https://rclsmo.ru/about">
+              <meta property="og:image" content="https://rclsmo.ru/images/hero/2026-01-13%2014.34.19.jpg">
+              <meta property="og:image:secure_url" content="https://rclsmo.ru/images/hero/2026-01-13%2014.34.19.jpg">
+              <meta property="og:image:type" content="image/jpeg">
+              <meta property="og:image:alt" content="Референс-центр лабораторной службы Московской области">
+              <meta name="twitter:card" content="summary_large_image">
+              <meta name="twitter:title" content="О центре | РЦЛСМО">
+              <meta name="twitter:description" content="Команда, задачи и направления работы Референс-центра лабораторной службы Московской области.">
+              <meta name="twitter:image" content="https://rclsmo.ru/images/hero/2026-01-13%2014.34.19.jpg">
+              <meta name="theme-color" content="#07182b">
+              <base href="/">'''
+          replace_once(
+              'about/index.html',
+              r'    <!-- Open Graph -->.*?    <base href="/">',
+              about,
+          )
+
+          conference = '''    <meta property="og:locale" content="ru_RU">
+              <meta property="og:type" content="website">
+              <meta property="og:site_name" content="РЦЛСМО">
+              <meta property="og:title" content="Форум лабораторных инноваций Московской области — 2026">
+              <meta property="og:description" content="7 октября 2026 · Дом Правительства Московской области · Красногорск · очное и онлайн-участие">
+              <meta property="og:url" content="https://rclsmo.ru/conference-2026/">
+              <meta property="og:image" content="https://rclsmo.ru/images/hero/2026-01-13%2014.19.52.jpg">
+              <meta property="og:image:secure_url" content="https://rclsmo.ru/images/hero/2026-01-13%2014.19.52.jpg">
+              <meta property="og:image:type" content="image/jpeg">
+              <meta property="og:image:alt" content="Форум лабораторных инноваций Московской области — 7 октября 2026">
+              <meta name="twitter:card" content="summary_large_image">
+              <meta name="twitter:title" content="Форум лабораторных инноваций Московской области — 2026">
+              <meta name="twitter:description" content="7 октября 2026 · Красногорск · очное и онлайн-участие">
+              <meta name="twitter:image" content="https://rclsmo.ru/images/hero/2026-01-13%2014.19.52.jpg">
+              <meta name="twitter:image:alt" content="Форум лабораторных инноваций Московской области — 7 октября 2026">
+              <meta name="theme-color" content="#07182b">
+              <base href="/">'''
+          replace_once(
+              'conference-2026/index.html',
+              r'    <meta property="og:type".*?    <base href="/">',
+              conference,
+          )
+
+          registration = '''    <meta property="og:locale" content="ru_RU">
+              <meta property="og:type" content="website">
+              <meta property="og:site_name" content="РЦЛСМО">
+              <meta property="og:title" content="Регистрация — Форум лабораторных инноваций Московской области 2026">
+              <meta property="og:description" content="7 октября 2026 · Красногорск · очное и онлайн-участие · регистрация готовится к открытию">
+              <meta property="og:url" content="https://rclsmo.ru/registration/">
+              <meta property="og:image" content="https://rclsmo.ru/images/hero/2026-01-13%2014.19.52.jpg">
+              <meta property="og:image:secure_url" content="https://rclsmo.ru/images/hero/2026-01-13%2014.19.52.jpg">
+              <meta property="og:image:type" content="image/jpeg">
+              <meta property="og:image:alt" content="Регистрация на Форум лабораторных инноваций Московской области 2026">
+              <meta name="twitter:card" content="summary_large_image">
+              <meta name="twitter:title" content="Регистрация — Форум лабораторных инноваций Московской области 2026">
+              <meta name="twitter:description" content="7 октября 2026 · Красногорск · очное и онлайн-участие">
+              <meta name="twitter:image" content="https://rclsmo.ru/images/hero/2026-01-13%2014.19.52.jpg">
+              <meta name="theme-color" content="#07182b">
+              <script>'''
+          replace_once(
+              'registration/index.html',
+              r'    <meta property="og:title".*?    <script>',
+              registration,
+          )
+          PY
+
+      - name: Commit changes
+        shell: bash
+        run: |
+          git config user.name "rclsmo-site-bot"
+          git config user.email "info@rclsmo.ru"
+          git add index.html about/index.html conference-2026/index.html registration/index.html
+          if git diff --cached --quiet; then
+            echo "No changes"
+            exit 0
+          fi
+          git commit -m "Improve social link previews"
+          git push origin main
