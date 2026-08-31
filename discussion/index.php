@@ -6,22 +6,64 @@ session_start();
 
 header('Cache-Control: private, no-store, max-age=0');
 header('Pragma: no-cache');
-header('X-Robots-Tag: noindex, nofollow, noarchive', true);
-header('Referrer-Policy: no-referrer');
+header('X-Robots-Tag: noindex, nofollow,noarchive', true);
+header('Referrer-Policy: same-origin');
 header('X-Content-Type-Options: nosniff');
 
 const DB_CONFIG_PATH = '/home/c/cx314477/public_html/.private/db.php';
+const LIVE_EMBED_URL_PATH = '/home/c/cx314477/public_html/.private/live_embed_url';
+const TEST_EMBED_URL = 'https://www.youtube-nocookie.com/embed/aqz-KE-bpKQ?rel=0&mute=1';
 const EVENT_ID = 'forum-lab-innovations-2026-10-07';
+const EVENT_START = '2026-10-07 07:00:00';
+const EVENT_END = '2026-10-07 20:00:00';
 
 function h(?string $value): string
 {
     return htmlspecialchars((string)$value, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
 }
 
+function discussion_url(bool $testMode): string
+{
+    return $testMode ? '/discussion/?test=1' : '/discussion/';
+}
+
+function event_window_state(): string
+{
+    $tz = new DateTimeZone('Europe/Moscow');
+    $now = new DateTimeImmutable('now', $tz);
+    $start = new DateTimeImmutable(EVENT_START, $tz);
+    $end = new DateTimeImmutable(EVENT_END, $tz);
+    if ($now < $start) return 'before';
+    if ($now > $end) return 'after';
+    return 'live';
+}
+
+function load_live_embed_url(): string
+{
+    if (!is_readable(LIVE_EMBED_URL_PATH)) return '';
+    $url = trim((string)file_get_contents(LIVE_EMBED_URL_PATH));
+    if (!filter_var($url, FILTER_VALIDATE_URL)) return '';
+
+    $parts = parse_url($url);
+    $scheme = strtolower((string)($parts['scheme'] ?? ''));
+    $host = strtolower((string)($parts['host'] ?? ''));
+    $allowedHosts = [
+        'www.youtube.com',
+        'www.youtube-nocookie.com',
+        'rutube.ru',
+        'vk.com',
+        'vkvideo.ru',
+    ];
+
+    return $scheme === 'https' && in_array($host, $allowedHosts, true) ? $url : '';
+}
+
+$testMode = (string)($_GET['test'] ?? $_POST['test_mode'] ?? '') === '1';
+
 if (isset($_POST['logout'])) {
     unset($_SESSION['conference_attendee_id']);
     session_regenerate_id(true);
-    header('Location: /discussion/');
+    header('Location: ' . discussion_url($testMode));
     exit;
 }
 
@@ -56,7 +98,7 @@ try {
                 } else {
                     session_regenerate_id(true);
                     $_SESSION['conference_attendee_id'] = (int)$found['id'];
-                    header('Location: /discussion/');
+                    header('Location: ' . discussion_url($testMode));
                     exit;
                 }
             }
@@ -90,7 +132,7 @@ try {
                 } else {
                     session_regenerate_id(true);
                     $_SESSION['conference_attendee_id'] = (int)$found['id'];
-                    header('Location: /discussion/');
+                    header('Location: ' . discussion_url($testMode));
                     exit;
                 }
             }
@@ -117,6 +159,15 @@ try {
 } catch (Throwable $e) {
     $error = 'Сервис временно недоступен. Попробуйте ещё раз через минуту.';
 }
+
+$eventState = event_window_state();
+$liveEmbedUrl = load_live_embed_url();
+$usingTestEmbed = false;
+if ($testMode && $liveEmbedUrl === '') {
+    $liveEmbedUrl = TEST_EMBED_URL;
+    $usingTestEmbed = true;
+}
+$playerActive = $participant && $liveEmbedUrl !== '' && ($eventState === 'live' || $testMode);
 ?>
 <!doctype html>
 <html lang="ru">
@@ -124,8 +175,9 @@ try {
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="robots" content="noindex,nofollow,noarchive">
-<title>Обсуждение форума — 7 октября 2026</title>
+<title><?= $participant ? 'Трансляция и обсуждение форума — 7 октября 2026' : 'Обсуждение форума — 7 октября 2026' ?></title>
 <link rel="stylesheet" href="/discussion/style.css?v=20260831-1">
+<link rel="stylesheet" href="/discussion/live.css?v=20260831-1">
 </head>
 <body>
 <?php if (!$participant): ?>
@@ -134,12 +186,12 @@ try {
         <div class="access-kicker">Форум лабораторных инноваций Московской области — 2026</div>
         <div class="access-icon" aria-hidden="true">?</div>
         <h1>Задайте вопрос спикеру</h1>
-        <p class="access-lead">Найдите себя в списке участников — и сразу переходите в общий чат.</p>
+        <p class="access-lead">Найдите себя в списке участников — здесь же будет трансляция, общий чат и вопросы спикерам.</p>
 
         <div class="access-steps">
             <div><span>1</span><p>Начните вводить фамилию или имя.</p></div>
             <div><span>2</span><p>Выберите себя из списка.</p></div>
-            <div><span>3</span><p>Пишите в чат или задайте вопрос спикеру.</p></div>
+            <div><span>3</span><p>Смотрите эфир, пишите в чат или задайте вопрос спикеру.</p></div>
         </div>
 
         <?php if ($error): ?><div class="access-error"><?= h($error) ?></div><?php endif; ?>
@@ -159,11 +211,13 @@ try {
             <form method="post" data-selection-form>
                 <input type="hidden" name="login_mode" value="select">
                 <input type="hidden" name="selection_token" value="" data-selection-token>
+                <?php if ($testMode): ?><input type="hidden" name="test_mode" value="1"><?php endif; ?>
             </form>
         </div>
 
         <form method="post" class="access-form <?= $loginMode !== 'code' ? 'is-hidden' : '' ?>" data-login-panel="code" autocomplete="off">
             <input type="hidden" name="login_mode" value="code">
+            <?php if ($testMode): ?><input type="hidden" name="test_mode" value="1"><?php endif; ?>
             <label for="participant_code">Код участника</label>
             <div class="code-row">
                 <input id="participant_code" name="participant_code" type="text" inputmode="text" autocapitalize="characters" maxlength="10" placeholder="LE12AB34CD" value="<?= h($codeValue) ?>" required>
@@ -229,7 +283,7 @@ try {
             button.addEventListener('click', () => {
                 selectionToken.value = item.token || '';
                 button.disabled = true;
-                hint.textContent = 'Открываем обсуждение…';
+                hint.textContent = 'Открываем страницу мероприятия…';
                 selectionForm.submit();
             });
             resultsBox.appendChild(button);
@@ -274,20 +328,41 @@ try {
     <header class="discussion-topbar">
         <div>
             <div class="discussion-kicker">Форум лабораторных инноваций Московской области — 2026</div>
-            <h1>Обсуждение</h1>
+            <h1>Трансляция и обсуждение</h1>
         </div>
-        <form method="post"><button class="logout" name="logout" value="1" type="submit">Выйти</button></form>
+        <form method="post">
+            <?php if ($testMode): ?><input type="hidden" name="test_mode" value="1"><?php endif; ?>
+            <button class="logout" name="logout" value="1" type="submit">Выйти</button>
+        </form>
     </header>
 
     <section class="participant-strip">
         <div class="avatar"><?= h(mb_substr((string)$participant['full_name'], 0, 1)) ?></div>
         <div><strong><?= h($participant['full_name']) ?></strong><span><?= h($participant['organization']) ?></span></div>
-        <div class="hall-badge">В зале</div>
+        <div class="hall-badge">В зале · онлайн-учёт выключен</div>
+    </section>
+
+    <section class="hall-live-card" aria-label="Трансляция форума">
+        <div class="hall-live-player">
+            <?php if ($playerActive): ?>
+                <iframe src="<?= h($liveEmbedUrl) ?>" allow="autoplay; encrypted-media; fullscreen; picture-in-picture" allowfullscreen title="<?= $usingTestEmbed ? 'Тестовый видеоплеер' : 'Прямая трансляция' ?>"></iframe>
+            <?php elseif ($eventState === 'before'): ?>
+                <div class="hall-live-placeholder"><strong>Трансляция ещё не началась</strong>7 октября здесь появится тот же эфир, который смотрят онлайн-участники. Чат и вопросы работают независимо от видеоплеера.</div>
+            <?php elseif ($eventState === 'after'): ?>
+                <div class="hall-live-placeholder"><strong>Прямая трансляция завершена</strong>Обсуждение останется доступно на этой странице.</div>
+            <?php else: ?>
+                <div class="hall-live-placeholder"><strong>Источник трансляции подключается</strong>Страница готова; видеопоток появится после подключения организаторами.</div>
+            <?php endif; ?>
+        </div>
+        <div class="hall-live-meta">
+            <div><strong>Трансляция на телефоне</strong><span>Можно смотреть презентацию с места и одновременно задавать вопросы. Просмотр очного участника не увеличивает онлайн-статистику.</span></div>
+            <div class="hall-live-note <?= $testMode ? 'test' : '' ?>"><?= $testMode ? 'ТЕСТОВЫЙ РЕЖИМ' : 'ОЧНОЕ УЧАСТИЕ' ?></div>
+        </div>
     </section>
 
     <section class="discussion-card" aria-labelledby="discussionTitle">
         <div class="discussion-head">
-            <div><h2 id="discussionTitle">Чат и вопросы</h2><p>Обсуждайте доклад с коллегами или отправьте вопрос текущему спикеру.</p></div>
+            <div><h2 id="discussionTitle">Чат и вопросы</h2><p>Здесь один общий чат для участников в зале и онлайн.</p></div>
             <div class="session-now"><span>Сейчас</span><strong data-chat-session>Текущий спикер пока не выбран</strong></div>
         </div>
 
