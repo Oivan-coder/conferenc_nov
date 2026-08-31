@@ -56,11 +56,35 @@ HTML;
 $html = str_replace($cleaner, '', $html);
 $html = str_replace('<script src="js/url-cleaner.js" defer></script>', '', $html);
 $html = str_replace('data-registration-state="closed"', 'data-registration-state="open"', $html);
-$html = str_replace('Форма подготовлена к запуску. После открытия будут доступны очный и онлайн-форматы участия.', 'Для вас зарезервировано место по персональному приглашению. Выберите удобный формат участия и заполните данные.', $html);
+$html = str_replace('Форма подготовлена к запуску. После открытия будут доступны очный и онлайн-форматы участия.', 'Для вас зарезервировано очное место по персональному приглашению. Заполните данные участника для подтверждения.', $html);
 $html = str_replace('<strong>Регистрация ещё не открыта</strong>', '<strong>Персональное приглашение</strong>', $html);
 $html = str_replace('Публичный приём заявок будет включён после завершения внутренней проверки формы и базы данных.', 'Очное место зарезервировано до 23 сентября 2026 года включительно. После этой даты неиспользованный резерв возвращается в общий пул.', $html);
+$html = str_replace('Фамилия, имя, отчество, должность, медицинская организация, формат участия и контакт для подтверждения.', 'Фамилия, имя, отчество, должность, медицинская организация и контакт для подтверждения очного участия.', $html);
 $html = str_replace('<strong>Форма готова к внутренней проверке</strong>', '<strong>Персональная регистрация доступна</strong>', $html);
-$html = str_replace('Публичная регистрация пока отключена. На этой странице персональные данные участников не принимаются.', 'Заполните форму ниже. После регистрации на почту придёт подтверждение: QR-билет для очного участия или персональная ссылка на онлайн-трансляцию.', $html);
+$html = str_replace('Публичная регистрация пока отключена. На этой странице персональные данные участников не принимаются.', 'Заполните форму ниже. После регистрации на почту придёт подтверждение и QR-билет для очного участия.', $html);
+
+$formatBlock = <<<'HTML'
+                    <fieldset class="r26-field r26-format-field">
+                        <legend>Формат участия <span class="r26-required" aria-hidden="true">*</span></legend>
+                        <div class="r26-format-options">
+                            <label class="r26-format-option"><input type="radio" name="participationFormat" value="offline" required><span><strong>Очно</strong><small>Красногорск</small></span></label>
+                            <label class="r26-format-option"><input type="radio" name="participationFormat" value="online" required><span><strong>Онлайн</strong><small>Персональная ссылка</small></span></label>
+                        </div>
+                        <p class="r26-form__message" data-offline-availability>Количество мест для очного участия ограничено.</p>
+                    </fieldset>
+HTML;
+$offlineBlock = <<<'HTML'
+                    <div class="r26-field r26-format-field r26-format-field--invite" aria-label="Формат участия">
+                        <span class="r26-format-label">Формат участия</span>
+                        <input type="hidden" name="participationFormat" value="offline">
+                        <div class="r26-format-static">
+                            <strong>Очное участие</strong>
+                            <small>Дом Правительства Московской области · Красногорск</small>
+                        </div>
+                        <p class="r26-form__message" data-offline-availability>Место зарезервировано по персональному приглашению.</p>
+                    </div>
+HTML;
+$html = str_replace($formatBlock, $offlineBlock, $html);
 
 $oldConfig = <<<'HTML'
         window.REGISTRATION_CONFIG = {
