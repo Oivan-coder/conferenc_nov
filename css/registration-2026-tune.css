@@ -125,77 +125,6 @@
     font-size: clamp(1.18rem, 2vw, 1.38rem);
 }
 
-.guest-registration-page .r26-guest-warning {
-    position: relative;
-    z-index: 2;
-    padding: 26px 0 4px;
-}
-
-.guest-registration-page .r26-guest-warning__card {
-    display: grid;
-    grid-template-columns: 58px minmax(0, 1fr);
-    gap: 20px;
-    align-items: start;
-    padding: 24px 26px;
-    border: 1px solid rgba(118, 235, 251, 0.34);
-    border-radius: 20px;
-    background:
-        radial-gradient(circle at 0 0, rgba(118, 235, 251, 0.12), transparent 34%),
-        linear-gradient(135deg, rgba(14, 46, 72, 0.96), rgba(10, 29, 49, 0.96));
-    box-shadow: 0 22px 55px rgba(0, 0, 0, 0.2);
-}
-
-.guest-registration-page .r26-guest-warning__icon {
-    width: 58px;
-    height: 58px;
-    display: grid;
-    place-items: center;
-    border-radius: 16px;
-    border: 1px solid rgba(118, 235, 251, 0.35);
-    background: rgba(66, 223, 245, 0.1);
-}
-
-.guest-registration-page .r26-guest-warning__icon svg {
-    width: 27px;
-    height: 27px;
-    fill: none;
-    stroke: #82efff;
-    stroke-width: 1.8;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-}
-
-.guest-registration-page .r26-guest-warning__eyebrow {
-    display: block;
-    margin-bottom: 6px;
-    color: #76ebfb;
-    font-size: 0.72rem;
-    font-weight: 800;
-    letter-spacing: 0.13em;
-    text-transform: uppercase;
-}
-
-.guest-registration-page .r26-guest-warning__content strong {
-    display: block;
-    margin-bottom: 8px;
-    color: #f7fcff;
-    font-size: clamp(1.08rem, 2vw, 1.22rem);
-    line-height: 1.35;
-}
-
-.guest-registration-page .r26-guest-warning__content p {
-    max-width: 900px;
-    margin: 0;
-    color: #bfd1df;
-    font-size: 0.96rem;
-    line-height: 1.68;
-}
-
-.guest-registration-page .r26-guest-warning__content b {
-    color: #ffffff;
-    font-weight: 700;
-}
-
 .guest-registration-page .r26-form-zone {
     padding-top: clamp(42px, 5vw, 64px);
 }
@@ -203,6 +132,10 @@
 .guest-registration-page .r26-form-zone__header {
     margin-left: auto;
     margin-right: auto;
+    text-align: center;
+}
+
+.guest-registration-page .r26-form-zone__header h2 {
     text-align: center;
 }
 
@@ -349,29 +282,11 @@
         padding-bottom: 18px;
     }
 
-    .guest-registration-page .r26-guest-warning {
-        padding-top: 18px;
-    }
-
-    .guest-registration-page .r26-guest-warning__card {
-        grid-template-columns: 46px minmax(0, 1fr);
-        gap: 14px;
-        padding: 18px;
-        border-radius: 17px;
-    }
-
-    .guest-registration-page .r26-guest-warning__icon {
-        width: 46px;
-        height: 46px;
-        border-radius: 13px;
-    }
-
-    .guest-registration-page .r26-guest-warning__icon svg {
-        width: 23px;
-        height: 23px;
-    }
-
     .guest-registration-page .r26-form-zone__header,
+    .guest-registration-page .r26-form-zone__header h2 {
+        text-align: center;
+    }
+
     .guest-registration-page .r26-form-legal {
         text-align: left;
     }
