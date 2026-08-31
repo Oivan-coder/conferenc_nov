@@ -17,6 +17,24 @@ function inviteRespond(int $status, array $payload): never {
     exit;
 }
 
+function inviteFinishClientResponse(array $payload): void {
+    $json = json_encode($payload, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+    if (!is_string($json)) $json = '{"ok":false,"error":"response_encoding_failed"}';
+
+    http_response_code(201);
+    header('Content-Type: application/json; charset=utf-8');
+    header('Content-Length: ' . strlen($json));
+    header('Connection: close');
+    echo $json;
+
+    if (function_exists('fastcgi_finish_request')) {
+        fastcgi_finish_request();
+    } else {
+        while (ob_get_level() > 0) @ob_end_flush();
+        flush();
+    }
+}
+
 function inviteCleanText(string $value): string {
     return trim((string)preg_replace('/\s+/u', ' ', $value));
 }
@@ -241,29 +259,34 @@ try {
     inviteMarkUsed($pdo, $tokenHash, $participantId);
     $pdo->commit();
 
-    if ($format === 'online') {
-        $emailSent = inviteSendOnlineMail($email, $fullName, $participantCode, (string)$onlineToken);
-    } else {
-        $emailSent = inviteSendOfflineMail($email, $fullName, $participantCode, $qrToken);
-        if ($emailSent) {
-            try {
-                $pdo->prepare('UPDATE participants SET qr_sent_at = NOW() WHERE participant_code = :code')
-                    ->execute([':code' => $participantCode]);
-            } catch (Throwable $markError) {
-                error_log('Unable to mark qr_sent_at for ' . $participantCode . ': ' . $markError->getMessage());
-            }
-        }
-    }
-
-    inviteRespond(201, [
-        'ok' => true,
-        'participant_code' => $participantCode,
-        'participation_format' => $format,
-        'registration_status' => 'confirmed',
-        'duplicate_override' => $duplicateReasons !== [],
-        'email_sent' => $emailSent,
-        'invite_mode' => true
-    ]);
+    ignore_user_abort(true);
++    inviteFinishClientResponse([
++        'ok' => true,
++        'participant_code' => $participantCode,
++        'participation_format' => $format,
++        'registration_status' => 'confirmed',
++        'duplicate_override' => $duplicateReasons !== [],
++        'email_sent' => false,
++        'email_pending' => true,
++        'invite_mode' => true
++    ]);
++
++    if ($format === 'online') {
++        $emailSent = inviteSendOnlineMail($email, $fullName, $participantCode, (string)$onlineToken);
++    } else {
++        $emailSent = inviteSendOfflineMail($email, $fullName, $participantCode, $qrToken);
++        if ($emailSent) {
++            try {
++                $pdo->prepare('UPDATE participants SET qr_sent_at = NOW() WHERE participant_code = :code')
++                    ->execute([':code' => $participantCode]);
++            } catch (Throwable $markError) {
++                error_log('Unable to mark qr_sent_at for ' . $participantCode . ': ' . $markError->getMessage());
++            }
++        }
++    }
++
++    if (!$emailSent) error_log('Invitation confirmation email was not sent for ' . $participantCode);
++    exit;
 } catch (Throwable $e) {
     if (isset($pdo) && $pdo instanceof PDO && $pdo->inTransaction()) $pdo->rollBack();
     inviteRespond(500, ['ok' => false, 'error' => 'server_error']);
