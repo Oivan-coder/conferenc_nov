@@ -7,6 +7,7 @@ header('X-Content-Type-Options: nosniff');
 
 const DB_CONFIG_PATH = '/home/c/cx314477/public_html/.private/db.php';
 const LIVE_EMBED_URL_PATH = '/home/c/cx314477/public_html/.private/live_embed_url';
+const TEST_EMBED_URL = 'https://www.youtube-nocookie.com/embed/aqz-KE-bpKQ';
 const EVENT_START = '2026-10-07 07:00:00';
 const EVENT_END = '2026-10-07 20:00:00';
 const TEST_ORGANIZATION = 'Тестовая МО';
@@ -69,6 +70,9 @@ if (!$participant) http_response_code(404);
 $state = eventWindowState();
 $liveEmbedUrl = loadLiveEmbedUrl();
 $isTestParticipant = $participant && trim((string)$participant['organization']) === TEST_ORGANIZATION;
+$usingTestEmbed = $isTestParticipant && $liveEmbedUrl === '';
+if ($usingTestEmbed) $liveEmbedUrl = TEST_EMBED_URL;
+$playerActive = $liveEmbedUrl !== '' && ($state === 'live' || $isTestParticipant);
 $trackingActive = $participant && ($state === 'live' || $isTestParticipant);
 $interactionActive = $participant && ($state === 'live' || $isTestParticipant);
 ?>
@@ -94,8 +98,8 @@ $interactionActive = $participant && ($state === 'live' || $isTestParticipant);
     <div class="grid">
         <section class="card">
             <div class="player">
-                <?php if ($state === 'live' && $liveEmbedUrl !== ''): ?>
-                    <iframe src="<?= h($liveEmbedUrl) ?>" allow="autoplay; encrypted-media; fullscreen; picture-in-picture" allowfullscreen title="Прямая трансляция"></iframe>
+                <?php if ($playerActive): ?>
+                    <iframe src="<?= h($liveEmbedUrl) ?>" allow="autoplay; encrypted-media; fullscreen; picture-in-picture" allowfullscreen title="<?= $usingTestEmbed ? 'Тестовый видеоплеер' : 'Прямая трансляция' ?>"></iframe>
                 <?php elseif ($state === 'before'): ?>
                     <div class="placeholder"><strong>Трансляция ещё не началась.</strong><br>Вернитесь на эту страницу 7 октября 2026 года. Ссылка останется той же.</div>
                 <?php elseif ($state === 'after'): ?>
@@ -112,7 +116,7 @@ $interactionActive = $participant && ($state === 'live' || $isTestParticipant);
             <p><strong>Дата:</strong> 7 октября 2026 года</p>
             <p><strong>Учёт присутствия:</strong> <?= $isTestParticipant ? 'тестовый режим активен' : 'активен только во время мероприятия' ?></p>
             <p class="small">Участник считается фактически присутствовавшим онлайн при суммарном активном времени на странице от 15 минут.</p>
-            <?php if ($isTestParticipant): ?><div class="test">Тест: накоплено <strong data-watch-seconds><?= (int)$participant['online_watch_seconds'] ?></strong> сек. Для тестового участника чат и Q&A также доступны уже сейчас.</div><?php endif; ?>
+            <?php if ($isTestParticipant): ?><div class="test">Тест: накоплено <strong data-watch-seconds><?= (int)$participant['online_watch_seconds'] ?></strong> сек. Для тестового участника чат и Q&A также доступны уже сейчас.<?= $usingTestEmbed ? ' Сейчас показан нейтральный тестовый ролик; после подключения рабочей ссылки он заменится автоматически.' : '' ?></div><?php endif; ?>
         </aside>
     </div>
 

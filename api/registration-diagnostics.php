@@ -69,6 +69,10 @@ $result = [
         'unique_qr_token' => false,
         'unique_online_token' => false,
     ],
+    'test_data' => [
+        'ovan_records' => null,
+        'qa_records' => null,
+    ],
 ];
 
 if (!is_readable(DB_CONFIG_PATH)) respond(503, $result);
@@ -109,6 +113,16 @@ try {
     $result['database']['unique_participant_code'] = in_array('participant_code', $singleUniqueColumns, true);
     $result['database']['unique_qr_token'] = in_array('qr_token', $singleUniqueColumns, true);
     $result['database']['unique_online_token'] = in_array('online_token', $singleUniqueColumns, true);
+
+    $testDataStmt = $pdo->prepare('SELECT
+        SUM(LOWER(TRIM(organization)) = "ovan") AS ovan_records,
+        SUM(organization = :test_org) AS qa_records
+        FROM participants
+        WHERE event_id = :event_id');
+    $testDataStmt->execute([':test_org' => 'Тестовая МО', ':event_id' => EVENT_ID]);
+    $testData = $testDataStmt->fetch(PDO::FETCH_ASSOC) ?: [];
+    $result['test_data']['ovan_records'] = (int)($testData['ovan_records'] ?? 0);
+    $result['test_data']['qa_records'] = (int)($testData['qa_records'] ?? 0);
 
     $result['ok'] = $result['database']['connected']
         && $result['database']['event_settings']
