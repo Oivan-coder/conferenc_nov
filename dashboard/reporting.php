@@ -1,5 +1,14 @@
 <?php
 
+if (!defined('DASHBOARD_PRINT_CLIENT_INJECTED')) {
+    define('DASHBOARD_PRINT_CLIENT_INJECTED', true);
+    ob_start(static function (string $html): string {
+        if (stripos($html, '</body>') === false) return $html;
+        $asset = '<script src="/dashboard/print-client.js?v=20260831-1"></script>';
+        return str_ireplace('</body>', $asset . '</body>', $html);
+    });
+}
+
 function dashboardNormalizeOrganization(string $value): string {
     $value = mb_strtolower(trim($value));
     $value = (string)preg_replace('/\s+/u', ' ', $value);
