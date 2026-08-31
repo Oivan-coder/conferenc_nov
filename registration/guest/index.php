@@ -45,7 +45,7 @@ $html = str_replace($cleaner, '', $html);
 $html = str_replace('<script src="js/url-cleaner.js" defer></script>', '', $html);
 
 $html = str_replace('data-registration-state="closed"', 'data-registration-state="open"', $html);
-$html = str_replace('Форма подготовлена к запуску. После открытия будут доступны очный и онлайн-форматы участия.', 'Персональная форма подтверждения очного участия для приглашённых гостей Форума.', $html);
+$html = str_replace('Форма подготовлена к запуску. После открытия будут доступны очный и онлайн-форматы участия.', 'Закрытая форма подтверждения очного участия для приглашённых гостей Форума.', $html);
 $originalStatus = <<<'HTML'
                     <div class="r26-status" role="status" aria-live="polite">
                         <span>Текущий статус</span>
@@ -53,20 +53,20 @@ $originalStatus = <<<'HTML'
                         <p>Публичный приём заявок будет включён после завершения внутренней проверки формы и базы данных.</p>
                     </div>
 HTML;
-+$guestStatus = <<<'HTML'
-+                    <div class="r26-status r26-status--guest-alert" role="note" aria-label="Важное условие закрытой регистрации">
-+                        <div class="r26-status__alert-icon" aria-hidden="true">
-+                            <svg viewBox="0 0 24 24" focusable="false"><path d="M7.5 10V7.5a4.5 4.5 0 0 1 9 0V10m-10 0h11a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2h-11a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2Zm5.5 4v3"/></svg>
-+                        </div>
-+                        <div class="r26-status__alert-content">
-+                            <span>Закрытая регистрация</span>
-+                            <strong>Не пересылайте эту ссылку</strong>
-+                            <p>Она предназначена только для приглашённых участников и подтверждает очное место на Форуме.</p>
-+                            <span class="r26-status__alert-note">Только для приглашённых</span>
-+                        </div>
-+                    </div>
+$guestStatus = <<<'HTML'
+                    <div class="r26-status r26-status--guest-alert" role="note" aria-label="Важное условие закрытой регистрации">
+                        <div class="r26-status__alert-icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" focusable="false"><path d="M7.5 10V7.5a4.5 4.5 0 0 1 9 0V10m-10 0h11a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2h-11a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2Zm5.5 4v3"/></svg>
+                        </div>
+                        <div class="r26-status__alert-content">
+                            <span>Закрытая регистрация</span>
+                            <strong>Не пересылайте эту ссылку</strong>
+                            <p>Она предназначена только для приглашённых участников и подтверждает очное место на Форуме.</p>
+                            <span class="r26-status__alert-note">Только для приглашённых</span>
+                        </div>
+                    </div>
 HTML;
-+$html = str_replace($originalStatus, $guestStatus, $html);
+$html = str_replace($originalStatus, $guestStatus, $html);
 $html = str_replace('Фамилия, имя, отчество, должность, медицинская организация, формат участия и контакт для подтверждения.', 'Заполните данные участника. Подтверждение регистрации и QR-билет будут направлены на указанную электронную почту.', $html);
 $html = str_replace('<strong>Форма готова к внутренней проверке</strong>', '<strong>Подтвердите очное участие</strong>', $html);
 $html = str_replace('Публичная регистрация пока отключена. На этой странице персональные данные участников не принимаются.', 'Форма доступна только приглашённым участникам. После успешной регистрации вы получите подтверждение и QR-билет.', $html);
