@@ -31,7 +31,7 @@ $html = str_replace('<title>Регистрация — Форум лаборат
 $html = str_replace('<meta name="description" content="Статус регистрации на Форум лабораторных инноваций Московской области 7 октября 2026 года. Очное и онлайн-участие.">', '<meta name="description" content="Закрытая регистрация по приглашению на Форум лабораторных инноваций Московской области 7 октября 2026 года.">', $html);
 $html = str_replace('<meta property="og:title" content="Регистрация — Форум лабораторных инноваций Московской области 2026">', '<meta property="og:title" content="Регистрация по приглашению — Форум лабораторных инноваций Московской области 2026">', $html);
 $html = str_replace('<meta property="og:description" content="7 октября 2026 · очное и онлайн-участие · регистрация готовится к открытию">', '<meta property="og:description" content="Закрытая регистрация · 7 октября 2026 · Дом Правительства Московской области">', $html);
-$html = str_replace('css/registration-2026-tune.css?v=20260831-spacing1', 'css/registration-2026-tune.css?v=20260831-guest6', $html);
+$html = str_replace('css/registration-2026-tune.css?v=20260831-spacing1', 'css/registration-2026-tune.css?v=20260831-guest7', $html);
 $html = str_replace('class="registration-2026-page"', 'class="registration-2026-page guest-registration-page"', $html);
 
 $cleaner = <<<'HTML'
@@ -99,17 +99,17 @@ $newConfig = "        window.REGISTRATION_CONFIG = {\n            state: 'open',
 $html = str_replace($oldConfig, $newConfig, $html);
 
 $guestInfo = <<<'HTML'
-        <section class="r26-guest-info" aria-label="Информация о закрытой регистрации">
+        <section class="r26-guest-info" aria-label="Информация о регистрации по приглашению">
             <div class="container">
                 <div class="r26-guest-info__card">
                     <div class="r26-guest-info__icon" aria-hidden="true">
                         <svg viewBox="0 0 24 24" focusable="false"><path d="M7.5 10V7.5a4.5 4.5 0 0 1 9 0V10m-10 0h11a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2h-11a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2Zm5.5 4v3"/></svg>
                     </div>
                     <div class="r26-guest-info__content">
-                        <span class="r26-guest-info__eyebrow">Закрытая регистрация по приглашению</span>
-                        <h2>Сейчас подтверждаем очное участие приглашённых гостей</h2>
-                        <p><strong>Пожалуйста, не пересылайте эту ссылку третьим лицам.</strong> Она предназначена для приглашённых участников и резервирует очное место на Форуме.</p>
-                        <p class="r26-guest-info__public"><span>Для остальных участников</span> общая регистрация на Форум, в том числе <strong>онлайн-участие</strong>, будет открыта позднее на сайте РЦЛСМО.</p>
+                        <span class="r26-guest-info__eyebrow">Регистрация по приглашению</span>
+                        <h2>Закрытая регистрация для приглашённых гостей</h2>
+                        <p><strong>Пожалуйста, не пересылайте эту ссылку.</strong> По ней подтверждается очное участие и резервируется место на Форуме.</p>
+                        <p class="r26-guest-info__public"><span>Для остальных участников</span> общая регистрация, включая <strong>онлайн-формат</strong>, откроется позднее на сайте РЦЛСМО.</p>
                     </div>
                 </div>
             </div>
