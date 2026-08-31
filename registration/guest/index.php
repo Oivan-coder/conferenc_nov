@@ -28,9 +28,11 @@ $html = str_replace($headMarker, $headMarker . "\n    <meta name=\"robots\" cont
 $html = str_replace('<link rel="canonical" href="https://rclsmo.ru/registration/">', '', $html);
 $html = str_replace('<meta property="og:url" content="https://rclsmo.ru/registration/">', '', $html);
 $html = str_replace('<title>Регистрация — Форум лабораторных инноваций Московской области 2026</title>', '<title>Регистрация по приглашению — Форум лабораторных инноваций Московской области 2026</title>', $html);
-$html = str_replace('<meta name="description" content="Статус регистрации на Форум лабораторных инноваций Московской области 7 октября 2026 года. Очное и онлайн-участие.">', '<meta name="description" content="Регистрация по приглашению на Форум лабораторных инноваций Московской области 7 октября 2026 года.">', $html);
+$html = str_replace('<meta name="description" content="Статус регистрации на Форум лабораторных инноваций Московской области 7 октября 2026 года. Очное и онлайн-участие.">', '<meta name="description" content="Закрытая регистрация по приглашению на Форум лабораторных инноваций Московской области 7 октября 2026 года.">', $html);
 $html = str_replace('<meta property="og:title" content="Регистрация — Форум лабораторных инноваций Московской области 2026">', '<meta property="og:title" content="Регистрация по приглашению — Форум лабораторных инноваций Московской области 2026">', $html);
-$html = str_replace('<meta property="og:description" content="7 октября 2026 · очное и онлайн-участие · регистрация готовится к открытию">', '<meta property="og:description" content="7 октября 2026 · Дом Правительства Московской области · очное участие">', $html);
+$html = str_replace('<meta property="og:description" content="7 октября 2026 · очное и онлайн-участие · регистрация готовится к открытию">', '<meta property="og:description" content="Закрытая регистрация · 7 октября 2026 · Дом Правительства Московской области">', $html);
+$html = str_replace('css/registration-2026-tune.css?v=20260831-spacing1', 'css/registration-2026-tune.css?v=20260831-guest2', $html);
+$html = str_replace('class="registration-2026-page"', 'class="registration-2026-page guest-registration-page"', $html);
 
 $cleaner = <<<'HTML'
     <script>
@@ -43,12 +45,13 @@ $html = str_replace($cleaner, '', $html);
 $html = str_replace('<script src="js/url-cleaner.js" defer></script>', '', $html);
 
 $html = str_replace('data-registration-state="closed"', 'data-registration-state="open"', $html);
-$html = str_replace('Форма подготовлена к запуску. После открытия будут доступны очный и онлайн-форматы участия.', 'Заполните форму для подтверждения очного участия в Форуме лабораторных инноваций Московской области.', $html);
+$html = str_replace('Форма подготовлена к запуску. После открытия будут доступны очный и онлайн-форматы участия.', 'Персональная форма подтверждения очного участия для приглашённых гостей Форума.', $html);
+$html = str_replace('<span>Текущий статус</span>', '<span>Закрытый доступ</span>', $html);
 $html = str_replace('<strong>Регистрация ещё не открыта</strong>', '<strong>Регистрация по приглашению</strong>', $html);
-$html = str_replace('Публичный приём заявок будет включён после завершения внутренней проверки формы и базы данных.', 'После регистрации на указанную электронную почту будет направлено подтверждение участия и QR-билет.', $html);
-$html = str_replace('Фамилия, имя, отчество, должность, медицинская организация, формат участия и контакт для подтверждения.', 'Фамилия, имя, отчество, должность, медицинская организация и контакт для подтверждения.', $html);
-$html = str_replace('<strong>Форма готова к внутренней проверке</strong>', '<strong>Регистрация доступна по приглашению</strong>', $html);
-$html = str_replace('Публичная регистрация пока отключена. На этой странице персональные данные участников не принимаются.', 'Заполните форму ниже. После успешной регистрации подтверждение и QR-билет будут направлены на электронную почту.', $html);
+$html = str_replace('Публичный приём заявок будет включён после завершения внутренней проверки формы и базы данных.', 'Доступ к этой форме предоставлен по закрытой ссылке. Пожалуйста, не пересылайте её третьим лицам.', $html);
+$html = str_replace('Фамилия, имя, отчество, должность, медицинская организация, формат участия и контакт для подтверждения.', 'Заполните данные участника. Подтверждение регистрации и QR-билет будут направлены на указанную электронную почту.', $html);
+$html = str_replace('<strong>Форма готова к внутренней проверке</strong>', '<strong>Подтвердите очное участие</strong>', $html);
+$html = str_replace('Публичная регистрация пока отключена. На этой странице персональные данные участников не принимаются.', 'Форма доступна только приглашённым участникам. После успешной регистрации вы получите подтверждение и QR-билет.', $html);
 
 $formatBlock = <<<'HTML'
                     <fieldset class="r26-field r26-format-field">
@@ -65,8 +68,11 @@ $offlineBlock = <<<'HTML'
                         <span class="r26-format-label">Формат участия</span>
                         <input type="hidden" name="participationFormat" value="offline">
                         <div class="r26-format-static">
-                            <strong>Очное участие</strong>
-                            <small>7 октября 2026 · Дом Правительства Московской области, Красногорск</small>
+                            <span class="r26-format-static__mark" aria-hidden="true">✓</span>
+                            <div>
+                                <strong>Очное участие</strong>
+                                <small>7 октября 2026 · Дом Правительства Московской области, Красногорск</small>
+                            </div>
                         </div>
                         <p class="r26-form__message" data-offline-availability>Количество мест для очного участия ограничено.</p>
                     </div>
@@ -85,11 +91,22 @@ HTML;
 $newConfig = "        window.REGISTRATION_CONFIG = {\n            state: 'open',\n            endpoint: " . json_encode($endpoint, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) . ",\n            availabilityEndpoint: '/api/registration-availability.php',\n            eventId: 'forum-lab-innovations-2026-10-07'\n        };\n";
 $html = str_replace($oldConfig, $newConfig, $html);
 
-$banner = <<<'HTML'
-        <section style="padding:14px 0;background:rgba(66,223,245,.08);border-bottom:1px solid rgba(118,235,251,.18);">
-            <div class="container" style="font-size:14px;line-height:1.55;color:#d7e7ef;"><strong style="color:#76ebfb;">Регистрация по приглашению.</strong> Ссылка предназначена для приглашённых участников Форума лабораторных инноваций Московской области.</div>
+$warning = <<<'HTML'
+        <section class="r26-guest-warning" aria-label="Условия закрытой регистрации">
+            <div class="container">
+                <div class="r26-guest-warning__card">
+                    <div class="r26-guest-warning__icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" role="img" focusable="false"><path d="M7.5 10V7.5a4.5 4.5 0 0 1 9 0V10m-10 0h11a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2h-11a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2Zm5.5 4v3"/></svg>
+                    </div>
+                    <div class="r26-guest-warning__content">
+                        <span class="r26-guest-warning__eyebrow">Закрытая регистрация</span>
+                        <strong>Ссылка предназначена только для приглашённых участников</strong>
+                        <p><b>Пожалуйста, не пересылайте эту ссылку третьим лицам.</b> Регистрация по ней предоставляет очное место на Форуме. После заполнения формы подтверждение участия и QR-билет придут на указанную электронную почту.</p>
+                    </div>
+                </div>
+            </div>
         </section>
 HTML;
-$html = str_replace('    <main>', $banner . "\n    <main>", $html);
+$html = str_replace('        <section class="r26-form-zone"', $warning . "\n        <section class=\"r26-form-zone\"", $html);
 
 echo $html;
