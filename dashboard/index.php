@@ -49,8 +49,27 @@ function dashboardPopFlash(): ?array {
     return is_array($value) ? $value : null;
 }
 
+function normalizeScannerKeyboardLayout(string $value): string {
+    if (!preg_match('/[А-Яа-яЁё]/u', $value)) return $value;
+
+    return strtr($value, [
+        'ё' => '`', 'й' => 'q', 'ц' => 'w', 'у' => 'e', 'к' => 'r', 'е' => 't', 'н' => 'y',
+        'г' => 'u', 'ш' => 'i', 'щ' => 'o', 'з' => 'p', 'х' => '[', 'ъ' => ']',
+        'ф' => 'a', 'ы' => 's', 'в' => 'd', 'а' => 'f', 'п' => 'g', 'р' => 'h',
+        'о' => 'j', 'л' => 'k', 'д' => 'l', 'ж' => ';', 'э' => "'",
+        'я' => 'z', 'ч' => 'x', 'с' => 'c', 'м' => 'v', 'и' => 'b', 'т' => 'n',
+        'ь' => 'm', 'б' => ',', 'ю' => '.', '.' => '/', ',' => '?',
+        'Ё' => '~', 'Й' => 'Q', 'Ц' => 'W', 'У' => 'E', 'К' => 'R', 'Е' => 'T', 'Н' => 'Y',
+        'Г' => 'U', 'Ш' => 'I', 'Щ' => 'O', 'З' => 'P', 'Х' => '{', 'Ъ' => '}',
+        'Ф' => 'A', 'Ы' => 'S', 'В' => 'D', 'А' => 'F', 'П' => 'G', 'Р' => 'H',
+        'О' => 'J', 'Л' => 'K', 'Д' => 'L', 'Ж' => ':', 'Э' => '"',
+        'Я' => 'Z', 'Ч' => 'X', 'С' => 'C', 'М' => 'V', 'И' => 'B', 'Т' => 'N',
+        'Ь' => 'M', 'Б' => '<', 'Ю' => '>',
+    ]);
+}
+
 function extractScanValue(string $raw): ?array {
-    $raw = trim($raw);
+    $raw = trim(normalizeScannerKeyboardLayout($raw));
     if (preg_match('/^LE[A-F0-9]{8}$/i', $raw)) return ['code', strtoupper($raw)];
     if (preg_match('/^[a-f0-9]{64}$/i', $raw)) return ['token', strtolower($raw)];
     if (!filter_var($raw, FILTER_VALIDATE_URL)) return null;
