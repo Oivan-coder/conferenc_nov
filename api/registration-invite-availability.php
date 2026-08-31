@@ -30,7 +30,7 @@ try {
         inviteAvailabilityRespond(410, ['ok' => false, 'error' => 'invite_used']);
     }
 
-    $settingsStmt = $pdo->prepare('SELECT hall_capacity, offline_registration_open, online_registration_open FROM event_registration_settings WHERE event_id = :event_id LIMIT 1');
+    $settingsStmt = $pdo->prepare('SELECT hall_capacity, offline_registration_open FROM event_registration_settings WHERE event_id = :event_id LIMIT 1');
     $settingsStmt->execute([':event_id' => EVENT_ID]);
     $settings = $settingsStmt->fetch(PDO::FETCH_ASSOC);
     if (!$settings) throw new RuntimeException('Event registration settings missing');
@@ -49,10 +49,11 @@ try {
             'waitlist_available' => false
         ],
         'online' => [
-            'available' => (bool)$settings['online_registration_open']
+            'available' => false
         ],
         'invite' => [
             'active' => true,
+            'offline_only' => true,
             'expires_at' => INVITE_EXPIRES_AT
         ]
     ]);
