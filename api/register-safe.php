@@ -4,7 +4,10 @@ header('Cache-Control: no-store');
 header('X-Content-Type-Options: nosniff');
 header('Referrer-Policy: no-referrer');
 
-const PREVIEW_TOKEN_HASH_SAFE = '6fbe6025563f098ca8756103aa6cb93f4ac2c5bbb5f769e42aff0de2de2c14b9';
+const PREVIEW_TOKEN_HASHES_SAFE = [
+    '6fbe6025563f098ca8756103aa6cb93f4ac2c5bbb5f769e42aff0de2de2c14b9',
+    '65b8c5c44e5fdba2620f30c5e434f0893258809bc1a9d2650de8316b48a6f324',
+];
 const TEST_KEY_PATH_SAFE = '/home/c/cx314477/public_html/.private/registration_test_key';
 
 function safeRespond(int $status, array $payload): never {
@@ -44,6 +47,15 @@ function safeNormalizeRussianPhone(string $value): ?string {
     return null;
 }
 
+function safePreviewTokenIsValid(string $token): bool {
+    if ($token === '') return false;
+    $hash = hash('sha256', $token);
+    foreach (PREVIEW_TOKEN_HASHES_SAFE as $allowedHash) {
+        if (hash_equals($allowedHash, $hash)) return true;
+    }
+    return false;
+}
+
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     safeRespond(405, ['ok' => false, 'error' => 'method_not_allowed']);
 }
@@ -73,6 +85,7 @@ $phone = safeCleanText((string)($data['phone'] ?? ''));
 $format = trim((string)($data['participationFormat'] ?? ''));
 $consent = safeIsTrue($data['privacyConsent'] ?? false);
 $policyAcknowledged = safeIsTrue($data['policyAcknowledged'] ?? false);
+$honeypot = safeCleanText((string)($data['website'] ?? ''));
 
 $errors = [];
 if (!safeValidPersonName($lastName, true)) $errors['lastName'] = 'invalid_name';
@@ -97,6 +110,7 @@ if ($phone !== '' && $normalizedPhone === null) {
 if (!in_array($format, ['offline', 'online'], true)) $errors['participationFormat'] = 'invalid';
 if (!$consent) $errors['privacyConsent'] = 'required';
 if (!$policyAcknowledged) $errors['policyAcknowledged'] = 'required';
+if ($honeypot !== '') safeRespond(200, ['ok' => true, 'accepted' => true]);
 
 if ($errors) {
     safeRespond(422, ['ok' => false, 'error' => 'validation_failed', 'fields' => $errors]);
@@ -104,7 +118,7 @@ if ($errors) {
 
 $previewToken = trim((string)($_GET['key'] ?? ''));
 if ($previewToken !== '') {
-    if (!hash_equals(PREVIEW_TOKEN_HASH_SAFE, hash('sha256', $previewToken))) {
+    if (!safePreviewTokenIsValid($previewToken)) {
         safeRespond(404, ['ok' => false, 'error' => 'not_found']);
     }
     if (!is_readable(TEST_KEY_PATH_SAFE)) {
@@ -117,4 +131,5 @@ if ($previewToken !== '') {
     $_SERVER['HTTP_X_REGISTRATION_TEST'] = $testKey;
 }
 
+$_SERVER['RCLSMO_REGISTRATION_VALIDATED'] = '1';
 require __DIR__ . '/register.php';

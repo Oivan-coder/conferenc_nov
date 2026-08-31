@@ -6,7 +6,7 @@ header('Referrer-Policy: no-referrer');
 header('X-Content-Type-Options: nosniff');
 
 const DB_CONFIG_PATH = '/home/c/cx314477/public_html/.private/db.php';
-const LIVE_EMBED_URL = '';
+const LIVE_EMBED_URL_PATH = '/home/c/cx314477/public_html/.private/live_embed_url';
 const EVENT_START = '2026-10-07 07:00:00';
 const EVENT_END = '2026-10-07 20:00:00';
 const TEST_ORGANIZATION = 'Тестовая МО';
@@ -23,6 +23,25 @@ function eventWindowState(): string {
     if ($now < $start) return 'before';
     if ($now > $end) return 'after';
     return 'live';
+}
+
+function loadLiveEmbedUrl(): string {
+    if (!is_readable(LIVE_EMBED_URL_PATH)) return '';
+    $url = trim((string)file_get_contents(LIVE_EMBED_URL_PATH));
+    if (!filter_var($url, FILTER_VALIDATE_URL)) return '';
+
+    $parts = parse_url($url);
+    $scheme = strtolower((string)($parts['scheme'] ?? ''));
+    $host = strtolower((string)($parts['host'] ?? ''));
+    $allowedHosts = [
+        'www.youtube.com',
+        'www.youtube-nocookie.com',
+        'rutube.ru',
+        'vk.com',
+        'vkvideo.ru',
+    ];
+
+    return $scheme === 'https' && in_array($host, $allowedHosts, true) ? $url : '';
 }
 
 $token = strtolower(trim((string)($_GET['t'] ?? '')));
@@ -48,6 +67,7 @@ if (preg_match('/^[a-f0-9]{64}$/', $token)) {
 
 if (!$participant) http_response_code(404);
 $state = eventWindowState();
+$liveEmbedUrl = loadLiveEmbedUrl();
 $isTestParticipant = $participant && trim((string)$participant['organization']) === TEST_ORGANIZATION;
 $trackingActive = $participant && ($state === 'live' || $isTestParticipant);
 $interactionActive = $participant && ($state === 'live' || $isTestParticipant);
@@ -74,8 +94,8 @@ $interactionActive = $participant && ($state === 'live' || $isTestParticipant);
     <div class="grid">
         <section class="card">
             <div class="player">
-                <?php if ($state === 'live' && LIVE_EMBED_URL !== ''): ?>
-                    <iframe src="<?= h(LIVE_EMBED_URL) ?>" allow="autoplay; encrypted-media; fullscreen; picture-in-picture" allowfullscreen title="Прямая трансляция"></iframe>
+                <?php if ($state === 'live' && $liveEmbedUrl !== ''): ?>
+                    <iframe src="<?= h($liveEmbedUrl) ?>" allow="autoplay; encrypted-media; fullscreen; picture-in-picture" allowfullscreen title="Прямая трансляция"></iframe>
                 <?php elseif ($state === 'before'): ?>
                     <div class="placeholder"><strong>Трансляция ещё не началась.</strong><br>Вернитесь на эту страницу 7 октября 2026 года. Ссылка останется той же.</div>
                 <?php elseif ($state === 'after'): ?>

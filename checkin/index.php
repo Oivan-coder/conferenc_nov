@@ -67,9 +67,9 @@ if ($authorized && isset($_POST['scan'])) {
             $pdo->beginTransaction();
 
             if ($kind === 'token') {
-                $stmt = $pdo->prepare('SELECT id, participant_code, full_name, position, organization, participation_format, check_in_at FROM participants WHERE qr_token = :value LIMIT 1 FOR UPDATE');
+                $stmt = $pdo->prepare('SELECT id, participant_code, full_name, position, organization, participation_format, check_in_at FROM participants WHERE qr_token = :value AND participation_format = "offline" AND registration_status = "confirmed" LIMIT 1 FOR UPDATE');
             } else {
-                $stmt = $pdo->prepare('SELECT id, participant_code, full_name, position, organization, participation_format, check_in_at FROM participants WHERE participant_code = :value LIMIT 1 FOR UPDATE');
+                $stmt = $pdo->prepare('SELECT id, participant_code, full_name, position, organization, participation_format, check_in_at FROM participants WHERE participant_code = :value AND participation_format = "offline" AND registration_status = "confirmed" LIMIT 1 FOR UPDATE');
             }
             $stmt->execute([':value' => $value]);
             $participant = $stmt->fetch(PDO::FETCH_ASSOC);

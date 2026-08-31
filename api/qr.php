@@ -18,7 +18,7 @@ try {
     $pdo = require DB_CONFIG_PATH;
     if (!$pdo instanceof PDO) throw new RuntimeException('Database config invalid');
 
-    $stmt = $pdo->prepare('SELECT participant_code FROM participants WHERE qr_token = :token LIMIT 1');
+    $stmt = $pdo->prepare('SELECT participant_code FROM participants WHERE qr_token = :token AND participation_format = "offline" AND registration_status = "confirmed" LIMIT 1');
     $stmt->execute([':token' => $token]);
     if (!$stmt->fetchColumn()) {
         http_response_code(404);

@@ -3,11 +3,23 @@ header('Cache-Control: no-store');
 header('X-Content-Type-Options: nosniff');
 header('Referrer-Policy: no-referrer');
 
-const PREVIEW_TOKEN_HASH = '6fbe6025563f098ca8756103aa6cb93f4ac2c5bbb5f769e42aff0de2de2c14b9';
+const PREVIEW_TOKEN_HASHES = [
+    '6fbe6025563f098ca8756103aa6cb93f4ac2c5bbb5f769e42aff0de2de2c14b9',
+    '65b8c5c44e5fdba2620f30c5e434f0893258809bc1a9d2650de8316b48a6f324',
+];
 const TEST_KEY_PATH_PREVIEW = '/home/c/cx314477/public_html/.private/registration_test_key';
 
+function previewTokenIsValid(string $token): bool {
+    if ($token === '') return false;
+    $hash = hash('sha256', $token);
+    foreach (PREVIEW_TOKEN_HASHES as $allowedHash) {
+        if (hash_equals($allowedHash, $hash)) return true;
+    }
+    return false;
+}
+
 $previewToken = trim((string)($_GET['key'] ?? ''));
-if ($previewToken === '' || !hash_equals(PREVIEW_TOKEN_HASH, hash('sha256', $previewToken))) {
+if (!previewTokenIsValid($previewToken)) {
     http_response_code(404);
     header('Content-Type: application/json; charset=utf-8');
     echo json_encode(['ok' => false, 'error' => 'not_found'], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);

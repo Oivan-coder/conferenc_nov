@@ -49,7 +49,9 @@ try {
     $stmt = $pdo->prepare(
         'SELECT id, organization, online_first_join_at, online_last_seen_at, online_watch_seconds, online_session_count
          FROM participants
-         WHERE online_token = :token AND participation_format = "online"
+         WHERE online_token = :token
+           AND participation_format = "online"
+           AND registration_status = "confirmed"
          LIMIT 1 FOR UPDATE'
     );
     $stmt->execute([':token' => $token]);

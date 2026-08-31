@@ -929,10 +929,15 @@
     }
 
     .registration-2026-page .r26-field,
-    .registration-2026-page .r26-field input,
-    .registration-2026-page .r26-consent span {
+    .registration-2026-page .r26-field input {
         min-width: 0;
-        overflow-wrap: anywhere;
+    }
+
+    .registration-2026-page .r26-consent span,
+    .registration-2026-page .r26-operator-card p,
+    .registration-2026-page .r26-form__result {
+        min-width: 0;
+        overflow-wrap: break-word;
     }
 
     .past-conference-page .photo-hero {

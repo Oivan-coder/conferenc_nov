@@ -44,6 +44,13 @@
         field.setCustomValidity(message || '');
     }
 
+    function setMessage(element, text, state = '') {
+        if (!element) return;
+        element.textContent = text || '';
+        if (state) element.dataset.state = state;
+        else delete element.dataset.state;
+    }
+
     function validateForm(form) {
         const lastName = form.elements.lastName;
         const firstName = form.elements.firstName;
@@ -144,6 +151,7 @@
         const offlineRadio = document.querySelector('input[name="participationFormat"][value="offline"]');
         const onlineRadio = document.querySelector('input[name="participationFormat"][value="online"]');
         const note = document.querySelector('[data-offline-availability]');
+        const submitButton = document.querySelector('[data-registration-form] button[type="submit"]');
 
         try {
             const response = await fetch(config.availabilityEndpoint, { cache: 'no-store' });
@@ -152,6 +160,9 @@
 
             if (offlineRadio) offlineRadio.disabled = !result.offline?.available;
             if (onlineRadio) onlineRadio.disabled = !result.online?.available;
+            if (offlineRadio?.disabled && offlineRadio.checked) offlineRadio.checked = false;
+            if (onlineRadio?.disabled && onlineRadio.checked) onlineRadio.checked = false;
+            if (submitButton) submitButton.disabled = !result.offline?.available && !result.online?.available;
 
             if (note) {
                 if (result.offline?.state === 'full') {
@@ -163,7 +174,7 @@
                 }
             }
         } catch (error) {
-            if (note) note.textContent = 'Количество мест для очного участия ограничено.';
+            if (note) note.textContent = 'Не удалось проверить остаток очных мест. Повторим проверку при отправке формы.';
         }
     }
 
@@ -173,12 +184,12 @@
         const reasons = Array.isArray(result.reasons) ? result.reasons : [];
         const confirmed = window.confirm(duplicateMessage(reasons));
         if (!confirmed) {
-            if (message) message.textContent = 'Регистрация не отправлена. Проверьте данные участника.';
+            setMessage(message, 'Регистрация не отправлена. Проверьте данные участника.', 'warning');
             return { cancelled: true };
         }
 
         payload.confirmDuplicate = true;
-        if (message) message.textContent = 'Отправляем регистрацию…';
+        setMessage(message, 'Отправляем регистрацию…');
         const retryResponse = await sendRegistration(payload);
         const retryResult = await retryResponse.json().catch(() => ({}));
         return { response: retryResponse, result: retryResult };
@@ -193,7 +204,7 @@
                 payload.participationFormat = 'online';
                 const onlineRadio = form.querySelector('input[name="participationFormat"][value="online"]');
                 if (onlineRadio) onlineRadio.checked = true;
-                if (message) message.textContent = 'Оформляем онлайн-регистрацию…';
+                setMessage(message, 'Оформляем онлайн-регистрацию…');
                 const retryResponse = await sendRegistration(payload);
                 const retryResult = await retryResponse.json().catch(() => ({}));
                 return { response: retryResponse, result: retryResult };
@@ -204,14 +215,14 @@
             const joinWaitlist = window.confirm('Добавить заявку в лист ожидания на очное участие?');
             if (joinWaitlist) {
                 payload.waitlistIfFull = true;
-                if (message) message.textContent = 'Добавляем в лист ожидания…';
+                setMessage(message, 'Добавляем в лист ожидания…');
                 const retryResponse = await sendRegistration(payload);
                 const retryResult = await retryResponse.json().catch(() => ({}));
                 return { response: retryResponse, result: retryResult };
             }
         }
 
-        if (message) message.textContent = 'Очная регистрация не отправлена.';
+        setMessage(message, 'Очная регистрация не отправлена.', 'warning');
         return { cancelled: true };
     }
 
@@ -224,7 +235,7 @@
         if (!validateForm(form) || !config.endpoint) return;
 
         submitButton.disabled = true;
-        if (message) message.textContent = 'Проверяем данные…';
+        setMessage(message, 'Проверяем данные…');
 
         const payload = Object.fromEntries(new FormData(form).entries());
         payload.eventId = config.eventId;
@@ -235,7 +246,7 @@
 
             if (response.status === 422 && result.error === 'validation_failed') {
                 applyServerValidation(form, result.fields);
-                if (message) message.textContent = 'Проверьте выделенные поля формы.';
+                setMessage(message, 'Проверьте выделенные поля формы.', 'error');
                 return;
             }
 
@@ -256,29 +267,29 @@
             }
 
             form.reset();
-            if (message) {
-                if (result.registration_status === 'waitlist') {
-                    message.textContent = `Заявка добавлена в лист ожидания. Код: ${result.participant_code}. Подтверждение направлено на почту.`;
-                } else if (result.participation_format === 'online') {
-                    message.textContent = `Онлайн-регистрация подтверждена. Код участника: ${result.participant_code}. Персональная ссылка направлена на почту.`;
-                } else {
-                    message.textContent = `Очная регистрация подтверждена. Код участника: ${result.participant_code}. QR-билет направлен на почту.`;
-                }
+            const code = result.participant_code;
+            if (!result.email_sent) {
+                setMessage(message, `Регистрация сохранена. Код участника: ${code}. Письмо пока не отправлено — сохраните код и напишите на info@rclsmo.ru.`, 'warning');
+            } else if (result.registration_status === 'waitlist') {
+                setMessage(message, `Заявка добавлена в лист ожидания. Код: ${code}. Подтверждение направлено на почту.`, 'success');
+            } else if (result.participation_format === 'online') {
+                setMessage(message, `Онлайн-регистрация подтверждена. Код участника: ${code}. Персональная ссылка направлена на почту.`, 'success');
+            } else {
+                setMessage(message, `Очная регистрация подтверждена. Код участника: ${code}. QR-билет направлен на почту.`, 'success');
             }
+            message?.focus({ preventScroll: true });
 
-            await refreshAvailability();
         } catch (error) {
-            if (message) {
-                if (error.message === 'offline_closed') {
-                    message.textContent = 'Очная регистрация сейчас закрыта. Выберите онлайн-участие.';
-                } else if (error.message === 'online_closed') {
-                    message.textContent = 'Онлайн-регистрация сейчас закрыта.';
-                } else {
-                    message.textContent = 'Не удалось отправить заявку. Попробуйте ещё раз или свяжитесь с организаторами.';
-                }
+            if (error.message === 'offline_closed') {
+                setMessage(message, 'Очная регистрация сейчас закрыта. Выберите онлайн-участие.', 'warning');
+            } else if (error.message === 'online_closed') {
+                setMessage(message, 'Онлайн-регистрация сейчас закрыта.', 'warning');
+            } else {
+                setMessage(message, 'Не удалось отправить заявку. Данные не потеряны — попробуйте ещё раз или напишите на info@rclsmo.ru.', 'error');
             }
         } finally {
             submitButton.disabled = false;
+            refreshAvailability();
         }
     }
 

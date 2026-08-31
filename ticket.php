@@ -14,7 +14,7 @@ if (preg_match('/^[a-f0-9]{64}$/', $token)) {
     try {
         $pdo = require DB_CONFIG_PATH;
         if ($pdo instanceof PDO) {
-            $stmt = $pdo->prepare('SELECT participant_code, full_name, position, organization, participation_format FROM participants WHERE qr_token = :token LIMIT 1');
+            $stmt = $pdo->prepare('SELECT participant_code, full_name, position, organization, participation_format FROM participants WHERE qr_token = :token AND participation_format = "offline" AND registration_status = "confirmed" LIMIT 1');
             $stmt->execute([':token' => $token]);
             $participant = $stmt->fetch(PDO::FETCH_ASSOC) ?: null;
         }

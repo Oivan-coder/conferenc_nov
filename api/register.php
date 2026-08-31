@@ -6,7 +6,7 @@ header('X-Content-Type-Options: nosniff');
 const REGISTRATION_OPEN = false;
 const TEST_KEY_PATH = '/home/c/cx314477/public_html/.private/registration_test_key';
 const DB_CONFIG_PATH = '/home/c/cx314477/public_html/.private/db.php';
-const CONSENT_VERSION = 'draft-2026-08-16';
+const CONSENT_VERSION = '2026-08-31';
 const EVENT_ID = 'forum-lab-innovations-2026-10-07';
 
 require_once __DIR__ . '/smtp-mailer.php';
@@ -128,6 +128,8 @@ function sendWaitlistEmail(string $to, string $fullName, string $participantCode
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') respond(405, ['ok' => false, 'error' => 'method_not_allowed']);
 
 $isTestRequest = isAuthorizedTestRequest();
+$isValidatedGateway = ($_SERVER['RCLSMO_REGISTRATION_VALIDATED'] ?? '') === '1';
+if (!$isTestRequest && !$isValidatedGateway) respond(404, ['ok' => false, 'error' => 'not_found']);
 if (!REGISTRATION_OPEN && !$isTestRequest) respond(503, ['ok' => false, 'error' => 'registration_closed']);
 if ((int)($_SERVER['CONTENT_LENGTH'] ?? 0) > 32768) respond(413, ['ok' => false, 'error' => 'request_too_large']);
 
@@ -272,6 +274,13 @@ try {
     )';
 
     $stmt = $pdo->prepare($sql);
+    $collisionStmt = $pdo->prepare(
+        'SELECT id FROM participants
+         WHERE participant_code = :participant_code
+            OR qr_token = :qr_token
+            OR (:online_token_guard IS NOT NULL AND online_token = :online_token_value)
+         LIMIT 1'
+    );
     $participantCode = null;
     $qrToken = null;
     $onlineToken = null;
@@ -282,6 +291,19 @@ try {
         $onlineToken = $format === 'online' ? bin2hex(random_bytes(32)) : null;
 
         try {
+            $collisionStmt->execute([
+                ':participant_code' => $participantCode,
+                ':qr_token' => $qrToken,
+                ':online_token_guard' => $onlineToken,
+                ':online_token_value' => $onlineToken,
+            ]);
+            if ($collisionStmt->fetchColumn()) {
+                $participantCode = null;
+                $qrToken = null;
+                $onlineToken = null;
+                continue;
+            }
+
             $stmt->execute([
                 ':event_id' => $eventId,
                 ':participant_code' => $participantCode,

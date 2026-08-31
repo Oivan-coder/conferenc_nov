@@ -47,7 +47,7 @@ try {
     if (!$pdo instanceof PDO) throw new RuntimeException('Database config invalid');
 
     $pdo->beginTransaction();
-    $stmt = $pdo->prepare('SELECT id, participant_code, full_name, position, organization, participation_format, check_in_at FROM participants WHERE qr_token = :token LIMIT 1 FOR UPDATE');
+    $stmt = $pdo->prepare('SELECT id, participant_code, full_name, position, organization, participation_format, check_in_at FROM participants WHERE qr_token = :token AND participation_format = "offline" AND registration_status = "confirmed" LIMIT 1 FOR UPDATE');
     $stmt->execute([':token' => $token]);
     $participant = $stmt->fetch(PDO::FETCH_ASSOC);
 

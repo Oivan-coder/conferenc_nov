@@ -20,7 +20,7 @@
     </script>
     <base href="/">
     <link rel="icon" type="image/png" href="images/favicon-32x32.png">
-    <link rel="stylesheet" href="css/public-bundle.css?v=20260828-forum-region">
+    <link rel="stylesheet" href="css/public-bundle.css?v=20260831-registration1">
 </head>
 <body class="registration-2026-page" data-page="registration" data-registration-state="closed">
     <header class="photo-header" data-site-shell="header"></header>
@@ -73,11 +73,17 @@
                     <p>Фамилия, имя, отчество, должность, медицинская организация, формат участия и контакт для подтверждения.</p>
                 </div>
 
-                <div class="r26-card" style="margin-bottom:24px;">
-                    <span class="r26-card__number">ПДн</span>
-                    <h2>Оператор персональных данных</h2>
-                    <p><strong>ГБУЗ МО МОНИКИ им. М.Ф. Владимирского</strong>. Референс-центр лабораторной службы Московской области осуществляет организационное сопровождение регистрации как структурное подразделение МОНИКИ.</p>
-                    <p>Персональные данные регистрационной формы хранятся в базе данных на серверной инфраструктуре в Российской Федерации. Подробнее — в <a href="/privacy/" target="_blank" rel="noopener noreferrer">Политике обработки персональных данных</a>.</p>
+                <div class="r26-operator-card">
+                    <span class="r26-operator-card__mark" aria-hidden="true">ПДн</span>
+                    <div>
+                        <span class="r26-operator-card__eyebrow">Оператор персональных данных</span>
+                        <h2>ГБУЗ МО МОНИКИ им. М.Ф. Владимирского</h2>
+                        <p>Референс-центр лабораторной службы Московской области сопровождает регистрацию как структурное подразделение МОНИКИ. База размещена на серверной инфраструктуре Timeweb в Российской Федерации.</p>
+                        <div class="r26-operator-card__links">
+                            <a href="/privacy/" target="_blank" rel="noopener noreferrer">Политика обработки данных</a>
+                            <a href="https://www.monikiweb.ru/" target="_blank" rel="noopener noreferrer">Официальный сайт МОНИКИ</a>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="r26-form-preview" data-registration-closed>
@@ -88,43 +94,53 @@
                     <a class="c26-button c26-button--secondary" href="#contacts">Связаться с организаторами</a>
                 </div>
 
-                <form class="r26-form" data-registration-form hidden novalidate>
+                <form class="r26-form" data-registration-form hidden novalidate autocomplete="on">
+                    <div class="r26-form__intro r26-field--wide">
+                        <strong>Заполните данные участника</strong>
+                        <span>Поля со звёздочкой обязательны. На указанную почту придёт подтверждение участия.</span>
+                    </div>
                     <div class="r26-field">
-                        <label for="lastName">Фамилия</label>
+                        <label for="lastName">Фамилия <span class="r26-required" aria-hidden="true">*</span></label>
                         <input id="lastName" name="lastName" type="text" autocomplete="family-name" minlength="2" maxlength="100" required>
                     </div>
                     <div class="r26-field">
-                        <label for="firstName">Имя</label>
+                        <label for="firstName">Имя <span class="r26-required" aria-hidden="true">*</span></label>
                         <input id="firstName" name="firstName" type="text" autocomplete="given-name" minlength="2" maxlength="100" required>
                     </div>
                     <div class="r26-field">
                         <label for="middleName">Отчество <span aria-hidden="true">(при наличии)</span></label>
                         <input id="middleName" name="middleName" type="text" autocomplete="additional-name" maxlength="100">
                     </div>
-                    <fieldset class="r26-field">
-                        <legend>Формат участия</legend>
-                        <label><input type="radio" name="participationFormat" value="offline" required> Очно</label>
-                        <label><input type="radio" name="participationFormat" value="online" required> Онлайн</label>
+                    <fieldset class="r26-field r26-format-field">
+                        <legend>Формат участия <span class="r26-required" aria-hidden="true">*</span></legend>
+                        <div class="r26-format-options">
+                            <label class="r26-format-option"><input type="radio" name="participationFormat" value="offline" required><span><strong>Очно</strong><small>Красногорск</small></span></label>
+                            <label class="r26-format-option"><input type="radio" name="participationFormat" value="online" required><span><strong>Онлайн</strong><small>Персональная ссылка</small></span></label>
+                        </div>
                         <p class="r26-form__message" data-offline-availability>Количество мест для очного участия ограничено.</p>
                     </fieldset>
                     <div class="r26-field r26-field--wide">
-                        <label for="organization">Медицинская организация</label>
+                        <label for="organization">Медицинская организация <span class="r26-required" aria-hidden="true">*</span></label>
                         <input id="organization" name="organization" type="text" list="organizationOptions" autocomplete="organization" minlength="2" maxlength="255" placeholder="Начните вводить название организации" required>
                         <datalist id="organizationOptions"></datalist>
                         <p class="r26-form__message">Государственные медицинские организации можно выбрать из списка. Если организации нет в списке — укажите название вручную.</p>
                     </div>
                     <div class="r26-field">
-                        <label for="position">Должность</label>
+                        <label for="position">Должность <span class="r26-required" aria-hidden="true">*</span></label>
                         <input id="position" name="position" type="text" autocomplete="organization-title" minlength="2" maxlength="255" required>
                     </div>
                     <div class="r26-field">
-                        <label for="email">Электронная почта</label>
+                        <label for="email">Электронная почта <span class="r26-required" aria-hidden="true">*</span></label>
                         <input id="email" name="email" type="email" inputmode="email" autocomplete="email" autocapitalize="none" spellcheck="false" maxlength="255" placeholder="name@example.ru" required>
                     </div>
                     <div class="r26-field">
                         <label for="phone">Телефон <span aria-hidden="true">(необязательно)</span></label>
                         <input id="phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" maxlength="32" placeholder="+7 (999) 123-45-67" aria-describedby="phoneHint">
                         <p class="r26-form__message" id="phoneHint">Российский номер: 10 цифр либо 11 цифр, начиная с +7 или 8.</p>
+                    </div>
+                    <div class="r26-honeypot" aria-hidden="true">
+                        <label for="website">Сайт</label>
+                        <input id="website" name="website" type="text" tabindex="-1" autocomplete="off">
                     </div>
                     <label class="r26-consent r26-field--wide">
                         <input type="checkbox" name="privacyConsent" required>
@@ -134,9 +150,9 @@
                         <input type="checkbox" name="policyAcknowledged" required>
                         <span>Подтверждаю, что ознакомлен(а) с <a href="/privacy/" target="_blank" rel="noopener noreferrer">Политикой обработки персональных данных</a>.</span>
                     </label>
-                    <div class="r26-field--wide">
+                    <div class="r26-form__submit r26-field--wide">
                         <button class="c26-button c26-button--primary" type="submit">Зарегистрироваться</button>
-                        <p class="r26-form__message" data-registration-message aria-live="polite"></p>
+                        <p class="r26-form__result" data-registration-message role="status" aria-live="polite" tabindex="-1"></p>
                     </div>
                 </form>
             </div>
@@ -156,7 +172,7 @@
     </script>
     <script src="js/data/organizations-2026.js?v=20260816" defer></script>
     <script src="js/data/organizations-external-2026.js?v=20260816" defer></script>
-    <script src="js/modules/registration-2026.js?v=20260828-validation2" defer></script>
+    <script src="js/modules/registration-2026.js?v=20260831-prelaunch1" defer></script>
     <script src="js/url-cleaner.js" defer></script>
     <script src="cookies.js?v=20260821-consent1" defer></script>
 </body>

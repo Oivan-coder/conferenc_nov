@@ -26,7 +26,15 @@ try {
     if (!$pdo instanceof PDO) throw new RuntimeException('Database config invalid');
 
     $like = '%' . $q . '%';
-    $stmt = $pdo->prepare('SELECT participant_code, full_name, position, organization, participation_format, check_in_at FROM participants WHERE full_name LIKE :q OR organization LIKE :q OR participant_code LIKE :q ORDER BY full_name LIMIT 15');
+    $stmt = $pdo->prepare(
+        'SELECT participant_code, full_name, position, organization, participation_format, check_in_at
+         FROM participants
+         WHERE (full_name LIKE :q OR organization LIKE :q OR participant_code LIKE :q)
+           AND participation_format = "offline"
+           AND registration_status = "confirmed"
+         ORDER BY full_name
+         LIMIT 15'
+    );
     $stmt->execute([':q' => $like]);
 
     respond(200, ['ok' => true, 'results' => $stmt->fetchAll(PDO::FETCH_ASSOC)]);

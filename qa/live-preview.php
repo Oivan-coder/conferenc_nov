@@ -5,7 +5,7 @@ require __DIR__ . '/_bootstrap.php';
 if ($authorized) {
     try {
         $pdo = qa_pdo();
-        $stmt = $pdo->prepare("SELECT online_token FROM participants WHERE participation_format = 'online' AND organization = 'Тестовая МО' AND online_token IS NOT NULL ORDER BY id DESC LIMIT 1");
+        $stmt = $pdo->prepare("SELECT online_token FROM participants WHERE participation_format = 'online' AND registration_status = 'confirmed' AND organization = 'Тестовая МО' AND online_token IS NOT NULL ORDER BY id DESC LIMIT 1");
         $stmt->execute();
         $token = (string)($stmt->fetchColumn() ?: '');
         if (preg_match('/^[a-f0-9]{64}$/', $token)) {
