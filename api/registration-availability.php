@@ -5,6 +5,7 @@ header('X-Content-Type-Options: nosniff');
 
 const DB_CONFIG_PATH = '/home/c/cx314477/public_html/.private/db.php';
 const EVENT_ID = 'forum-lab-innovations-2026-10-07';
+require_once __DIR__ . '/invite-access.php';
 
 function respond(int $status, array $payload): never {
     http_response_code($status);
@@ -18,7 +19,7 @@ try {
     $pdo = require DB_CONFIG_PATH;
     if (!$pdo instanceof PDO) throw new RuntimeException('Database config invalid');
 
-    $settingsStmt = $pdo->prepare('SELECT public_offline_limit, offline_registration_open, online_registration_open FROM event_registration_settings WHERE event_id = :event_id LIMIT 1');
+    $settingsStmt = $pdo->prepare('SELECT hall_capacity, public_offline_limit, offline_registration_open, online_registration_open FROM event_registration_settings WHERE event_id = :event_id LIMIT 1');
     $settingsStmt->execute([':event_id' => EVENT_ID]);
     $settings = $settingsStmt->fetch(PDO::FETCH_ASSOC);
     if (!$settings) throw new RuntimeException('Event registration settings missing');
@@ -27,8 +28,11 @@ try {
     $countStmt->execute([':event_id' => EVENT_ID]);
     $confirmedOffline = (int)$countStmt->fetchColumn();
 
-    $limit = (int)$settings['public_offline_limit'];
-    $remaining = max(0, $limit - $confirmedOffline);
+    $activeUnusedInvites = inviteActiveUnusedCount($pdo);
+    $hallCapacity = max(0, (int)$settings['hall_capacity']);
+    $configuredPublicLimit = max(0, (int)$settings['public_offline_limit']);
+    $effectivePublicLimit = min($configuredPublicLimit, max(0, $hallCapacity - $activeUnusedInvites));
+    $remaining = max(0, $effectivePublicLimit - $confirmedOffline);
     $offlineOpen = (bool)$settings['offline_registration_open'];
     $onlineOpen = (bool)$settings['online_registration_open'];
 
