@@ -29,6 +29,7 @@ function inviteRegistry(): array
         'f1d3148c4152fee24d449cfb85f55a5304210e5278bf6f583afa0d3ce0ab0c4e' => ['slot' => 10, 'name_hash' => '10a3d899ce747754220ba267ded43fa94818d28fbf9a7e386ef0e7b32024f3ca', 'short_name_hash' => '10a3d899ce747754220ba267ded43fa94818d28fbf9a7e386ef0e7b32024f3ca', 'name_enc' => 'u9NrlnpMQFRREmVYyG0z6ahojPkQ4V9IFtGup9ldKnFgkmPdmRJS28Gk04Gi4BKgA5Mfebgf4A'],
         'dbd11be0abf179d00b3177a331bb30d1912ec6d1448a7246cdf8be2bf3546c3d' => ['slot' => 11, 'name_hash' => 'ec280e78e4d9ab8e3f13ae9b49a0fc705f96cbfc658ecbad7735dbe6248994c7', 'short_name_hash' => 'e2d1d163b22439df44d82a0acf958336f53e2794f8fff2a5b5e30d7aaefc0246', 'name_enc' => 'B67HGIHSeKaxglqTbh1wG9CqljfBnkfvi80IOEmlb64fmpyb6cO2CRH2IKuqmTac8nhPsZVomsw9NYyhlfgRqq-3cgUpZ0LI'],
         'a6b5bcf16ddb6edb3d979101c8966d909d333ce6481929e2ea1f0c594b19075d' => ['slot' => 12, 'name_hash' => '0dae0a30dcbdd49765ae94ab872d8086579344d8e0e2d24dfb416a04a3822c46', 'short_name_hash' => '0dae0a30dcbdd49765ae94ab872d8086579344d8e0e2d24dfb416a04a3822c46', 'name_enc' => '99jnoK2quXLNfj_l02pJjBEj4WZs29jBO_1WoGDGvz-bqi0k5-YgfxI4zhozQGrfEalO'],
+        'e5cefdc207fc7ef7e27919f0556764cb4cae40fa9a4fa8da2874d626accd350c' => ['slot' => 13, 'name_hash' => '722196843f055449b92d2d3e74f493fbca4c57690c313f25205988774c797c06', 'short_name_hash' => 'd3a6596cded6bf96b482a6abe8096d1b000d8124f20e3f06b7bf927177f85e62', 'name_enc' => '5LerJgfGtX9T4CzbLG9u4Pob_zdFIDWq8TPB8Fi5yGb7G1qv4O14nUtLiUCUQkDuXKAkesrVWSn6h5H6AdahGufRarW2VV2VBbuER3yXJ2M'],
     ];
 }
 
