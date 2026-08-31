@@ -77,18 +77,36 @@ function dashboardLeadershipStats(array $organizations): array {
     return $stats;
 }
 
+function dashboardPct(int $part, int $total): int {
+    return $total > 0 ? (int)round($part / $total * 100) : 0;
+}
+
 function dashboardLeadershipBrief(array $stats, int $offlineConfirmed, int $onlineConfirmed, int $checkedIn, int $onlinePresent, int $waitlist): string {
     $confirmed = $offlineConfirmed + $onlineConfirmed;
     $fact = $checkedIn + $onlinePresent;
     $o = $stats['organizers'];
 
+    $governmentOrgPct = dashboardPct((int)$stats['government_orgs'], (int)$stats['organizations']);
+    $privateOrgPct = dashboardPct((int)$stats['private_orgs'], (int)$stats['organizations']);
+    $organizerOrgPct = dashboardPct((int)$stats['organizer_orgs'], (int)$stats['organizations']);
+
+    $governmentPeoplePct = dashboardPct((int)$stats['government_people'], $confirmed);
+    $privatePeoplePct = dashboardPct((int)$stats['private_people'], $confirmed);
+    $organizerPeoplePct = dashboardPct((int)$stats['organizer_people'], $confirmed);
+
+    $offlinePct = dashboardPct($offlineConfirmed, $confirmed);
+    $onlinePct = dashboardPct($onlineConfirmed, $confirmed);
+    $checkedInPct = dashboardPct($checkedIn, $offlineConfirmed);
+    $onlinePresentPct = dashboardPct($onlinePresent, $onlineConfirmed);
+    $factPct = dashboardPct($fact, $confirmed);
+
     return 'Форум 07.10.2026. Зарегистрировано ' . $confirmed . ' участников из ' . $stats['organizations'] . ' организаций: '
-        . $stats['government_orgs'] . ' гос. (' . $stats['government_people'] . ' чел.), '
-        . $stats['private_orgs'] . ' частных/иных (' . $stats['private_people'] . ' чел.), '
-        . 'организаторы — ' . $stats['organizer_orgs'] . ' орг. (' . $stats['organizer_people'] . ' чел.). '
+        . $stats['government_orgs'] . ' гос. (' . $governmentOrgPct . '% организаций; ' . $stats['government_people'] . ' чел., ' . $governmentPeoplePct . '% участников), '
+        . $stats['private_orgs'] . ' частных/иных (' . $privateOrgPct . '%; ' . $stats['private_people'] . ' чел., ' . $privatePeoplePct . '%), '
+        . 'организаторы — ' . $stats['organizer_orgs'] . ' орг. (' . $organizerOrgPct . '%; ' . $stats['organizer_people'] . ' чел., ' . $organizerPeoplePct . '%). '
         . 'РЦЛСМО — ' . $o['РЦЛСМО'] . ', ЦВИОД — ' . $o['ЦВИОД'] . ', Минздрав МО — ' . $o['Минздрав МО'] . '. '
-        . 'Очно: ' . $offlineConfirmed . ' зарегистрировано, пришли ' . $checkedIn . '. '
-        . 'Онлайн: ' . $onlineConfirmed . ' зарегистрировано, факт ≥15 мин — ' . $onlinePresent . '. '
-        . 'Факт участия всего — ' . $fact . '.'
+        . 'Очно: ' . $offlineConfirmed . ' (' . $offlinePct . '%), пришли ' . $checkedIn . ' (' . $checkedInPct . '% от очных). '
+        . 'Онлайн: ' . $onlineConfirmed . ' (' . $onlinePct . '%), факт ≥15 мин — ' . $onlinePresent . ' (' . $onlinePresentPct . '% от онлайн). '
+        . 'Факт участия всего — ' . $fact . ' (' . $factPct . '% от зарегистрированных).'
         . ($waitlist > 0 ? ' Лист ожидания — ' . $waitlist . '.' : '');
 }
