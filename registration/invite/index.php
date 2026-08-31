@@ -62,6 +62,31 @@ $html = str_replace('Публичный приём заявок будет вк�
 $html = str_replace('Фамилия, имя, отчество, должность, медицинская организация, формат участия и контакт для подтверждения.', 'Фамилия, имя, отчество, должность, медицинская организация и контакт для подтверждения очного участия.', $html);
 $html = str_replace('<strong>Форма готова к внутренней проверке</strong>', '<strong>Персональная регистрация доступна</strong>', $html);
 $html = str_replace('Публичная регистрация пока отключена. На этой странице персональные данные участников не принимаются.', 'Заполните форму ниже. После регистрации на почту придёт подтверждение и QR-билет для очного участия.', $html);
+$html = str_replace('Поля со звёздочкой обязательны. На указанную почту придёт подтверждение участия.', 'Фамилия и имя уже заполнены по персональному приглашению. Отчество можно указать или скорректировать. На указанную почту придёт подтверждение участия.', $html);
+
+$expectedName = inviteExpectedName($inviteToken);
+if ($expectedName !== null) {
+    $nameParts = preg_split('/\s+/u', trim($expectedName), 3, PREG_SPLIT_NO_EMPTY) ?: [];
+    $lastName = htmlspecialchars((string)($nameParts[0] ?? ''), ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+    $firstName = htmlspecialchars((string)($nameParts[1] ?? ''), ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+    $middleName = htmlspecialchars((string)($nameParts[2] ?? ''), ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+
+    $html = str_replace(
+        '<input id="lastName" name="lastName" type="text" autocomplete="family-name" minlength="2" maxlength="100" required>',
+        '<input id="lastName" name="lastName" type="text" autocomplete="family-name" minlength="2" maxlength="100" value="' . $lastName . '" required>',
+        $html
+    );
+    $html = str_replace(
+        '<input id="firstName" name="firstName" type="text" autocomplete="given-name" minlength="2" maxlength="100" required>',
+        '<input id="firstName" name="firstName" type="text" autocomplete="given-name" minlength="2" maxlength="100" value="' . $firstName . '" required>',
+        $html
+    );
+    $html = str_replace(
+        '<input id="middleName" name="middleName" type="text" autocomplete="additional-name" maxlength="100">',
+        '<input id="middleName" name="middleName" type="text" autocomplete="additional-name" maxlength="100" value="' . $middleName . '">',
+        $html
+    );
+}
 
 $formatBlock = <<<'HTML'
                     <fieldset class="r26-field r26-format-field">
