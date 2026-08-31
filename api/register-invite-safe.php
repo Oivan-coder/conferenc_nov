@@ -23,6 +23,15 @@ $raw = file_get_contents('php://input') ?: '';
 $data = json_decode($raw, true);
 if (!is_array($data)) inviteSafeRespond(400, ['ok' => false, 'error' => 'invalid_json']);
 
+$format = trim((string)($data['participationFormat'] ?? ''));
+if ($format !== 'offline') {
+    inviteSafeRespond(422, [
+        'ok' => false,
+        'error' => 'invite_offline_only',
+        'message' => 'Персональное приглашение предназначено только для очного участия.'
+    ]);
+}
+
 $parts = [
     trim((string)($data['lastName'] ?? '')),
     trim((string)($data['firstName'] ?? '')),
