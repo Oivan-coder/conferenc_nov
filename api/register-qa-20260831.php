@@ -81,15 +81,15 @@ if (mb_strlen($organization) < 2 || mb_strlen($organization) > 255 || !qaHasEnou
 if (!filter_var($email, FILTER_VALIDATE_EMAIL) || mb_strlen($email) > 255) $errors['email'] = 'invalid_email';
 $normalizedPhone = qaNormalizeRussianPhone($phone);
 if ($phone !== '' && $normalizedPhone === null) $errors['phone'] = 'invalid_ru_phone';
-if (!in_array($format, ['offline', 'online'], true)) $errors['participationFormat'] = 'invalid';
+if ($format !== 'offline') $errors['participationFormat'] = 'offline_only';
 if (!$consent) $errors['privacyConsent'] = 'required';
 if (!$policyAcknowledged) $errors['policyAcknowledged'] = 'required';
 if ($honeypot !== '') qaRespond(200, ['ok' => true, 'accepted' => true]);
 if ($errors) qaRespond(422, ['ok' => false, 'error' => 'validation_failed', 'fields' => $errors]);
 
-if (!is_readable(TEST_KEY_PATH_QA)) qaRespond(503, ['ok' => false, 'error' => 'preview_unavailable']);
+if (!is_readable(TEST_KEY_PATH_QA)) qaRespond(503, ['ok' => false, 'error' => 'registration_unavailable']);
 $testKey = trim((string)file_get_contents(TEST_KEY_PATH_QA));
-if ($testKey === '') qaRespond(503, ['ok' => false, 'error' => 'preview_unavailable']);
+if ($testKey === '') qaRespond(503, ['ok' => false, 'error' => 'registration_unavailable']);
 
 $_SERVER['HTTP_X_REGISTRATION_TEST'] = $testKey;
 $_SERVER['RCLSMO_REGISTRATION_VALIDATED'] = '1';
