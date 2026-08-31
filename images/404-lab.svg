@@ -1,0 +1,123 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1200" role="img" aria-labelledby="t d">
+  <title id="t">Неоновая лабораторная иллюстрация</title>
+  <desc id="d">Абстрактная лаборатория с голографическим файлом и прерванным маршрутом</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#020817"/>
+      <stop offset="0.52" stop-color="#05172f"/>
+      <stop offset="1" stop-color="#071d3e"/>
+    </linearGradient>
+    <radialGradient id="halo" cx="65%" cy="58%" r="44%">
+      <stop offset="0" stop-color="#39d6ee" stop-opacity=".27"/>
+      <stop offset=".46" stop-color="#3578ff" stop-opacity=".12"/>
+      <stop offset="1" stop-color="#020817" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="cyan" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#9af7ff"/>
+      <stop offset=".5" stop-color="#3fe7ff"/>
+      <stop offset="1" stop-color="#4d7cff"/>
+    </linearGradient>
+    <linearGradient id="violet" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ff72ef"/>
+      <stop offset="1" stop-color="#7d66ff"/>
+    </linearGradient>
+    <linearGradient id="glass" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#7df6ff" stop-opacity=".32"/>
+      <stop offset="1" stop-color="#1c5bd8" stop-opacity=".08"/>
+    </linearGradient>
+    <filter id="glowC" x="-80%" y="-80%" width="260%" height="260%">
+      <feGaussianBlur stdDeviation="10" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="glowV" x="-80%" y="-80%" width="260%" height="260%">
+      <feGaussianBlur stdDeviation="8" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="soft" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="32"/>
+    </filter>
+    <pattern id="grid" width="72" height="72" patternUnits="userSpaceOnUse">
+      <path d="M72 0H0V72" fill="none" stroke="#5fe2f6" stroke-opacity=".055" stroke-width="1"/>
+    </pattern>
+  </defs>
+
+  <rect width="1600" height="1200" fill="url(#bg)"/>
+  <rect width="1600" height="1200" fill="url(#grid)"/>
+  <rect width="1600" height="1200" fill="url(#halo)"/>
+  <ellipse cx="1110" cy="830" rx="390" ry="215" fill="#007bff" opacity=".11" filter="url(#soft)"/>
+
+  <!-- architectural arcs -->
+  <g fill="none" stroke-linecap="round" opacity=".44">
+    <path d="M1125 0C1430 155 1550 400 1555 742" stroke="#173d7f" stroke-width="105" opacity=".34"/>
+    <path d="M1164 0C1435 165 1517 386 1522 690" stroke="#4a7dff" stroke-width="5"/>
+    <path d="M1222 0C1458 170 1504 365 1498 612" stroke="#2ee5ff" stroke-width="4" opacity=".7"/>
+  </g>
+
+  <!-- holographic science panels -->
+  <g opacity=".48" fill="none" stroke="#36cfee" stroke-width="2">
+    <rect x="1240" y="220" width="245" height="176" rx="24"/>
+    <circle cx="1333" cy="303" r="42"/>
+    <path d="M1298 303h70M1333 268v70M1308 278l50 50M1358 278l-50 50"/>
+    <rect x="1274" y="439" width="196" height="148" rx="20"/>
+    <path d="M1320 539c31-26 43-60 58-92 15 30 25 66 52 92"/>
+    <path d="M1327 520h95M1338 490h74"/>
+  </g>
+
+  <!-- dotted lost route -->
+  <path d="M785 770C650 710 674 610 824 602c157-9 42-174 187-172 119 2 116-100 226-116" fill="none" stroke="#5fe2f6" stroke-width="8" stroke-linecap="round" stroke-dasharray="22 22" filter="url(#glowC)" opacity=".95"/>
+  <g filter="url(#glowV)">
+    <path d="M727 693l34 34M761 693l-34 34" stroke="url(#violet)" stroke-width="9" stroke-linecap="round"/>
+    <path d="M1237 275c0-27 22-49 49-49s49 22 49 49c0 42-49 92-49 92s-49-50-49-92Z" fill="none" stroke="url(#violet)" stroke-width="8"/>
+    <circle cx="1286" cy="275" r="15" fill="#a37aff"/>
+  </g>
+
+  <!-- pedestal -->
+  <g transform="translate(860 740)">
+    <ellipse cx="240" cy="130" rx="245" ry="72" fill="#06142c" stroke="#2bcfe9" stroke-opacity=".45" stroke-width="3"/>
+    <ellipse cx="240" cy="112" rx="205" ry="58" fill="#071e3b" stroke="#5fe2f6" stroke-opacity=".7" stroke-width="4"/>
+    <ellipse cx="240" cy="100" rx="164" ry="42" fill="#0b2f57" stroke="#7af4ff" stroke-width="4" filter="url(#glowC)"/>
+    <ellipse cx="240" cy="94" rx="112" ry="28" fill="#36dff2" opacity=".22" filter="url(#glowC)"/>
+  </g>
+
+  <!-- holographic folder -->
+  <g transform="translate(930 400) rotate(4 170 180)" filter="url(#glowC)">
+    <path d="M38 90h104l31 37h165c20 0 36 16 36 36v256c0 20-16 36-36 36H38c-20 0-36-16-36-36V126c0-20 16-36 36-36Z" fill="url(#glass)" stroke="url(#cyan)" stroke-width="7"/>
+    <path d="M58 42h157l53 52h78c17 0 30 13 30 30v40H2V98c0-31 25-56 56-56Z" fill="#0c3156" fill-opacity=".4" stroke="url(#cyan)" stroke-width="5"/>
+    <text x="190" y="335" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="188" font-weight="300" fill="#92f8ff" stroke="#34dcf3" stroke-width="2">?</text>
+  </g>
+
+  <!-- hologram rays -->
+  <g opacity=".52" filter="url(#glowC)">
+    <path d="M1042 777l34-224M1100 784l8-240M1153 777l-24-221" stroke="#50e7fb" stroke-width="3"/>
+  </g>
+
+  <!-- lab bench -->
+  <path d="M1260 905h340v295h-340Z" fill="#061326"/>
+  <path d="M1235 898h365v42h-365Z" fill="#0a2342" stroke="#1f6fae" stroke-width="2"/>
+  <g transform="translate(1300 650)">
+    <g fill="url(#glass)" stroke="#64e9f7" stroke-width="4">
+      <path d="M72 20h72M88 20v116l-57 125c-15 34 10 71 47 71h76c37 0 62-37 47-71l-57-125V20"/>
+      <path d="M285 22v238c0 20-16 36-36 36h-11c-20 0-36-16-36-36V22"/>
+      <path d="M386 22v238c0 20-16 36-36 36h-11c-20 0-36-16-36-36V22"/>
+      <path d="M487 22v238c0 20-16 36-36 36h-11c-20 0-36-16-36-36V22"/>
+    </g>
+    <path d="M60 252h113c-5 39-29 65-59 65s-49-21-54-65Z" fill="#8b5cff" opacity=".46" filter="url(#glowV)"/>
+    <path d="M215 211h57v49c0 12-10 22-22 22h-13c-12 0-22-10-22-22Z" fill="#36dff2" opacity=".42"/>
+    <path d="M316 186h57v74c0 12-10 22-22 22h-13c-12 0-22-10-22-22Z" fill="#8b5cff" opacity=".38"/>
+    <path d="M417 226h57v34c0 12-10 22-22 22h-13c-12 0-22-10-22-22Z" fill="#36dff2" opacity=".42"/>
+  </g>
+
+  <!-- subtle left lab silhouettes -->
+  <g opacity=".18" stroke="#4fcfe6" fill="none" stroke-width="3">
+    <path d="M160 880h400M212 880V680h62v200M235 680v-45h16v45"/>
+    <path d="M365 880v-112h55v112M376 768l7-86h20l7 86"/>
+    <path d="M500 880v-176M458 704h84M482 704v-48h36v48"/>
+  </g>
+
+  <!-- particles -->
+  <g fill="#7df6ff" opacity=".42">
+    <circle cx="952" cy="340" r="3"/><circle cx="1004" cy="275" r="2"/><circle cx="1175" cy="367" r="3"/>
+    <circle cx="1094" cy="521" r="2"/><circle cx="1300" cy="615" r="3"/><circle cx="1428" cy="334" r="2"/>
+    <circle cx="869" cy="553" r="2"/><circle cx="1190" cy="694" r="2"/><circle cx="1510" cy="507" r="3"/>
+  </g>
+</svg>
