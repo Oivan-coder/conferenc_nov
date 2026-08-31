@@ -70,7 +70,7 @@ $oldConfig = <<<'HTML'
             eventId: 'forum-lab-innovations-2026-10-07'
         };
 HTML;
-$endpoint = '/api/register-invite.php?invite=' . rawurlencode($inviteToken);
+$endpoint = '/api/register-invite-safe.php?invite=' . rawurlencode($inviteToken);
 $availabilityEndpoint = '/api/registration-invite-availability.php?t=' . rawurlencode($inviteToken);
 $newConfig = "        window.REGISTRATION_CONFIG = {\n            state: 'open',\n            endpoint: " . json_encode($endpoint, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) . ",\n            availabilityEndpoint: " . json_encode($availabilityEndpoint, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) . ",\n            eventId: 'forum-lab-innovations-2026-10-07'\n        };\n";
 $html = str_replace($oldConfig, $newConfig, $html);
