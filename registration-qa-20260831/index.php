@@ -19,7 +19,7 @@ $templatePath = dirname(__DIR__) . '/registration/index.html';
 $html = is_readable($templatePath) ? (string)file_get_contents($templatePath) : '';
 if ($html === '') {
     http_response_code(503);
-    echo 'QA registration unavailable';
+    echo 'Регистрация временно недоступна';
     exit;
 }
 
@@ -27,7 +27,10 @@ $headMarker = '<meta name="viewport" content="width=device-width, initial-scale=
 $html = str_replace($headMarker, $headMarker . "\n    <meta name=\"robots\" content=\"noindex,nofollow,noarchive\">\n    <meta name=\"referrer\" content=\"no-referrer\">", $html);
 $html = str_replace('<link rel="canonical" href="https://rclsmo.ru/registration/">', '', $html);
 $html = str_replace('<meta property="og:url" content="https://rclsmo.ru/registration/">', '', $html);
-$html = str_replace('<title>Регистрация — Форум лабораторных инноваций Московской области 2026</title>', '<title>Финальный тест обычной регистрации — Форум 2026</title>', $html);
+$html = str_replace('<title>Регистрация — Форум лабораторных инноваций Московской области 2026</title>', '<title>Регистрация по приглашению — Форум лабораторных инноваций Московской области 2026</title>', $html);
+$html = str_replace('<meta name="description" content="Статус регистрации на Форум лабораторных инноваций Московской области 7 октября 2026 года. Очное и онлайн-участие.">', '<meta name="description" content="Регистрация по приглашению на Форум лабораторных инноваций Московской области 7 октября 2026 года.">', $html);
+$html = str_replace('<meta property="og:title" content="Регистрация — Форум лабораторных инноваций Московской области 2026">', '<meta property="og:title" content="Регистрация по приглашению — Форум лабораторных инноваций Московской области 2026">', $html);
+$html = str_replace('<meta property="og:description" content="7 октября 2026 · очное и онлайн-участие · регистрация готовится к открытию">', '<meta property="og:description" content="7 октября 2026 · Дом Правительства Московской области · очное участие">', $html);
 
 $cleaner = <<<'HTML'
     <script>
@@ -40,11 +43,35 @@ $html = str_replace($cleaner, '', $html);
 $html = str_replace('<script src="js/url-cleaner.js" defer></script>', '', $html);
 
 $html = str_replace('data-registration-state="closed"', 'data-registration-state="open"', $html);
-$html = str_replace('Форма подготовлена к запуску. После открытия будут доступны очный и онлайн-форматы участия.', 'Финальный закрытый тест обычной регистрации. Форма и сценарий соответствуют будущему публичному запуску; регистрация реально записывается в рабочую БД.', $html);
-$html = str_replace('<strong>Регистрация ещё не открыта</strong>', '<strong>Финальный тестовый режим</strong>', $html);
-$html = str_replace('Публичный приём заявок будет включён после завершения внутренней проверки формы и базы данных.', 'Публичная регистрация остаётся закрытой. Здесь проверяем полный рабочий маршрут перед открытием.', $html);
-$html = str_replace('<strong>Форма готова к внутренней проверке</strong>', '<strong>Тест обычной регистрации активен</strong>', $html);
-$html = str_replace('Публичная регистрация пока отключена. На этой странице персональные данные участников не принимаются.', 'Заполните форму как реальный участник. Будут проверены запись в БД, письмо, QR-билет и последующая регистрация на стойке.', $html);
+$html = str_replace('Форма подготовлена к запуску. После открытия будут доступны очный и онлайн-форматы участия.', 'Заполните форму для подтверждения очного участия в Форуме лабораторных инноваций Московской области.', $html);
+$html = str_replace('<strong>Регистрация ещё не открыта</strong>', '<strong>Регистрация по приглашению</strong>', $html);
+$html = str_replace('Публичный приём заявок будет включён после завершения внутренней проверки формы и базы данных.', 'После регистрации на указанную электронную почту будет направлено подтверждение участия и QR-билет.', $html);
+$html = str_replace('Фамилия, имя, отчество, должность, медицинская организация, формат участия и контакт для подтверждения.', 'Фамилия, имя, отчество, должность, медицинская организация и контакт для подтверждения.', $html);
+$html = str_replace('<strong>Форма готова к внутренней проверке</strong>', '<strong>Регистрация доступна по приглашению</strong>', $html);
+$html = str_replace('Публичная регистрация пока отключена. На этой странице персональные данные участников не принимаются.', 'Заполните форму ниже. После успешной регистрации подтверждение и QR-билет будут направлены на электронную почту.', $html);
+
+$formatBlock = <<<'HTML'
+                    <fieldset class="r26-field r26-format-field">
+                        <legend>Формат участия <span class="r26-required" aria-hidden="true">*</span></legend>
+                        <div class="r26-format-options">
+                            <label class="r26-format-option"><input type="radio" name="participationFormat" value="offline" required><span><strong>Очно</strong><small>Красногорск</small></span></label>
+                            <label class="r26-format-option"><input type="radio" name="participationFormat" value="online" required><span><strong>Онлайн</strong><small>Персональная ссылка</small></span></label>
+                        </div>
+                        <p class="r26-form__message" data-offline-availability>Количество мест для очного участия ограничено.</p>
+                    </fieldset>
+HTML;
+$offlineBlock = <<<'HTML'
+                    <div class="r26-field r26-format-field r26-format-field--invite" aria-label="Формат участия">
+                        <span class="r26-format-label">Формат участия</span>
+                        <input type="hidden" name="participationFormat" value="offline">
+                        <div class="r26-format-static">
+                            <strong>Очное участие</strong>
+                            <small>7 октября 2026 · Дом Правительства Московской области, Красногорск</small>
+                        </div>
+                        <p class="r26-form__message" data-offline-availability>Количество мест для очного участия ограничено.</p>
+                    </div>
+HTML;
+$html = str_replace($formatBlock, $offlineBlock, $html);
 
 $endpoint = '/api/register-qa-20260831.php?key=' . rawurlencode($qaToken);
 $oldConfig = <<<'HTML'
@@ -59,8 +86,8 @@ $newConfig = "        window.REGISTRATION_CONFIG = {\n            state: 'open',
 $html = str_replace($oldConfig, $newConfig, $html);
 
 $banner = <<<'HTML'
-        <section style="padding:14px 0;background:rgba(255,178,46,.10);border-bottom:1px solid rgba(255,178,46,.25);">
-            <div class="container" style="font-size:14px;line-height:1.55;color:#d7e7ef;"><strong style="color:#ffcb72;">Финальный QA.</strong> Публичная регистрация закрыта. Эта форма пишет в рабочую базу и отправляет настоящее подтверждение — после теста запись удалим.</div>
+        <section style="padding:14px 0;background:rgba(66,223,245,.08);border-bottom:1px solid rgba(118,235,251,.18);">
+            <div class="container" style="font-size:14px;line-height:1.55;color:#d7e7ef;"><strong style="color:#76ebfb;">Регистрация по приглашению.</strong> Ссылка предназначена для приглашённых участников Форума лабораторных инноваций Московской области.</div>
         </section>
 HTML;
 $html = str_replace('    <main>', $banner . "\n    <main>", $html);
