@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" version="1.2" baseProfile="tiny-ps" viewBox="0 0 512 512">
+  <title>РЦЛСМО</title>
+  <desc>Референс-центр лабораторной службы Московской области</desc>
+  <g>
+    <path d="M 264.0,46.2 L 248.5,48.8 L 236.0,70.2 L 210.5,71.2 L 204.5,79.8 L 209.0,91.8 L 199.5,102.2 L 184.5,97.2 L 175.5,106.8 L 168.0,103.2 L 129.0,124.8 L 104.5,117.2 L 93.0,105.2 L 76.0,107.8 L 71.0,121.2 L 77.5,126.8 L 76.0,139.8 L 61.0,146.8 L 56.5,167.2 L 42.0,178.2 L 39.5,187.8 L 49.5,196.2 L 48.5,210.8 L 57.0,220.2 L 35.0,251.2 L 39.0,262.8 L 32.0,274.8 L 39.5,287.2 L 62.0,300.2 L 72.5,294.8 L 97.5,299.2 L 103.5,310.2 L 119.5,315.2 L 115.0,325.2 L 133.0,333.2 L 146.0,359.2 L 159.0,359.2 L 167.5,373.2 L 183.0,368.2 L 196.5,373.8 L 198.5,381.8 L 222.0,393.2 L 228.0,407.2 L 225.0,429.2 L 209.0,451.8 L 172.0,465.2 L 120.5,467.2 L 194.5,467.2 L 203.0,457.2 L 202.5,467.2 L 225.5,467.2 L 231.5,455.8 L 234.5,464.8 L 263.0,458.2 L 271.0,467.2 L 371.5,467.2 L 310.0,463.8 L 276.5,449.2 L 265.0,426.2 L 267.0,405.8 L 291.5,394.2 L 329.0,425.8 L 327.5,434.2 L 344.5,454.8 L 363.5,456.8 L 374.5,441.8 L 366.0,432.8 L 370.0,417.2 L 383.5,413.8 L 390.5,404.2 L 391.0,378.2 L 409.0,351.2 L 407.5,343.2 L 431.5,318.8 L 451.5,312.8 L 454.5,291.8 L 475.5,283.8 L 470.5,269.2 L 479.5,255.8 L 460.5,236.8 L 458.5,221.8 L 445.0,207.2 L 448.0,193.2 L 434.0,184.8 L 409.0,193.2 L 393.0,176.2 L 370.0,174.2 L 359.5,157.8 L 337.0,159.8 L 323.5,145.8 L 326.5,132.8 L 310.0,106.8 L 314.5,90.8 L 308.0,84.8 L 307.5,68.2 L 300.5,63.8 L 286.5,71.2 Z" fill="#071B4B" stroke="#25D8F2" stroke-width="4" stroke-linejoin="round"/>
+    <path d="M474 224 C485 278 472 342 432 392" fill="none" stroke="#D94CEB" stroke-width="4" stroke-linecap="round"/>
+    <path d="M267 454 C266 389 267 326 268 263 C268 221 266 190 265 154" fill="none" stroke="#5DE7F5" stroke-width="10" stroke-linecap="round"/>
+    <path d="M274 454 C281 389 284 329 281 274 C278 229 275 192 277 151" fill="none" stroke="#8B5CF6" stroke-width="5" stroke-linecap="round"/>
+    <path d="M265 239 C232 213 202 187 160 171" fill="none" stroke="#24D8F2" stroke-width="6" stroke-linecap="round"/>
+    <path d="M267 215 C250 179 246 139 245 104" fill="none" stroke="#24D8F2" stroke-width="6" stroke-linecap="round"/>
+    <path d="M272 230 C309 210 334 187 353 161" fill="none" stroke="#8B5CF6" stroke-width="6" stroke-linecap="round"/>
+    <path d="M275 258 C326 249 374 236 416 218" fill="none" stroke="#D94CEB" stroke-width="5" stroke-linecap="round"/>
+    <path d="M265 281 C223 275 160 263 108 242" fill="none" stroke="#24D8F2" stroke-width="5" stroke-linecap="round"/>
+    <path d="M268 302 C238 309 215 319 194 333" fill="none" stroke="#24D8F2" stroke-width="5" stroke-linecap="round"/>
+    <path d="M278 300 C314 313 337 329 354 348" fill="none" stroke="#8B5CF6" stroke-width="5" stroke-linecap="round"/>
+    <path d="M278 326 C322 342 356 365 386 390" fill="none" stroke="#D94CEB" stroke-width="4" stroke-linecap="round"/>
+    <g fill="#7DEBFF" stroke="#FFFFFF" stroke-width="2">
+      <circle cx="157" cy="170" r="15"/><circle cx="245" cy="105" r="16"/>
+      <circle cx="352" cy="162" r="15"/><circle cx="417" cy="218" r="15"/>
+      <circle cx="108" cy="242" r="14"/><circle cx="194" cy="333" r="14"/>
+      <circle cx="354" cy="348" r="14"/>
+    </g>
+    <g stroke="#FFFFFF" stroke-width="2" stroke-linecap="round">
+      <path d="M157 163v15m0-6l-5-5m5 7l6-6"/><path d="M245 97v17m0-7l-6-6m6 9l7-7"/>
+      <path d="M352 155v15m0-6l-5-5m5 7l6-6"/><path d="M417 211v15m0-6l-5-5m5 7l6-6"/>
+      <path d="M108 235v14m0-5l-5-5m5 7l6-6"/><path d="M194 326v14m0-5l-5-5m5 7l6-6"/>
+      <path d="M354 341v14m0-5l-5-5m5 7l6-6"/>
+    </g>
+    <g fill="#1BD8F2">
+      <ellipse cx="196" cy="185" rx="7" ry="12" transform="rotate(-48 196 185)"/>
+      <ellipse cx="218" cy="164" rx="7" ry="12" transform="rotate(-30 218 164)"/>
+      <ellipse cx="284" cy="176" rx="7" ry="12" transform="rotate(26 284 176)"/>
+      <ellipse cx="311" cy="192" rx="7" ry="12" transform="rotate(44 311 192)"/>
+      <ellipse cx="335" cy="234" rx="7" ry="12" transform="rotate(70 335 234)"/>
+      <ellipse cx="372" cy="244" rx="7" ry="12" transform="rotate(72 372 244)"/>
+      <ellipse cx="216" cy="286" rx="7" ry="12" transform="rotate(78 216 286)"/>
+      <ellipse cx="178" cy="277" rx="7" ry="12" transform="rotate(82 178 277)"/>
+      <ellipse cx="237" cy="319" rx="7" ry="12" transform="rotate(54 237 319)"/>
+      <ellipse cx="310" cy="326" rx="7" ry="12" transform="rotate(-58 310 326)"/>
+      <ellipse cx="326" cy="365" rx="7" ry="12" transform="rotate(-52 326 365)"/>
+    </g>
+    <g fill="#C75AF0">
+      <ellipse cx="294" cy="137" rx="7" ry="12" transform="rotate(34 294 137)"/>
+      <ellipse cx="389" cy="196" rx="7" ry="12" transform="rotate(52 389 196)"/>
+      <ellipse cx="397" cy="268" rx="7" ry="12" transform="rotate(76 397 268)"/>
+      <ellipse cx="371" cy="374" rx="7" ry="12" transform="rotate(-48 371 374)"/>
+    </g>
+  </g>
+</svg>
