@@ -31,7 +31,7 @@ $html = str_replace('<title>Регистрация — Форум лаборат
 $html = str_replace('<meta name="description" content="Статус регистрации на Форум лабораторных инноваций Московской области 7 октября 2026 года. Очное и онлайн-участие.">', '<meta name="description" content="Закрытая регистрация по приглашению на Форум лабораторных инноваций Московской области 7 октября 2026 года.">', $html);
 $html = str_replace('<meta property="og:title" content="Регистрация — Форум лабораторных инноваций Московской области 2026">', '<meta property="og:title" content="Регистрация по приглашению — Форум лабораторных инноваций Московской области 2026">', $html);
 $html = str_replace('<meta property="og:description" content="7 октября 2026 · очное и онлайн-участие · регистрация готовится к открытию">', '<meta property="og:description" content="Закрытая регистрация · 7 октября 2026 · Дом Правительства Московской области">', $html);
-$html = str_replace('css/registration-2026-tune.css?v=20260831-spacing1', 'css/registration-2026-tune.css?v=20260831-guest4', $html);
+$html = str_replace('css/registration-2026-tune.css?v=20260831-spacing1', 'css/registration-2026-tune.css?v=20260831-guest5', $html);
 $html = str_replace('class="registration-2026-page"', 'class="registration-2026-page guest-registration-page"', $html);
 
 $cleaner = <<<'HTML'
@@ -59,10 +59,10 @@ $guestStatus = <<<'HTML'
                             <svg viewBox="0 0 24 24" focusable="false"><path d="M7.5 10V7.5a4.5 4.5 0 0 1 9 0V10m-10 0h11a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2h-11a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2Zm5.5 4v3"/></svg>
                         </div>
                         <div class="r26-status__alert-content">
-                            <span>Закрытая регистрация</span>
-                            <strong>Не пересылайте эту ссылку</strong>
-                            <p>Она предназначена только для приглашённых участников и подтверждает очное место на Форуме.</p>
-                            <span class="r26-status__alert-note">Только для приглашённых</span>
+                            <span>Регистрация по приглашению</span>
+                            <strong>Закрытая регистрация</strong>
+                            <p>Ссылка предназначена только для приглашённых участников и подтверждает очное место на Форуме.</p>
+                            <span class="r26-status__alert-note">Пожалуйста, не пересылайте ссылку другим</span>
                         </div>
                     </div>
 HTML;
