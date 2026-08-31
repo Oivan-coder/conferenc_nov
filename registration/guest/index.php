@@ -31,7 +31,7 @@ $html = str_replace('<title>Регистрация — Форум лаборат
 $html = str_replace('<meta name="description" content="Статус регистрации на Форум лабораторных инноваций Московской области 7 октября 2026 года. Очное и онлайн-участие.">', '<meta name="description" content="Закрытая регистрация по приглашению на Форум лабораторных инноваций Московской области 7 октября 2026 года.">', $html);
 $html = str_replace('<meta property="og:title" content="Регистрация — Форум лабораторных инноваций Московской области 2026">', '<meta property="og:title" content="Регистрация по приглашению — Форум лабораторных инноваций Московской области 2026">', $html);
 $html = str_replace('<meta property="og:description" content="7 октября 2026 · очное и онлайн-участие · регистрация готовится к открытию">', '<meta property="og:description" content="Закрытая регистрация · 7 октября 2026 · Дом Правительства Московской области">', $html);
-$html = str_replace('css/registration-2026-tune.css?v=20260831-spacing1', 'css/registration-2026-tune.css?v=20260831-guest3', $html);
+$html = str_replace('css/registration-2026-tune.css?v=20260831-spacing1', 'css/registration-2026-tune.css?v=20260831-guest4', $html);
 $html = str_replace('class="registration-2026-page"', 'class="registration-2026-page guest-registration-page"', $html);
 
 $cleaner = <<<'HTML'
@@ -46,9 +46,27 @@ $html = str_replace('<script src="js/url-cleaner.js" defer></script>', '', $html
 
 $html = str_replace('data-registration-state="closed"', 'data-registration-state="open"', $html);
 $html = str_replace('Форма подготовлена к запуску. После открытия будут доступны очный и онлайн-форматы участия.', 'Персональная форма подтверждения очного участия для приглашённых гостей Форума.', $html);
-$html = str_replace('<span>Текущий статус</span>', '<span>Закрытый доступ</span>', $html);
-$html = str_replace('<strong>Регистрация ещё не открыта</strong>', '<strong>Регистрация по приглашению</strong>', $html);
-$html = str_replace('Публичный приём заявок будет включён после завершения внутренней проверки формы и базы данных.', 'Доступ к этой форме предоставлен по закрытой ссылке. Пожалуйста, не пересылайте её третьим лицам.', $html);
+$originalStatus = <<<'HTML'
+                    <div class="r26-status" role="status" aria-live="polite">
+                        <span>Текущий статус</span>
+                        <strong>Регистрация ещё не открыта</strong>
+                        <p>Публичный приём заявок будет включён после завершения внутренней проверки формы и базы данных.</p>
+                    </div>
+HTML;
++$guestStatus = <<<'HTML'
++                    <div class="r26-status r26-status--guest-alert" role="note" aria-label="Важное условие закрытой регистрации">
++                        <div class="r26-status__alert-icon" aria-hidden="true">
++                            <svg viewBox="0 0 24 24" focusable="false"><path d="M7.5 10V7.5a4.5 4.5 0 0 1 9 0V10m-10 0h11a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2h-11a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2Zm5.5 4v3"/></svg>
++                        </div>
++                        <div class="r26-status__alert-content">
++                            <span>Закрытая регистрация</span>
++                            <strong>Не пересылайте эту ссылку</strong>
++                            <p>Она предназначена только для приглашённых участников и подтверждает очное место на Форуме.</p>
++                            <span class="r26-status__alert-note">Только для приглашённых</span>
++                        </div>
++                    </div>
+HTML;
++$html = str_replace($originalStatus, $guestStatus, $html);
 $html = str_replace('Фамилия, имя, отчество, должность, медицинская организация, формат участия и контакт для подтверждения.', 'Заполните данные участника. Подтверждение регистрации и QR-билет будут направлены на указанную электронную почту.', $html);
 $html = str_replace('<strong>Форма готова к внутренней проверке</strong>', '<strong>Подтвердите очное участие</strong>', $html);
 $html = str_replace('Публичная регистрация пока отключена. На этой странице персональные данные участников не принимаются.', 'Форма доступна только приглашённым участникам. После успешной регистрации вы получите подтверждение и QR-билет.', $html);
