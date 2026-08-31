@@ -7,22 +7,26 @@ const SMTP_PASSWORD_PATH = '/home/c/cx314477/public_html/.private/smtp_pass';
 
 function sendConfiguredMail(string $to, string $subject, string $htmlBody): bool
 {
-    if (!is_readable(SMTP_AUTOLOAD_PATH) || !is_readable(SMTP_PASSWORD_PATH)) {
-        error_log('SMTP configuration is not available');
-        return false;
-    }
-
-    require_once SMTP_AUTOLOAD_PATH;
-
-    $password = trim((string)file_get_contents(SMTP_PASSWORD_PATH));
-    if ($password === '') {
-        error_log('SMTP password is empty');
-        return false;
-    }
-
-    $mail = new PHPMailer(true);
-
     try {
+        if (!is_readable(SMTP_AUTOLOAD_PATH) || !is_readable(SMTP_PASSWORD_PATH)) {
+            error_log('SMTP configuration is not available');
+            return false;
+        }
+
+        require_once SMTP_AUTOLOAD_PATH;
+
+        if (!class_exists(PHPMailer::class)) {
+            error_log('PHPMailer class is not available after autoload');
+            return false;
+        }
+
+        $password = trim((string)file_get_contents(SMTP_PASSWORD_PATH));
+        if ($password === '') {
+            error_log('SMTP password is empty');
+            return false;
+        }
+
+        $mail = new PHPMailer(true);
         $mail->isSMTP();
         $mail->Host = 'smtp.timeweb.ru';
         $mail->SMTPAuth = true;
@@ -45,7 +49,7 @@ function sendConfiguredMail(string $to, string $subject, string $htmlBody): bool
 
         return $mail->send();
     } catch (Throwable $e) {
-        error_log('SMTP send failed: ' . $e->getMessage());
+        error_log('SMTP send failed: ' . get_class($e) . ': ' . $e->getMessage());
         return false;
     }
 }
