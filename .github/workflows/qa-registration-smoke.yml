@@ -1,0 +1,41 @@
+name: QA registration smoke
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - '.github/workflows/qa-registration-smoke.yml'
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run live registration smoke test
+        shell: bash
+        run: |
+          set -euo pipefail
+          for i in {1..12}; do
+            code=$(curl -sS -o result.json -w '%{http_code}' --max-time 60 'https://rclsmo.ru/api/qa-registration-smoke-20260831.php?key=PlD9f_m8ZvT1bv2bYAUbqt9TbYQWD8pU' || true)
+            if [ "$code" = "200" ]; then
+              cat result.json
+              python3 - <<'PY'
+          import json
+          with open('result.json', encoding='utf-8') as f:
+              data=json.load(f)
+          if not data.get('ok'):
+              raise SystemExit('Smoke test returned ok=false')
+          cases=data.get('cases', [])
+          if len(cases) != 4:
+              raise SystemExit(f'Expected 4 cases, got {len(cases)}')
+          print('SMOKE_OK')
+          for c in cases:
+              print(c.get('format'), c.get('participant_code'), c.get('email'), 'email_sent=', c.get('email_sent'))
+          PY
+              exit 0
+            fi
+            echo "Attempt $i: HTTP $code; waiting for deploy"
+            sleep 15
+          done
+          echo 'Smoke endpoint did not become available in time'
+          cat result.json || true
+          exit 1
