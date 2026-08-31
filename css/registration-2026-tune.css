@@ -112,36 +112,41 @@
 
 .guest-registration-page .r26-guest-info {
     position: relative;
-    padding: clamp(28px, 4.5vw, 46px) 0 0;
+    padding: clamp(34px, 4.5vw, 50px) 0 clamp(34px, 4.5vw, 50px);
+}
+
+.guest-registration-page .r26-guest-info .container {
+    display: flex;
+    justify-content: center;
 }
 
 .guest-registration-page .r26-guest-info__card {
-    width: min(1040px, 100%);
+    width: min(960px, 100%);
     margin: 0 auto;
-    padding: clamp(24px, 4vw, 36px) clamp(22px, 4.5vw, 44px);
+    padding: clamp(24px, 3.2vw, 32px) clamp(20px, 4vw, 38px);
     text-align: center;
     border: 1px solid rgba(118, 235, 251, 0.38);
     border-radius: 22px;
     background:
-        radial-gradient(circle at 50% -20%, rgba(66, 223, 245, 0.12), transparent 45%),
+        radial-gradient(circle at 50% -18%, rgba(66, 223, 245, 0.13), transparent 44%),
         linear-gradient(145deg, rgba(15, 43, 65, 0.96), rgba(8, 27, 46, 0.98));
-    box-shadow: 0 24px 58px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 22px 50px rgba(0, 0, 0, 0.24);
 }
 
 .guest-registration-page .r26-guest-info__icon {
-    width: 54px;
-    height: 54px;
+    width: 50px;
+    height: 50px;
     display: grid;
     place-items: center;
-    margin: 0 auto 16px;
+    margin: 0 auto 14px;
     border: 1px solid rgba(118, 235, 251, 0.48);
-    border-radius: 16px;
+    border-radius: 15px;
     background: rgba(66, 223, 245, 0.10);
 }
 
 .guest-registration-page .r26-guest-info__icon svg {
-    width: 27px;
-    height: 27px;
+    width: 25px;
+    height: 25px;
     fill: none;
     stroke: #8df0ff;
     stroke-width: 1.8;
@@ -152,26 +157,26 @@
 .guest-registration-page .r26-guest-info__eyebrow {
     display: block;
     color: #8df0ff;
-    font-size: 0.76rem;
+    font-size: 0.74rem;
     font-weight: 850;
     letter-spacing: 0.12em;
     text-transform: uppercase;
 }
 
 .guest-registration-page .r26-guest-info h2 {
-    max-width: 780px;
-    margin: 9px auto 14px;
+    max-width: 720px;
+    margin: 8px auto 12px;
     color: #fff;
-    font-size: clamp(1.45rem, 2.5vw, 2rem);
-    line-height: 1.22;
+    font-size: clamp(1.38rem, 2.25vw, 1.82rem);
+    line-height: 1.2;
 }
 
 .guest-registration-page .r26-guest-info p {
-    max-width: 820px;
+    max-width: 760px;
     margin: 0 auto;
     color: #cbdbe5;
-    font-size: 0.98rem;
-    line-height: 1.68;
+    font-size: 0.95rem;
+    line-height: 1.58;
 }
 
 .guest-registration-page .r26-guest-info p strong {
@@ -179,9 +184,9 @@
 }
 
 .guest-registration-page .r26-guest-info__public {
-    margin-top: 14px !important;
-    padding-top: 14px;
-    border-top: 1px solid rgba(118, 235, 251, 0.14);
+    margin-top: 12px !important;
+    padding-top: 12px;
+    border-top: 1px solid rgba(118, 235, 251, 0.15);
     color: #b8cbd8 !important;
 }
 
@@ -191,7 +196,7 @@
 }
 
 .guest-registration-page .r26-form-zone {
-    padding-top: clamp(44px, 5.5vw, 66px);
+    padding-top: clamp(30px, 4vw, 44px);
 }
 
 .guest-registration-page .r26-form-zone__header {
@@ -352,39 +357,49 @@
     }
 
     .guest-registration-page .r26-guest-info {
-        padding-top: 22px;
+        padding: 24px 0 24px;
     }
 
     .guest-registration-page .r26-guest-info__card {
-        padding: 22px 17px;
+        padding: 20px 16px;
         border-radius: 17px;
     }
 
     .guest-registration-page .r26-guest-info__icon {
-        width: 46px;
-        height: 46px;
-        margin-bottom: 13px;
-        border-radius: 14px;
+        width: 44px;
+        height: 44px;
+        margin-bottom: 12px;
+        border-radius: 13px;
     }
 
     .guest-registration-page .r26-guest-info__icon svg {
-        width: 23px;
-        height: 23px;
+        width: 22px;
+        height: 22px;
+    }
+
+    .guest-registration-page .r26-guest-info__eyebrow {
+        font-size: 0.68rem;
+        letter-spacing: 0.1em;
     }
 
     .guest-registration-page .r26-guest-info h2 {
         margin-top: 7px;
-        font-size: 1.3rem;
+        margin-bottom: 10px;
+        font-size: 1.22rem;
     }
 
     .guest-registration-page .r26-guest-info p {
-        font-size: 0.91rem;
-        line-height: 1.6;
+        font-size: 0.9rem;
+        line-height: 1.55;
     }
 
     .guest-registration-page .r26-guest-info__public {
-        margin-top: 12px !important;
-        padding-top: 12px;
+        margin-top: 10px !important;
+        padding-top: 10px;
+    }
+
+    .guest-registration-page .r26-form-zone {
+        padding-top: 22px;
     }
 
     .guest-registration-page .r26-form-zone__header,
