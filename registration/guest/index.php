@@ -31,7 +31,7 @@ $html = str_replace('<title>Регистрация — Форум лаборат
 $html = str_replace('<meta name="description" content="Статус регистрации на Форум лабораторных инноваций Московской области 7 октября 2026 года. Очное и онлайн-участие.">', '<meta name="description" content="Закрытая регистрация по приглашению на Форум лабораторных инноваций Московской области 7 октября 2026 года.">', $html);
 $html = str_replace('<meta property="og:title" content="Регистрация — Форум лабораторных инноваций Московской области 2026">', '<meta property="og:title" content="Регистрация по приглашению — Форум лабораторных инноваций Московской области 2026">', $html);
 $html = str_replace('<meta property="og:description" content="7 октября 2026 · очное и онлайн-участие · регистрация готовится к открытию">', '<meta property="og:description" content="Закрытая регистрация · 7 октября 2026 · Дом Правительства Московской области">', $html);
-$html = str_replace('css/registration-2026-tune.css?v=20260831-spacing1', 'css/registration-2026-tune.css?v=20260831-guest2', $html);
+$html = str_replace('css/registration-2026-tune.css?v=20260831-spacing1', 'css/registration-2026-tune.css?v=20260831-guest3', $html);
 $html = str_replace('class="registration-2026-page"', 'class="registration-2026-page guest-registration-page"', $html);
 
 $cleaner = <<<'HTML'
@@ -91,22 +91,5 @@ HTML;
 $newConfig = "        window.REGISTRATION_CONFIG = {\n            state: 'open',\n            endpoint: " . json_encode($endpoint, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) . ",\n            availabilityEndpoint: '/api/registration-availability.php',\n            eventId: 'forum-lab-innovations-2026-10-07'\n        };\n";
 $html = str_replace($oldConfig, $newConfig, $html);
 
-$warning = <<<'HTML'
-        <section class="r26-guest-warning" aria-label="Условия закрытой регистрации">
-            <div class="container">
-                <div class="r26-guest-warning__card">
-                    <div class="r26-guest-warning__icon" aria-hidden="true">
-                        <svg viewBox="0 0 24 24" role="img" focusable="false"><path d="M7.5 10V7.5a4.5 4.5 0 0 1 9 0V10m-10 0h11a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2h-11a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2Zm5.5 4v3"/></svg>
-                    </div>
-                    <div class="r26-guest-warning__content">
-                        <span class="r26-guest-warning__eyebrow">Закрытая регистрация</span>
-                        <strong>Ссылка предназначена только для приглашённых участников</strong>
-                        <p><b>Пожалуйста, не пересылайте эту ссылку третьим лицам.</b> Регистрация по ней предоставляет очное место на Форуме. После заполнения формы подтверждение участия и QR-билет придут на указанную электронную почту.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-HTML;
-$html = str_replace('        <section class="r26-form-zone"', $warning . "\n        <section class=\"r26-form-zone\"", $html);
 
 echo $html;
