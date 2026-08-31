@@ -1,0 +1,1 @@
+Logo assets refreshed from the approved vector source.
