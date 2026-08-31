@@ -100,43 +100,48 @@
     line-height: 1.45;
 }
 
-/* Closed guest registration */
-.guest-registration-page .r26-status--guest-alert {
+/* Guest registration: single hero column + centered closed-registration notice */
+.guest-registration-page .r26-hero__grid {
+    grid-template-columns: minmax(0, 900px);
+    justify-content: start;
+}
+
+.guest-registration-page .r26-hero__grid > div:first-child {
+    max-width: 900px;
+}
+
+.guest-registration-page .r26-guest-info {
     position: relative;
-    display: grid;
-    grid-template-columns: 58px minmax(0, 1fr);
-    gap: 18px;
-    align-items: start;
-    overflow: hidden;
-    padding: 28px;
-    border: 1px solid rgba(118, 235, 251, 0.46);
+    padding: clamp(28px, 4.5vw, 46px) 0 0;
+}
+
+.guest-registration-page .r26-guest-info__card {
+    width: min(1040px, 100%);
+    margin: 0 auto;
+    padding: clamp(24px, 4vw, 36px) clamp(22px, 4.5vw, 44px);
+    text-align: center;
+    border: 1px solid rgba(118, 235, 251, 0.38);
+    border-radius: 22px;
     background:
-        radial-gradient(circle at 0 0, rgba(78, 218, 239, 0.13), transparent 42%),
-        linear-gradient(145deg, rgba(16, 43, 65, 0.97), rgba(8, 27, 46, 0.98));
-    box-shadow: 0 20px 52px rgba(0, 0, 0, 0.3);
+        radial-gradient(circle at 50% -20%, rgba(66, 223, 245, 0.12), transparent 45%),
+        linear-gradient(145deg, rgba(15, 43, 65, 0.96), rgba(8, 27, 46, 0.98));
+    box-shadow: 0 24px 58px rgba(0, 0, 0, 0.25);
 }
 
-.guest-registration-page .r26-status--guest-alert::after {
-    content: "";
-    position: absolute;
-    inset: 0 0 auto 0;
-    height: 3px;
-    background: linear-gradient(90deg, #76ebfb, rgba(118, 235, 251, 0.14));
-}
-
-.guest-registration-page .r26-status__alert-icon {
-    width: 58px;
-    height: 58px;
+.guest-registration-page .r26-guest-info__icon {
+    width: 54px;
+    height: 54px;
     display: grid;
     place-items: center;
+    margin: 0 auto 16px;
     border: 1px solid rgba(118, 235, 251, 0.48);
-    border-radius: 17px;
-    background: rgba(66, 223, 245, 0.1);
+    border-radius: 16px;
+    background: rgba(66, 223, 245, 0.10);
 }
 
-.guest-registration-page .r26-status__alert-icon svg {
-    width: 29px;
-    height: 29px;
+.guest-registration-page .r26-guest-info__icon svg {
+    width: 27px;
+    height: 27px;
     fill: none;
     stroke: #8df0ff;
     stroke-width: 1.8;
@@ -144,47 +149,49 @@
     stroke-linejoin: round;
 }
 
-.guest-registration-page .r26-status__alert-content > span:first-child {
+.guest-registration-page .r26-guest-info__eyebrow {
     display: block;
     color: #8df0ff;
-    font-size: 0.74rem;
+    font-size: 0.76rem;
     font-weight: 850;
-    letter-spacing: 0.11em;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
 }
 
-.guest-registration-page .r26-status__alert-content strong {
-    margin-top: 7px;
-    color: #ffffff;
-    font-size: clamp(1.34rem, 2.1vw, 1.58rem);
-    line-height: 1.2;
+.guest-registration-page .r26-guest-info h2 {
+    max-width: 780px;
+    margin: 9px auto 14px;
+    color: #fff;
+    font-size: clamp(1.45rem, 2.5vw, 2rem);
+    line-height: 1.22;
 }
 
-.guest-registration-page .r26-status__alert-content p {
-    margin-top: 10px;
+.guest-registration-page .r26-guest-info p {
+    max-width: 820px;
+    margin: 0 auto;
     color: #cbdbe5;
-    font-size: 0.96rem;
-    line-height: 1.58;
+    font-size: 0.98rem;
+    line-height: 1.68;
 }
 
-.guest-registration-page .r26-status__alert-note {
-    display: block;
-    width: auto;
-    margin-top: 14px;
-    padding: 11px 13px;
-    border-left: 3px solid #76ebfb;
-    border-radius: 0 10px 10px 0;
-    background: rgba(66, 223, 245, 0.08);
-    color: #f0fbff;
-    font-size: 0.86rem;
-    font-weight: 750;
-    line-height: 1.4;
-    letter-spacing: 0;
-    text-transform: none;
+.guest-registration-page .r26-guest-info p strong {
+    color: #f6fdff;
+}
+
+.guest-registration-page .r26-guest-info__public {
+    margin-top: 14px !important;
+    padding-top: 14px;
+    border-top: 1px solid rgba(118, 235, 251, 0.14);
+    color: #b8cbd8 !important;
+}
+
+.guest-registration-page .r26-guest-info__public span {
+    color: #8df0ff;
+    font-weight: 800;
 }
 
 .guest-registration-page .r26-form-zone {
-    padding-top: clamp(42px, 5vw, 64px);
+    padding-top: clamp(44px, 5.5vw, 66px);
 }
 
 .guest-registration-page .r26-form-zone__header {
@@ -231,7 +238,7 @@
     border: 1px solid rgba(118, 235, 251, 0.2);
     border-radius: 15px;
     background: rgba(255, 255, 255, 0.025);
-    transition: background 0.18s ease, border-color 0.18s ease, transform 0.18s ease;
+    transition: background 0.18s ease, border-color 0.18s ease;
 }
 
 .guest-registration-page .r26-consent:hover {
@@ -340,36 +347,44 @@
         padding-bottom: 18px;
     }
 
-    .guest-registration-page .r26-status--guest-alert {
-        grid-template-columns: 46px minmax(0, 1fr);
-        gap: 13px;
-        padding: 20px 17px;
+    .guest-registration-page .r26-hero__grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .guest-registration-page .r26-guest-info {
+        padding-top: 22px;
+    }
+
+    .guest-registration-page .r26-guest-info__card {
+        padding: 22px 17px;
         border-radius: 17px;
     }
 
-    .guest-registration-page .r26-status__alert-icon {
+    .guest-registration-page .r26-guest-info__icon {
         width: 46px;
         height: 46px;
+        margin-bottom: 13px;
         border-radius: 14px;
     }
 
-    .guest-registration-page .r26-status__alert-icon svg {
-        width: 24px;
-        height: 24px;
+    .guest-registration-page .r26-guest-info__icon svg {
+        width: 23px;
+        height: 23px;
     }
 
-    .guest-registration-page .r26-status__alert-content strong {
-        font-size: 1.22rem;
+    .guest-registration-page .r26-guest-info h2 {
+        margin-top: 7px;
+        font-size: 1.3rem;
     }
 
-    .guest-registration-page .r26-status__alert-content p {
-        font-size: 0.9rem;
+    .guest-registration-page .r26-guest-info p {
+        font-size: 0.91rem;
+        line-height: 1.6;
     }
 
-    .guest-registration-page .r26-status__alert-note {
-        margin-top: 12px;
-        padding: 10px 12px;
-        font-size: 0.81rem;
+    .guest-registration-page .r26-guest-info__public {
+        margin-top: 12px !important;
+        padding-top: 12px;
     }
 
     .guest-registration-page .r26-form-zone__header,
