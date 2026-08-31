@@ -345,8 +345,12 @@ try {
     } else {
         $emailSent = sendOfflineConfirmationEmail($email, $fullName, $participantCode, $qrToken);
         if ($emailSent) {
-            $pdo->prepare('UPDATE participants SET qr_sent_at = NOW() WHERE participant_code = :code')
-                ->execute([':code' => $participantCode]);
+            try {
+                $pdo->prepare('UPDATE participants SET qr_sent_at = NOW() WHERE participant_code = :code')
+                    ->execute([':code' => $participantCode]);
+            } catch (Throwable $markError) {
+                error_log('Unable to mark qr_sent_at for ' . $participantCode . ': ' . $markError->getMessage());
+            }
         }
     }
 
