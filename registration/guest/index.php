@@ -31,7 +31,7 @@ $html = str_replace('<title>Регистрация — Форум лаборат
 $html = str_replace('<meta name="description" content="Статус регистрации на Форум лабораторных инноваций Московской области 7 октября 2026 года. Очное и онлайн-участие.">', '<meta name="description" content="Закрытая регистрация по приглашению на Форум лабораторных инноваций Московской области 7 октября 2026 года.">', $html);
 $html = str_replace('<meta property="og:title" content="Регистрация — Форум лабораторных инноваций Московской области 2026">', '<meta property="og:title" content="Регистрация по приглашению — Форум лабораторных инноваций Московской области 2026">', $html);
 $html = str_replace('<meta property="og:description" content="7 октября 2026 · очное и онлайн-участие · регистрация готовится к открытию">', '<meta property="og:description" content="Закрытая регистрация · 7 октября 2026 · Дом Правительства Московской области">', $html);
-$html = str_replace('css/registration-2026-tune.css?v=20260831-spacing1', 'css/registration-2026-tune.css?v=20260831-guest5', $html);
+$html = str_replace('css/registration-2026-tune.css?v=20260831-spacing1', 'css/registration-2026-tune.css?v=20260831-guest6', $html);
 $html = str_replace('class="registration-2026-page"', 'class="registration-2026-page guest-registration-page"', $html);
 
 $cleaner = <<<'HTML'
@@ -45,7 +45,8 @@ $html = str_replace($cleaner, '', $html);
 $html = str_replace('<script src="js/url-cleaner.js" defer></script>', '', $html);
 
 $html = str_replace('data-registration-state="closed"', 'data-registration-state="open"', $html);
-$html = str_replace('Форма подготовлена к запуску. После открытия будут доступны очный и онлайн-форматы участия.', 'Закрытая форма подтверждения очного участия для приглашённых гостей Форума.', $html);
+$html = str_replace('Форма подготовлена к запуску. После открытия будут доступны очный и онлайн-форматы участия.', 'Регистрация для приглашённых гостей на очное участие в Форуме.', $html);
+
 $originalStatus = <<<'HTML'
                     <div class="r26-status" role="status" aria-live="polite">
                         <span>Текущий статус</span>
@@ -53,20 +54,8 @@ $originalStatus = <<<'HTML'
                         <p>Публичный приём заявок будет включён после завершения внутренней проверки формы и базы данных.</p>
                     </div>
 HTML;
-$guestStatus = <<<'HTML'
-                    <div class="r26-status r26-status--guest-alert" role="note" aria-label="Важное условие закрытой регистрации">
-                        <div class="r26-status__alert-icon" aria-hidden="true">
-                            <svg viewBox="0 0 24 24" focusable="false"><path d="M7.5 10V7.5a4.5 4.5 0 0 1 9 0V10m-10 0h11a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2h-11a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2Zm5.5 4v3"/></svg>
-                        </div>
-                        <div class="r26-status__alert-content">
-                            <span>Регистрация по приглашению</span>
-                            <strong>Закрытая регистрация</strong>
-                            <p>Ссылка предназначена только для приглашённых участников и подтверждает очное место на Форуме.</p>
-                            <span class="r26-status__alert-note">Пожалуйста, не пересылайте ссылку другим</span>
-                        </div>
-                    </div>
-HTML;
-$html = str_replace($originalStatus, $guestStatus, $html);
+$html = str_replace($originalStatus, '', $html);
+
 $html = str_replace('Фамилия, имя, отчество, должность, медицинская организация, формат участия и контакт для подтверждения.', 'Заполните данные участника. Подтверждение регистрации и QR-билет будут направлены на указанную электронную почту.', $html);
 $html = str_replace('<strong>Форма готова к внутренней проверке</strong>', '<strong>Подтвердите очное участие</strong>', $html);
 $html = str_replace('Публичная регистрация пока отключена. На этой странице персональные данные участников не принимаются.', 'Форма доступна только приглашённым участникам. После успешной регистрации вы получите подтверждение и QR-билет.', $html);
@@ -109,5 +98,23 @@ HTML;
 $newConfig = "        window.REGISTRATION_CONFIG = {\n            state: 'open',\n            endpoint: " . json_encode($endpoint, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) . ",\n            availabilityEndpoint: '/api/registration-availability.php',\n            eventId: 'forum-lab-innovations-2026-10-07'\n        };\n";
 $html = str_replace($oldConfig, $newConfig, $html);
 
+$guestInfo = <<<'HTML'
+        <section class="r26-guest-info" aria-label="Информация о закрытой регистрации">
+            <div class="container">
+                <div class="r26-guest-info__card">
+                    <div class="r26-guest-info__icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" focusable="false"><path d="M7.5 10V7.5a4.5 4.5 0 0 1 9 0V10m-10 0h11a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2h-11a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2Zm5.5 4v3"/></svg>
+                    </div>
+                    <div class="r26-guest-info__content">
+                        <span class="r26-guest-info__eyebrow">Закрытая регистрация по приглашению</span>
+                        <h2>Сейчас подтверждаем очное участие приглашённых гостей</h2>
+                        <p><strong>Пожалуйста, не пересылайте эту ссылку третьим лицам.</strong> Она предназначена для приглашённых участников и резервирует очное место на Форуме.</p>
+                        <p class="r26-guest-info__public"><span>Для остальных участников</span> общая регистрация на Форум, в том числе <strong>онлайн-участие</strong>, будет открыта позднее на сайте РЦЛСМО.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+HTML;
+$html = str_replace('        <section class="r26-form-zone"', $guestInfo . "\n\n        <section class=\"r26-form-zone\"", $html);
 
 echo $html;
