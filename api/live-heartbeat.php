@@ -1,4 +1,5 @@
 <?php
+session_start();
 header('Content-Type: application/json; charset=utf-8');
 header('Cache-Control: no-store');
 header('X-Content-Type-Options: nosniff');
@@ -40,6 +41,7 @@ $token = strtolower(trim((string)($data['token'] ?? '')));
 if (!preg_match('/^[a-f0-9]{64}$/', $token)) respond(422, ['ok' => false, 'error' => 'invalid_token']);
 
 $isHeaderTest = authorizedTestRequest();
+$isDashboardTest = !empty($_SESSION['conference_dashboard_auth']) && !empty($data['test_mode']);
 
 try {
     $pdo = require DB_CONFIG_PATH;
@@ -63,7 +65,7 @@ try {
     }
 
     $isTestParticipant = trim((string)$participant['organization']) === TEST_ORGANIZATION;
-    if (!$isHeaderTest && !$isTestParticipant && !trackingWindowOpen()) {
+    if (!$isHeaderTest && !$isDashboardTest && !$isTestParticipant && !trackingWindowOpen()) {
         $pdo->rollBack();
         respond(200, ['ok' => true, 'tracking_active' => false]);
     }
@@ -117,7 +119,7 @@ try {
         'watch_seconds' => $watchSeconds,
         'session_count' => $sessionCount,
         'present_15m' => $watchSeconds >= 900,
-        'test_mode' => $isHeaderTest || $isTestParticipant
+        'test_mode' => $isHeaderTest || $isDashboardTest || $isTestParticipant
     ]);
 } catch (Throwable $e) {
     if (isset($pdo) && $pdo instanceof PDO && $pdo->inTransaction()) $pdo->rollBack();
