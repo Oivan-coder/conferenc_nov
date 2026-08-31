@@ -64,8 +64,12 @@ try {
         respond(404, ['ok' => false, 'error' => 'participant_not_found']);
     }
 
+    $isSessionTest = !empty($data['test_mode'])
+        && isset($_SESSION['conference_live_test_participant_id'])
+        && (int)$_SESSION['conference_live_test_participant_id'] === (int)$participant['id'];
     $isTestParticipant = trim((string)$participant['organization']) === TEST_ORGANIZATION;
-    if (!$isHeaderTest && !$isDashboardTest && !$isTestParticipant && !trackingWindowOpen()) {
+
+    if (!$isHeaderTest && !$isDashboardTest && !$isSessionTest && !$isTestParticipant && !trackingWindowOpen()) {
         $pdo->rollBack();
         respond(200, ['ok' => true, 'tracking_active' => false]);
     }
@@ -119,7 +123,7 @@ try {
         'watch_seconds' => $watchSeconds,
         'session_count' => $sessionCount,
         'present_15m' => $watchSeconds >= 900,
-        'test_mode' => $isHeaderTest || $isDashboardTest || $isTestParticipant
+        'test_mode' => $isHeaderTest || $isDashboardTest || $isSessionTest || $isTestParticipant
     ]);
 } catch (Throwable $e) {
     if (isset($pdo) && $pdo instanceof PDO && $pdo->inTransaction()) $pdo->rollBack();
