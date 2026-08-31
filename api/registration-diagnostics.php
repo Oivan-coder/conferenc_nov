@@ -31,6 +31,19 @@ function respond(int $status, array $payload): never {
     exit;
 }
 
+function databaseErrorCategory(Throwable $error): string {
+    if (!$error instanceof PDOException) return 'unexpected_error';
+    $driverCode = (int)($error->errorInfo[1] ?? 0);
+    return match ($driverCode) {
+        1045 => 'authentication_failed',
+        1049 => 'database_not_found',
+        2002, 2003 => 'server_unreachable',
+        2005 => 'host_not_found',
+        2006, 2013 => 'connection_lost',
+        default => 'database_connection_failed',
+    };
+}
+
 $token = trim((string)($_GET['key'] ?? ''));
 if (!tokenIsValid($token)) respond(404, ['ok' => false, 'error' => 'not_found']);
 
@@ -110,5 +123,6 @@ try {
     respond($result['ok'] ? 200 : 503, $result);
 } catch (Throwable $e) {
     $result['database']['error_type'] = get_class($e);
+    $result['database']['error_category'] = databaseErrorCategory($e);
     respond(503, $result);
 }
