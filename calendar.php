@@ -11,9 +11,17 @@ if (preg_match('/^[a-f0-9]{64}$/', $token)) {
     try {
         $pdo = require DB_CONFIG_PATH;
         if ($pdo instanceof PDO) {
-            $stmt = $pdo->prepare('SELECT participant_code, full_name, participation_format FROM participants WHERE registration_status = "confirmed" AND (qr_token = :qr_token OR online_token = :online_token) LIMIT 1');
-            $stmt->execute([':qr_token' => $token, ':online_token' => $token]);
+            $select = 'SELECT participant_code, full_name, participation_format FROM participants WHERE registration_status = "confirmed" AND %s = :token LIMIT 1';
+
+            $stmt = $pdo->prepare(sprintf($select, 'qr_token'));
+            $stmt->execute([':token' => $token]);
             $participant = $stmt->fetch(PDO::FETCH_ASSOC) ?: null;
+
+            if (!$participant) {
+                $stmt = $pdo->prepare(sprintf($select, 'online_token'));
+                $stmt->execute([':token' => $token]);
+                $participant = $stmt->fetch(PDO::FETCH_ASSOC) ?: null;
+            }
         }
     } catch (Throwable $e) {
         error_log('Calendar ticket lookup failed: ' . $e->getMessage());
