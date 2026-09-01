@@ -27,6 +27,33 @@
         return `+7 (${normalized.slice(1, 4)}) ${normalized.slice(4, 7)}-${normalized.slice(7, 9)}-${normalized.slice(9, 11)}`;
     }
 
+    function isPhonePrefixOnly(value) {
+        const digits = String(value || '').replace(/\D+/g, '');
+        return digits === '' || digits === '7';
+    }
+
+    function formatRussianPhoneInput(value) {
+        let digits = String(value || '').replace(/\D+/g, '');
+        if (!digits || digits === '7') return '+7 ';
+
+        if (digits.length > 11 && (digits.startsWith('77') || digits.startsWith('78'))) {
+            digits = digits.slice(-11);
+        }
+        if (digits.length === 10) digits = `7${digits}`;
+        if (digits.length >= 11 && digits[0] === '8') digits = `7${digits.slice(1)}`;
+        if (digits[0] !== '7') digits = `7${digits}`;
+
+        const subscriber = digits.slice(1, 11);
+        let result = '+7';
+        if (!subscriber.length) return '+7 ';
+        result += ` (${subscriber.slice(0, 3)}`;
+        if (subscriber.length >= 3) result += ')';
+        if (subscriber.length > 3) result += ` ${subscriber.slice(3, 6)}`;
+        if (subscriber.length > 6) result += `-${subscriber.slice(6, 8)}`;
+        if (subscriber.length > 8) result += `-${subscriber.slice(8, 10)}`;
+        return result;
+    }
+
     function isValidPersonName(value, required) {
         const cleaned = String(value || '').trim().replace(/\s+/g, ' ');
         if (!cleaned) return !required;
@@ -83,10 +110,10 @@
             setFieldValidity(email, 'Проверьте адрес электронной почты, например name@example.ru.');
         }
 
-        if (phone && phone.value.trim()) {
+        if (phone && !isPhonePrefixOnly(phone.value)) {
             const normalized = normalizeRussianPhone(phone.value);
             if (!normalized) {
-                setFieldValidity(phone, 'Укажите российский номер: 10 цифр либо 11 цифр, начиная с +7 или 8.');
+                setFieldValidity(phone, 'Введите 10 цифр номера после +7.');
             } else {
                 phone.value = formatRussianPhone(normalized);
             }
@@ -105,7 +132,7 @@
             position: 'Проверьте должность.',
             organization: 'Проверьте наименование организации.',
             email: 'Проверьте адрес электронной почты.',
-            phone: 'Проверьте телефон: нужен российский номер из 10 цифр либо 11 цифр, начиная с +7 или 8.',
+            phone: 'Проверьте телефон: введите 10 цифр номера после +7.',
             privacyConsent: 'Необходимо дать согласие на обработку персональных данных.',
             policyAcknowledged: 'Необходимо подтвердить ознакомление с Политикой обработки персональных данных.'
         };
@@ -238,6 +265,7 @@
         setMessage(message, 'Проверяем данные…');
 
         const payload = Object.fromEntries(new FormData(form).entries());
+        if (payload.phone && isPhonePrefixOnly(payload.phone)) payload.phone = '';
         payload.eventId = config.eventId;
 
         try {
@@ -267,6 +295,7 @@
             }
 
             form.reset();
+            if (form.elements.phone) form.elements.phone.value = '+7 ';
             const code = result.participant_code;
             if (result.email_pending) {
                 setMessage(message, `Очная регистрация подтверждена. Код участника: ${code}. QR-билет формируется и будет направлен на почту.`, 'success');
@@ -298,12 +327,28 @@
     function wireValidation(form) {
         const phone = form.elements.phone;
         if (phone) {
+            phone.value = formatRussianPhoneInput(phone.value);
+
+            phone.addEventListener('focus', () => {
+                if (isPhonePrefixOnly(phone.value)) phone.value = '+7 ';
+                window.setTimeout(() => phone.setSelectionRange(phone.value.length, phone.value.length), 0);
+            });
+
+            phone.addEventListener('input', () => {
+                setFieldValidity(phone, '');
+                phone.value = formatRussianPhoneInput(phone.value);
+                phone.setSelectionRange(phone.value.length, phone.value.length);
+            });
+
             phone.addEventListener('blur', () => {
                 setFieldValidity(phone, '');
-                if (!phone.value.trim()) return;
+                if (isPhonePrefixOnly(phone.value)) {
+                    phone.value = '+7 ';
+                    return;
+                }
                 const normalized = normalizeRussianPhone(phone.value);
                 if (!normalized) {
-                    setFieldValidity(phone, 'Укажите российский номер: 10 цифр либо 11 цифр, начиная с +7 или 8.');
+                    setFieldValidity(phone, 'Введите 10 цифр номера после +7.');
                     return;
                 }
                 phone.value = formatRussianPhone(normalized);
