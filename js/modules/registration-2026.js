@@ -78,6 +78,19 @@
         else delete element.dataset.state;
     }
 
+    function setMessageAction(element, text, label, url, state = 'success') {
+        setMessage(element, text, state);
+        if (!element || !url) return;
+        const br = document.createElement('br');
+        const link = document.createElement('a');
+        link.href = url;
+        link.textContent = label;
+        link.style.display = 'inline-block';
+        link.style.marginTop = '8px';
+        link.style.fontWeight = '700';
+        element.append(br, link);
+    }
+
     function validateForm(form) {
         const lastName = form.elements.lastName;
         const firstName = form.elements.firstName;
@@ -304,9 +317,9 @@
             } else if (result.registration_status === 'waitlist') {
                 setMessage(message, `Заявка добавлена в лист ожидания. Код: ${code}. Подтверждение направлено на почту.`, 'success');
             } else if (result.participation_format === 'online') {
-                setMessage(message, `Онлайн-регистрация подтверждена. Код участника: ${code}. Персональная ссылка направлена на почту.`, 'success');
+                setMessageAction(message, `Онлайн-регистрация подтверждена. Код участника: ${code}. Персональная ссылка направлена на почту.`, 'Открыть мой билет', result.participant_url, 'success');
             } else {
-                setMessage(message, `Очная регистрация подтверждена. Код участника: ${code}. QR-билет направлен на почту.`, 'success');
+                setMessageAction(message, `Очная регистрация подтверждена. Код участника: ${code}. QR-билет направлен на почту.`, 'Открыть мой билет', result.participant_url, 'success');
             }
             message?.focus({ preventScroll: true });
 

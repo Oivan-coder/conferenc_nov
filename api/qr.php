@@ -34,7 +34,7 @@ try {
 
     require_once AUTOLOAD_PATH;
 
-    $ticketUrl = 'https://rclsmo.ru/ticket.php?t=' . rawurlencode($token);
+    $ticketUrl = 'https://rclsmo.ru/participant.php?t=' . rawurlencode($token);
 
     $qrCode = Endroid\QrCode\QrCode::create($ticketUrl)
         ->setEncoding(new Endroid\QrCode\Encoding\Encoding('ISO-8859-1'))

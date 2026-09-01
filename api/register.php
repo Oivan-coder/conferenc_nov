@@ -55,6 +55,14 @@ function qrImageUrl(string $qrToken): string {
     return 'https://rclsmo.ru/api/qr.php?t=' . rawurlencode($qrToken);
 }
 
+function participantUrl(string $token): string {
+    return 'https://rclsmo.ru/participant.php?t=' . rawurlencode($token);
+}
+
+function calendarUrl(string $token): string {
+    return 'https://rclsmo.ru/calendar.php?t=' . rawurlencode($token);
+}
+
 function liveUrl(string $onlineToken): string {
     return 'https://rclsmo.ru/live/?t=' . rawurlencode($onlineToken);
 }
@@ -81,7 +89,8 @@ function mailShell(string $title, string $body): string {
 function sendOfflineConfirmationEmail(string $to, string $fullName, string $participantCode, string $qrToken): bool {
     $safeName = htmlspecialchars($fullName, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
     $safeCode = htmlspecialchars($participantCode, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
-    $safeTicketUrl = htmlspecialchars(ticketUrl($qrToken), ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+    $safeTicketUrl = htmlspecialchars(participantUrl($qrToken), ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+    $safeCalendarUrl = htmlspecialchars(calendarUrl($qrToken), ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
     $safeQrUrl = htmlspecialchars(qrImageUrl($qrToken), ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
     $subject = mb_encode_mimeheader('Подтверждение очной регистрации — Форум лабораторных инноваций Московской области — 2026', 'UTF-8', 'B');
 
@@ -90,7 +99,8 @@ function sendOfflineConfirmationEmail(string $to, string $fullName, string $part
         . '<table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background:#f1f6f3;border-radius:12px;margin-bottom:22px;"><tr><td style="padding:18px;"><div style="font-size:12px;color:#607268;margin-bottom:5px;">Код участника</div><div style="font-size:24px;font-weight:700;letter-spacing:.05em;color:#214f3b;">' . $safeCode . '</div></td></tr></table>'
         . '<div style="text-align:center;margin:18px 0 24px;"><img src="' . $safeQrUrl . '" width="260" height="260" alt="QR-код участника" style="display:block;width:260px;height:260px;max-width:100%;margin:0 auto;border:0;"><div style="font-size:13px;line-height:1.5;color:#607268;margin-top:10px;">Покажите этот QR-код на стойке регистрации.</div></div>'
         . '<p style="font-size:15px;line-height:1.7;margin:0 0 7px;"><strong>Дата:</strong> 7 октября 2026 года</p><p style="font-size:15px;line-height:1.7;margin:0 0 7px;"><strong>Формат:</strong> Очное участие</p><p style="font-size:15px;line-height:1.7;margin:0 0 22px;"><strong>Место:</strong> Дом Правительства Московской области, Красногорск</p>'
-        . '<div style="text-align:center;margin:24px 0 8px;"><a href="' . $safeTicketUrl . '" style="display:inline-block;background:#214f3b;color:#ffffff;text-decoration:none;font-size:15px;font-weight:700;padding:13px 20px;border-radius:9px;">Открыть билет с QR-кодом</a></div>'
+        . '<div style="text-align:center;margin:24px 0 8px;"><a href="' . $safeTicketUrl . '" style="display:inline-block;background:#214f3b;color:#ffffff;text-decoration:none;font-size:15px;font-weight:700;padding:13px 20px;border-radius:9px;">Открыть мой билет</a></div>'
+        . '<div style="text-align:center;margin:12px 0 8px;"><a href="' . $safeCalendarUrl . '" style="display:inline-block;color:#214f3b;text-decoration:underline;font-size:14px;font-weight:700;">Добавить форум в календарь</a></div>'
         . '<p style="font-size:12px;line-height:1.6;color:#738078;margin:18px 0 0;">Если QR-код не отображается в письме, откройте билет по кнопке выше.</p>';
 
     return sendConfiguredMail($to, $subject, mailShell('Регистрация подтверждена', $body));
@@ -100,6 +110,8 @@ function sendOnlineConfirmationEmail(string $to, string $fullName, string $parti
     $safeName = htmlspecialchars($fullName, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
     $safeCode = htmlspecialchars($participantCode, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
     $safeLiveUrl = htmlspecialchars(liveUrl($onlineToken), ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+    $safeParticipantUrl = htmlspecialchars(participantUrl($onlineToken), ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+    $safeCalendarUrl = htmlspecialchars(calendarUrl($onlineToken), ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
     $subject = mb_encode_mimeheader('Подтверждение онлайн-регистрации — Форум лабораторных инноваций Московской области — 2026', 'UTF-8', 'B');
 
     $body = '<p style="font-size:16px;line-height:1.6;margin:0 0 14px;">Здравствуйте, <strong>' . $safeName . '</strong>.</p>'
@@ -107,6 +119,7 @@ function sendOnlineConfirmationEmail(string $to, string $fullName, string $parti
         . '<table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background:#f1f6f3;border-radius:12px;margin-bottom:22px;"><tr><td style="padding:18px;"><div style="font-size:12px;color:#607268;margin-bottom:5px;">Код участника</div><div style="font-size:24px;font-weight:700;letter-spacing:.05em;color:#214f3b;">' . $safeCode . '</div></td></tr></table>'
         . '<p style="font-size:15px;line-height:1.7;margin:0 0 7px;"><strong>Дата:</strong> 7 октября 2026 года</p><p style="font-size:15px;line-height:1.7;margin:0 0 20px;"><strong>Формат:</strong> Онлайн-участие</p>'
         . '<div style="text-align:center;margin:26px 0 12px;"><a href="' . $safeLiveUrl . '" style="display:inline-block;background:#214f3b;color:#ffffff;text-decoration:none;font-size:16px;font-weight:700;padding:14px 24px;border-radius:9px;">Открыть страницу трансляции</a></div>'
+        . '<div style="text-align:center;margin:12px 0 4px;"><a href="' . $safeParticipantUrl . '" style="display:inline-block;color:#214f3b;text-decoration:underline;font-size:14px;font-weight:700;margin-right:12px;">Мой билет</a><a href="' . $safeCalendarUrl . '" style="display:inline-block;color:#214f3b;text-decoration:underline;font-size:14px;font-weight:700;">Добавить в календарь</a></div>'
         . '<p style="font-size:13px;line-height:1.6;color:#607268;margin:18px 0 0;">Ссылка персональная. По ней система фиксирует фактическое онлайн-присутствие участника. Не пересылайте её другим людям.</p><p style="font-size:13px;line-height:1.6;color:#607268;margin:10px 0 0;">Трансляция станет доступна на этой странице в день мероприятия.</p>';
 
     return sendConfiguredMail($to, $subject, mailShell('Онлайн-регистрация подтверждена', $body));
@@ -364,9 +377,14 @@ try {
         'test_mode' => $isTestRequest
     ];
 
-    if ($isTestRequest && $registrationStatus === 'confirmed') {
-        if ($format === 'online') $response['live_url'] = liveUrl((string)$onlineToken);
-        else $response['ticket_url'] = ticketUrl($qrToken);
+    if ($registrationStatus === 'confirmed') {
+        $accessToken = $format === 'online' ? (string)$onlineToken : $qrToken;
+        $response['participant_url'] = participantUrl($accessToken);
+        $response['calendar_url'] = calendarUrl($accessToken);
+        if ($isTestRequest) {
+            if ($format === 'online') $response['live_url'] = liveUrl((string)$onlineToken);
+            else $response['ticket_url'] = participantUrl($qrToken);
+        }
     }
 
     respond(201, $response);
