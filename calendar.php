@@ -11,11 +11,14 @@ if (preg_match('/^[a-f0-9]{64}$/', $token)) {
     try {
         $pdo = require DB_CONFIG_PATH;
         if ($pdo instanceof PDO) {
-            $stmt = $pdo->prepare('SELECT participant_code, full_name, participation_format FROM participants WHERE registration_status = "confirmed" AND (qr_token = :token OR online_token = :token) LIMIT 1');
-            $stmt->execute([':token' => $token]);
+            $stmt = $pdo->prepare('SELECT participant_code, full_name, participation_format FROM participants WHERE registration_status = "confirmed" AND (qr_token = :qr_token OR online_token = :online_token) LIMIT 1');
+            $stmt->execute([':qr_token' => $token, ':online_token' => $token]);
             $participant = $stmt->fetch(PDO::FETCH_ASSOC) ?: null;
         }
-    } catch (Throwable $e) {$participant = null;}
+    } catch (Throwable $e) {
+        error_log('Calendar ticket lookup failed: ' . $e->getMessage());
+        $participant = null;
+    }
 }
 if (!$participant) {http_response_code(404);header('Content-Type: text/plain; charset=utf-8');echo 'Билет не найден';exit;}
 function icsEscape(string $value): string {return str_replace(["\\", ";", ",", "\r\n", "\n", "\r"], ["\\\\", "\\;", "\\,", "\\n", "\\n", "\\n"], $value);}
