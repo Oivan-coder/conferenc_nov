@@ -109,13 +109,16 @@ function dashboardLeadershipBrief(array $stats, int $offlineConfirmed, int $onli
     $onlinePresentPct = dashboardPct($onlinePresent, $onlineConfirmed);
     $factPct = dashboardPct($fact, $confirmed);
 
-    return 'Форум 07.10.2026. Зарегистрировано ' . $confirmed . ' участников из ' . $stats['organizations'] . ' организаций: '
-        . $stats['government_orgs'] . ' гос. (' . $governmentOrgPct . '% организаций; ' . $stats['government_people'] . ' чел., ' . $governmentPeoplePct . '% участников), '
-        . $stats['private_orgs'] . ' частных/иных (' . $privateOrgPct . '%; ' . $stats['private_people'] . ' чел., ' . $privatePeoplePct . '%), '
-        . 'организаторы — ' . $stats['organizer_orgs'] . ' орг. (' . $organizerOrgPct . '%; ' . $stats['organizer_people'] . ' чел., ' . $organizerPeoplePct . '%). '
-        . 'РЦЛСМО — ' . $o['РЦЛСМО'] . ', ЦВИОД — ' . $o['ЦВИОД'] . ', Минздрав МО — ' . $o['Минздрав МО'] . '. '
-        . 'Очно: ' . $offlineConfirmed . ' (' . $offlinePct . '%), пришли ' . $checkedIn . ' (' . $checkedInPct . '% от очных). '
-        . 'Онлайн: ' . $onlineConfirmed . ' (' . $onlinePct . '%), факт ≥15 мин — ' . $onlinePresent . ' (' . $onlinePresentPct . '% от онлайн). '
-        . 'Факт участия всего — ' . $fact . ' (' . $factPct . '% от зарегистрированных).'
-        . ($waitlist > 0 ? ' Лист ожидания — ' . $waitlist . '.' : '');
+    return 'Форум 07.10.2026' . "\n"
+        . 'Зарегистрировано: ' . $confirmed . ' участников / ' . $stats['organizations'] . ' организаций' . "\n\n"
+        . 'Организации:' . "\n"
+        . '• государственные — ' . $stats['government_orgs'] . ' орг. (' . $governmentOrgPct . '%); ' . $stats['government_people'] . ' чел. (' . $governmentPeoplePct . '%)' . "\n"
+        . '• частные/иные — ' . $stats['private_orgs'] . ' орг. (' . $privateOrgPct . '%); ' . $stats['private_people'] . ' чел. (' . $privatePeoplePct . '%)' . "\n"
+        . '• организаторы — ' . $stats['organizer_orgs'] . ' орг. (' . $organizerOrgPct . '%); ' . $stats['organizer_people'] . ' чел. (' . $organizerPeoplePct . '%)' . "\n"
+        . '  РЦЛСМО — ' . $o['РЦЛСМО'] . '; ЦВИОД — ' . $o['ЦВИОД'] . '; Минздрав МО — ' . $o['Минздрав МО'] . "\n\n"
+        . 'Формат участия:' . "\n"
+        . '• очно — ' . $offlineConfirmed . ' (' . $offlinePct . '%); пришли — ' . $checkedIn . ' (' . $checkedInPct . '% от очных)' . "\n"
+        . '• онлайн — ' . $onlineConfirmed . ' (' . $onlinePct . '%); факт ≥15 мин — ' . $onlinePresent . ' (' . $onlinePresentPct . '% от онлайн)' . "\n"
+        . '• лист ожидания — ' . $waitlist . "\n\n"
+        . 'Факт участия: ' . $fact . ' (' . $factPct . '% от зарегистрированных)';
 }
