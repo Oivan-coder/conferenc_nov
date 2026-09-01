@@ -13,26 +13,51 @@
     <base href="/">
     <link rel="icon" type="image/png" href="images/favicon-32x32.png">
     <link rel="stylesheet" href="css/public-bundle.css?v=20260828-forum-region">
+    <link rel="stylesheet" href="css/legal-pages.css?v=20260901-1">
 </head>
-<body class="privacy-page" data-page="privacy">
+<body class="privacy-page legal-page legal-page--consent" data-page="privacy">
     <header class="photo-header" data-site-shell="header"></header>
 
     <section class="privacy-hero">
-        <div class="privacy-hero-content">
-            <h1>Согласие на обработку персональных данных</h1>
-            <p>Регистрация на Форум лабораторных инноваций Московской области 2026 года</p>
+        <div class="legal-hero-shell">
+            <div class="privacy-hero-content">
+                <span class="legal-kicker">Регистрация участника</span>
+                <h1>Согласие на обработку персональных данных</h1>
+                <p>Условия обработки данных при регистрации на Форум лабораторных инноваций Московской области 2026 года.</p>
+                <div class="legal-hero-meta" aria-label="Сведения о документе">
+                    <span>Оператор: ГБУЗ МО МОНИКИ им. М.Ф. Владимирского</span>
+                    <span>Действует до 31 декабря 2026 года</span>
+                </div>
+            </div>
+            <div class="legal-hero-mark" aria-hidden="true">
+                <svg viewBox="0 0 64 64"><path d="M18 6h21l9 9v43H18V6Z"/><path d="M39 6v10h9M25 28h16M25 36h16M25 44h10"/><path d="m41 48 4 4 9-10"/></svg>
+            </div>
         </div>
     </section>
 
-    <main class="privacy-container">
-        <div class="privacy-section">
+    <main class="privacy-container legal-layout">
+        <aside class="legal-toc" aria-label="Содержание документа">
+            <div class="legal-toc__head">Содержание <span>7 разделов</span></div>
+            <nav>
+                <a href="#operator"><span>01</span>Оператор</a>
+                <a href="#data"><span>02</span>Персональные данные</a>
+                <a href="#purposes"><span>03</span>Цели обработки</a>
+                <a href="#actions"><span>04</span>Действия с данными</a>
+                <a href="#term"><span>05</span>Срок действия</a>
+                <a href="#withdrawal"><span>06</span>Отзыв согласия</a>
+                <a href="#confirmation"><span>07</span>Подтверждение</a>
+            </nav>
+        </aside>
+
+        <article class="legal-document" aria-label="Текст согласия на обработку персональных данных">
+        <section class="privacy-section" id="operator">
             <h2>1. Оператор</h2>
             <p>Настоящим я свободно, своей волей и в своём интересе даю согласие на обработку моих персональных данных оператору:</p>
-            <p><strong>Государственное бюджетное учреждение здравоохранения Московской области «Московский областной научно-исследовательский клинический институт им. М.Ф. Владимирского» (ГБУЗ МО МОНИКИ им. М.Ф. Владимирского)</strong>, ОГРН 1037739023200, ИНН 7702066157, адрес: 129110, г. Москва, ул. Щепкина, д. 61/2; <a href="https://www.monikiweb.ru/" target="_blank" rel="noopener noreferrer">официальный сайт</a>.</p>
+            <p class="legal-operator-card"><strong>Государственное бюджетное учреждение здравоохранения Московской области «Московский областной научно-исследовательский клинический институт им. М.Ф. Владимирского» (ГБУЗ МО МОНИКИ им. М.Ф. Владимирского)</strong>, ОГРН 1037739023200, ИНН 7702066157, адрес: 129110, г. Москва, ул. Щепкина, д. 61/2; <a href="https://www.monikiweb.ru/" target="_blank" rel="noopener noreferrer">официальный сайт</a>.</p>
             <p>Организационное сопровождение регистрации осуществляется Референс-центром лабораторной службы Московской области как структурным подразделением МОНИКИ.</p>
-        </div>
+        </section>
 
-        <div class="privacy-section">
+        <section class="privacy-section" id="data">
             <h2>2. Персональные данные</h2>
             <p>Согласие предоставляется на обработку следующих данных:</p>
             <ul class="privacy-list">
@@ -45,10 +70,10 @@
                 <li>сведения о фактическом участии в мероприятии, если соответствующий функционал используется;</li>
                 <li>технические сведения о работе с формой и персональными страницами: IP-адрес, сведения о браузере, дата и время обращения.</li>
             </ul>
-            <p><strong>Согласие не распространяется на медицинские сведения:</strong> такие данные в форме регистрации не запрашиваются.</p>
-        </div>
+            <p class="legal-note"><strong>Согласие не распространяется на медицинские сведения:</strong> такие данные в форме регистрации не запрашиваются.</p>
+        </section>
 
-        <div class="privacy-section">
+        <section class="privacy-section" id="purposes">
             <h2>3. Цели обработки</h2>
             <ul class="privacy-list">
                 <li>регистрация на мероприятие и подтверждение участия;</li>
@@ -58,37 +83,38 @@
                 <li>организационное сопровождение мероприятия;</li>
                 <li>учёт фактического участия и подготовка отчётности по мероприятию.</li>
             </ul>
-        </div>
+        </section>
 
-        <div class="privacy-section">
+        <section class="privacy-section" id="actions">
             <h2>4. Действия с данными</h2>
             <p>Я разрешаю осуществлять сбор, запись, систематизацию, накопление, хранение, уточнение, использование, предоставление доступа уполномоченным лицам, обезличивание, блокирование, удаление и уничтожение персональных данных с использованием средств автоматизации или без них.</p>
             <p>Для размещения сайта, регистрационной базы и сервисной электронной почты используется инфраструктура АО «ТаймВэб». Первичная запись и хранение регистрационной базы осуществляются на территории Российской Федерации.</p>
-        </div>
+        </section>
 
-        <div class="privacy-section">
+        <section class="privacy-section" id="term">
             <h2>5. Срок действия</h2>
             <p>Согласие действует до достижения целей обработки, но не позднее <strong>31 декабря 2026 года</strong>, если более длительное хранение не требуется в силу закона или иного законного основания.</p>
             <p>После достижения целей обработки персональные данные подлежат удалению либо обезличиванию.</p>
-        </div>
+        </section>
 
-        <div class="privacy-section">
+        <section class="privacy-section" id="withdrawal">
             <h2>6. Отзыв согласия</h2>
             <p>Согласие может быть отозвано путём направления обращения на <a href="mailto:info@rclsmo.ru">info@rclsmo.ru</a> либо по адресу оператора. Для идентификации записи необходимо указать ФИО и электронную почту, использованную при регистрации.</p>
             <p>Отзыв согласия не влияет на законность обработки, осуществлённой до его получения оператором. Если обработка данных необходима для предоставления доступа к мероприятию, отзыв согласия может сделать дальнейшее участие технически невозможным.</p>
-        </div>
+        </section>
 
-        <div class="privacy-section">
+        <section class="privacy-section" id="confirmation">
             <h2>7. Подтверждение</h2>
             <p>Установка отдельной отметки «Даю согласие на обработку персональных данных» в регистрационной форме и последующая отправка формы подтверждают предоставление настоящего согласия.</p>
             <p>Политика обработки персональных данных доступна по адресу <a href="/privacy/">rclsmo.ru/privacy/</a>.</p>
-        </div>
+        </section>
 
-        <div style="text-align:center;">
+        <div class="legal-document-actions">
             <a href="/registration/" class="back-to-home">← Вернуться к регистрации</a>
         </div>
 
         <div class="last-updated">Редакция согласия от 31 августа 2026 года</div>
+        </article>
     </main>
 
     <footer class="main-footer" id="contacts" data-site-shell="footer"></footer>
