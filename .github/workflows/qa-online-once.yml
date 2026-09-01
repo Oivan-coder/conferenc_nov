@@ -1,0 +1,26 @@
+name: Create one online QA participant
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/qa-online-once.yml'
+
+jobs:
+  create:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Wait for Timeweb deploy and create participant
+        shell: bash
+        run: |
+          set -euo pipefail
+          URL='https://rclsmo.ru/api/qa-create-online-20260901.php?key=syRwVk3vxd--5Ueo7qNkxVataOtBNXzF'
+          sleep 20
+          for i in {1..12}; do
+            if OUT=$(curl -fsS "$URL"); then
+              echo "$OUT"
+              exit 0
+            fi
+            sleep 5
+          done
+          echo 'Creator endpoint did not become available in time' >&2
+          exit 1
