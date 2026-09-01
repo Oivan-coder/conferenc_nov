@@ -15,11 +15,12 @@ if (preg_match('/^[a-f0-9]{64}$/', $token)) {
     try {
         $pdo = require DB_CONFIG_PATH;
         if ($pdo instanceof PDO) {
-            $stmt = $pdo->prepare('SELECT participant_code, full_name, position, organization, participation_format, qr_token, online_token FROM participants WHERE registration_status = "confirmed" AND (qr_token = :token OR online_token = :token) LIMIT 1');
-            $stmt->execute([':token' => $token]);
+            $stmt = $pdo->prepare('SELECT participant_code, full_name, position, organization, participation_format, qr_token, online_token FROM participants WHERE registration_status = "confirmed" AND (qr_token = :qr_token OR online_token = :online_token) LIMIT 1');
+            $stmt->execute([':qr_token' => $token, ':online_token' => $token]);
             $participant = $stmt->fetch(PDO::FETCH_ASSOC) ?: null;
         }
     } catch (Throwable $e) {
+        error_log('Participant ticket lookup failed: ' . $e->getMessage());
         $participant = null;
     }
 }
@@ -61,7 +62,7 @@ $liveUrl = ($participant && $isOnline && !empty($participant['online_token'])) ?
 </head>
 <body>
 <div class="wrap">
-<a class="brand" href="/"><img src="/images/favicon-180x180.png" alt=""><strong>РЦЛСМО</strong></a>
+<a class="brand" href="/"><img src="/images/logo.png" alt="Логотип РЦЛСМО"><strong>РЦЛСМО</strong></a>
 <?php if ($participant): ?>
 <section class="shell">
 <div class="main">
