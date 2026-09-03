@@ -125,6 +125,7 @@ $script = <<<'HTML'
 <script>
 document.addEventListener('DOMContentLoaded',()=>{
  document.documentElement.classList.add('agenda-preview');
+ document.querySelector('.c26-tracks')?.remove();
  const root=document.querySelector('.c26-program'); if(!root) return;
  const eyebrow=root.querySelector('.c26-section-heading > span'); if(eyebrow) eyebrow.textContent='Программа конференции';
  const title=root.querySelector('.c26-section-heading h2'); if(title) title.textContent='Один день — четыре содержательных блока';
