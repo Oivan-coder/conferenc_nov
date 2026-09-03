@@ -7,21 +7,21 @@ $html = file_get_contents(__DIR__ . '/../index.html');
 if ($html === false) { http_response_code(500); exit('Preview unavailable'); }
 $style = <<<'HTML'
 <style>
-.agenda-preview .c26-intro{position:relative;padding:clamp(54px,6vw,82px) 0;background:linear-gradient(180deg,rgba(5,19,34,.96),rgba(7,25,43,.98));overflow:hidden}
+.agenda-preview .c26-intro{position:relative;padding:clamp(36px,4vw,52px) 0;background:linear-gradient(180deg,rgba(5,19,34,.96),rgba(7,25,43,.98));overflow:hidden}
 .agenda-preview .c26-intro:before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 10% 25%,rgba(79,219,240,.07),transparent 31%),linear-gradient(115deg,transparent 58%,rgba(91,159,218,.035));pointer-events:none}
 .agenda-preview .c26-intro .container{max-width:1180px}
-.agenda-preview .c26-intro__grid{position:relative;display:grid;grid-template-columns:minmax(0,.86fr) minmax(0,1.14fr);gap:clamp(44px,6vw,82px);align-items:center}
-.agenda-preview .c26-intro .c26-section-heading{min-width:0;max-width:510px;margin:0;text-align:left}
-.agenda-preview .c26-intro .c26-section-heading>span{margin-bottom:17px}
-.agenda-preview .c26-intro .c26-section-heading h2{max-width:500px;margin:0 0 22px;font-size:clamp(34px,4vw,53px);line-height:1.04;letter-spacing:-.045em;text-align:left;text-wrap:balance}
-.agenda-preview .c26-intro .c26-section-heading p{max-width:490px;margin:0;color:#a8bac9;font-size:15px;line-height:1.72;text-align:left;text-wrap:pretty}
-.agenda-preview .c26-principles{display:grid;gap:0;padding:8px 22px;border:1px solid rgba(79,219,240,.17);border-radius:23px;background:linear-gradient(135deg,rgba(18,46,70,.82),rgba(7,26,44,.88));box-shadow:0 24px 64px rgba(0,9,20,.20),inset 0 1px rgba(255,255,255,.025);overflow:hidden}
-.agenda-preview .c26-principles article{position:relative;display:grid;grid-template-columns:46px minmax(170px,.88fr) minmax(0,1.25fr);gap:18px;align-items:center;min-height:96px;margin:0;padding:20px 4px;border:0;border-bottom:1px solid rgba(109,169,198,.13);border-radius:0;background:transparent;box-shadow:none}
+.agenda-preview .c26-intro__grid{position:relative;display:grid;grid-template-columns:minmax(0,.86fr) minmax(0,1.14fr);gap:clamp(28px,4vw,52px);align-items:center}
+.agenda-preview .c26-intro .c26-section-heading{min-width:0;max-width:475px;margin:0;text-align:left}
+.agenda-preview .c26-intro .c26-section-heading>span{margin-bottom:12px}
+.agenda-preview .c26-intro .c26-section-heading h2{max-width:475px;margin:0 0 14px;font-size:clamp(30px,3.25vw,43px);line-height:1.05;letter-spacing:-.045em;text-align:left;text-wrap:balance}
+.agenda-preview .c26-intro .c26-section-heading p{max-width:460px;margin:0;color:#a8bac9;font-size:14px;line-height:1.58;text-align:left;text-wrap:pretty}
+.agenda-preview .c26-principles{display:grid;gap:0;padding:5px 18px;border:1px solid rgba(79,219,240,.17);border-radius:23px;background:linear-gradient(135deg,rgba(18,46,70,.82),rgba(7,26,44,.88));box-shadow:0 24px 64px rgba(0,9,20,.20),inset 0 1px rgba(255,255,255,.025);overflow:hidden}
+.agenda-preview .c26-principles article{position:relative;display:grid;grid-template-columns:42px minmax(170px,.9fr) minmax(0,1.3fr);gap:15px;align-items:center;min-height:74px;margin:0;padding:14px 4px;border:0;border-bottom:1px solid rgba(109,169,198,.13);border-radius:0;background:transparent;box-shadow:none}
 .agenda-preview .c26-principles article:last-child{border-bottom:0}
 .agenda-preview .c26-principles article:before,.agenda-preview .c26-principles article:after{display:none}
 .agenda-preview .c26-principles article>span{display:grid;width:34px;height:34px;place-items:center;margin:0;border:1px solid rgba(79,219,240,.18);border-radius:10px;background:rgba(79,219,240,.055);color:#55ddf1;font-size:10px;font-weight:900;letter-spacing:.08em}
-.agenda-preview .c26-principles article h3{margin:0;color:#edf6fa;font-size:16px;line-height:1.35;font-weight:760;text-wrap:balance}
-.agenda-preview .c26-principles article p{margin:0;color:#91a8ba;font-size:13px;line-height:1.58;text-wrap:pretty}
+.agenda-preview .c26-principles article h3{margin:0;color:#edf6fa;font-size:15px;line-height:1.3;font-weight:760;text-wrap:balance}
+.agenda-preview .c26-principles article p{margin:0;color:#91a8ba;font-size:12px;line-height:1.48;text-wrap:pretty}
 .agenda-preview .c26-principles article:hover{background:linear-gradient(90deg,rgba(79,219,240,.025),transparent)}
 .agenda-preview .c26-program{position:relative;isolation:isolate;overflow:hidden}
 .agenda-preview .c26-program:before{content:"";position:absolute;z-index:-1;inset:0;background:radial-gradient(circle at 9% 13%,rgba(63,220,243,.08),transparent 27%),radial-gradient(circle at 91% 36%,rgba(196,71,225,.07),transparent 30%);pointer-events:none}
@@ -89,17 +89,17 @@ $style = <<<'HTML'
 .agenda-opening{border-color:rgba(80,222,242,.13);background:linear-gradient(90deg,rgba(80,222,242,.045),rgba(80,222,242,.015))}
 .agenda-opening h3{font-size:16px;color:#eff9fb}
 @media(max-width:900px){
- .agenda-preview .c26-intro__grid{grid-template-columns:1fr;gap:34px}
+ .agenda-preview .c26-intro__grid{grid-template-columns:1fr;gap:24px}
  .agenda-preview .c26-intro .c26-section-heading{max-width:720px}
  .agenda-preview .c26-intro .c26-section-heading h2,.agenda-preview .c26-intro .c26-section-heading p{max-width:700px}
- .agenda-preview .c26-principles article{grid-template-columns:46px minmax(180px,.8fr) minmax(0,1.2fr)}
+ .agenda-preview .c26-principles article{grid-template-columns:42px minmax(180px,.82fr) minmax(0,1.18fr)}
 }
 @media(max-width:720px){
- .agenda-preview .c26-intro{padding:45px 0}
+ .agenda-preview .c26-intro{padding:34px 0}
  .agenda-preview .c26-intro .container{padding-inline:18px}
- .agenda-preview .c26-intro__grid{gap:27px}
- .agenda-preview .c26-intro .c26-section-heading h2{margin-bottom:17px;font-size:clamp(30px,10vw,40px);line-height:1.08}
- .agenda-preview .c26-intro .c26-section-heading p{font-size:14px;line-height:1.65}
+ .agenda-preview .c26-intro__grid{gap:21px}
+ .agenda-preview .c26-intro .c26-section-heading h2{margin-bottom:13px;font-size:clamp(28px,9vw,36px);line-height:1.08}
+ .agenda-preview .c26-intro .c26-section-heading p{font-size:13px;line-height:1.55}
  .agenda-preview .c26-principles{padding:5px 16px;border-radius:19px}
  .agenda-preview .c26-principles article{grid-template-columns:38px minmax(0,1fr);grid-template-rows:auto auto;gap:5px 12px;min-height:0;padding:17px 0}
  .agenda-preview .c26-principles article>span{grid-row:1/3;width:31px;height:31px}
@@ -159,6 +159,8 @@ $script = <<<'HTML'
 <script>
 document.addEventListener('DOMContentLoaded',()=>{
  document.documentElement.classList.add('agenda-preview');
+ const intro=document.querySelector('.c26-intro .c26-section-heading');
+ if(intro){const introTitle=intro.querySelector('h2');const introLead=intro.querySelector('p');if(introTitle) introTitle.textContent='Лабораторный результат — часть маршрута пациента';if(introLead) introLead.textContent='Как данные лаборатории помогают раньше выявлять заболевание, подтверждать диагноз и доводить пациента до следующего этапа помощи.';}
  document.querySelectorAll('.c26-tracks, .c26-audience').forEach(section=>section.remove());
  const root=document.querySelector('.c26-program'); if(!root) return;
  const eyebrow=root.querySelector('.c26-section-heading > span'); if(eyebrow) eyebrow.textContent='Программа конференции';
