@@ -24,7 +24,7 @@
   position: relative;
   z-index: 1;
   display: grid;
-  grid-template-columns: minmax(0, 1.05fr) minmax(0, 1.05fr) minmax(250px, 0.9fr);
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 18px;
 }
 
@@ -34,6 +34,14 @@
   border: 1px solid rgba(166, 210, 235, 0.12);
   border-radius: 16px;
   background: rgba(255, 255, 255, 0.025);
+}
+
+.footer-block--moniki {
+  border-color: rgba(118, 235, 251, 0.25);
+  background:
+    radial-gradient(circle at 10% 0%, rgba(118, 235, 251, 0.1), transparent 58%),
+    rgba(255, 255, 255, 0.035);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.035);
 }
 
 .footer-label {
@@ -75,6 +83,25 @@
   width: 100%;
   height: 100%;
   object-fit: contain;
+}
+
+.footer-entity__logo--moniki {
+  border: 1px solid rgba(118, 235, 251, 0.2);
+  background: linear-gradient(145deg, #173b56, #0b2439);
+  box-shadow: 0 8px 24px rgba(0, 13, 26, 0.28);
+}
+
+.footer-entity__content {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.footer-entity__note {
+  color: #8fa9ba;
+  font-size: 11px;
+  line-height: 1.4;
 }
 
 .footer-entity__name {
@@ -247,17 +274,9 @@
   transform-origin: left;
 }
 
-@media (max-width: 980px) {
+@media (max-width: 1100px) {
   .footer-main {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .footer-block--contact {
-    grid-column: 1 / -1;
-  }
-
-  .footer-block--contact .footer-label {
-    min-height: auto;
   }
 
   .footer-mail {
