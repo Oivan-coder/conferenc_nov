@@ -211,11 +211,27 @@ function buildHeaderHtml(activePage) {
     `;
 }
 
-function buildFooterHtml() {
+function buildFooterHtml(activePage) {
+    const isConferencePage = activePage === 'conference-2026';
+    const monikiRole = isConferencePage ? 'Организатор форума' : 'Референс-центр в структуре';
+
     return `
         <footer class="main-footer" id="contacts">
             <div class="container">
-                <div class="footer-main" aria-label="Информация о ресурсе">
+                <div class="footer-main" aria-label="Организации и контактная информация">
+                    <section class="footer-block footer-block--moniki">
+                        <span class="footer-label">${monikiRole}</span>
+                        <a href="https://www.monikiweb.ru/" target="_blank" rel="noopener noreferrer" class="footer-entity">
+                            <span class="footer-entity__logo footer-entity__logo--moniki">
+                                <img src="images/moniki-logo-preview.svg" alt="" loading="lazy" decoding="async">
+                            </span>
+                            <span class="footer-entity__content">
+                                <span class="footer-entity__name">ГБУЗ МО МОНИКИ им. М. Ф. Владимирского</span>
+                                <small class="footer-entity__note">РЦЛСМО — структурное подразделение</small>
+                            </span>
+                        </a>
+                    </section>
+
                     <section class="footer-block">
                         <span class="footer-label">Во взаимодействии с</span>
                         <a href="https://mz.mosreg.ru/" target="_blank" rel="noopener noreferrer" class="footer-entity">
@@ -275,7 +291,7 @@ function renderSiteShell() {
     }
 
     if (footerHost) {
-        footerHost.outerHTML = buildFooterHtml();
+        footerHost.outerHTML = buildFooterHtml(activePage);
     }
 }
 
