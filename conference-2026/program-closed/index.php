@@ -155,18 +155,33 @@ $style = <<<'HTML'
 
 .agenda-speaker-row{display:flex;align-items:center;gap:15px;margin-top:12px}
 .agenda-speaker-row .agenda-speaker{margin:0}
-.agenda-speaker-profile{position:relative;z-index:1;display:block;flex:0 0 auto;padding:0;border:0;border-radius:18px;color:inherit;background:transparent;cursor:zoom-in}
-.agenda-speaker-profile:hover,.agenda-speaker-profile:focus{z-index:80;outline:none}
+.agenda-speaker-profile{display:block;flex:0 0 auto;padding:0;border:0;border-radius:18px;color:inherit;background:transparent;cursor:zoom-in}
+.agenda-speaker-profile:focus-visible{outline:2px solid #55dcf1;outline-offset:4px}
 .agenda-speaker-photo{display:block;width:74px;height:74px;border:1px solid rgba(85,220,241,.32);border-radius:18px;background:#102a40;box-shadow:0 10px 26px rgba(0,9,21,.24);object-fit:cover;object-position:var(--speaker-focus,50% 28%);transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease}
-.agenda-speaker-profile:hover .agenda-speaker-photo,.agenda-speaker-profile:focus .agenda-speaker-photo{transform:translateY(-2px) scale(1.04);border-color:rgba(85,220,241,.62);box-shadow:0 15px 36px rgba(23,181,215,.2)}
-.agenda-speaker-card{position:absolute;left:-12px;bottom:calc(100% + 13px);z-index:90;width:286px;padding:10px;border:1px solid rgba(85,220,241,.36);border-radius:20px;background:linear-gradient(155deg,rgba(14,42,65,.99),rgba(5,19,34,.99));box-shadow:0 24px 70px rgba(0,5,15,.5);opacity:0;visibility:hidden;pointer-events:none;transform:translateY(8px) scale(.97);transform-origin:left bottom;transition:opacity .18s ease,visibility .18s ease,transform .18s ease}
-.agenda-speaker-profile:hover .agenda-speaker-card,.agenda-speaker-profile:focus .agenda-speaker-card{opacity:1;visibility:visible;transform:none}
-.agenda-speaker-card__photo{display:block;width:100%;height:230px;border-radius:13px;background:#102a40;object-fit:cover;object-position:var(--speaker-focus,50% 28%)}
-.agenda-speaker-card__copy{display:block;padding:13px 8px 8px;text-align:left}
-.agenda-speaker-card__copy strong,.agenda-speaker-card__copy small{display:block}
-.agenda-speaker-card__copy strong{color:#f5fbff;font-size:16px;line-height:1.35}
-.agenda-speaker-card__copy small{margin-top:7px;color:#a9bdca;font-size:12px;font-weight:500;line-height:1.5;letter-spacing:0;text-transform:none}
-@media(max-width:720px){.agenda-speaker-row{gap:12px}.agenda-speaker-photo{width:58px;height:58px;border-radius:15px}.agenda-speaker-card{position:fixed;top:50%;right:auto;bottom:auto;left:50%;width:min(310px,calc(100vw - 28px));transform:translate(-50%,-46%) scale(.97);transform-origin:center}.agenda-speaker-profile:hover .agenda-speaker-card,.agenda-speaker-profile:focus .agenda-speaker-card{transform:translate(-50%,-50%) scale(1)}.agenda-speaker-card__photo{height:270px}}
+.agenda-speaker-profile:hover .agenda-speaker-photo,.agenda-speaker-profile:focus-visible .agenda-speaker-photo{transform:translateY(-2px) scale(1.04);border-color:rgba(85,220,241,.62);box-shadow:0 15px 36px rgba(23,181,215,.2)}
+.speaker-popover-shade{position:fixed;z-index:9998;inset:0;background:rgba(1,9,18,.72);backdrop-filter:blur(5px);opacity:0;visibility:hidden;pointer-events:none;transition:opacity .18s ease,visibility .18s ease}
+.speaker-popover{position:fixed;z-index:9999;left:16px;top:16px;width:min(330px,calc(100vw - 32px));max-height:calc(100vh - 32px);max-height:calc(100dvh - 32px);padding:10px;border:1px solid rgba(85,220,241,.40);border-radius:22px;background:linear-gradient(155deg,#10314c,#061625 82%);box-shadow:0 28px 90px rgba(0,5,15,.64),inset 0 1px rgba(255,255,255,.04);overflow:auto;overscroll-behavior:contain;opacity:0;visibility:hidden;pointer-events:none;transform:translateY(8px) scale(.97);transition:opacity .18s ease,visibility .18s ease,transform .18s ease}
+.speaker-popover.is-open{opacity:1;visibility:visible;pointer-events:auto;transform:none}
+.speaker-popover__close{position:absolute;z-index:2;top:18px;right:18px;display:grid;width:34px;height:34px;place-items:center;padding:0;border:1px solid rgba(255,255,255,.18);border-radius:50%;background:rgba(2,14,25,.72);color:#fff;font-size:24px;line-height:1;cursor:pointer;transition:background .18s ease,border-color .18s ease}
+.speaker-popover__close:hover,.speaker-popover__close:focus-visible{border-color:rgba(85,220,241,.7);background:#123a55;outline:none}
+.speaker-popover__photo{display:block;width:100%;height:260px;border-radius:15px;background:#102a40;object-fit:cover;object-position:var(--speaker-focus,50% 28%)}
+.speaker-popover__copy{display:block;padding:15px 9px 10px;text-align:left}
+.speaker-popover__copy strong,.speaker-popover__copy small{display:block}
+.speaker-popover__copy strong{padding-right:34px;color:#f5fbff;font-size:17px;line-height:1.32}
+.speaker-popover__copy small{margin-top:7px;color:#a9bdca;font-size:12px;font-weight:500;line-height:1.5;letter-spacing:0;text-transform:none}
+@media(min-width:721px) and (hover:hover) and (pointer:fine){.speaker-popover-shade{display:none}.speaker-popover__close{display:none}}
+@media(max-width:720px),(hover:none),(pointer:coarse){
+ .agenda-speaker-row{gap:12px}.agenda-speaker-photo{width:62px;height:62px;border-radius:15px}
+ .agenda-speaker-profile{cursor:pointer}
+ .speaker-popover-shade.is-open{opacity:1;visibility:visible;pointer-events:auto}
+ .speaker-popover{top:50%;left:50%;width:min(350px,calc(100vw - 28px));max-height:calc(100vh - 28px);max-height:calc(100dvh - 28px);transform:translate(-50%,-46%) scale(.97)}
+ .speaker-popover.is-open{transform:translate(-50%,-50%) scale(1)}
+ .speaker-popover__photo{height:min(370px,55dvh)}
+ .speaker-popover__copy{padding:14px 9px 11px}
+ .speaker-popover__copy strong{font-size:16px}
+ body.speaker-popover-open{overflow:hidden}
+}
+@media(max-width:390px){.speaker-popover{width:calc(100vw - 20px);max-height:calc(100dvh - 20px)}.speaker-popover__photo{height:min(330px,52dvh)}}
 @media(prefers-reduced-motion:reduce){.agenda-nav a,.c26-agenda__item.agenda-talk{transition:none}.agenda-nav a:hover,.c26-agenda__item.agenda-talk:hover{transform:none}}
 </style>
 HTML;
@@ -187,7 +202,8 @@ document.addEventListener('DOMContentLoaded',()=>{
  const syncLabel=()=>{if(label) label.textContent=disclosure?.open?'Свернуть полную программу':'Показать полную программу';};
  if(disclosure){disclosure.open=true;disclosure.addEventListener('toggle',syncLabel);} syncLabel();
  const agenda=root.querySelector('.c26-agenda'); if(!agenda) return;
- const talk=(time,n,title,speaker,photo='',credentials='',focus='50% 28%')=>`<article class="c26-agenda__item agenda-talk"><time>${time}</time><div><div class="agenda-talk__meta"><span class="agenda-talk__tag">Доклад ${n}</span></div><h3>${title}</h3><div class="agenda-speaker-row">${photo?`<button class="agenda-speaker-profile" type="button" aria-label="Увеличить фотографию: ${speaker}"><img class="agenda-speaker-photo" src="/images/speakers/2026/${photo}" alt="" loading="lazy" decoding="async" style="--speaker-focus:${focus}"><span class="agenda-speaker-card"><img class="agenda-speaker-card__photo" src="/images/speakers/2026/${photo}" alt="" loading="lazy" decoding="async" style="--speaker-focus:${focus}"><span class="agenda-speaker-card__copy"><strong>${speaker}</strong>${credentials?`<small>${credentials}</small>`:''}</span></span></button>`:''}<p class="agenda-speaker"><strong>${speaker}</strong></p></div></div></article>`;
+ const attr=value=>String(value).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+ const talk=(time,n,title,speaker,photo='',credentials='',focus='50% 28%')=>`<article class="c26-agenda__item agenda-talk"><time>${time}</time><div><div class="agenda-talk__meta"><span class="agenda-talk__tag">Доклад ${n}</span></div><h3>${title}</h3><div class="agenda-speaker-row">${photo?`<button class="agenda-speaker-profile" type="button" aria-haspopup="dialog" aria-expanded="false" aria-label="Открыть фотографию и сведения: ${attr(speaker)}" data-speaker-name="${attr(speaker)}" data-speaker-credentials="${attr(credentials)}" data-speaker-photo="${attr(photo)}" data-speaker-focus="${attr(focus)}"><img class="agenda-speaker-photo" src="/images/speakers/2026/${photo}" alt="${attr(speaker)}" loading="lazy" decoding="async" style="--speaker-focus:${focus}"></button>`:''}<p class="agenda-speaker"><strong>${speaker}</strong></p></div></div></article>`;
  const service=(time,label,title,extra='',cls='')=>`<article class="agenda-service ${cls}"><time>${time}</time><div><div><span>${label}</span><h3>${title}</h3>${extra?`<p class="agenda-speaker">${extra}</p>`:''}</div></div></article>`;
  const block=(n,title)=>`<section class="agenda-block" id="agenda-block-${n}"><div class="agenda-block__num">0${n}</div><span class="agenda-block__label">Тематический блок ${n}</span><h3>${title}</h3></section>`;
  agenda.innerHTML=`
@@ -234,6 +250,78 @@ document.addEventListener('DOMContentLoaded',()=>{
  ${talk('17:25–17:40','20','ИИ в лаборатории: выявление аномальных назначений и интерпретация исследований','Мария · уточняется')}
  ${service('17:40–18:00','Завершение','Подведение итогов и заключительное слово')}
  </div>`;
+
+ document.body.insertAdjacentHTML('beforeend',`<div class="speaker-popover-shade" data-speaker-shade></div><aside class="speaker-popover" data-speaker-popover role="dialog" aria-modal="false" aria-hidden="true" aria-labelledby="speaker-popover-name"><button class="speaker-popover__close" type="button" aria-label="Закрыть">×</button><img class="speaker-popover__photo" src="" alt=""><span class="speaker-popover__copy"><strong id="speaker-popover-name"></strong><small></small></span></aside>`);
+ const popover=document.querySelector('[data-speaker-popover]');
+ const shade=document.querySelector('[data-speaker-shade]');
+ const popoverPhoto=popover.querySelector('.speaker-popover__photo');
+ const popoverName=popover.querySelector('.speaker-popover__copy strong');
+ const popoverCredentials=popover.querySelector('.speaker-popover__copy small');
+ const closeButton=popover.querySelector('.speaker-popover__close');
+ const finePointer=()=>matchMedia('(min-width:721px) and (hover:hover) and (pointer:fine)').matches;
+ let activeTrigger=null;
+ let closeTimer=0;
+
+ const cancelClose=()=>{window.clearTimeout(closeTimer);};
+ const positionPopover=trigger=>{
+  if(!finePointer()){popover.style.removeProperty('left');popover.style.removeProperty('top');return;}
+  const gap=14;
+  const edge=16;
+  const triggerRect=trigger.getBoundingClientRect();
+  const popoverRect=popover.getBoundingClientRect();
+  let left=triggerRect.right+gap;
+  if(left+popoverRect.width>innerWidth-edge) left=triggerRect.left-popoverRect.width-gap;
+  left=Math.max(edge,Math.min(left,innerWidth-popoverRect.width-edge));
+  let top=triggerRect.top+(triggerRect.height-popoverRect.height)/2;
+  top=Math.max(edge,Math.min(top,innerHeight-popoverRect.height-edge));
+  popover.style.left=`${Math.round(left)}px`;
+  popover.style.top=`${Math.round(top)}px`;
+ };
+ const openPopover=trigger=>{
+  cancelClose();
+  if(activeTrigger&&activeTrigger!==trigger) activeTrigger.setAttribute('aria-expanded','false');
+  activeTrigger=trigger;
+  popoverPhoto.src=`/images/speakers/2026/${trigger.dataset.speakerPhoto}`;
+  popoverPhoto.alt=trigger.dataset.speakerName;
+  popoverPhoto.style.setProperty('--speaker-focus',trigger.dataset.speakerFocus||'50% 28%');
+  popoverName.textContent=trigger.dataset.speakerName;
+  popoverCredentials.textContent=trigger.dataset.speakerCredentials;
+  popoverCredentials.hidden=!trigger.dataset.speakerCredentials;
+  trigger.setAttribute('aria-expanded','true');
+  popover.setAttribute('aria-hidden','false');
+  popover.setAttribute('aria-modal',finePointer()?'false':'true');
+  popover.classList.add('is-open');
+  if(finePointer()){shade.classList.remove('is-open');document.body.classList.remove('speaker-popover-open');requestAnimationFrame(()=>positionPopover(trigger));}
+  else{shade.classList.add('is-open');document.body.classList.add('speaker-popover-open');closeButton.focus({preventScroll:true});}
+ };
+ const closePopover=(returnFocus=false)=>{
+  cancelClose();
+  const trigger=activeTrigger;
+  if(trigger) trigger.setAttribute('aria-expanded','false');
+  activeTrigger=null;
+  popover.classList.remove('is-open');
+  shade.classList.remove('is-open');
+  popover.setAttribute('aria-hidden','true');
+  document.body.classList.remove('speaker-popover-open');
+  if(returnFocus&&trigger) trigger.focus({preventScroll:true});
+ };
+ const scheduleClose=()=>{cancelClose();closeTimer=window.setTimeout(()=>closePopover(),140);};
+
+ agenda.querySelectorAll('.agenda-speaker-profile').forEach(trigger=>{
+  trigger.addEventListener('pointerenter',()=>{if(finePointer()) openPopover(trigger);});
+  trigger.addEventListener('pointerleave',()=>{if(finePointer()) scheduleClose();});
+  trigger.addEventListener('focus',()=>{if(finePointer()) openPopover(trigger);});
+  trigger.addEventListener('blur',()=>{if(finePointer()) scheduleClose();});
+  trigger.addEventListener('click',event=>{event.preventDefault();if(finePointer()) openPopover(trigger);else if(activeTrigger===trigger&&popover.classList.contains('is-open')) closePopover();else openPopover(trigger);});
+ });
+ popover.addEventListener('pointerenter',()=>{if(finePointer()) cancelClose();});
+ popover.addEventListener('pointerleave',()=>{if(finePointer()) scheduleClose();});
+ closeButton.addEventListener('click',()=>closePopover(true));
+ shade.addEventListener('click',()=>closePopover(true));
+ document.addEventListener('keydown',event=>{if(event.key==='Escape'&&popover.classList.contains('is-open')) closePopover(true);});
+ document.addEventListener('pointerdown',event=>{if(finePointer()&&popover.classList.contains('is-open')&&!popover.contains(event.target)&&!event.target.closest('.agenda-speaker-profile')) closePopover();});
+ addEventListener('resize',()=>{if(activeTrigger) positionPopover(activeTrigger);},{passive:true});
+ addEventListener('scroll',()=>{if(activeTrigger&&finePointer()) positionPopover(activeTrigger);},{passive:true});
 });
 </script>
 HTML;
