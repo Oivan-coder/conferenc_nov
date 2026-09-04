@@ -213,55 +213,56 @@ function buildHeaderHtml(activePage) {
 
 function buildFooterHtml(activePage) {
     const isConferencePage = activePage === 'conference-2026';
-    const monikiRole = isConferencePage ? 'Организатор форума' : 'Референс-центр в структуре';
+    const monikiRole = isConferencePage ? 'Организатор форума' : 'РЦЛСМО · МОНИКИ';
 
     return `
         <footer class="main-footer" id="contacts">
             <div class="container">
                 <div class="footer-main" aria-label="Организации и контактная информация">
-                    <section class="footer-block footer-block--moniki">
-                        <span class="footer-label">${monikiRole}</span>
-                        <a href="https://www.monikiweb.ru/" target="_blank" rel="noopener noreferrer" class="footer-entity">
+                    <section class="footer-organizer">
+                        <span class="footer-label">__MONIKI_ROLE__</span>
+                        <a href="https://www.monikiweb.ru/" target="_blank" rel="noopener noreferrer" class="footer-entity footer-entity--primary">
                             <span class="footer-entity__logo footer-entity__logo--moniki">
                                 <img src="images/moniki-logo-preview.svg" alt="" loading="lazy" decoding="async">
                             </span>
-                            <span class="footer-entity__content">
-                                <span class="footer-entity__name">ГБУЗ МО МОНИКИ им. М. Ф. Владимирского</span>
-                                <small class="footer-entity__note">РЦЛСМО — структурное подразделение</small>
-                            </span>
+                            <span class="footer-entity__name">ГБУЗ МО МОНИКИ им. М. Ф. Владимирского</span>
+                        </a>
+                        <a class="footer-more" href="/about/#organization">
+                            Подробнее о центре
+                            <span aria-hidden="true">→</span>
                         </a>
                     </section>
 
-                    <section class="footer-block">
-                        <span class="footer-label">Во взаимодействии с</span>
-                        <a href="https://mz.mosreg.ru/" target="_blank" rel="noopener noreferrer" class="footer-entity">
-                            <span class="footer-entity__logo">
-                                <img src="images/mz-mosreg-logo.png" alt="" loading="lazy" decoding="async">
-                            </span>
-                            <span class="footer-entity__name">Министерство здравоохранения Московской области</span>
-                        </a>
-                    </section>
+                    <div class="footer-support">
+                        <div class="footer-partners">
+                            <section class="footer-partner">
+                                <span class="footer-label">Во взаимодействии с</span>
+                                <a href="https://mz.mosreg.ru/" target="_blank" rel="noopener noreferrer" class="footer-entity">
+                                    <span class="footer-entity__logo">
+                                        <img src="images/mz-mosreg-logo.png" alt="" loading="lazy" decoding="async">
+                                    </span>
+                                    <span class="footer-entity__name">Министерство здравоохранения Московской области</span>
+                                </a>
+                            </section>
 
-                    <section class="footer-block">
-                        <span class="footer-label">Организационное сопровождение</span>
-                        <a href="https://cvimz.ru/" target="_blank" rel="noopener noreferrer" class="footer-entity">
-                            <span class="footer-entity__logo">
-                                <img src="images/cvimz-logo.png" alt="" loading="lazy" decoding="async">
-                            </span>
-                            <span class="footer-entity__name">Центр внедрения изменений и обеспечения деятельности МЗ</span>
-                        </a>
-                    </section>
+                            <section class="footer-partner">
+                                <span class="footer-label">Организационное сопровождение</span>
+                                <a href="https://cvimz.ru/" target="_blank" rel="noopener noreferrer" class="footer-entity">
+                                    <span class="footer-entity__logo">
+                                        <img src="images/cvimz-logo.png" alt="" loading="lazy" decoding="async">
+                                    </span>
+                                    <span class="footer-entity__name">Центр внедрения изменений и обеспечения деятельности МЗ</span>
+                                </a>
+                            </section>
+                        </div>
 
-                    <section class="footer-block footer-block--contact">
-                        <span class="footer-label">Контакт информационного ресурса</span>
-                        <a href="mailto:info@rclsmo.ru" class="footer-mail">
+                        <a href="mailto:info@rclsmo.ru" class="footer-contact">
                             <span class="footer-mail__mark" aria-hidden="true">@</span>
-                            <span class="footer-mail__content">
-                                <strong>info@rclsmo.ru</strong>
-                                <small>Общие вопросы и обратная связь</small>
-                            </span>
+                            <span class="footer-contact__label">Связаться с центром</span>
+                            <strong>info@rclsmo.ru</strong>
+                            <small>Общие вопросы и обратная связь</small>
                         </a>
-                    </section>
+                    </div>
                 </div>
 
                 <div class="footer-divider"></div>
