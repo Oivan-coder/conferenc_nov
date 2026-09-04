@@ -24,7 +24,7 @@ jobs:
       - name: Wait for deployment and verify registration
         shell: bash
         run: |
-          for attempt in {1..2}; do
+          for attempt in {1..20}; do
             status="$(curl --silent --show-error --output response.json --write-out '%{http_code}' --max-time 30 'https://rclsmo.ru/registration-smoke-e58a1c7d6b2f/' || true)"
             if [ "$status" = "200" ] && jq --exit-status '
               .ok == true and
@@ -40,7 +40,7 @@ jobs:
               jq '{ok, created_at, runs: (.runs | map_values({http_status, registration_ok, participant_page_ok, qr_ok}))}' response.json
               exit 0
             fi
-            sleep 5
+            sleep 15
           done
 
           echo 'Registration smoke test did not pass.'
