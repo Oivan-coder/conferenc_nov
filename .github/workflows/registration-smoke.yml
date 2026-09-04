@@ -20,7 +20,15 @@ jobs:
         run: |
           php -l api/registration-config.php
           php -l api/register.php
+          php -l api/register-safe.php
+          php -l api/register-guest.php
+          php -l api/registration-availability.php
+          php -l api/registration-diagnostics.php
           php -l api/registration-smoke-e58a1c7d6b2f.php
+          php -l registration-preview/index.php
+          php -l registration/guest/index.php
+          php -l dashboard/index.php
+          php -l dashboard/export.php
       - name: Wait for deployment and verify registration
         shell: bash
         run: |
