@@ -73,10 +73,9 @@ $style = <<<'HTML'
 .c26-agenda__item.agenda-talk:hover{transform:translateX(3px);border-color:rgba(80,222,242,.08);background:rgba(80,222,242,.035)}
 .c26-agenda__item.agenda-talk:after{content:"";position:absolute;left:137px;top:28px;width:7px;height:7px;border-radius:50%;background:#50def2;box-shadow:0 0 0 5px #071a2d,0 0 17px rgba(80,222,242,.42)}
 .c26-agenda__item.agenda-talk time{padding-top:1px;color:#56dff2;font-size:13px;font-weight:850;letter-spacing:.01em;font-variant-numeric:tabular-nums;white-space:nowrap}
-.agenda-talk__meta{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:9px}
-.agenda-talk__tag{display:inline-flex;align-items:center;gap:9px;color:#8ca7b9;font-size:9px;line-height:1;font-weight:850;letter-spacing:.11em;text-transform:uppercase}
-.agenda-talk__tag b{display:grid;width:29px;height:29px;place-items:center;border:1px solid rgba(80,222,242,.24);border-radius:9px;background:linear-gradient(145deg,rgba(80,222,242,.16),rgba(80,222,242,.045));color:#64e4f4;font-size:10px;font-weight:900;line-height:1;letter-spacing:.045em;box-shadow:inset 0 1px rgba(255,255,255,.035),0 7px 18px rgba(0,11,24,.14)}
-.agenda-talk__tag span{display:block}
+.agenda-talk__meta{display:flex;align-items:center;margin-bottom:11px}
+.agenda-talk__tag{position:relative;display:block;padding-left:38px;color:#8fa9bb;font-size:9px;line-height:1.2;font-weight:850;letter-spacing:.13em;text-transform:uppercase;white-space:nowrap;font-variant-numeric:tabular-nums}
+.agenda-talk__tag:before{content:"";position:absolute;left:0;top:50%;width:26px;height:2px;border-radius:999px;background:linear-gradient(90deg,#54dff2,rgba(84,223,242,.15));box-shadow:0 0 13px rgba(84,223,242,.28);transform:translateY(-50%)}
 .c26-agenda__item.agenda-talk h3{max-width:840px;margin:0 0 8px;color:#f1f7fa;font-size:17px;line-height:1.4;font-weight:720;text-wrap:pretty;overflow-wrap:anywhere}
 .agenda-speaker{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;margin:0!important;color:#9db1c2!important;font-size:13px!important;line-height:1.5!important;overflow-wrap:anywhere}
 .agenda-speaker strong{color:#dce8f0;font-weight:720}
@@ -185,9 +184,9 @@ $style = <<<'HTML'
  .agenda-speaker-copy .agenda-speaker{font-size:13px!important;line-height:1.42!important}
  .agenda-speaker-copy .agenda-speaker strong{display:block;color:#e8f4f8}
  .agenda-speaker-hint{display:block;margin-top:6px;color:#71cbd8;font-size:9px;font-weight:750;line-height:1.35;letter-spacing:.035em}
- .agenda-talk__meta{margin-bottom:10px}
- .agenda-talk__tag{gap:8px;font-size:8.5px;letter-spacing:.105em}
- .agenda-talk__tag b{width:28px;height:28px;border-radius:8px}
+ .agenda-talk__meta{margin-bottom:12px}
+ .agenda-talk__tag{padding-left:33px;color:#9bb1c0;font-size:8.5px;letter-spacing:.115em}
+ .agenda-talk__tag:before{width:22px}
  .speaker-popover-shade.is-open{opacity:1;visibility:visible;pointer-events:auto}
  .speaker-popover{top:50%;left:50%;width:min(350px,calc(100vw - 28px));max-height:calc(100vh - 28px);max-height:calc(100dvh - 28px);transform:translate(-50%,-46%) scale(.97)}
  .speaker-popover.is-open{transform:translate(-50%,-50%) scale(1)}
@@ -218,7 +217,7 @@ document.addEventListener('DOMContentLoaded',()=>{
  if(disclosure){disclosure.open=true;disclosure.addEventListener('toggle',syncLabel);} syncLabel();
  const agenda=root.querySelector('.c26-agenda'); if(!agenda) return;
  const attr=value=>String(value).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
- const talk=(time,n,title,speaker,photo='',credentials='',focus='50% 28%')=>`<article class="c26-agenda__item agenda-talk"><time>${time}</time><div><div class="agenda-talk__meta"><span class="agenda-talk__tag"><b>${String(n).padStart(2,'0')}</b><span>Выступление</span></span></div><h3>${title}</h3><div class="agenda-speaker-row${photo?'':' agenda-speaker-row--text'}">${photo?`<button class="agenda-speaker-profile" type="button" aria-haspopup="dialog" aria-expanded="false" aria-label="Открыть фотографию и сведения: ${attr(speaker)}" data-speaker-name="${attr(speaker)}" data-speaker-credentials="${attr(credentials)}" data-speaker-photo="${attr(photo)}" data-speaker-focus="${attr(focus)}"><img class="agenda-speaker-photo" src="/images/speakers/2026/${photo}" alt="${attr(speaker)}" loading="lazy" decoding="async" style="--speaker-focus:${focus}"></button>`:''}<div class="agenda-speaker-copy"><p class="agenda-speaker"><strong>${speaker}</strong></p>${photo?`<span class="agenda-speaker-hint">Нажмите на фото — сведения о спикере</span>`:''}</div></div></div></article>`;
+ const talk=(time,n,title,speaker,photo='',credentials='',focus='50% 28%')=>`<article class="c26-agenda__item agenda-talk"><time>${time}</time><div><div class="agenda-talk__meta"><span class="agenda-talk__tag">${String(n).padStart(2,'0')} · выступление</span></div><h3>${title}</h3><div class="agenda-speaker-row${photo?'':' agenda-speaker-row--text'}">${photo?`<button class="agenda-speaker-profile" type="button" aria-haspopup="dialog" aria-expanded="false" aria-label="Открыть фотографию и сведения: ${attr(speaker)}" data-speaker-name="${attr(speaker)}" data-speaker-credentials="${attr(credentials)}" data-speaker-photo="${attr(photo)}" data-speaker-focus="${attr(focus)}"><img class="agenda-speaker-photo" src="/images/speakers/2026/${photo}" alt="${attr(speaker)}" loading="lazy" decoding="async" style="--speaker-focus:${focus}"></button>`:''}<div class="agenda-speaker-copy"><p class="agenda-speaker"><strong>${speaker}</strong></p>${photo?`<span class="agenda-speaker-hint">Нажмите на фото — сведения о спикере</span>`:''}</div></div></div></article>`;
  const service=(time,label,title,extra='',cls='')=>`<article class="agenda-service ${cls}"><time>${time}</time><div><div><span>${label}</span><h3>${title}</h3>${extra?`<p class="agenda-speaker">${extra}</p>`:''}</div></div></article>`;
  const block=(n,title)=>`<section class="agenda-block" id="agenda-block-${n}"><div class="agenda-block__num">0${n}</div><span class="agenda-block__label">Тематический блок ${n}</span><h3>${title}</h3></section>`;
  agenda.innerHTML=`
