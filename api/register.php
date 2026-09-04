@@ -3,7 +3,7 @@ header('Content-Type: application/json; charset=utf-8');
 header('Cache-Control: no-store');
 header('X-Content-Type-Options: nosniff');
 
-const REGISTRATION_OPEN = false;
+const REGISTRATION_OPEN = true;
 const TEST_KEY_PATH = '/home/c/cx314477/public_html/.private/registration_test_key';
 const DB_CONFIG_PATH = '/home/c/cx314477/public_html/.private/db.php';
 const CONSENT_VERSION = '2026-08-31';
