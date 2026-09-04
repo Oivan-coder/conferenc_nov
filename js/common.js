@@ -213,14 +213,14 @@ function buildHeaderHtml(activePage) {
 
 function buildFooterHtml(activePage) {
     const isConferencePage = activePage === 'conference-2026';
-    const monikiRole = isConferencePage ? 'Организатор форума' : 'РЦЛСМО · МОНИКИ';
+    const monikiRole = isConferencePage ? 'Организатор форума' : 'Референс-центр МОНИКИ';
 
     return `
         <footer class="main-footer institution-footer" id="contacts">
             <div class="container">
                 <div class="institution-footer__panel" aria-label="Организации и контактная информация">
                     <section class="institution-footer__lead">
-                        <span class="institution-footer__eyebrow">__MONIKI_ROLE__</span>
+                        <span class="institution-footer__eyebrow">${monikiRole}</span>
                         <a class="institution-footer__brand" href="https://www.monikiweb.ru/" target="_blank" rel="noopener noreferrer">
                             <span class="institution-footer__brand-logo">
                                 <img src="images/moniki-logo-preview.svg" alt="" loading="lazy" decoding="async">
@@ -263,8 +263,8 @@ function buildFooterHtml(activePage) {
                             <span class="institution-footer__contact-copy">
                                 <small>Контакт центра</small>
                                 <strong>info@rclsmo.ru</strong>
+                                <span class="institution-footer__contact-note">Общие вопросы и обратная связь</span>
                             </span>
-                            <span class="institution-footer__contact-note">Общие вопросы и обратная связь</span>
                         </a>
                     </div>
                 </div>
