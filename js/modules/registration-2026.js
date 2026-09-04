@@ -222,6 +222,14 @@
         if (response.status !== 409 || result.error !== 'possible_duplicate') return { response, result };
 
         const reasons = Array.isArray(result.reasons) ? result.reasons : [];
+        const exactDuplicate = ['same_person', 'email', 'phone'].every((reason) => reasons.includes(reason));
+
+        if (exactDuplicate) {
+            window.alert('Вы уже зарегистрированы на мероприятие. Повторная регистрация не требуется.\n\nЕсли необходимо изменить данные или вы не получили письмо с подтверждением, свяжитесь с организаторами: info@rclsmo.ru.');
+            setMessage(message, 'Вы уже зарегистрированы. Если необходимо изменить данные или повторно получить подтверждение, напишите на info@rclsmo.ru.', 'warning');
+            return { cancelled: true };
+        }
+
         const confirmed = window.confirm(duplicateMessage(reasons));
         if (!confirmed) {
             setMessage(message, 'Регистрация не отправлена. Проверьте данные участника.', 'warning');
