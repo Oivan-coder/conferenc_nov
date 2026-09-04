@@ -11,6 +11,8 @@ const PREVIEW_TOKEN_HASHES_SAFE = [
 ];
 const TEST_KEY_PATH_SAFE = '/home/c/cx314477/public_html/.private/registration_test_key';
 
+require_once __DIR__ . '/registration-duplicate-guard.php';
+
 function safeRespond(int $status, array $payload): never {
     http_response_code($status);
     echo json_encode($payload, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
@@ -133,6 +135,28 @@ if ($previewToken !== '') {
     $_SERVER['RCLSMO_REGISTRATION_SOURCE'] = (($_GET['source'] ?? '') === 'public') ? 'public' : 'test';
 } else {
     $_SERVER['RCLSMO_REGISTRATION_SOURCE'] = 'public';
+}
+
+// Hard duplicate protection is applied server-side for real public registrations.
+// Test-mode preview requests are intentionally excluded so technical checks remain usable.
+if ($_SERVER['RCLSMO_REGISTRATION_SOURCE'] !== 'test') {
+    $hardDuplicate = registrationDuplicateGuard(
+        (string)($data['eventId'] ?? ''),
+        $lastName,
+        $firstName,
+        $middleName,
+        $organization,
+        $email,
+        (string)($normalizedPhone ?? '')
+    );
+    if ($hardDuplicate && !empty($hardDuplicate['hard'])) {
+        safeRespond(409, [
+            'ok' => false,
+            'error' => 'possible_duplicate',
+            'reasons' => $hardDuplicate['reasons'] ?? ['same_person', 'email', 'phone'],
+            'hard_duplicate' => true,
+        ]);
+    }
 }
 
 $_SERVER['RCLSMO_REGISTRATION_VALIDATED'] = '1';
