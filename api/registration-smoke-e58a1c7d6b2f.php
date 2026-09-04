@@ -68,7 +68,8 @@ if ($_SERVER['REQUEST_METHOD'] !== 'GET') smokeRespond(405, ['ok' => false, 'err
 
 if (is_readable(TEST_MARKER_SMOKE)) {
     $stored = json_decode((string)file_get_contents(TEST_MARKER_SMOKE), true);
-    smokeRespond(200, is_array($stored) ? $stored : ['ok' => false, 'error' => 'invalid_test_result']);
+    if (is_array($stored) && !empty($stored['ok'])) smokeRespond(200, $stored);
+    @unlink(TEST_MARKER_SMOKE);
 }
 
 if (!is_readable(TEST_KEY_PATH_SMOKE)) smokeRespond(503, ['ok' => false, 'error' => 'test_key_unavailable']);

@@ -424,5 +424,10 @@ try {
     respond(201, $response);
 } catch (Throwable $e) {
     if (isset($pdo) && $pdo instanceof PDO && $pdo->inTransaction()) $pdo->rollBack();
-    respond(500, ['ok' => false, 'error' => 'server_error']);
+    $errorPayload = ['ok' => false, 'error' => 'server_error'];
+    if ($isTestRequest) {
+        $errorPayload['debug_type'] = get_class($e);
+        $errorPayload['debug_message'] = $e->getMessage();
+    }
+    respond(500, $errorPayload);
 }

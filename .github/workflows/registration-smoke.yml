@@ -38,7 +38,7 @@ jobs:
 
           echo 'Registration smoke test did not pass.'
           if jq empty response.json 2>/dev/null; then
-            jq '{ok, created_at, runs: (.runs | map_values({http_status, registration_ok, participant_page_ok, qr_ok, response: {ok: .response.ok, error: .response.error, email_sent: .response.email_sent, registration_source: .response.registration_source}}))}' response.json
+            jq '{ok, created_at, runs: (.runs | map_values({http_status, registration_ok, participant_page_ok, qr_ok, response: {ok: .response.ok, error: .response.error, email_sent: .response.email_sent, registration_source: .response.registration_source, debug_type: .response.debug_type, debug_message: .response.debug_message}}))}' response.json
           else
             head -c 500 response.json || true
           fi
