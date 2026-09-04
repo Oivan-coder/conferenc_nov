@@ -155,10 +155,12 @@ $style = <<<'HTML'
 
 .agenda-speaker-row{display:flex;align-items:center;gap:15px;margin-top:12px}
 .agenda-speaker-row .agenda-speaker{margin:0}
-.agenda-speaker-profile{display:block;flex:0 0 auto;padding:0;border:0;border-radius:18px;color:inherit;background:transparent;cursor:zoom-in}
+.agenda-speaker-profile{position:relative;display:block;flex:0 0 auto;padding:0;border:0;border-radius:18px;color:inherit;background:transparent;cursor:zoom-in}
 .agenda-speaker-profile:focus-visible{outline:2px solid #55dcf1;outline-offset:4px}
 .agenda-speaker-photo{display:block;width:74px;height:74px;border:1px solid rgba(85,220,241,.32);border-radius:18px;background:#102a40;box-shadow:0 10px 26px rgba(0,9,21,.24);object-fit:cover;object-position:var(--speaker-focus,50% 28%);transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease}
 .agenda-speaker-profile:hover .agenda-speaker-photo,.agenda-speaker-profile:focus-visible .agenda-speaker-photo{transform:translateY(-2px) scale(1.04);border-color:rgba(85,220,241,.62);box-shadow:0 15px 36px rgba(23,181,215,.2)}
+.agenda-speaker-copy{min-width:0}
+.agenda-speaker-hint{display:none}
 .speaker-popover-shade{position:fixed;z-index:9998;inset:0;background:rgba(1,9,18,.72);backdrop-filter:blur(5px);opacity:0;visibility:hidden;pointer-events:none;transition:opacity .18s ease,visibility .18s ease}
 .speaker-popover{position:fixed;z-index:9999;left:16px;top:16px;width:min(330px,calc(100vw - 32px));max-height:calc(100vh - 32px);max-height:calc(100dvh - 32px);padding:10px;border:1px solid rgba(85,220,241,.40);border-radius:22px;background:linear-gradient(155deg,#10314c,#061625 82%);box-shadow:0 28px 90px rgba(0,5,15,.64),inset 0 1px rgba(255,255,255,.04);overflow:auto;overscroll-behavior:contain;opacity:0;visibility:hidden;pointer-events:none;transform:translateY(8px) scale(.97);transition:opacity .18s ease,visibility .18s ease,transform .18s ease}
 .speaker-popover.is-open{opacity:1;visibility:visible;pointer-events:auto;transform:none}
@@ -171,8 +173,16 @@ $style = <<<'HTML'
 .speaker-popover__copy small{margin-top:7px;color:#a9bdca;font-size:12px;font-weight:500;line-height:1.5;letter-spacing:0;text-transform:none}
 @media(min-width:721px) and (hover:hover) and (pointer:fine){.speaker-popover-shade{display:none}.speaker-popover__close{display:none}}
 @media(max-width:720px),(hover:none),(pointer:coarse){
- .agenda-speaker-row{gap:12px}.agenda-speaker-photo{width:62px;height:62px;border-radius:15px}
- .agenda-speaker-profile{cursor:pointer}
+ .c26-agenda__item.agenda-talk{margin:8px 0;padding:17px 14px 17px 49px;border-color:rgba(80,222,242,.10);background:linear-gradient(135deg,rgba(13,39,61,.82),rgba(5,23,40,.72));box-shadow:0 10px 28px rgba(0,8,18,.13)}
+ .c26-agenda__item.agenda-talk:hover{border-color:rgba(80,222,242,.10);background:linear-gradient(135deg,rgba(13,39,61,.82),rgba(5,23,40,.72))}
+ .agenda-speaker-row{display:grid;grid-template-columns:68px minmax(0,1fr);gap:13px;align-items:center;margin-top:14px}
+ .agenda-speaker-row--text{grid-template-columns:1fr}
+ .agenda-speaker-photo{width:68px;height:68px;border-radius:16px}
+ .agenda-speaker-profile{align-self:start;cursor:pointer}
+ .agenda-speaker-profile:after{content:"+";position:absolute;right:-4px;bottom:-4px;display:grid;width:23px;height:23px;place-items:center;border:2px solid #092039;border-radius:50%;background:#55dcf1;color:#052033;font-size:17px;font-weight:800;line-height:1;box-shadow:0 5px 15px rgba(0,9,21,.34)}
+ .agenda-speaker-copy .agenda-speaker{font-size:13px!important;line-height:1.42!important}
+ .agenda-speaker-copy .agenda-speaker strong{display:block;color:#e8f4f8}
+ .agenda-speaker-hint{display:block;margin-top:6px;color:#71cbd8;font-size:9px;font-weight:750;line-height:1.35;letter-spacing:.035em}
  .speaker-popover-shade.is-open{opacity:1;visibility:visible;pointer-events:auto}
  .speaker-popover{top:50%;left:50%;width:min(350px,calc(100vw - 28px));max-height:calc(100vh - 28px);max-height:calc(100dvh - 28px);transform:translate(-50%,-46%) scale(.97)}
  .speaker-popover.is-open{transform:translate(-50%,-50%) scale(1)}
@@ -181,7 +191,7 @@ $style = <<<'HTML'
  .speaker-popover__copy strong{font-size:16px}
  body.speaker-popover-open{overflow:hidden}
 }
-@media(max-width:390px){.speaker-popover{width:calc(100vw - 20px);max-height:calc(100dvh - 20px)}.speaker-popover__photo{height:min(330px,52dvh)}}
+@media(max-width:390px){.c26-agenda__item.agenda-talk{padding-right:11px}.agenda-speaker-row{grid-template-columns:62px minmax(0,1fr);gap:11px}.agenda-speaker-row--text{grid-template-columns:1fr}.agenda-speaker-photo{width:62px;height:62px}.agenda-speaker-hint{font-size:8.5px}.speaker-popover{width:calc(100vw - 20px);max-height:calc(100dvh - 20px)}.speaker-popover__photo{height:min(330px,52dvh)}}
 @media(prefers-reduced-motion:reduce){.agenda-nav a,.c26-agenda__item.agenda-talk{transition:none}.agenda-nav a:hover,.c26-agenda__item.agenda-talk:hover{transform:none}}
 </style>
 HTML;
@@ -203,7 +213,7 @@ document.addEventListener('DOMContentLoaded',()=>{
  if(disclosure){disclosure.open=true;disclosure.addEventListener('toggle',syncLabel);} syncLabel();
  const agenda=root.querySelector('.c26-agenda'); if(!agenda) return;
  const attr=value=>String(value).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
- const talk=(time,n,title,speaker,photo='',credentials='',focus='50% 28%')=>`<article class="c26-agenda__item agenda-talk"><time>${time}</time><div><div class="agenda-talk__meta"><span class="agenda-talk__tag">Доклад ${n}</span></div><h3>${title}</h3><div class="agenda-speaker-row">${photo?`<button class="agenda-speaker-profile" type="button" aria-haspopup="dialog" aria-expanded="false" aria-label="Открыть фотографию и сведения: ${attr(speaker)}" data-speaker-name="${attr(speaker)}" data-speaker-credentials="${attr(credentials)}" data-speaker-photo="${attr(photo)}" data-speaker-focus="${attr(focus)}"><img class="agenda-speaker-photo" src="/images/speakers/2026/${photo}" alt="${attr(speaker)}" loading="lazy" decoding="async" style="--speaker-focus:${focus}"></button>`:''}<p class="agenda-speaker"><strong>${speaker}</strong></p></div></div></article>`;
+ const talk=(time,n,title,speaker,photo='',credentials='',focus='50% 28%')=>`<article class="c26-agenda__item agenda-talk"><time>${time}</time><div><div class="agenda-talk__meta"><span class="agenda-talk__tag">Доклад ${n}</span></div><h3>${title}</h3><div class="agenda-speaker-row${photo?'':' agenda-speaker-row--text'}">${photo?`<button class="agenda-speaker-profile" type="button" aria-haspopup="dialog" aria-expanded="false" aria-label="Открыть фотографию и сведения: ${attr(speaker)}" data-speaker-name="${attr(speaker)}" data-speaker-credentials="${attr(credentials)}" data-speaker-photo="${attr(photo)}" data-speaker-focus="${attr(focus)}"><img class="agenda-speaker-photo" src="/images/speakers/2026/${photo}" alt="${attr(speaker)}" loading="lazy" decoding="async" style="--speaker-focus:${focus}"></button>`:''}<div class="agenda-speaker-copy"><p class="agenda-speaker"><strong>${speaker}</strong></p>${photo?`<span class="agenda-speaker-hint">Нажмите на фото — сведения о спикере</span>`:''}</div></div></div></article>`;
  const service=(time,label,title,extra='',cls='')=>`<article class="agenda-service ${cls}"><time>${time}</time><div><div><span>${label}</span><h3>${title}</h3>${extra?`<p class="agenda-speaker">${extra}</p>`:''}</div></div></article>`;
  const block=(n,title)=>`<section class="agenda-block" id="agenda-block-${n}"><div class="agenda-block__num">0${n}</div><span class="agenda-block__label">Тематический блок ${n}</span><h3>${title}</h3></section>`;
  agenda.innerHTML=`
