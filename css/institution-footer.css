@@ -390,6 +390,56 @@
   vertical-align: middle;
 }
 
+/* Conference page: registration CTA after opening. */
+.conference-2026-page .c26-registration-cta__card > div:first-child h2 {
+  font-size: 0;
+}
+
+.conference-2026-page .c26-registration-cta__card > div:first-child h2::after {
+  content: "Регистрация открыта";
+  font-size: clamp(2.2rem, 4.4vw, 4.5rem);
+  line-height: 1.03;
+  letter-spacing: -0.04em;
+}
+
+.conference-2026-page .c26-registration-cta__card > div:first-child p {
+  font-size: 0;
+}
+
+.conference-2026-page .c26-registration-cta__card > div:first-child p::before {
+  content: "ОЧНЫЕ МЕСТА ОГРАНИЧЕНЫ";
+  display: inline-flex;
+  margin: 18px 0 14px;
+  padding: 9px 13px;
+  border: 1px solid rgba(255, 137, 104, 0.55);
+  border-radius: 999px;
+  background: rgba(255, 112, 77, 0.09);
+  color: #ff9a7f;
+  font-size: 0.78rem;
+  font-weight: 850;
+  line-height: 1;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+}
+
+.conference-2026-page .c26-registration-cta__card > div:first-child p::after {
+  content: "Очное участие — количество мест ограничено. Онлайн-регистрация доступна без ограничения очной квоты.";
+  display: block;
+  max-width: 850px;
+  color: #afc3d3;
+  font-size: clamp(1rem, 1.55vw, 1.28rem);
+  line-height: 1.65;
+}
+
+.conference-2026-page .c26-registration-cta__actions .c26-button--primary {
+  font-size: 0;
+}
+
+.conference-2026-page .c26-registration-cta__actions .c26-button--primary::after {
+  content: "Зарегистрироваться";
+  font-size: 1rem;
+}
+
 @media (max-width: 980px) {
   .institution-footer .institution-footer__panel {
     grid-template-columns: 1fr;
@@ -516,20 +566,18 @@
   .registration-2026-page[data-registration-state="open"] .r26-status > p {
     padding: 52px 15px 15px;
   }
-}
 
-@media (max-width: 380px) {
-  .institution-footer__lead,
-  .institution-footer__meta {
-    padding-right: 15px;
-    padding-left: 15px;
+  .conference-2026-page .c26-registration-cta__card > div:first-child h2::after {
+    font-size: 2.35rem;
   }
 
-  .institution-footer__lead .institution-footer__more {
-    margin-left: 57px;
+  .conference-2026-page .c26-registration-cta__card > div:first-child p::before {
+    margin-top: 14px;
+    font-size: 0.68rem;
   }
 
-  .institution-footer__partner strong {
-    font-size: 12px;
+  .conference-2026-page .c26-registration-cta__card > div:first-child p::after {
+    font-size: 0.98rem;
+    line-height: 1.55;
   }
 }
