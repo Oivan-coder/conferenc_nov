@@ -6,6 +6,8 @@ header('X-Content-Type-Options: nosniff');
 const DB_CONFIG_PATH = '/home/c/cx314477/public_html/.private/db.php';
 const EVENT_ID = 'forum-lab-innovations-2026-10-07';
 
+require_once __DIR__ . '/registration-config.php';
+
 function respond(int $status, array $payload): never {
     http_response_code($status);
     echo json_encode($payload, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
@@ -17,20 +19,30 @@ if ($_SERVER['REQUEST_METHOD'] !== 'GET') respond(405, ['ok' => false, 'error' =
 try {
     $pdo = require DB_CONFIG_PATH;
     if (!$pdo instanceof PDO) throw new RuntimeException('Database config invalid');
+    registrationEnsureSourceColumn($pdo);
 
     $settingsStmt = $pdo->prepare('SELECT hall_capacity, public_offline_limit, offline_registration_open, online_registration_open FROM event_registration_settings WHERE event_id = :event_id LIMIT 1');
     $settingsStmt->execute([':event_id' => EVENT_ID]);
     $settings = $settingsStmt->fetch(PDO::FETCH_ASSOC);
     if (!$settings) throw new RuntimeException('Event registration settings missing');
 
-    $countStmt = $pdo->prepare('SELECT COUNT(*) FROM participants WHERE event_id = :event_id AND participation_format = "offline" AND registration_status = "confirmed"');
+    $countStmt = $pdo->prepare("SELECT
+        SUM(registration_source = 'public') AS public_offline,
+        COUNT(*) AS total_offline
+      FROM participants
+      WHERE event_id = :event_id
+        AND participation_format = 'offline'
+        AND registration_status = 'confirmed'
+        AND registration_source <> 'test'
+        AND LOWER(TRIM(organization)) NOT IN ('тестовая мо','ovan','oivan')");
     $countStmt->execute([':event_id' => EVENT_ID]);
-    $confirmedOffline = (int)$countStmt->fetchColumn();
+    $counts = $countStmt->fetch(PDO::FETCH_ASSOC) ?: [];
+    $publicOffline = (int)($counts['public_offline'] ?? 0);
+    $totalOffline = (int)($counts['total_offline'] ?? 0);
 
-    $hallCapacity = max(0, (int)$settings['hall_capacity']);
-    $configuredPublicLimit = max(0, (int)$settings['public_offline_limit']);
-    $effectivePublicLimit = min($configuredPublicLimit, $hallCapacity);
-    $remaining = max(0, $effectivePublicLimit - $confirmedOffline);
+    $hallCapacity = registrationEffectiveHallCapacity($settings);
+    $effectivePublicLimit = registrationEffectivePublicOfflineLimit($settings);
+    $remaining = max(0, min($effectivePublicLimit - $publicOffline, $hallCapacity - $totalOffline));
     $offlineOpen = (bool)$settings['offline_registration_open'];
     $onlineOpen = (bool)$settings['online_registration_open'];
 

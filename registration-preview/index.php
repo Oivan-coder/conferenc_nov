@@ -1,5 +1,6 @@
 <?php
 const PREVIEW_TOKEN_HASHES = [
+    '39e70b738bd910aa9296407b8e856e4c0ec58f3e420fd523d67d88bc6cee6cc1',
     '6fbe6025563f098ca8756103aa6cb93f4ac2c5bbb5f769e42aff0de2de2c14b9',
     '65b8c5c44e5fdba2620f30c5e434f0893258809bc1a9d2650de8316b48a6f324',
 ];
@@ -58,7 +59,7 @@ $html = str_replace('Публичный приём заявок будет вк�
 $html = str_replace('<strong>Форма готова к внутренней проверке</strong>', '<strong>Тестовый режим активен</strong>', $html);
 $html = str_replace('Публичная регистрация пока отключена. На этой странице персональные данные участников не принимаются.', 'Используйте тестовые данные. Отправленные заявки записываются в базу и запускают обычный сценарий подтверждения регистрации.', $html);
 
-$endpoint = '/api/register-safe.php?key=' . rawurlencode($previewToken);
+$endpoint = '/api/register-safe.php?key=' . rawurlencode($previewToken) . '&source=public';
 $oldConfig = <<<'HTML'
         window.REGISTRATION_CONFIG = {
             state: 'closed',

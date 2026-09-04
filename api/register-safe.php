@@ -5,6 +5,7 @@ header('X-Content-Type-Options: nosniff');
 header('Referrer-Policy: no-referrer');
 
 const PREVIEW_TOKEN_HASHES_SAFE = [
+    '39e70b738bd910aa9296407b8e856e4c0ec58f3e420fd523d67d88bc6cee6cc1',
     '6fbe6025563f098ca8756103aa6cb93f4ac2c5bbb5f769e42aff0de2de2c14b9',
     '65b8c5c44e5fdba2620f30c5e434f0893258809bc1a9d2650de8316b48a6f324',
 ];
@@ -129,6 +130,9 @@ if ($previewToken !== '') {
         safeRespond(503, ['ok' => false, 'error' => 'preview_unavailable']);
     }
     $_SERVER['HTTP_X_REGISTRATION_TEST'] = $testKey;
+    $_SERVER['RCLSMO_REGISTRATION_SOURCE'] = (($_GET['source'] ?? '') === 'public') ? 'public' : 'test';
+} else {
+    $_SERVER['RCLSMO_REGISTRATION_SOURCE'] = 'public';
 }
 
 $_SERVER['RCLSMO_REGISTRATION_VALIDATED'] = '1';

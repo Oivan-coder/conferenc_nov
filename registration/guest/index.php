@@ -27,10 +27,10 @@ $headMarker = '<meta name="viewport" content="width=device-width, initial-scale=
 $html = str_replace($headMarker, $headMarker . "\n    <meta name=\"robots\" content=\"noindex,nofollow,noarchive\">\n    <meta name=\"referrer\" content=\"no-referrer\">", $html);
 $html = str_replace('<link rel="canonical" href="https://rclsmo.ru/registration/">', '', $html);
 $html = str_replace('<meta property="og:url" content="https://rclsmo.ru/registration/">', '', $html);
-$html = str_replace('<title>Регистрация — Форум лабораторных инноваций Московской области 2026</title>', '<title>Регистрация по приглашению — Форум лабораторных инноваций Московской области 2026</title>', $html);
-$html = str_replace('<meta name="description" content="Статус регистрации на Форум лабораторных инноваций Московской области 7 октября 2026 года. Очное и онлайн-участие.">', '<meta name="description" content="Закрытая регистрация по приглашению на Форум лабораторных инноваций Московской области 7 октября 2026 года.">', $html);
-$html = str_replace('<meta property="og:title" content="Регистрация — Форум лабораторных инноваций Московской области 2026">', '<meta property="og:title" content="Регистрация по приглашению — Форум лабораторных инноваций Московской области 2026">', $html);
-$html = str_replace('<meta property="og:description" content="7 октября 2026 · очное и онлайн-участие · регистрация готовится к открытию">', '<meta property="og:description" content="Закрытая регистрация · 7 октября 2026 · Дом Правительства Московской области">', $html);
+$html = str_replace('<title>Регистрация — Форум лабораторных инноваций Московской области 2026</title>', '<title>Регистрация приглашённых участников — Форум лабораторных инноваций Московской области 2026</title>', $html);
+$html = str_replace('<meta name="description" content="Статус регистрации на Форум лабораторных инноваций Московской области 7 октября 2026 года. Очное и онлайн-участие.">', '<meta name="description" content="Закрытая регистрация спикеров и приглашённых участников Форума лабораторных инноваций Московской области 7 октября 2026 года.">', $html);
+$html = str_replace('<meta property="og:title" content="Регистрация — Форум лабораторных инноваций Московской области 2026">', '<meta property="og:title" content="Регистрация спикеров и приглашённых участников — Форум лабораторных инноваций Московской области 2026">', $html);
+$html = preg_replace('/<meta property="og:description" content="[^"]*">/', '<meta property="og:description" content="Для спикеров, представителей органов власти, организаторов и других приглашённых участников">', $html, 1);
 $html = str_replace('css/registration-2026-tune.css?v=20260831-spacing1', 'css/registration-2026-tune.css?v=20260831-guest7', $html);
 $html = str_replace('class="registration-2026-page"', 'class="registration-2026-page guest-registration-page"', $html);
 
@@ -45,7 +45,7 @@ $html = str_replace($cleaner, '', $html);
 $html = str_replace('<script src="js/url-cleaner.js" defer></script>', '', $html);
 
 $html = str_replace('data-registration-state="closed"', 'data-registration-state="open"', $html);
-$html = str_replace('Форма подготовлена к запуску. После открытия будут доступны очный и онлайн-форматы участия.', 'Регистрация для приглашённых гостей на очное участие в Форуме.', $html);
+$html = str_replace('Форма подготовлена к запуску. После открытия будут доступны очный и онлайн-форматы участия.', 'Закрытая форма для спикеров и приглашённых участников Форума.', $html);
 
 $originalStatus = <<<'HTML'
                     <div class="r26-status" role="status" aria-live="polite">
@@ -56,9 +56,8 @@ $originalStatus = <<<'HTML'
 HTML;
 $html = str_replace($originalStatus, '', $html);
 
-$html = str_replace('Фамилия, имя, отчество, должность, медицинская организация, формат участия и контакт для подтверждения.', 'Заполните данные участника. Подтверждение регистрации и QR-билет будут направлены на указанную электронную почту.', $html);
-$html = str_replace('<strong>Форма готова к внутренней проверке</strong>', '<strong>Подтвердите очное участие</strong>', $html);
-$html = str_replace('Публичная регистрация пока отключена. На этой странице персональные данные участников не принимаются.', 'Форма доступна только приглашённым участникам. После успешной регистрации вы получите подтверждение и QR-билет.', $html);
+$html = str_replace('<h2 id="registrationFormTitle">Регистрация участника</h2>', '<h2 id="registrationFormTitle">Регистрация приглашённого участника</h2>', $html);
+$html = str_replace('Фамилия, имя, отчество, должность, медицинская организация, формат участия и контакт для подтверждения.', 'Заполните данные приглашённого участника. Подтверждение регистрации и QR-билет будут направлены на указанную электронную почту.', $html);
 
 $formatBlock = <<<'HTML'
                     <fieldset class="r26-field r26-format-field">
@@ -95,7 +94,7 @@ $oldConfig = <<<'HTML'
             eventId: 'forum-lab-innovations-2026-10-07'
         };
 HTML;
-$newConfig = "        window.REGISTRATION_CONFIG = {\n            state: 'open',\n            endpoint: " . json_encode($endpoint, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) . ",\n            availabilityEndpoint: '/api/registration-availability.php',\n            eventId: 'forum-lab-innovations-2026-10-07'\n        };\n";
+$newConfig = "        window.REGISTRATION_CONFIG = {\n            state: 'open',\n            endpoint: " . json_encode($endpoint, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) . ",\n            availabilityEndpoint: '',\n            eventId: 'forum-lab-innovations-2026-10-07'\n        };\n";
 $html = str_replace($oldConfig, $newConfig, $html);
 
 $guestInfo = <<<'HTML'
@@ -106,10 +105,11 @@ $guestInfo = <<<'HTML'
                         <svg viewBox="0 0 24 24" focusable="false"><path d="M7.5 10V7.5a4.5 4.5 0 0 1 9 0V10m-10 0h11a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2h-11a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2Zm5.5 4v3"/></svg>
                     </div>
                     <div class="r26-guest-info__content">
-                        <span class="r26-guest-info__eyebrow">Регистрация по приглашению</span>
-                        <h2>Закрытая регистрация для приглашённых гостей</h2>
+                        <span class="r26-guest-info__eyebrow">Отдельный контур регистрации</span>
+                        <h2>Для спикеров и приглашённых участников</h2>
+                        <p>Эта форма предназначена для докладчиков, представителей органов власти, организаторов и других приглашённых участников.</p>
                         <p><strong>Пожалуйста, не пересылайте эту ссылку.</strong> По ней подтверждается очное участие и резервируется место на Форуме.</p>
-                        <p class="r26-guest-info__public"><span>Для остальных участников</span> общая регистрация, включая <strong>онлайн-формат</strong>, откроется позднее на сайте РЦЛСМО.</p>
+                        <p class="r26-guest-info__public"><span>Для остальных участников</span> доступна <a href="/registration/">общая регистрация</a> на очное или онлайн-участие.</p>
                     </div>
                 </div>
             </div>

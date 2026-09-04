@@ -93,4 +93,5 @@ if ($testKey === '') guestRespond(503, ['ok' => false, 'error' => 'registration_
 
 $_SERVER['HTTP_X_REGISTRATION_TEST'] = $testKey;
 $_SERVER['RCLSMO_REGISTRATION_VALIDATED'] = '1';
+$_SERVER['RCLSMO_REGISTRATION_SOURCE'] = 'invited';
 require __DIR__ . '/register.php';

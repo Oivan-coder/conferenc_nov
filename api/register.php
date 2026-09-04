@@ -10,6 +10,7 @@ const CONSENT_VERSION = '2026-08-31';
 const EVENT_ID = 'forum-lab-innovations-2026-10-07';
 
 require_once __DIR__ . '/smtp-mailer.php';
+require_once __DIR__ . '/registration-config.php';
 
 function respond(int $status, array $payload): never {
     http_response_code($status);
@@ -142,8 +143,16 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') respond(405, ['ok' => false, 'error' 
 
 $isTestRequest = isAuthorizedTestRequest();
 $isValidatedGateway = ($_SERVER['RCLSMO_REGISTRATION_VALIDATED'] ?? '') === '1';
+$registrationSource = trim((string)($_SERVER['RCLSMO_REGISTRATION_SOURCE'] ?? ''));
+if ($registrationSource === '') $registrationSource = $isTestRequest ? 'test' : 'public';
+if (!in_array($registrationSource, ['public', 'invited', 'test'], true)) {
+    respond(500, ['ok' => false, 'error' => 'invalid_registration_source']);
+}
+if ($registrationSource === 'test' && !$isTestRequest) {
+    respond(404, ['ok' => false, 'error' => 'not_found']);
+}
 if (!$isTestRequest && !$isValidatedGateway) respond(404, ['ok' => false, 'error' => 'not_found']);
-if (!REGISTRATION_OPEN && !$isTestRequest) respond(503, ['ok' => false, 'error' => 'registration_closed']);
+if (!REGISTRATION_OPEN && $registrationSource === 'public' && !$isTestRequest) respond(503, ['ok' => false, 'error' => 'registration_closed']);
 if ((int)($_SERVER['CONTENT_LENGTH'] ?? 0) > 32768) respond(413, ['ok' => false, 'error' => 'request_too_large']);
 
 $origin = $_SERVER['HTTP_ORIGIN'] ?? '';
@@ -204,6 +213,7 @@ if ($errors) respond(422, ['ok' => false, 'error' => 'validation_failed', 'field
 try {
     $pdo = require DB_CONFIG_PATH;
     if (!$pdo instanceof PDO) throw new RuntimeException('Database config invalid');
+    registrationEnsureSourceColumn($pdo);
 
     $duplicateReasons = [];
     $stmtEmail = $pdo->prepare('SELECT id FROM participants WHERE event_id = :event_id AND email_normalized = :email AND registration_status <> "cancelled" LIMIT 1');
@@ -241,37 +251,59 @@ try {
     }
 
     $pdo->beginTransaction();
-    $settingsStmt = $pdo->prepare('SELECT public_offline_limit, offline_registration_open, online_registration_open FROM event_registration_settings WHERE event_id = :event_id LIMIT 1 FOR UPDATE');
+    $settingsStmt = $pdo->prepare('SELECT hall_capacity, public_offline_limit, offline_registration_open, online_registration_open FROM event_registration_settings WHERE event_id = :event_id LIMIT 1 FOR UPDATE');
     $settingsStmt->execute([':event_id' => $eventId]);
     $settings = $settingsStmt->fetch(PDO::FETCH_ASSOC);
     if (!$settings) throw new RuntimeException('Event registration settings missing');
 
     $registrationStatus = 'confirmed';
 
-    if ($format === 'offline') {
+    if ($format === 'offline' && $registrationSource !== 'test') {
         if (!(bool)$settings['offline_registration_open']) {
             $pdo->rollBack();
             respond(409, ['ok' => false, 'error' => 'offline_closed', 'can_switch_online' => (bool)$settings['online_registration_open']]);
         }
 
-        $countStmt = $pdo->prepare('SELECT COUNT(*) FROM participants WHERE event_id = :event_id AND participation_format = "offline" AND registration_status = "confirmed"');
-        $countStmt->execute([':event_id' => $eventId]);
-        $confirmedOffline = (int)$countStmt->fetchColumn();
-        $limit = (int)$settings['public_offline_limit'];
+        $totalCountStmt = $pdo->prepare("SELECT COUNT(*) FROM participants
+            WHERE event_id = :event_id
+              AND participation_format = 'offline'
+              AND registration_status = 'confirmed'
+              AND registration_source <> 'test'
+              AND LOWER(TRIM(organization)) NOT IN ('тестовая мо','ovan','oivan')");
+        $totalCountStmt->execute([':event_id' => $eventId]);
+        $confirmedOffline = (int)$totalCountStmt->fetchColumn();
+        $hallCapacity = registrationEffectiveHallCapacity($settings);
 
-        if ($confirmedOffline >= $limit) {
+        $publicLimitReached = false;
+        if ($registrationSource === 'public') {
+            $publicCountStmt = $pdo->prepare("SELECT COUNT(*) FROM participants
+                WHERE event_id = :event_id
+                  AND participation_format = 'offline'
+                  AND registration_status = 'confirmed'
+                  AND registration_source = 'public'
+                  AND LOWER(TRIM(organization)) NOT IN ('тестовая мо','ovan','oivan')");
+            $publicCountStmt->execute([':event_id' => $eventId]);
+            $publicLimitReached = (int)$publicCountStmt->fetchColumn() >= registrationEffectivePublicOfflineLimit($settings);
+        }
+
+        if ($confirmedOffline >= $hallCapacity || $publicLimitReached) {
+            $canJoinWaitlist = $registrationSource === 'public';
             if (!$waitlistIfFull) {
                 $pdo->rollBack();
                 respond(409, [
                     'ok' => false,
                     'error' => 'offline_full',
                     'can_switch_online' => (bool)$settings['online_registration_open'],
-                    'can_join_waitlist' => true
+                    'can_join_waitlist' => $canJoinWaitlist
                 ]);
+            }
+            if (!$canJoinWaitlist) {
+                $pdo->rollBack();
+                respond(409, ['ok' => false, 'error' => 'offline_full', 'can_switch_online' => false, 'can_join_waitlist' => false]);
             }
             $registrationStatus = 'waitlist';
         }
-    } elseif (!(bool)$settings['online_registration_open']) {
+    } elseif ($format === 'online' && $registrationSource !== 'test' && !(bool)$settings['online_registration_open']) {
         $pdo->rollBack();
         respond(409, ['ok' => false, 'error' => 'online_closed']);
     }
@@ -279,11 +311,11 @@ try {
     $sql = 'INSERT INTO participants (
         event_id, participant_code, qr_token, online_token, last_name, first_name, middle_name, full_name,
         position, organization, email, email_normalized, phone, phone_normalized,
-        participation_format, registration_status, privacy_consent, consent_version, consent_at, created_at
+        participation_format, registration_status, registration_source, privacy_consent, consent_version, consent_at, created_at
     ) VALUES (
         :event_id, :participant_code, :qr_token, :online_token, :last_name, :first_name, :middle_name, :full_name,
         :position, :organization, :email, :email_normalized, :phone, :phone_normalized,
-        :participation_format, :registration_status, 1, :consent_version, NOW(), NOW()
+        :participation_format, :registration_status, :registration_source, 1, :consent_version, NOW(), NOW()
     )';
 
     $stmt = $pdo->prepare($sql);
@@ -334,6 +366,7 @@ try {
                 ':phone_normalized' => $phoneNormalized !== '' ? $phoneNormalized : null,
                 ':participation_format' => $format,
                 ':registration_status' => $registrationStatus,
+                ':registration_source' => $registrationSource,
                 ':consent_version' => CONSENT_VERSION
             ]);
             break;
@@ -374,7 +407,8 @@ try {
         'registration_status' => $registrationStatus,
         'duplicate_override' => $duplicateReasons !== [],
         'email_sent' => $emailSent,
-        'test_mode' => $isTestRequest
+        'test_mode' => $isTestRequest,
+        'registration_source' => $registrationSource
     ];
 
     if ($registrationStatus === 'confirmed') {

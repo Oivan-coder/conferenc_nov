@@ -11,6 +11,8 @@ const EVENT_ID = 'forum-lab-innovations-2026-10-07';
 const TEST_ORGANIZATION = 'Тестовая МО';
 const GOVERNMENT_ORG_LIST_PATH = '/home/c/cx314477/public_html/js/data/organizations-2026.js';
 
+require_once dirname(__DIR__) . '/api/registration-config.php';
+
 if (empty($_SESSION['conference_dashboard_auth'])) {
     header('Location: /dashboard/');
     exit;
@@ -165,9 +167,10 @@ try {
     $pdo = require DB_CONFIG_PATH;
     if (!$pdo instanceof PDO) throw new RuntimeException('DB unavailable');
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    registrationEnsureSourceColumn($pdo);
 
     $stmt = $pdo->prepare("SELECT participant_code, full_name, position, organization, email, phone,
-        participation_format, registration_status, created_at, check_in_at, online_watch_seconds
+        participation_format, registration_status, registration_source, created_at, check_in_at, online_watch_seconds
       FROM participants
       WHERE event_id = :event
         AND organization <> :test_org
@@ -182,6 +185,8 @@ try {
     $waitlist = 0;
     $checkedIn = 0;
     $onlinePresent = 0;
+    $publicOffline = 0;
+    $invitedOffline = 0;
     $orgs = [];
     $categoryStats = [
         'government' => ['orgs' => [], 'participants' => 0],
@@ -204,6 +209,8 @@ try {
 
         if ($p['participation_format'] === 'offline') {
             $offlineConfirmed++;
+            if ($p['registration_source'] === 'public') $publicOffline++;
+            if ($p['registration_source'] === 'invited') $invitedOffline++;
             if (!empty($p['check_in_at'])) $checkedIn++;
         } elseif ($p['participation_format'] === 'online') {
             $onlineConfirmed++;
@@ -256,6 +263,8 @@ try {
         ['ЦВИОД', $organizers['ЦВИОД']],
         ['Минздрав МО', $organizers['Минздрав МО']],
         ['Очно зарегистрировано', $offlineConfirmed],
+        ['Очно через публичную форму', $publicOffline],
+        ['Очно по приглашению', $invitedOffline],
         ['Пришли очно', $checkedIn],
         ['Онлайн зарегистрировано', $onlineConfirmed],
         ['Онлайн присутствовали ≥15 мин', $onlinePresent],
@@ -272,7 +281,7 @@ try {
     }
 
     $participantRows = [[
-        'Код', 'ФИО', 'Организация', 'Категория', 'Должность', 'Email', 'Телефон', 'Формат', 'Статус',
+        'Код', 'ФИО', 'Организация', 'Категория', 'Должность', 'Email', 'Телефон', 'Формат', 'Источник регистрации', 'Статус',
         'Дата регистрации', 'Приход очно', 'Онлайн, мин', 'Факт участия'
     ]];
     foreach ($participants as $p) {
@@ -287,6 +296,7 @@ try {
             (string)$p['participant_code'], (string)$p['full_name'], (string)$p['organization'], $categoryLabel,
             (string)$p['position'], (string)$p['email'], (string)($p['phone'] ?? ''),
             $p['participation_format'] === 'offline' ? 'Очно' : 'Онлайн',
+            registrationSourceLabel((string)$p['registration_source']),
             $p['registration_status'] === 'confirmed' ? 'Подтверждено' : ($p['registration_status'] === 'waitlist' ? 'Лист ожидания' : 'Отменено'),
             (string)$p['created_at'], (string)($p['check_in_at'] ?? ''), $onlineMinutes, $fact
         ];
@@ -307,7 +317,7 @@ try {
     if ($tmp === false) throw new RuntimeException('Unable to create temp file');
     writeXlsx($tmp, [
         ['name' => 'Сводка', 'rows' => $summaryRows, 'widths' => [42, 28, 16, 12, 12, 16, 14, 16, 14]],
-        ['name' => 'Участники', 'rows' => $participantRows, 'widths' => [16, 32, 34, 28, 28, 30, 18, 12, 18, 20, 20, 14, 18]],
+        ['name' => 'Участники', 'rows' => $participantRows, 'widths' => [16, 32, 34, 28, 28, 30, 18, 12, 22, 18, 20, 20, 14, 18]],
     ]);
 
     $filename = 'forum_2026_current_' . date('Y-m-d_H-i') . '.xlsx';

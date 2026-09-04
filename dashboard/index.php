@@ -13,6 +13,7 @@ const EVENT_ID = 'forum-lab-innovations-2026-10-07';
 const TEST_ORGANIZATION = 'Тестовая МО';
 
 require_once __DIR__ . '/reporting.php';
+require_once dirname(__DIR__) . '/api/registration-config.php';
 
 function h(?string $value): string {
     return htmlspecialchars((string)$value, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
@@ -133,6 +134,7 @@ try {
     $pdo = require DB_CONFIG_PATH;
     if (!$pdo instanceof PDO) throw new RuntimeException('DB unavailable');
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    registrationEnsureSourceColumn($pdo);
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
         dashboardVerifyCsrf();
@@ -212,11 +214,13 @@ try {
 
     $settingsStmt = $pdo->prepare('SELECT hall_capacity, public_offline_limit, reserved_seats FROM event_registration_settings WHERE event_id = :event LIMIT 1');
     $settingsStmt->execute([':event' => EVENT_ID]);
-    $settings = $settingsStmt->fetch(PDO::FETCH_ASSOC) ?: ['hall_capacity' => 95, 'public_offline_limit' => 80, 'reserved_seats' => 15];
+    $settings = $settingsStmt->fetch(PDO::FETCH_ASSOC) ?: ['hall_capacity' => REGISTRATION_HALL_CAPACITY, 'public_offline_limit' => REGISTRATION_PUBLIC_OFFLINE_LIMIT, 'reserved_seats' => 0];
 
     $summaryStmt = $pdo->prepare("SELECT
         COUNT(*) AS total,
         SUM(participation_format='offline' AND registration_status='confirmed') AS offline_confirmed,
+        SUM(participation_format='offline' AND registration_status='confirmed' AND registration_source='public') AS public_offline,
+        SUM(participation_format='offline' AND registration_status='confirmed' AND registration_source='invited') AS invited_offline,
         SUM(participation_format='online' AND registration_status='confirmed') AS online_confirmed,
         SUM(registration_status='waitlist') AS waitlist,
         SUM(registration_status='cancelled') AS cancelled,
@@ -247,7 +251,7 @@ try {
     $orgStmt->execute([':event' => EVENT_ID, ':test_org' => TEST_ORGANIZATION]);
     $organizations = $orgStmt->fetchAll(PDO::FETCH_ASSOC);
 
-    $peopleStmt = $pdo->prepare("SELECT participant_code, full_name, position, organization, participation_format, registration_status, created_at, check_in_at, online_watch_seconds
+    $peopleStmt = $pdo->prepare("SELECT participant_code, full_name, position, organization, participation_format, registration_status, registration_source, created_at, check_in_at, online_watch_seconds
       FROM participants
       WHERE event_id = :event
         AND organization <> :test_org
@@ -272,6 +276,8 @@ try {
 }
 
 $offlineConfirmed = (int)($summary['offline_confirmed'] ?? 0);
+$publicOffline = (int)($summary['public_offline'] ?? 0);
+$invitedOffline = (int)($summary['invited_offline'] ?? 0);
 $onlineConfirmed = (int)($summary['online_confirmed'] ?? 0);
 $waitlist = (int)($summary['waitlist'] ?? 0);
 $checkedIn = (int)($summary['checked_in'] ?? 0);
@@ -279,9 +285,10 @@ $onlinePresent = (int)($summary['online_present'] ?? 0);
 $leadershipStats = dashboardLeadershipStats($organizations);
 $orgCount = (int)$leadershipStats['organizations'];
 $leadershipBrief = dashboardLeadershipBrief($leadershipStats, $offlineConfirmed, $onlineConfirmed, $checkedIn, $onlinePresent, $waitlist);
-$publicLimit = (int)$settings['public_offline_limit'];
-$remaining = max(0, $publicLimit - $offlineConfirmed);
-$fillPct = $publicLimit > 0 ? min(100, round($offlineConfirmed / $publicLimit * 100)) : 0;
+$publicLimit = registrationEffectivePublicOfflineLimit($settings);
+$hallCapacity = registrationEffectiveHallCapacity($settings);
+$remaining = max(0, min($publicLimit - $publicOffline, $hallCapacity - $offlineConfirmed));
+$fillPct = $publicLimit > 0 ? min(100, round($publicOffline / $publicLimit * 100)) : 0;
 $maxOrg = 1;
 foreach ($organizations as $org) $maxOrg = max($maxOrg, (int)($org['confirmed_count'] ?? 0));
 ?>
@@ -299,7 +306,7 @@ foreach ($organizations as $org) $maxOrg = max($maxOrg, (int)($org['confirmed_co
 </section>
 <section class="cards">
 <div class="card"><span>Всего подтверждено</span><strong><?= $offlineConfirmed + $onlineConfirmed ?></strong><small>очно + онлайн</small></div>
-<div class="card"><span>Очно</span><strong><?= $offlineConfirmed ?></strong><small>из <?= $publicLimit ?> публичных мест · осталось <?= $remaining ?></small><div class="progress"><i style="width:<?= $fillPct ?>%"></i></div></div>
+<div class="card"><span>Очно</span><strong><?= $offlineConfirmed ?></strong><small><?= $publicOffline ?> публично из <?= $publicLimit ?> · <?= $invitedOffline ?> по приглашению · доступно <?= $remaining ?></small><div class="progress"><i style="width:<?= $fillPct ?>%"></i></div></div>
 <div class="card"><span>Онлайн</span><strong><?= $onlineConfirmed ?></strong><small>подтверждено</small></div>
 <div class="card"><span>Лист ожидания</span><strong><?= $waitlist ?></strong><small>на очное участие</small></div>
 <div class="card"><span>Организаций</span><strong><?= $orgCount ?></strong><small>с подтверждёнными участниками</small></div>
@@ -314,9 +321,9 @@ foreach ($organizations as $org) $maxOrg = max($maxOrg, (int)($org['confirmed_co
 <?php endforeach; ?></div><div class="legend">Топ-18 по числу подтверждённых регистраций. Полная детализация — справа и в Excel.</div></div>
 <div class="panel"><div class="panel-head"><h2>Разрез по организациям</h2><span class="muted">очно / онлайн / ожидание / факт</span></div><div class="table-wrap" style="max-height:430px"><table class="org-table"><thead><tr><th>Организация</th><th>Подтв.</th><th>Очно</th><th>Онлайн</th><th>Ожидание</th><th>Пришли</th><th>Онлайн ≥15м</th></tr></thead><tbody><?php foreach ($organizations as $org): ?><tr><td><strong><?= h($org['organization']) ?></strong></td><td><?= (int)$org['confirmed_count'] ?></td><td><?= (int)$org['offline_count'] ?></td><td><?= (int)$org['online_count'] ?></td><td><?= (int)$org['waitlist_count'] ?></td><td><?= (int)$org['checked_in_count'] ?></td><td><?= (int)$org['online_present_count'] ?></td></tr><?php endforeach; ?></tbody></table></div></div>
 </section>
-<section class="panel"><div class="panel-head"><h2>Участники</h2><span class="muted">последние <?= count($participants) ?> записей</span></div><div class="filters"><input id="q" type="search" placeholder="Поиск по ФИО, организации, должности, коду"><select id="fmt"><option value="">Все форматы</option><option value="offline">Очно</option><option value="online">Онлайн</option></select><select id="sts"><option value="">Все статусы</option><option value="confirmed">Подтверждено</option><option value="waitlist">Лист ожидания</option><option value="cancelled">Отменено</option></select></div><div class="table-wrap"><table id="people"><thead><tr><th>Участник</th><th>Организация / должность</th><th>Формат</th><th>Статус</th><th>Регистрация</th><th>Факт участия</th></tr></thead><tbody>
+<section class="panel"><div class="panel-head"><h2>Участники</h2><span class="muted">последние <?= count($participants) ?> записей</span></div><div class="filters"><input id="q" type="search" placeholder="Поиск по ФИО, организации, должности, коду"><select id="fmt"><option value="">Все форматы</option><option value="offline">Очно</option><option value="online">Онлайн</option></select><select id="sts"><option value="">Все статусы</option><option value="confirmed">Подтверждено</option><option value="waitlist">Лист ожидания</option><option value="cancelled">Отменено</option></select></div><div class="table-wrap"><table id="people"><thead><tr><th>Участник</th><th>Организация / должность</th><th>Формат</th><th>Источник</th><th>Статус</th><th>Регистрация</th><th>Факт участия</th></tr></thead><tbody>
 <?php foreach ($participants as $p): $present = $p['participation_format']==='offline' ? ($p['check_in_at'] ? 'Пришёл' : '—') : ((int)$p['online_watch_seconds']>=900 ? 'Онлайн ≥15 мин' : ((int)$p['online_watch_seconds']>0 ? round((int)$p['online_watch_seconds']/60).' мин' : '—')); ?>
-<tr data-format="<?= h($p['participation_format']) ?>" data-status="<?= h($p['registration_status']) ?>" data-search="<?= h(mb_strtolower($p['full_name'].' '.$p['organization'].' '.$p['position'].' '.$p['participant_code'])) ?>"><td><strong><?= h($p['full_name']) ?></strong><div class="muted"><?= h($p['participant_code']) ?></div></td><td><strong><?= h($p['organization']) ?></strong><div class="muted"><?= h($p['position']) ?></div></td><td><span class="tag"><?= $p['participation_format']==='offline'?'Очно':'Онлайн' ?></span></td><td><span class="tag <?= $p['registration_status']==='waitlist'?'wait':($p['registration_status']==='cancelled'?'cancel':'') ?>"><?= $p['registration_status']==='confirmed'?'Подтверждено':($p['registration_status']==='waitlist'?'Ожидание':'Отменено') ?></span></td><td><?= h(date('d.m.Y H:i', strtotime($p['created_at']))) ?></td><td><?= h($present) ?></td></tr>
+<tr data-format="<?= h($p['participation_format']) ?>" data-status="<?= h($p['registration_status']) ?>" data-search="<?= h(mb_strtolower($p['full_name'].' '.$p['organization'].' '.$p['position'].' '.$p['participant_code'])) ?>"><td><strong><?= h($p['full_name']) ?></strong><div class="muted"><?= h($p['participant_code']) ?></div></td><td><strong><?= h($p['organization']) ?></strong><div class="muted"><?= h($p['position']) ?></div></td><td><span class="tag"><?= $p['participation_format']==='offline'?'Очно':'Онлайн' ?></span></td><td><span class="tag"><?= h(registrationSourceLabel((string)$p['registration_source'])) ?></span></td><td><span class="tag <?= $p['registration_status']==='waitlist'?'wait':($p['registration_status']==='cancelled'?'cancel':'') ?>"><?= $p['registration_status']==='confirmed'?'Подтверждено':($p['registration_status']==='waitlist'?'Ожидание':'Отменено') ?></span></td><td><?= h(date('d.m.Y H:i', strtotime($p['created_at']))) ?></td><td><?= h($present) ?></td></tr>
 <?php endforeach; ?>
 </tbody></table></div></section>
 <section class="panel test-panel" id="test-records"><div class="panel-head"><div><h2>Тестовые записи</h2><p class="muted">Не входят ни в KPI, ни в сводку, ни в Excel-выгрузку.</p></div><span class="pill"><?= count($testRecords) ?> записей</span></div>
