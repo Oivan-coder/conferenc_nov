@@ -1,4 +1,5 @@
 name: Registration smoke test
+# Temporary end-to-end verification before public registration opens.
 
 on:
   push:
