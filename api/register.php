@@ -143,7 +143,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') respond(405, ['ok' => false, 'error' 
 
 $isTestRequest = isAuthorizedTestRequest();
 $isValidatedGateway = ($_SERVER['RCLSMO_REGISTRATION_VALIDATED'] ?? '') === '1';
-$registrationSource = trim((string)($_SERVER['RCLSMO_REGISTRATION_SOURCE'] ?? ($isTestRequest ? ($_SERVER['HTTP_X_REGISTRATION_SOURCE'] ?? '') : ''));
+$registrationSource = trim((string)($_SERVER['RCLSMO_REGISTRATION_SOURCE'] ?? ($isTestRequest ? ($_SERVER['HTTP_X_REGISTRATION_SOURCE'] ?? '') : '')));
 if ($registrationSource === '') $registrationSource = $isTestRequest ? 'test' : 'public';
 if (!in_array($registrationSource, ['public', 'invited', 'test'], true)) {
     respond(500, ['ok' => false, 'error' => 'invalid_registration_source']);
