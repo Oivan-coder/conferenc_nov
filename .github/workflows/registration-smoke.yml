@@ -1,0 +1,45 @@
+name: Registration smoke test
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/registration-smoke.yml
+
+permissions:
+  contents: read
+
+jobs:
+  registration:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - name: Wait for deployment and verify registration
+        shell: bash
+        run: |
+          for attempt in {1..20}; do
+            status="$(curl --silent --show-error --output response.json --write-out '%{http_code}' --max-time 30 'https://rclsmo.ru/registration-smoke-e58a1c7d6b2f/' || true)"
+            if [ "$status" = "200" ] && jq --exit-status '
+              .ok == true and
+              .runs.public_offline.registration_ok == true and
+              .runs.public_offline.qr_ok == true and
+              .runs.public_offline.participant_page_ok == true and
+              .runs.invited_offline.registration_ok == true and
+              .runs.invited_offline.qr_ok == true and
+              .runs.invited_offline.participant_page_ok == true and
+              .runs.public_online.registration_ok == true and
+              .runs.public_online.participant_page_ok == true
+            ' response.json >/dev/null; then
+              jq '{ok, created_at, runs: (.runs | map_values({http_status, registration_ok, participant_page_ok, qr_ok}))}' response.json
+              exit 0
+            fi
+            sleep 15
+          done
+
+          echo 'Registration smoke test did not pass.'
+          if jq empty response.json 2>/dev/null; then
+            jq '{ok, created_at, runs: (.runs | map_values({http_status, registration_ok, participant_page_ok, qr_ok, response: {ok: .response.ok, error: .response.error, email_sent: .response.email_sent, registration_source: .response.registration_source}}))}' response.json
+          else
+            head -c 500 response.json || true
+          fi
+          exit 1
