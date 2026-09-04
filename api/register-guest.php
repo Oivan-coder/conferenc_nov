@@ -8,6 +8,8 @@ header('X-Robots-Tag: noindex, nofollow, noarchive');
 const GUEST_TOKEN_HASH = '50d629e1bc7e5a348ba3e81d03c4e0cd190493e3753f2c146e78cf77e5d92c9b';
 const TEST_KEY_PATH_GUEST = '/home/c/cx314477/public_html/.private/registration_test_key';
 
+require_once __DIR__ . '/registration-duplicate-guard.php';
+
 function guestRespond(int $status, array $payload): never {
     http_response_code($status);
     echo json_encode($payload, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
@@ -86,6 +88,24 @@ if (!$consent) $errors['privacyConsent'] = 'required';
 if (!$policyAcknowledged) $errors['policyAcknowledged'] = 'required';
 if ($honeypot !== '') guestRespond(200, ['ok' => true, 'accepted' => true]);
 if ($errors) guestRespond(422, ['ok' => false, 'error' => 'validation_failed', 'fields' => $errors]);
+
+$hardDuplicate = registrationDuplicateGuard(
+    (string)($data['eventId'] ?? ''),
+    $lastName,
+    $firstName,
+    $middleName,
+    $organization,
+    $email,
+    (string)($normalizedPhone ?? '')
+);
+if ($hardDuplicate && !empty($hardDuplicate['hard'])) {
+    guestRespond(409, [
+        'ok' => false,
+        'error' => 'possible_duplicate',
+        'reasons' => $hardDuplicate['reasons'] ?? ['same_person', 'email', 'phone'],
+        'hard_duplicate' => true,
+    ]);
+}
 
 if (!is_readable(TEST_KEY_PATH_GUEST)) guestRespond(503, ['ok' => false, 'error' => 'registration_unavailable']);
 $testKey = trim((string)file_get_contents(TEST_KEY_PATH_GUEST));
