@@ -153,10 +153,20 @@ $style = <<<'HTML'
  .agenda-nav a{flex-basis:188px}
 }
 
-.agenda-speaker-row{display:flex;align-items:center;gap:13px;margin-top:11px}
+.agenda-speaker-row{display:flex;align-items:center;gap:15px;margin-top:12px}
 .agenda-speaker-row .agenda-speaker{margin:0}
-.agenda-speaker-photo{width:58px;height:58px;flex:0 0 58px;border:1px solid rgba(85,220,241,.28);border-radius:15px;background:#102a40;box-shadow:0 8px 22px rgba(0,9,21,.22);object-fit:cover;object-position:var(--speaker-focus,50% 28%)}
-@media(max-width:720px){.agenda-speaker-row{gap:11px}.agenda-speaker-photo{width:50px;height:50px;flex-basis:50px;border-radius:13px}}
+.agenda-speaker-profile{position:relative;z-index:1;display:block;flex:0 0 auto;padding:0;border:0;border-radius:18px;color:inherit;background:transparent;cursor:zoom-in}
+.agenda-speaker-profile:hover,.agenda-speaker-profile:focus{z-index:80;outline:none}
+.agenda-speaker-photo{display:block;width:74px;height:74px;border:1px solid rgba(85,220,241,.32);border-radius:18px;background:#102a40;box-shadow:0 10px 26px rgba(0,9,21,.24);object-fit:cover;object-position:var(--speaker-focus,50% 28%);transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease}
+.agenda-speaker-profile:hover .agenda-speaker-photo,.agenda-speaker-profile:focus .agenda-speaker-photo{transform:translateY(-2px) scale(1.04);border-color:rgba(85,220,241,.62);box-shadow:0 15px 36px rgba(23,181,215,.2)}
+.agenda-speaker-card{position:absolute;left:-12px;bottom:calc(100% + 13px);z-index:90;width:286px;padding:10px;border:1px solid rgba(85,220,241,.36);border-radius:20px;background:linear-gradient(155deg,rgba(14,42,65,.99),rgba(5,19,34,.99));box-shadow:0 24px 70px rgba(0,5,15,.5);opacity:0;visibility:hidden;pointer-events:none;transform:translateY(8px) scale(.97);transform-origin:left bottom;transition:opacity .18s ease,visibility .18s ease,transform .18s ease}
+.agenda-speaker-profile:hover .agenda-speaker-card,.agenda-speaker-profile:focus .agenda-speaker-card{opacity:1;visibility:visible;transform:none}
+.agenda-speaker-card__photo{display:block;width:100%;height:230px;border-radius:13px;background:#102a40;object-fit:cover;object-position:var(--speaker-focus,50% 28%)}
+.agenda-speaker-card__copy{display:block;padding:13px 8px 8px;text-align:left}
+.agenda-speaker-card__copy strong,.agenda-speaker-card__copy small{display:block}
+.agenda-speaker-card__copy strong{color:#f5fbff;font-size:16px;line-height:1.35}
+.agenda-speaker-card__copy small{margin-top:7px;color:#a9bdca;font-size:12px;font-weight:500;line-height:1.5;letter-spacing:0;text-transform:none}
+@media(max-width:720px){.agenda-speaker-row{gap:12px}.agenda-speaker-photo{width:58px;height:58px;border-radius:15px}.agenda-speaker-card{position:fixed;top:50%;right:auto;bottom:auto;left:50%;width:min(310px,calc(100vw - 28px));transform:translate(-50%,-46%) scale(.97);transform-origin:center}.agenda-speaker-profile:hover .agenda-speaker-card,.agenda-speaker-profile:focus .agenda-speaker-card{transform:translate(-50%,-50%) scale(1)}.agenda-speaker-card__photo{height:270px}}
 @media(prefers-reduced-motion:reduce){.agenda-nav a,.c26-agenda__item.agenda-talk{transition:none}.agenda-nav a:hover,.c26-agenda__item.agenda-talk:hover{transform:none}}
 </style>
 HTML;
@@ -177,7 +187,7 @@ document.addEventListener('DOMContentLoaded',()=>{
  const syncLabel=()=>{if(label) label.textContent=disclosure?.open?'Свернуть полную программу':'Показать полную программу';};
  if(disclosure){disclosure.open=true;disclosure.addEventListener('toggle',syncLabel);} syncLabel();
  const agenda=root.querySelector('.c26-agenda'); if(!agenda) return;
- const talk=(time,n,title,speaker,photo='',focus='50% 28%')=>`<article class="c26-agenda__item agenda-talk"><time>${time}</time><div><div class="agenda-talk__meta"><span class="agenda-talk__tag">Доклад ${n}</span></div><h3>${title}</h3><div class="agenda-speaker-row">${photo?`<img class="agenda-speaker-photo" src="/images/speakers/2026/${photo}" alt="" loading="lazy" decoding="async" style="--speaker-focus:${focus}">`:''}<p class="agenda-speaker"><strong>${speaker}</strong></p></div></div></article>`;
+ const talk=(time,n,title,speaker,photo='',credentials='',focus='50% 28%')=>`<article class="c26-agenda__item agenda-talk"><time>${time}</time><div><div class="agenda-talk__meta"><span class="agenda-talk__tag">Доклад ${n}</span></div><h3>${title}</h3><div class="agenda-speaker-row">${photo?`<button class="agenda-speaker-profile" type="button" aria-label="Увеличить фотографию: ${speaker}"><img class="agenda-speaker-photo" src="/images/speakers/2026/${photo}" alt="" loading="lazy" decoding="async" style="--speaker-focus:${focus}"><span class="agenda-speaker-card"><img class="agenda-speaker-card__photo" src="/images/speakers/2026/${photo}" alt="" loading="lazy" decoding="async" style="--speaker-focus:${focus}"><span class="agenda-speaker-card__copy"><strong>${speaker}</strong>${credentials?`<small>${credentials}</small>`:''}</span></span></button>`:''}<p class="agenda-speaker"><strong>${speaker}</strong></p></div></div></article>`;
  const service=(time,label,title,extra='',cls='')=>`<article class="agenda-service ${cls}"><time>${time}</time><div><div><span>${label}</span><h3>${title}</h3>${extra?`<p class="agenda-speaker">${extra}</p>`:''}</div></div></article>`;
  const block=(n,title)=>`<section class="agenda-block" id="agenda-block-${n}"><div class="agenda-block__num">0${n}</div><span class="agenda-block__label">Тематический блок ${n}</span><h3>${title}</h3></section>`;
  agenda.innerHTML=`
@@ -196,31 +206,31 @@ document.addEventListener('DOMContentLoaded',()=>{
  ${service('09:30–10:00','Сбор участников','Регистрация участников')}
  ${service('10:00–10:15','Открытие','Открытие конференции','<strong>Максим Васильевич Забелин</strong> · <strong>Иван Михайлович Гольцев</strong>','agenda-opening')}
  ${block(1,'Лабораторная служба в реализации национальных приоритетов')}
- ${talk('10:15–10:30','1','Национальные проекты — как реализовать лабораторный потенциал?','Татьяна Ивановна Долгих','dolgikh.webp')}
- ${talk('10:30–10:45','2','Первичная профилактика в кардиологии — основа здорового долголетия. Как правильно оценить лабораторные показатели','Александр Польевич Ройтман','roytman.webp')}
- ${talk('10:45–11:00','3','Централизация лабораторной службы Республики Башкортостан: переход от показателей деятельности лабораторий к показателям здоровья населения','Фаниль Салимович Билалов','bilalov.webp')}
- ${talk('11:00–11:15','4','Масштаб, качество и доступность: чему государственная лабораторная сеть может научиться у частного сектора','Дмитрий Геннадьевич Денисов','denisov.webp')}
- ${talk('11:15–11:40','5','Слепые зоны процессов: потери из-за наших привычек и способы их изменения','Мария Георгиевна Ламбакахар','lambakakhar.webp')}
+ ${talk('10:15–10:30','1','Национальные проекты — как реализовать лабораторный потенциал?','Татьяна Ивановна Долгих','dolgikh.webp','д.м.н., профессор; ПИУВ — филиал РМАНПО Минздрава России; Учебный центр и ЦВКК')}
+ ${talk('10:30–10:45','2','Первичная профилактика в кардиологии — основа здорового долголетия. Как правильно оценить лабораторные показатели','Александр Польевич Ройтман','roytman.webp','д.м.н., профессор; РМАНПО Минздрава России; главный внештатный специалист по КЛД Минздрава России по ЦФО')}
+ ${talk('10:45–11:00','3','Централизация лабораторной службы Республики Башкортостан: переход от показателей деятельности лабораторий к показателям здоровья населения','Фаниль Салимович Билалов','bilalov.webp','д.м.н., доцент; главный врач ГБУЗ «Республиканский медико-генетический центр»')}
+ ${talk('11:00–11:15','4','Масштаб, качество и доступность: чему государственная лабораторная сеть может научиться у частного сектора','Дмитрий Геннадьевич Денисов','denisov.webp','медицинский директор Лабораторной службы «ХЕЛИКС»')}
+ ${talk('11:15–11:40','5','Слепые зоны процессов: потери из-за наших привычек и способы их изменения','Мария Георгиевна Ламбакахар','lambakakhar.webp','к.м.н., доцент кафедры КЛД с курсом лабораторной иммунологии ФГАОУ ДПО РМАНПО')}
  ${service('11:40–11:55','Перерыв','Кофе-брейк')}
  ${block(2,'От исследования к решению: рациональная диагностика и маршрут пациента')}
- ${talk('11:55–12:10','6','Посев: клиническая необходимость или рутинный анализ?','Евгений Юрьевич Никитин','nikitin.webp')}
- ${talk('12:10–12:25','7','От диагностики к гипердиагностике: как получить ответы, а не новые вопросы','Екатерина Игоревна Ким','kim.webp')}
+ ${talk('11:55–12:10','6','Посев: клиническая необходимость или рутинный анализ?','Евгений Юрьевич Никитин','nikitin.webp','врач — клинический фармаколог, к.м.н.')}
+ ${talk('12:10–12:25','7','От диагностики к гипердиагностике: как получить ответы, а не новые вопросы','Екатерина Игоревна Ким','kim.webp','врач-эндокринолог, к.м.н.; ФГБУ «НМИЦ эндокринологии им. академика И. И. Дедова» Минздрава России')}
  ${talk('12:25–12:40','8','Гепатит C. Подтверждение, внесение в регистр, лечение и контроль устойчивого вирусологического ответа','Павел Олегович Богомолов')}
- ${talk('12:40–12:55','9','Онкология. Текущие перспективные скрининговые направления в регионах','Тигран Гагикович Геворкян','gevorkyan.webp')}
+ ${talk('12:40–12:55','9','Онкология. Текущие перспективные скрининговые направления в регионах','Тигран Гагикович Геворкян','gevorkyan.webp','заместитель директора по реализации федеральных проектов ФГБУ «НМИЦ онкологии им. Н. Н. Блохина» Минздрава России')}
  ${service('12:55–13:40','Перерыв','Обеденный перерыв')}
  ${block(3,'Профилактика и здоровое долголетие: возможности лабораторной диагностики')}
- ${talk('13:40–13:55','10','От риска к контролю: лабораторный маршрут пациента. Диабет, сердечно-сосудистый и почечный риск в системе диспансеризации','Галина Викторовна Волкова','volkova.webp')}
- ${talk('13:55–14:10','11','Модель реализации лабораторной части программы репродуктивной диспансеризации','Антонина Николаевна Зинина','zinina.webp')}
- ${talk('14:10–14:25','12','Биологический возраст: медицинский инструмент или маркетинговая конструкция?','Ольга Николаевна Ткачева','tkacheva.webp')}
- ${talk('14:25–14:40','13','Биомаркеры старения: что рутинно внедрить в лабораторную службу уже сегодня?','Светлана Александровна Бернс','berns.webp')}
+ ${talk('13:40–13:55','10','От риска к контролю: лабораторный маршрут пациента. Диабет, сердечно-сосудистый и почечный риск в системе диспансеризации','Галина Викторовна Волкова','volkova.webp','заведующая отделением медицинской профилактики, врач-терапевт ГБУЗ МО «Одинцовская областная больница»')}
+ ${talk('13:55–14:10','11','Модель реализации лабораторной части программы репродуктивной диспансеризации','Антонина Николаевна Зинина','zinina.webp','руководитель направления КЛД ООО «ИнтерЛабСервис»')}
+ ${talk('14:10–14:25','12','Биологический возраст: медицинский инструмент или маркетинговая конструкция?','Ольга Николаевна Ткачева','tkacheva.webp','д.м.н., профессор, член-корреспондент РАН; директор Российского геронтологического научно-клинического центра; главный внештатный гериатр Минздрава России')}
+ ${talk('14:25–14:40','13','Биомаркеры старения: что рутинно внедрить в лабораторную службу уже сегодня?','Светлана Александровна Бернс','berns.webp','д.м.н., профессор; ФГБУ «НМИЦ терапии и профилактической медицины» Минздрава России')}
  ${service('14:40–15:55','Перерыв','Перерыв')}
  ${block(4,'Единый цифровой и технологический контур')}
- ${talk('15:55–16:10','14','Влияние качества вакуумных систем на результаты лабораторных исследований','Анна Сергеевна Омельянович','omelyanovich.webp')}
- ${talk('16:10–16:25','15','Как видеть потерянную пробу до появления жалобы пациента?','Мария Сергеевна Извекова','izvekova.webp')}
- ${talk('16:25–16:40','16','ЕМИАС–ЛИС без разрывов: от назначения до результата и дальнейшей маршрутизации','Татьяна Сергеевна Сидорова','sidorova.webp')}
+ ${talk('15:55–16:10','14','Влияние качества вакуумных систем на результаты лабораторных исследований','Анна Сергеевна Омельянович','omelyanovich.webp','ведущий специалист по продукции направления преаналитики ООО «ОМБ»')}
+ ${talk('16:10–16:25','15','Как видеть потерянную пробу до появления жалобы пациента?','Мария Сергеевна Извекова','izvekova.webp','руководитель службы лабораторной диагностики ГБУЗ МО «Истринская клиническая больница»')}
+ ${talk('16:25–16:40','16','ЕМИАС–ЛИС без разрывов: от назначения до результата и дальнейшей маршрутизации','Татьяна Сергеевна Сидорова','sidorova.webp','руководитель проектов ООО «Формит»')}
  ${talk('16:40–16:55','17','Антимикробная резистентность: единый региональный контур регистрации и анализа','Марина Витальевна Сухорукова')}
- ${talk('16:55–17:10','18','Отечественные реагенты, оборудование и лабораторная автоматизация: готовность к работе в централизованной сети','Михаил Васильевич Иконников','ikonnikov.webp')}
- ${talk('17:10–17:25','19','Отечественные реагенты, оборудование и лабораторная автоматизация: готовность к работе в централизованной сети','Андрей Викторович Варивода','varivoda.webp')}
+ ${talk('16:55–17:10','18','Отечественные реагенты, оборудование и лабораторная автоматизация: готовность к работе в централизованной сети','Михаил Васильевич Иконников','ikonnikov.webp','генеральный директор АО «Эрба Рус»')}
+ ${talk('17:10–17:25','19','Отечественные реагенты, оборудование и лабораторная автоматизация: готовность к работе в централизованной сети','Андрей Викторович Варивода','varivoda.webp','председатель Совета директоров ГК «ДИАКОН»')}
  ${talk('17:25–17:40','20','ИИ в лаборатории: выявление аномальных назначений и интерпретация исследований','Мария · уточняется')}
  ${service('17:40–18:00','Завершение','Подведение итогов и заключительное слово')}
  </div>`;
