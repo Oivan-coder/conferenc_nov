@@ -195,7 +195,44 @@ $style = <<<'HTML'
  .speaker-popover__copy strong{font-size:16px}
  body.speaker-popover-open{overflow:hidden}
 }
-@media(max-width:390px){.c26-agenda__item.agenda-talk{padding-right:11px}.agenda-speaker-row{grid-template-columns:62px minmax(0,1fr);gap:11px}.agenda-speaker-row--text{grid-template-columns:1fr}.agenda-speaker-photo{width:62px;height:62px}.agenda-speaker-hint{font-size:8.5px}.speaker-popover{width:calc(100vw - 20px);max-height:calc(100dvh - 20px)}.speaker-popover__photo{height:min(330px,52dvh)}}
+@media(max-width:720px){
+ .agenda-preview .c26-program .container{padding-inline:10px}
+ .agenda-preview .c26-program-disclosure{border-radius:18px}
+ .c26-agenda{padding:0 8px 24px}
+ .agenda-nav{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:0 0 24px;padding:0;overflow:visible}
+ .agenda-nav a{min-width:0;min-height:64px;padding:10px;gap:9px;border-radius:14px;font-size:10px;overflow-wrap:anywhere}
+ .agenda-nav b{width:30px;height:30px;border-radius:9px}
+ .agenda-timeline:before{display:none}
+ .agenda-block{margin:24px 0 12px;padding:18px;border-radius:18px}
+ .agenda-block:after{top:15px;bottom:15px;width:3px}
+ .agenda-block__num{display:none}
+ .agenda-block__label{margin-bottom:7px;font-size:8.5px;line-height:1.35;letter-spacing:.13em}
+ .agenda-block h3{max-width:none;font-size:18px;line-height:1.28;letter-spacing:-.018em;text-wrap:pretty}
+ .c26-agenda__item.agenda-talk{grid-template-columns:auto minmax(0,1fr);gap:10px 12px;margin:10px 0;padding:17px;border-radius:17px;opacity:1;transform:none}
+ .c26-agenda__item.agenda-talk>div{display:contents}
+ .c26-agenda__item.agenda-talk:after{display:none}
+ .c26-agenda__item.agenda-talk time{grid-column:1;align-self:center;padding:0;font-size:12px;line-height:1.2}
+ .agenda-talk__meta{grid-column:2;align-self:center;justify-self:end;margin:0}
+ .agenda-preview .c26-agenda__item .agenda-talk__tag{display:block;margin:0;padding-left:22px;color:#91aabd;font-size:8px;line-height:1.2;font-weight:850;letter-spacing:.095em;text-transform:uppercase;white-space:nowrap}
+ .agenda-preview .c26-agenda__item .agenda-talk__tag:before{width:13px}
+ .c26-agenda__item.agenda-talk h3{grid-column:1/-1;max-width:none;margin:5px 0 0;font-size:16px;line-height:1.38;font-weight:740;text-align:left;text-wrap:pretty}
+ .agenda-speaker-row{grid-column:1/-1;grid-template-columns:54px minmax(0,1fr);gap:11px;align-items:center;margin-top:4px;padding:9px 10px;border:1px solid rgba(80,222,242,.10);border-radius:14px;background:rgba(4,20,35,.38)}
+ .agenda-speaker-row--text{grid-template-columns:1fr;padding:0;border:0;background:none}
+ .agenda-speaker-photo{width:54px;height:54px;border-radius:13px}
+ .agenda-speaker-profile:after{right:-3px;bottom:-3px;width:18px;height:18px;border-width:2px;font-size:13px}
+ .agenda-speaker-copy .agenda-speaker{display:block;margin:0!important;font-size:12px!important;line-height:1.4!important;text-align:left}
+ .agenda-speaker-copy .agenda-speaker strong:before{display:none}
+ .agenda-preview .c26-agenda__item .agenda-speaker-hint{display:block;margin:4px 0 0;color:#75b9c6;font-size:9px;font-weight:650;line-height:1.35;letter-spacing:0;text-transform:none}
+ .agenda-service{grid-template-columns:1fr;gap:7px;margin:9px 0;padding:16px 17px;border-radius:16px}
+ .agenda-service time{font-size:11px}
+ .agenda-service>div>div{display:block}
+ .agenda-service span{margin-bottom:5px}
+ .agenda-service h3{font-size:14px;line-height:1.4}
+ .agenda-opening .agenda-speaker{display:grid;gap:5px;margin-top:9px!important}
+ .agenda-opening .agenda-speaker strong{display:block}
+ .agenda-preview .back-to-top{display:none!important}
+}
+@media(max-width:390px){.c26-agenda__item.agenda-talk{padding:14px}.agenda-speaker-row{grid-template-columns:50px minmax(0,1fr);gap:10px;padding:8px}.agenda-speaker-row--text{grid-template-columns:1fr;padding:0}.agenda-speaker-photo{width:50px;height:50px}.agenda-preview .c26-agenda__item .agenda-speaker-hint{font-size:8.5px}.speaker-popover{width:calc(100vw - 20px);max-height:calc(100dvh - 20px)}.speaker-popover__photo{height:min(330px,52dvh)}}
 @media(prefers-reduced-motion:reduce){.agenda-nav a,.c26-agenda__item.agenda-talk{transition:none}.agenda-nav a:hover,.c26-agenda__item.agenda-talk:hover{transform:none}}
 </style>
 HTML;
@@ -217,7 +254,7 @@ document.addEventListener('DOMContentLoaded',()=>{
  if(disclosure){disclosure.open=true;disclosure.addEventListener('toggle',syncLabel);} syncLabel();
  const agenda=root.querySelector('.c26-agenda'); if(!agenda) return;
  const attr=value=>String(value).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
- const talk=(time,n,title,speaker,photo='',credentials='',focus='50% 28%')=>`<article class="c26-agenda__item agenda-talk"><time>${time}</time><div><div class="agenda-talk__meta"><span class="agenda-talk__tag">${String(n).padStart(2,'0')} · выступление</span></div><h3>${title}</h3><div class="agenda-speaker-row${photo?'':' agenda-speaker-row--text'}">${photo?`<button class="agenda-speaker-profile" type="button" aria-haspopup="dialog" aria-expanded="false" aria-label="Открыть фотографию и сведения: ${attr(speaker)}" data-speaker-name="${attr(speaker)}" data-speaker-credentials="${attr(credentials)}" data-speaker-photo="${attr(photo)}" data-speaker-focus="${attr(focus)}"><img class="agenda-speaker-photo" src="/images/speakers/2026/${photo}" alt="${attr(speaker)}" loading="lazy" decoding="async" style="--speaker-focus:${focus}"></button>`:''}<div class="agenda-speaker-copy"><p class="agenda-speaker"><strong>${speaker}</strong></p>${photo?`<span class="agenda-speaker-hint">Нажмите на фото — сведения о спикере</span>`:''}</div></div></div></article>`;
+ const talk=(time,n,title,speaker,photo='',credentials='',focus='50% 28%')=>`<article class="c26-agenda__item agenda-talk"><time>${time}</time><div><div class="agenda-talk__meta"><span class="agenda-talk__tag">${String(n).padStart(2,'0')} · выступление</span></div><h3>${title}</h3><div class="agenda-speaker-row${photo?'':' agenda-speaker-row--text'}">${photo?`<button class="agenda-speaker-profile" type="button" aria-haspopup="dialog" aria-expanded="false" aria-label="Открыть фотографию и сведения: ${attr(speaker)}" data-speaker-name="${attr(speaker)}" data-speaker-credentials="${attr(credentials)}" data-speaker-photo="${attr(photo)}" data-speaker-focus="${attr(focus)}"><img class="agenda-speaker-photo" src="/images/speakers/2026/${photo}" alt="${attr(speaker)}" loading="lazy" decoding="async" style="--speaker-focus:${focus}"></button>`:''}<div class="agenda-speaker-copy"><p class="agenda-speaker"><strong>${speaker}</strong></p>${photo?`<span class="agenda-speaker-hint">Нажмите для подробностей</span>`:''}</div></div></div></article>`;
  const service=(time,label,title,extra='',cls='')=>`<article class="agenda-service ${cls}"><time>${time}</time><div><div><span>${label}</span><h3>${title}</h3>${extra?`<p class="agenda-speaker">${extra}</p>`:''}</div></div></article>`;
  const block=(n,title)=>`<section class="agenda-block" id="agenda-block-${n}"><div class="agenda-block__num">0${n}</div><span class="agenda-block__label">Тематический блок ${n}</span><h3>${title}</h3></section>`;
  agenda.innerHTML=`
@@ -234,7 +271,7 @@ document.addEventListener('DOMContentLoaded',()=>{
  </nav>
  <div class="agenda-timeline">
  ${service('09:30–10:00','Сбор участников','Регистрация участников')}
- ${service('10:00–10:15','Открытие','Открытие конференции','<strong>Максим Васильевич Забелин</strong> · <strong>Иван Михайлович Гольцев</strong>','agenda-opening')}
+ ${service('10:00–10:15','Открытие','Открытие конференции','<strong>Максим Васильевич Забелин</strong><strong>Иван Михайлович Гольцев</strong>','agenda-opening')}
  ${block(1,'Лабораторная служба в реализации национальных приоритетов')}
  ${talk('10:15–10:30','1','Национальные проекты — как реализовать лабораторный потенциал?','Татьяна Ивановна Долгих','dolgikh.webp','д.м.н., профессор; ПИУВ — филиал РМАНПО Минздрава России; Учебный центр и ЦВКК')}
  ${talk('10:30–10:45','2','Первичная профилактика в кардиологии — основа здорового долголетия. Как правильно оценить лабораторные показатели','Александр Польевич Ройтман','roytman.webp','д.м.н., профессор; РМАНПО Минздрава России; главный внештатный специалист по КЛД Минздрава России по ЦФО')}
