@@ -288,6 +288,108 @@
   backdrop-filter: blur(10px);
 }
 
+/* Public registration is open: make state and limited offline seats unmistakable. */
+.registration-2026-page[data-registration-state="open"] .r26-status {
+  position: relative;
+  overflow: hidden;
+  border-color: rgba(101, 224, 241, 0.48);
+  background:
+    radial-gradient(circle at 100% 0, rgba(72, 214, 237, 0.16), transparent 42%),
+    linear-gradient(145deg, rgba(8, 35, 58, 0.96), rgba(7, 27, 47, 0.98));
+  box-shadow: 0 24px 70px rgba(0, 10, 25, 0.28), inset 0 1px 0 rgba(255,255,255,0.03);
+}
+
+.registration-2026-page[data-registration-state="open"] .r26-status::after {
+  content: "";
+  position: absolute;
+  width: 180px;
+  height: 180px;
+  right: -74px;
+  bottom: -92px;
+  border: 28px solid rgba(101, 224, 241, 0.04);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.registration-2026-page[data-registration-state="open"] .r26-status > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  color: #72e7f7;
+}
+
+.registration-2026-page[data-registration-state="open"] .r26-status > span::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #67e7b8;
+  box-shadow: 0 0 0 5px rgba(103, 231, 184, 0.10), 0 0 20px rgba(103, 231, 184, 0.35);
+}
+
+.registration-2026-page[data-registration-state="open"] .r26-status > strong {
+  display: block;
+  margin-top: 12px;
+  color: #f7fbff;
+  font-size: clamp(1.8rem, 3.2vw, 2.45rem);
+  line-height: 1.05;
+  letter-spacing: -0.035em;
+}
+
+.registration-2026-page[data-registration-state="open"] .r26-status > p {
+  position: relative;
+  z-index: 1;
+  margin-top: 22px;
+  padding: 54px 18px 18px;
+  border: 1px solid rgba(255, 151, 93, 0.34);
+  border-radius: 16px;
+  background: linear-gradient(135deg, rgba(255, 123, 67, 0.10), rgba(255, 255, 255, 0.025));
+  color: #c9d9e5;
+  line-height: 1.55;
+}
+
+.registration-2026-page[data-registration-state="open"] .r26-status > p::before {
+  content: "⚠  ОЧНЫЕ МЕСТА ОГРАНИЧЕНЫ";
+  position: absolute;
+  top: 14px;
+  left: 16px;
+  display: inline-flex;
+  align-items: center;
+  color: #ff9c73;
+  font-size: 0.74rem;
+  font-weight: 900;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+}
+
+/* Conference page: reflect the real registration state, not the pre-launch copy. */
+.conference-2026-page .c26-hero__actions a[href="/registration/"] {
+  position: relative;
+  font-size: 0;
+  border-color: rgba(103, 231, 184, 0.42);
+  background: linear-gradient(135deg, rgba(103, 231, 184, 0.14), rgba(78, 218, 239, 0.10));
+  box-shadow: 0 10px 30px rgba(40, 205, 177, 0.12);
+}
+
+.conference-2026-page .c26-hero__actions a[href="/registration/"]::before {
+  content: "";
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  margin-right: 9px;
+  border-radius: 50%;
+  background: #67e7b8;
+  box-shadow: 0 0 0 4px rgba(103, 231, 184, 0.10);
+  vertical-align: middle;
+}
+
+.conference-2026-page .c26-hero__actions a[href="/registration/"]::after {
+  content: "Регистрация открыта";
+  font-size: 0.95rem;
+  font-weight: 800;
+  vertical-align: middle;
+}
+
 @media (max-width: 980px) {
   .institution-footer .institution-footer__panel {
     grid-template-columns: 1fr;
@@ -409,6 +511,10 @@
     width: auto;
     border-radius: 14px;
     font-size: 0.72rem;
+  }
+
+  .registration-2026-page[data-registration-state="open"] .r26-status > p {
+    padding: 52px 15px 15px;
   }
 }
 
