@@ -66,6 +66,22 @@ function smokeRegister(string $key, string $source, string $format, string $firs
 
 if ($_SERVER['REQUEST_METHOD'] !== 'GET') smokeRespond(405, ['ok' => false, 'error' => 'method_not_allowed']);
 
+$environment = [
+    'php_version' => PHP_VERSION,
+    'register_readable' => is_readable(__DIR__ . '/register.php'),
+    'config_readable' => is_readable(__DIR__ . '/registration-config.php'),
+    'config_loaded' => false,
+    'config_error' => null,
+];
+if ($environment['config_readable']) {
+    try {
+        require_once __DIR__ . '/registration-config.php';
+        $environment['config_loaded'] = function_exists('registrationEnsureSourceColumn');
+    } catch (Throwable $configError) {
+        $environment['config_error'] = get_class($configError) . ': ' . $configError->getMessage();
+    }
+}
+
 if (is_readable(TEST_MARKER_SMOKE)) {
     $stored = json_decode((string)file_get_contents(TEST_MARKER_SMOKE), true);
     if (is_array($stored) && !empty($stored['ok'])) smokeRespond(200, $stored);
@@ -116,6 +132,6 @@ foreach ($runs as $name => &$run) {
 }
 unset($run);
 
-$result = ['ok' => $allOk, 'created_at' => date(DATE_ATOM), 'runs' => $runs];
+$result = ['ok' => $allOk, 'created_at' => date(DATE_ATOM), 'environment' => $environment, 'runs' => $runs];
 @file_put_contents(TEST_MARKER_SMOKE, json_encode($result, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT), LOCK_EX);
 smokeRespond($allOk ? 200 : 503, $result);

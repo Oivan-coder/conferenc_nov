@@ -14,6 +14,12 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 6
     steps:
+      - uses: actions/checkout@v4
+      - name: Check PHP syntax
+        run: |
+          php -l api/registration-config.php
+          php -l api/register.php
+          php -l api/registration-smoke-e58a1c7d6b2f.php
       - name: Wait for deployment and verify registration
         shell: bash
         run: |
@@ -38,7 +44,7 @@ jobs:
 
           echo 'Registration smoke test did not pass.'
           if jq empty response.json 2>/dev/null; then
-            jq '{ok, created_at, runs: (.runs | map_values({http_status, registration_ok, participant_page_ok, qr_ok, response: {ok: .response.ok, error: .response.error, email_sent: .response.email_sent, registration_source: .response.registration_source, debug_type: .response.debug_type, debug_message: .response.debug_message, raw: ((.response.raw // "")[0:500])}}))}' response.json
+            jq '{ok, created_at, environment, runs: (.runs | map_values({http_status, registration_ok, participant_page_ok, qr_ok, response: {ok: .response.ok, error: .response.error, email_sent: .response.email_sent, registration_source: .response.registration_source, debug_type: .response.debug_type, debug_message: .response.debug_message, raw: ((.response.raw // "")[0:500])}}))}' response.json
           else
             head -c 500 response.json || true
           fi
