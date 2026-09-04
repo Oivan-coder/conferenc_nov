@@ -1,11 +1,32 @@
 <?php
 
+require_once __DIR__ . '/speakers.php';
+
 if (!defined('DASHBOARD_PRINT_CLIENT_INJECTED')) {
     define('DASHBOARD_PRINT_CLIENT_INJECTED', true);
     ob_start(static function (string $html): string {
         if (stripos($html, '</body>') === false) return $html;
+
+        $speakerNames = json_encode(dashboardSpeakerNames(), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
         $asset = '<script src="/dashboard/print-client.js?v=20260831-1"></script>';
-        return str_ireplace('</body>', $asset . '</body>', $html);
+        $roles = '<script>(function(){'
+            . 'const names=' . $speakerNames . ';'
+            . 'const norm=v=>String(v||"").trim().toLowerCase().replace(/ё/g,"е").replace(/\\s+/g," ");'
+            . 'const set=new Set(names.map(norm));'
+            . 'const table=document.getElementById("people"); if(!table)return;'
+            . 'const filters=table.closest(".panel")?.querySelector(".filters");'
+            . 'if(filters&&!document.getElementById("role")){const sel=document.createElement("select");sel.id="role";sel.innerHTML="<option value=\"\">Все роли</option><option value=\"speaker\">Докладчики</option><option value=\"participant\">Не докладчики</option>";filters.appendChild(sel);}'
+            . 'const head=table.querySelector("thead tr"); if(head&&!head.querySelector("[data-role-head]")){const th=document.createElement("th");th.dataset.roleHead="1";th.textContent="Роль";const source=[...head.children].find(x=>x.textContent.trim()==="Источник");head.insertBefore(th,source||head.children[3]||null);}'
+            . 'const rows=[...table.querySelectorAll("tbody tr")]; let speakers=0,others=0,invitedSpeakers=0;'
+            . 'rows.forEach(r=>{const name=r.querySelector("td strong")?.textContent||"";const isSpeaker=set.has(norm(name));r.dataset.role=isSpeaker?"speaker":"participant";if(r.dataset.status==="confirmed"){if(isSpeaker)speakers++;else others++;}const cells=[...r.children];const sourceCell=cells.find(td=>/Публичная регистрация|По приглашению|Тест/.test(td.textContent));if(isSpeaker&&sourceCell&&/По приглашению/.test(sourceCell.textContent))invitedSpeakers++;const td=document.createElement("td");td.innerHTML=isSpeaker?"<span class=\"tag\" style=\"background:#e9eefc;color:#3d5791\">Докладчик</span>":"<span class=\"muted\">Участник</span>";if(sourceCell)r.insertBefore(td,sourceCell);else r.appendChild(td);});'
+            . 'const panel=table.closest(".panel");const meta=panel?.querySelector(".panel-head .muted");if(meta)meta.textContent=`${rows.length} записей · докладчики ${speakers} · остальные ${others}`;'
+            . 'const role=document.getElementById("role"),q=document.getElementById("q"),f=document.getElementById("fmt"),s=document.getElementById("sts");'
+            . 'function applyRole(){const text=(q?.value||"").trim().toLowerCase();rows.forEach(r=>{const okText=!text||(r.dataset.search||"").includes(text);const okF=!f?.value||r.dataset.format===f.value;const okS=!s?.value||r.dataset.status===s.value;const okR=!role?.value||r.dataset.role===role.value;r.hidden=!(okText&&okF&&okS&&okR);});}'
+            . '[q,f,s,role].filter(Boolean).forEach(el=>el.addEventListener("input",applyRole));'
+            . 'const brief=document.getElementById("briefText");if(brief&&speakers+others>0){brief.textContent += `\n\nРоли участников:\n• докладчики — ${speakers}${invitedSpeakers?` (по приглашению — ${invitedSpeakers})`:""}\n• остальные участники — ${others}`;}'
+            . '})();</script>';
+
+        return str_ireplace('</body>', $asset . $roles . '</body>', $html);
     });
 }
 
