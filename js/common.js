@@ -213,55 +213,60 @@ function buildHeaderHtml(activePage) {
 
 function buildFooterHtml(activePage) {
     const isConferencePage = activePage === 'conference-2026';
-    const monikiRole = isConferencePage ? 'Организатор форума' : 'Референс-центр в структуре';
+    const monikiRole = isConferencePage ? 'Организатор форума' : 'РЦЛСМО · МОНИКИ';
 
     return `
-        <footer class="main-footer" id="contacts">
+        <footer class="main-footer institution-footer" id="contacts">
             <div class="container">
-                <div class="footer-main" aria-label="Организации и контактная информация">
-                    <section class="footer-block footer-block--moniki">
-                        <span class="footer-label">${monikiRole}</span>
-                        <a href="https://www.monikiweb.ru/" target="_blank" rel="noopener noreferrer" class="footer-entity">
-                            <span class="footer-entity__logo footer-entity__logo--moniki">
+                <div class="institution-footer__panel" aria-label="Организации и контактная информация">
+                    <section class="institution-footer__lead">
+                        <span class="institution-footer__eyebrow">__MONIKI_ROLE__</span>
+                        <a class="institution-footer__brand" href="https://www.monikiweb.ru/" target="_blank" rel="noopener noreferrer">
+                            <span class="institution-footer__brand-logo">
                                 <img src="images/moniki-logo-preview.svg" alt="" loading="lazy" decoding="async">
                             </span>
-                            <span class="footer-entity__content">
-                                <span class="footer-entity__name">ГБУЗ МО МОНИКИ им. М. Ф. Владимирского</span>
-                                <small class="footer-entity__note">РЦЛСМО — структурное подразделение</small>
+                            <span>
+                                <strong>ГБУЗ МО МОНИКИ</strong>
+                                <small>им. М. Ф. Владимирского</small>
                             </span>
+                        </a>
+                        <a class="institution-footer__more" href="/about/#organization">
+                            Подробнее о центре <span aria-hidden="true">→</span>
                         </a>
                     </section>
 
-                    <section class="footer-block">
-                        <span class="footer-label">Во взаимодействии с</span>
-                        <a href="https://mz.mosreg.ru/" target="_blank" rel="noopener noreferrer" class="footer-entity">
-                            <span class="footer-entity__logo">
-                                <img src="images/mz-mosreg-logo.png" alt="" loading="lazy" decoding="async">
-                            </span>
-                            <span class="footer-entity__name">Министерство здравоохранения Московской области</span>
-                        </a>
-                    </section>
+                    <div class="institution-footer__meta">
+                        <div class="institution-footer__partners">
+                            <a class="institution-footer__partner" href="https://mz.mosreg.ru/" target="_blank" rel="noopener noreferrer">
+                                <span class="institution-footer__partner-label">Во взаимодействии с</span>
+                                <span class="institution-footer__partner-body">
+                                    <span class="institution-footer__partner-logo">
+                                        <img src="images/mz-mosreg-logo.png" alt="" loading="lazy" decoding="async">
+                                    </span>
+                                    <strong>Министерство здравоохранения Московской области</strong>
+                                </span>
+                            </a>
 
-                    <section class="footer-block">
-                        <span class="footer-label">Организационное сопровождение</span>
-                        <a href="https://cvimz.ru/" target="_blank" rel="noopener noreferrer" class="footer-entity">
-                            <span class="footer-entity__logo">
-                                <img src="images/cvimz-logo.png" alt="" loading="lazy" decoding="async">
-                            </span>
-                            <span class="footer-entity__name">Центр внедрения изменений и обеспечения деятельности МЗ</span>
-                        </a>
-                    </section>
+                            <a class="institution-footer__partner" href="https://cvimz.ru/" target="_blank" rel="noopener noreferrer">
+                                <span class="institution-footer__partner-label">Организационное сопровождение</span>
+                                <span class="institution-footer__partner-body">
+                                    <span class="institution-footer__partner-logo">
+                                        <img src="images/cvimz-logo.png" alt="" loading="lazy" decoding="async">
+                                    </span>
+                                    <strong>Центр внедрения изменений и обеспечения деятельности МЗ</strong>
+                                </span>
+                            </a>
+                        </div>
 
-                    <section class="footer-block footer-block--contact">
-                        <span class="footer-label">Контакт информационного ресурса</span>
-                        <a href="mailto:info@rclsmo.ru" class="footer-mail">
-                            <span class="footer-mail__mark" aria-hidden="true">@</span>
-                            <span class="footer-mail__content">
+                        <a class="institution-footer__contact" href="mailto:info@rclsmo.ru">
+                            <span class="institution-footer__contact-mark" aria-hidden="true">@</span>
+                            <span class="institution-footer__contact-copy">
+                                <small>Контакт центра</small>
                                 <strong>info@rclsmo.ru</strong>
-                                <small>Общие вопросы и обратная связь</small>
                             </span>
+                            <span class="institution-footer__contact-note">Общие вопросы и обратная связь</span>
                         </a>
-                    </section>
+                    </div>
                 </div>
 
                 <div class="footer-divider"></div>
