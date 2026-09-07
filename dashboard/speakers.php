@@ -6,6 +6,14 @@ function dashboardNormalizePersonName(string $value): string {
     return trim($value);
 }
 
+function dashboardPersonNameKey(string $value): string {
+    $normalized = dashboardNormalizePersonName($value);
+    if ($normalized === '') return '';
+    $parts = preg_split('/\s+/u', $normalized) ?: [];
+    sort($parts, SORT_STRING);
+    return implode(' ', $parts);
+}
+
 function dashboardSpeakerNames(): array {
     return [
         'Татьяна Ивановна Долгих',
@@ -35,13 +43,13 @@ function dashboardSpeakerSet(): array {
     if (is_array($set)) return $set;
     $set = [];
     foreach (dashboardSpeakerNames() as $name) {
-        $set[dashboardNormalizePersonName($name)] = true;
+        $set[dashboardPersonNameKey($name)] = true;
     }
     return $set;
 }
 
 function dashboardIsSpeaker(string $fullName): bool {
-    return isset(dashboardSpeakerSet()[dashboardNormalizePersonName($fullName)]);
+    return isset(dashboardSpeakerSet()[dashboardPersonNameKey($fullName)]);
 }
 
 function dashboardParticipantRoleLabel(string $fullName): string {
