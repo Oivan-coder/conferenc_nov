@@ -3,7 +3,7 @@
 use PHPMailer\PHPMailer\PHPMailer;
 
 const SMTP_AUTOLOAD_PATH = '/home/c/cx314477/public_html/.private/vendor/autoload.php';
-const SMTP_PASSWORD_PATH = '/home/c/cx314477/public_html/.private/smtp_pass';
+const SMTP_PASSWORD_PATH = '/home/c/cx314477/public_html/.private/unisender_smtp_pass';
 
 function sendConfiguredMail(string $to, string $subject, string $htmlBody): bool
 {
@@ -28,9 +28,9 @@ function sendConfiguredMail(string $to, string $subject, string $htmlBody): bool
 
         $mail = new PHPMailer(true);
         $mail->isSMTP();
-        $mail->Host = 'smtp.timeweb.ru';
+        $mail->Host = 'smtp.go2.unisender.ru';
         $mail->SMTPAuth = true;
-        $mail->Username = 'info@rclsmo.ru';
+        $mail->Username = '8332834';
         $mail->Password = $password;
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
         $mail->Port = 587;
