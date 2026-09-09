@@ -484,8 +484,12 @@
     padding: 19px 18px 16px;
   }
 
+  .institution-footer__brand {
+    margin-left: 18px;
+  }
+
   .institution-footer__lead .institution-footer__more {
-    margin: 11px 0 0 59px;
+    margin: 11px 0 0 77px;
   }
 
   .institution-footer__eyebrow,
