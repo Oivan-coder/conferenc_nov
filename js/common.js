@@ -274,7 +274,6 @@ function buildFooterHtml(activePage) {
                 <div class="footer-bottom">
                     <div class="footer-identity">
                         <p class="footer-title">Информационный ресурс Референс-центра лабораторной службы Московской области</p>
-                        <p class="footer-disclaimer">Не является официальным интернет-порталом органа власти или медицинской организации</p>
                     </div>
                     <nav class="footer-links" aria-label="Правовая информация">
                         <a href="/privacy/">Политика конфиденциальности</a>
