@@ -8,7 +8,7 @@ if (!defined('DASHBOARD_PRINT_CLIENT_INJECTED')) {
         if (stripos($html, '</body>') === false) return $html;
 
         $speakerNames = json_encode(dashboardSpeakerNames(), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
-        $asset = '<script src="/dashboard/print-client.js?v=20260831-1"></script>';
+        $asset = '<script src="/dashboard/print-client.js?v=20260910-2"></script>';
         $roles = '<script>(function(){'
             . 'const names=' . $speakerNames . ';'
             . 'const norm=v=>String(v||"").trim().toLowerCase().replace(/ё/g,"е").replace(/\\s+/g," ");'
