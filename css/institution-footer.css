@@ -446,23 +446,28 @@
   }
 
   .institution-footer__lead {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) auto;
-    gap: 0 22px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
     border-right: 0;
     border-bottom: 1px solid rgba(140, 203, 230, 0.14);
+    text-align: center;
   }
 
-  .institution-footer__lead .institution-footer__eyebrow,
+  .institution-footer__lead .institution-footer__eyebrow {
+    text-align: center;
+  }
+
   .institution-footer__lead .institution-footer__brand {
-    grid-column: 1;
+    width: fit-content;
+    margin: 0 auto;
+    text-align: left;
   }
 
   .institution-footer__lead .institution-footer__more {
-    grid-column: 2;
-    grid-row: 1 / 3;
     align-self: center;
-    margin: 0;
+    margin: 12px auto 0;
   }
 }
 
@@ -476,8 +481,11 @@
   }
 
   .institution-footer__lead {
-    display: block;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     padding: 19px 18px 18px;
+    text-align: center;
   }
 
   .institution-footer__meta {
@@ -485,11 +493,11 @@
   }
 
   .institution-footer__brand {
-    margin-left: 18px;
+    margin: 0 auto;
   }
 
   .institution-footer__lead .institution-footer__more {
-    margin: 11px 0 0 77px;
+    margin: 11px auto 0;
   }
 
   .institution-footer__eyebrow,
