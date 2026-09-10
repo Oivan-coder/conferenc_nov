@@ -219,7 +219,7 @@ function buildFooterHtml(activePage) {
         <footer class="main-footer institution-footer" id="contacts">
             <div class="container">
                 <div class="institution-footer__panel" aria-label="Организации и контактная информация">
-                    <section class="institution-footer__lead">
+                    <div class="institution-footer__lead">
                         <span class="institution-footer__eyebrow">${monikiRole}</span>
                         <a class="institution-footer__brand" href="https://www.monikiweb.ru/" target="_blank" rel="noopener noreferrer">
                             <span class="institution-footer__brand-logo">
@@ -233,7 +233,7 @@ function buildFooterHtml(activePage) {
                         <a class="institution-footer__more" href="/about/#organization">
                             Подробнее о центре <span aria-hidden="true">→</span>
                         </a>
-                    </section>
+                    </div>
 
                     <div class="institution-footer__meta">
                         <div class="institution-footer__partners">
