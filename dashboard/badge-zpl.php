@@ -27,22 +27,19 @@ function zplTruncate(string $value, int $maxLength): string {
 
 function zplEstimatedFont(string $value, int $boxWidth): int {
     $length = max(1, mb_strlen(zplText($value), 'UTF-8'));
-    // Font 0 is proportional. In the tested Cyrillic layout an average glyph occupies
-    // roughly 0.62 of the declared character width, so this is deliberately less
-    // conservative than the previous character-count formula.
     return (int)floor($boxWidth / ($length * 0.62));
 }
 
-function zplFitSingleLineFont(string $value, int $boxWidth, int $preferred = 64, int $minimum = 30): int {
+function zplFitSingleLineFont(string $value, int $boxWidth, int $preferred = 60, int $minimum = 28): int {
     return max($minimum, min($preferred, zplEstimatedFont($value, $boxWidth)));
 }
 
 function zplSplitSurname(string $surname, int $boxWidth): array {
     if ($surname === '') return [];
 
-    // Keep ordinary surnames on one line. A long hyphenated surname is much more
-    // readable as two large lines than as one tiny line.
-    if (zplEstimatedFont($surname, $boxWidth) >= 42 || !str_contains($surname, '-')) {
+    // Обычную фамилию держим в одну строку. Длинную двойную фамилию
+    // переносим по дефису, чтобы не превращать её в микротекст.
+    if (zplEstimatedFont($surname, $boxWidth) >= 44 || !str_contains($surname, '-')) {
         return [$surname];
     }
 
@@ -80,10 +77,12 @@ function zplWrapForFont(string $value, int $boxWidth, int $font): array {
     return $lines;
 }
 
-function zplOrganizationLayout(string $value, int $boxWidth, int $maxLines = 4): array {
-    foreach ([42, 40, 38, 36, 34, 32, 30, 28, 26, 24] as $font) {
+function zplOrganizationLayout(string $value, int $boxWidth, int $maxLines = 3): array {
+    // Организация — вторичный уровень. Предпочитаем 2–3 хорошо читаемые строки
+    // вместо слишком крупного текста, который может выйти за нижнюю границу этикетки.
+    foreach ([34, 32, 30, 28, 26, 24, 22] as $font) {
         $lines = zplWrapForFont($value, $boxWidth, $font);
-        if (count($lines) > $maxLines) continue;
+        if (count($lines) === 0 || count($lines) > $maxLines) continue;
 
         $fits = true;
         foreach ($lines as $line) {
@@ -95,7 +94,21 @@ function zplOrganizationLayout(string $value, int $boxWidth, int $maxLines = 4):
         if ($fits) return [$font, $lines];
     }
 
-    return [22, array_slice(zplWrapForFont($value, $boxWidth, 22), 0, $maxLines)];
+    return [20, array_slice(zplWrapForFont($value, $boxWidth, 20), 0, $maxLines)];
+}
+
+function nameBlockHeight(array $lines, int $gap): int {
+    $height = 0;
+    foreach ($lines as $i => $line) {
+        $height += (int)$line['font'];
+        if ($i < count($lines) - 1) $height += $gap;
+    }
+    return $height;
+}
+
+function organizationBlockHeight(array $lines, int $font, int $gap): int {
+    if (!$lines) return 0;
+    return count($lines) * $font + max(0, count($lines) - 1) * $gap;
 }
 
 $code = strtoupper(trim((string)($_GET['code'] ?? '')));
@@ -131,20 +144,43 @@ try {
     $CONTENT_X = 40;
     $CONTENT_WIDTH = 720;
 
+    // По физической печати нижнюю часть носителя оставляем как техническую
+    // безопасную зону. Это предотвращает срез последней строки на длинных бейджах.
+    $SAFE_TOP = 18;
+    $SAFE_BOTTOM = 62;
+    $SAFE_END_Y = $LABEL_HEIGHT - $SAFE_BOTTOM;
+    $SAFE_HEIGHT = $SAFE_END_Y - $SAFE_TOP;
+
     $nameParts = preg_split('/\s+/u', zplText((string)$participant['full_name'])) ?: [];
     $lastName = mb_strtoupper((string)($nameParts[0] ?? ''), 'UTF-8');
     $firstName = mb_strtoupper((string)($nameParts[1] ?? ''), 'UTF-8');
     $middleName = mb_strtoupper(implode(' ', array_slice($nameParts, 2)), 'UTF-8');
 
+    $surnameLines = zplSplitSurname($lastName, $CONTENT_WIDTH);
+    $nameLineCount = count($surnameLines) + ($firstName !== '' ? 1 : 0) + ($middleName !== '' ? 1 : 0);
+
+    // Чем больше строк у ФИО, тем ниже верхний предел кегля. Так длинное ФИО
+    // остаётся выразительным, но не забирает место у организации.
+    $namePreferred = $nameLineCount >= 4 ? 50 : 60;
+
     $nameLines = [];
-    foreach (zplSplitSurname($lastName, $CONTENT_WIDTH) as $surnameLine) {
-        $nameLines[] = ['text' => $surnameLine, 'font' => zplFitSingleLineFont($surnameLine, $CONTENT_WIDTH, 64, 34)];
+    foreach ($surnameLines as $surnameLine) {
+        $nameLines[] = [
+            'text' => $surnameLine,
+            'font' => zplFitSingleLineFont($surnameLine, $CONTENT_WIDTH, $namePreferred, 30),
+        ];
     }
     if ($firstName !== '') {
-        $nameLines[] = ['text' => $firstName, 'font' => zplFitSingleLineFont($firstName, $CONTENT_WIDTH, 64, 34)];
+        $nameLines[] = [
+            'text' => $firstName,
+            'font' => zplFitSingleLineFont($firstName, $CONTENT_WIDTH, $namePreferred, 30),
+        ];
     }
     if ($middleName !== '') {
-        $nameLines[] = ['text' => $middleName, 'font' => zplFitSingleLineFont($middleName, $CONTENT_WIDTH, 64, 30)];
+        $nameLines[] = [
+            'text' => $middleName,
+            'font' => zplFitSingleLineFont($middleName, $CONTENT_WIDTH, $namePreferred, 28),
+        ];
     }
 
     $organizationSource = (string)$participant['organization'];
@@ -155,28 +191,46 @@ try {
         }
     }
     $organization = zplTruncate($organizationSource, 140);
-    [$organizationFont, $organizationLines] = zplOrganizationLayout($organization, $CONTENT_WIDTH, 4);
+    [$organizationFont, $organizationLines] = zplOrganizationLayout($organization, $CONTENT_WIDTH, 3);
 
-    $NAME_GAP = 7;
-    $BLOCK_GAP = 18;
-    $ORG_GAP = max(3, (int)round($organizationFont * 0.12));
+    $NAME_GAP = 4;
+    $BLOCK_GAP = 14;
+    $ORG_GAP = max(2, (int)round($organizationFont * 0.08));
 
-    $nameHeight = 0;
-    foreach ($nameLines as $i => $line) {
-        $nameHeight += (int)$line['font'];
-        if ($i < count($nameLines) - 1) $nameHeight += $NAME_GAP;
-    }
-    $organizationHeight = 0;
-    foreach ($organizationLines as $i => $line) {
-        $organizationHeight += $organizationFont;
-        if ($i < count($organizationLines) - 1) $organizationHeight += $ORG_GAP;
-    }
-
+    $nameHeight = nameBlockHeight($nameLines, $NAME_GAP);
+    $organizationHeight = organizationBlockHeight($organizationLines, $organizationFont, $ORG_GAP);
     $totalHeight = $nameHeight + ($organizationLines ? $BLOCK_GAP + $organizationHeight : 0);
-    $startY = max(16, (int)floor(($LABEL_HEIGHT - $totalHeight) / 2));
 
-    // If an extreme combination is still too tall, move it to the top safety margin.
-    if ($startY + $totalHeight > $LABEL_HEIGHT - 16) $startY = 16;
+    // Жёсткая гарантия: готовый блок обязан помещаться в безопасную высоту.
+    // Сначала понемногу уменьшаем ФИО, затем при необходимости организацию.
+    while ($totalHeight > $SAFE_HEIGHT) {
+        $changed = false;
+        foreach ($nameLines as $i => $line) {
+            $minimum = $i === count($nameLines) - 1 ? 26 : 28;
+            if ((int)$nameLines[$i]['font'] > $minimum) {
+                $nameLines[$i]['font']--;
+                $changed = true;
+            }
+        }
+
+        $nameHeight = nameBlockHeight($nameLines, $NAME_GAP);
+        $totalHeight = $nameHeight + ($organizationLines ? $BLOCK_GAP + $organizationHeight : 0);
+        if ($totalHeight <= $SAFE_HEIGHT) break;
+
+        if (!$changed && $organizationFont > 18) {
+            $organizationFont--;
+            $ORG_GAP = max(2, (int)round($organizationFont * 0.08));
+            $organizationHeight = organizationBlockHeight($organizationLines, $organizationFont, $ORG_GAP);
+            $totalHeight = $nameHeight + ($organizationLines ? $BLOCK_GAP + $organizationHeight : 0);
+            $changed = true;
+        }
+
+        if (!$changed) break;
+    }
+
+    // Центрируем не относительно всей заявленной высоты, а внутри проверенной
+    // безопасной области, поэтому и верх, и низ остаются визуально стабильными.
+    $startY = $SAFE_TOP + max(0, (int)floor(($SAFE_HEIGHT - $totalHeight) / 2));
 
     $zpl = "^XA\n"
         . "^CI28\n"
