@@ -2,8 +2,14 @@
 """Local ZPL print bridge for the RCLSMO conference dashboard.
 
 Runs only on 127.0.0.1:5030. The dashboard sends already generated ZPL here,
-and this process forwards it RAW to a Windows printer queue or directly to a
-network Zebra/ZPL printer on TCP/9100.
+and this process forwards it RAW to a local USB printer queue or directly to a
+network Zebra/ZPL-compatible printer on TCP/9100.
+
+macOS USB printer (current TSC TE200 queue):
+  python3 zpl_print_bridge.py
+
+Specific macOS printer queue:
+  ZPL_PRINTER_NAME=TSC_TE200 python3 zpl_print_bridge.py
 
 Windows USB/default printer:
   pip install pywin32
@@ -23,6 +29,7 @@ from __future__ import annotations
 import json
 import os
 import socket
+import subprocess
 import sys
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
@@ -30,6 +37,16 @@ HOST = "127.0.0.1"
 PORT = 5030
 ALLOWED_ORIGINS = {"https://rclsmo.ru", "https://www.rclsmo.ru"}
 MAX_BODY = 128 * 1024
+DEFAULT_MAC_PRINTER = "TSC_TE200"
+
+
+def configured_printer_name() -> str:
+    printer_name = os.environ.get("ZPL_PRINTER_NAME", "").strip()
+    if printer_name:
+        return printer_name
+    if sys.platform == "darwin":
+        return DEFAULT_MAC_PRINTER
+    return ""
 
 
 def printer_target() -> str:
@@ -37,7 +54,7 @@ def printer_target() -> str:
     if printer_ip:
         return f"{printer_ip}:9100"
 
-    printer_name = os.environ.get("ZPL_PRINTER_NAME", "").strip()
+    printer_name = configured_printer_name()
     if printer_name:
         return printer_name
 
@@ -52,6 +69,28 @@ def printer_target() -> str:
     return "not configured"
 
 
+def print_via_macos_cups(data: bytes, printer_name: str) -> str:
+    try:
+        result = subprocess.run(
+            ["lp", "-d", printer_name, "-o", "raw"],
+            input=data,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            timeout=10,
+            check=False,
+        )
+    except FileNotFoundError as exc:
+        raise RuntimeError("macOS CUPS command 'lp' is not available") from exc
+    except subprocess.TimeoutExpired as exc:
+        raise RuntimeError("CUPS print command timed out") from exc
+
+    if result.returncode != 0:
+        error = result.stderr.decode("utf-8", errors="replace").strip()
+        raise RuntimeError(error or f"CUPS lp failed with exit code {result.returncode}")
+
+    return printer_name
+
+
 def print_zpl(zpl: str) -> str:
     data = zpl.encode("utf-8")
     printer_ip = os.environ.get("ZPL_PRINTER_IP", "").strip()
@@ -60,15 +99,18 @@ def print_zpl(zpl: str) -> str:
             sock.sendall(data)
         return f"{printer_ip}:9100"
 
+    if sys.platform == "darwin":
+        return print_via_macos_cups(data, configured_printer_name() or DEFAULT_MAC_PRINTER)
+
     if os.name != "nt":
-        raise RuntimeError("Set ZPL_PRINTER_IP or run the bridge on Windows")
+        raise RuntimeError("Set ZPL_PRINTER_IP, use macOS CUPS, or run the bridge on Windows")
 
     try:
         import win32print  # type: ignore
     except ImportError as exc:
         raise RuntimeError("pywin32 is not installed: run 'pip install pywin32'") from exc
 
-    printer_name = os.environ.get("ZPL_PRINTER_NAME", "").strip() or win32print.GetDefaultPrinter()
+    printer_name = configured_printer_name() or win32print.GetDefaultPrinter()
     handle = win32print.OpenPrinter(printer_name)
     try:
         job = win32print.StartDocPrinter(handle, 1, ("RCLSMO badge", None, "RAW"))
@@ -87,7 +129,7 @@ def print_zpl(zpl: str) -> str:
 
 
 class Handler(BaseHTTPRequestHandler):
-    server_version = "RCLSMO-ZPL-Bridge/1.0"
+    server_version = "RCLSMO-ZPL-Bridge/1.1"
 
     def log_message(self, fmt: str, *args: object) -> None:
         print("[print-bridge] " + (fmt % args))
