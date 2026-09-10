@@ -8,6 +8,7 @@ header('X-Content-Type-Options: nosniff');
 
 const DB_CONFIG_PATH = '/home/c/cx314477/public_html/.private/db.php';
 const EVENT_ID = 'forum-lab-innovations-2026-10-07';
+const BADGE_ORG_PREFIX = '__BADGE_ORG__:';
 
 if (empty($_SESSION['conference_dashboard_auth'])) {
     http_response_code(403);
@@ -24,7 +25,7 @@ function zplTruncate(string $value, int $maxLength): string {
     return mb_substr(zplText($value), 0, $maxLength, 'UTF-8');
 }
 
-function zplFitSingleLineFont(string $value, int $boxWidth, int $preferred = 60, int $minimum = 26): int {
+function zplFitSingleLineFont(string $value, int $boxWidth, int $preferred = 60, int $minimum = 18): int {
     $length = max(1, mb_strlen(zplText($value), 'UTF-8'));
     // Font 0 is close enough to the requested character width for a conservative fit estimate.
     // 0.88 leaves safety space for wide Cyrillic glyphs, hyphens and printer tolerances.
@@ -50,7 +51,7 @@ try {
     if (!$pdo instanceof PDO) throw new RuntimeException('DB unavailable');
 
     $stmt = $pdo->prepare(
-        'SELECT participant_code, full_name, organization, position
+        'SELECT participant_code, full_name, organization, position, registration_source
          FROM participants
          WHERE event_id = :event
            AND participant_code = :code
@@ -78,7 +79,14 @@ try {
     $middleName = mb_strtoupper(implode(' ', array_slice($nameParts, 2)), 'UTF-8');
     $nameLines = array_values(array_filter([$lastName, $firstName, $middleName], static fn(string $v): bool => $v !== ''));
 
-    $organization = zplTruncate((string)$participant['organization'], 120);
+    $organizationSource = (string)$participant['organization'];
+    if ((string)$participant['registration_source'] === 'test') {
+        $position = (string)$participant['position'];
+        if (str_starts_with($position, BADGE_ORG_PREFIX)) {
+            $organizationSource = mb_substr($position, mb_strlen(BADGE_ORG_PREFIX, 'UTF-8'), null, 'UTF-8');
+        }
+    }
+    $organization = zplTruncate($organizationSource, 120);
 
     $zpl = "^XA\n"
         . "^CI28\n"
@@ -88,7 +96,7 @@ try {
     // Name lines get their own font size. Long surnames shrink without affecting short first/middle names.
     $y = 24;
     foreach ($nameLines as $line) {
-        $font = zplFitSingleLineFont($line, $CONTENT_WIDTH, 60, 26);
+        $font = zplFitSingleLineFont($line, $CONTENT_WIDTH, 60, 18);
         $zpl .= "^A0N,{$font},{$font}\n"
             . "^FO{$CONTENT_X},{$y}^FB{$CONTENT_WIDTH},1,0,C^FD{$line}^FS\n\n";
         $y += $font + 10;
