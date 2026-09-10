@@ -24,6 +24,20 @@ function zplTruncate(string $value, int $maxLength): string {
     return mb_substr(zplText($value), 0, $maxLength, 'UTF-8');
 }
 
+function zplFitSingleLineFont(string $value, int $boxWidth, int $preferred = 60, int $minimum = 26): int {
+    $length = max(1, mb_strlen(zplText($value), 'UTF-8'));
+    // Font 0 is close enough to the requested character width for a conservative fit estimate.
+    // 0.88 leaves safety space for wide Cyrillic glyphs, hyphens and printer tolerances.
+    $fitted = (int)floor(($boxWidth * 0.88) / $length);
+    return max($minimum, min($preferred, $fitted));
+}
+
+function zplFitMultilineFont(string $value, int $boxWidth, int $maxLines = 4, int $preferred = 36, int $minimum = 22): int {
+    $length = max(1, mb_strlen(zplText($value), 'UTF-8'));
+    $fitted = (int)floor(($boxWidth * $maxLines * 0.82) / $length);
+    return max($minimum, min($preferred, $fitted));
+}
+
 $code = strtoupper(trim((string)($_GET['code'] ?? '')));
 if (!preg_match('/^LE[A-F0-9]{8}$/', $code)) {
     http_response_code(422);
@@ -52,29 +66,42 @@ try {
         exit('Participant not found');
     }
 
-    // Настройки этикетки сохранены из предыдущей рабочей схемы без изменения геометрии:
-    // 800 x 520 dots, ^CI28, шрифт 50x50, центральный блок 500 dots.
+    // TSC TE200, 203 dpi. Current stock is laid out as 800 x 520 dots (~100 x 65 mm).
     $LABEL_WIDTH = 800;
     $LABEL_HEIGHT = 520;
+    $CONTENT_X = 50;
+    $CONTENT_WIDTH = 700;
 
-    $nameParts = preg_split('/\s+/u', trim((string)$participant['full_name'])) ?: [];
-    $lastName = mb_strtoupper(zplTruncate((string)($nameParts[0] ?? ''), 20), 'UTF-8');
-    $firstName = mb_strtoupper(zplTruncate((string)($nameParts[1] ?? ''), 20), 'UTF-8');
-    $middleName = mb_strtoupper(zplTruncate((string)($nameParts[2] ?? ''), 20), 'UTF-8');
-    $organization = zplTruncate((string)$participant['organization'], 40);
+    $nameParts = preg_split('/\s+/u', zplText((string)$participant['full_name'])) ?: [];
+    $lastName = mb_strtoupper((string)($nameParts[0] ?? ''), 'UTF-8');
+    $firstName = mb_strtoupper((string)($nameParts[1] ?? ''), 'UTF-8');
+    $middleName = mb_strtoupper(implode(' ', array_slice($nameParts, 2)), 'UTF-8');
+    $nameLines = array_values(array_filter([$lastName, $firstName, $middleName], static fn(string $v): bool => $v !== ''));
+
+    $organization = zplTruncate((string)$participant['organization'], 120);
 
     $zpl = "^XA\n"
         . "^CI28\n"
         . "^PW{$LABEL_WIDTH}\n"
-        . "^LL{$LABEL_HEIGHT}\n\n"
-        . "^CF0,50,50\n"
-        . "^FO135,30^FB500,1,0,C^FD{$lastName}^FS\n\n"
-        . "^CF0,50,50\n"
-        . "^FO135,100^FB500,1,0,C^FD{$firstName}^FS\n\n"
-        . "^CF0,50,50\n"
-        . "^FO135,170^FB500,1,0,C^FD{$middleName}^FS\n\n"
-        . "^CF0,50,50\n"
-        . "^FO135,250^FB500,3,0,C^FD{$organization}^FS\n\n"
+        . "^LL{$LABEL_HEIGHT}\n\n";
+
+    // Name lines get their own font size. Long surnames shrink without affecting short first/middle names.
+    $y = 24;
+    foreach ($nameLines as $line) {
+        $font = zplFitSingleLineFont($line, $CONTENT_WIDTH, 60, 26);
+        $zpl .= "^A0N,{$font},{$font}\n"
+            . "^FO{$CONTENT_X},{$y}^FB{$CONTENT_WIDTH},1,0,C^FD{$line}^FS\n\n";
+        $y += $font + 10;
+    }
+
+    // Keep a stable visual separation between the name block and organization.
+    $organizationY = max(250, $y + 14);
+    $organizationY = min($organizationY, 360);
+    $organizationFont = zplFitMultilineFont($organization, $CONTENT_WIDTH, 4, 36, 22);
+    $organizationGap = max(2, (int)round($organizationFont * 0.10));
+
+    $zpl .= "^A0N,{$organizationFont},{$organizationFont}\n"
+        . "^FO{$CONTENT_X},{$organizationY}^FB{$CONTENT_WIDTH},4,{$organizationGap},C^FD{$organization}^FS\n\n"
         . "^XZ";
 
     header('Content-Type: text/plain; charset=utf-8');
