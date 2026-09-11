@@ -9,58 +9,13 @@ header('X-Content-Type-Options: nosniff');
 const DB_CONFIG_PATH = '/home/c/cx314477/public_html/.private/db.php';
 const EVENT_ID = 'forum-lab-innovations-2026-10-07';
 const TEST_ORGANIZATION = 'Тестовая МО';
-const GOVERNMENT_ORG_LIST_PATH = '/home/c/cx314477/public_html/js/data/organizations-2026.js';
 
 require_once dirname(__DIR__) . '/api/registration-config.php';
+require_once __DIR__ . '/organization-analytics.php';
 
 if (empty($_SESSION['conference_dashboard_auth'])) {
     header('Location: /dashboard/');
     exit;
-}
-
-function normalizeOrg(string $value): string {
-    $value = mb_strtolower(trim($value));
-    $value = (string)preg_replace('/\s+/u', ' ', $value);
-    return trim(str_replace(['«', '»', '"'], '', $value));
-}
-
-function organizerLabel(string $organization): ?string {
-    $n = normalizeOrg($organization);
-    if ($n === 'рцлсмо' || str_contains($n, 'референс-центр лабораторной службы')) return 'РЦЛСМО';
-    if (str_contains($n, 'цвиод') || str_contains($n, 'центр внедрения изменений')) return 'ЦВИОД';
-    if (str_contains($n, 'министерство здравоохранения') && (str_contains($n, 'мо') || str_contains($n, 'московской области'))) return 'Минздрав МО';
-    return null;
-}
-
-function governmentOrganizations(): array {
-    static $set = null;
-    if (is_array($set)) return $set;
-    $set = [];
-    if (is_readable(GOVERNMENT_ORG_LIST_PATH)) {
-        $source = (string)file_get_contents(GOVERNMENT_ORG_LIST_PATH);
-        if (preg_match_all("/'([^']+)'/u", $source, $matches)) {
-            foreach ($matches[1] as $name) $set[normalizeOrg((string)$name)] = true;
-        }
-    }
-    return $set;
-}
-
-function organizationCategory(string $organization): array {
-    $organizer = organizerLabel($organization);
-    if ($organizer !== null) return ['organizer', $organizer];
-
-    $n = normalizeOrg($organization);
-    $government = governmentOrganizations();
-    if (isset($government[$n])) return ['government', 'Государственная организация'];
-
-    if (preg_match('/^(гбуз|гку|гбу|гауз|фгбу|фбун|фгаоу|фгбоу|пмгму)\b/iu', trim($organization))) {
-        return ['government', 'Государственная организация'];
-    }
-    if (str_contains($n, 'московский областной медицинский колледж')) {
-        return ['government', 'Государственная организация'];
-    }
-
-    return ['private', 'Частная / иная организация'];
 }
 
 function xmlText(string $value): string {
@@ -192,18 +147,21 @@ try {
         'government' => ['orgs' => [], 'participants' => 0],
         'private' => ['orgs' => [], 'participants' => 0],
         'organizer' => ['orgs' => [], 'participants' => 0],
+        'unknown' => ['orgs' => [], 'participants' => 0],
     ];
-    $organizers = ['РЦЛСМО' => 0, 'ЦВИОД' => 0, 'Минздрав МО' => 0];
+    $organizers = ['РЦЛСМО' => 0, 'ЦВИОД' => 0, 'МОНИКИ' => 0, 'Минздрав МО' => 0];
 
     foreach ($participants as $p) {
         if ($p['registration_status'] === 'waitlist') $waitlist++;
         if ($p['registration_status'] !== 'confirmed') continue;
 
         $confirmed++;
-        $organization = trim((string)$p['organization']);
-        $orgs[$organization] = true;
-        [$category, $label] = organizationCategory($organization);
-        $categoryStats[$category]['orgs'][$organization] = true;
+        $rawOrganization = trim((string)$p['organization']);
+        $organization = dashboardCanonicalOrganization($rawOrganization);
+        $orgKey = dashboardNormalizeOrganization($organization);
+        $orgs[$orgKey] = true;
+        [$category, $label] = dashboardOrganizationCategory($organization);
+        $categoryStats[$category]['orgs'][$orgKey] = true;
         $categoryStats[$category]['participants']++;
         if ($category === 'organizer' && isset($organizers[$label])) $organizers[$label]++;
 
@@ -220,10 +178,12 @@ try {
 
     $orgSummary = [];
     foreach ($participants as $p) {
-        $organization = trim((string)$p['organization']);
-        if (!isset($orgSummary[$organization])) {
-            [$category, $label] = organizationCategory($organization);
-            $orgSummary[$organization] = [
+        $rawOrganization = trim((string)$p['organization']);
+        $organization = dashboardCanonicalOrganization($rawOrganization);
+        $orgKey = dashboardNormalizeOrganization($organization);
+        if (!isset($orgSummary[$orgKey])) {
+            [, $label] = dashboardOrganizationCategory($organization);
+            $orgSummary[$orgKey] = [
                 'organization' => $organization,
                 'category' => $label,
                 'confirmed' => 0,
@@ -234,15 +194,15 @@ try {
                 'online_present' => 0,
             ];
         }
-        if ($p['registration_status'] === 'waitlist') $orgSummary[$organization]['waitlist']++;
+        if ($p['registration_status'] === 'waitlist') $orgSummary[$orgKey]['waitlist']++;
         if ($p['registration_status'] !== 'confirmed') continue;
-        $orgSummary[$organization]['confirmed']++;
+        $orgSummary[$orgKey]['confirmed']++;
         if ($p['participation_format'] === 'offline') {
-            $orgSummary[$organization]['offline']++;
-            if (!empty($p['check_in_at'])) $orgSummary[$organization]['checked_in']++;
+            $orgSummary[$orgKey]['offline']++;
+            if (!empty($p['check_in_at'])) $orgSummary[$orgKey]['checked_in']++;
         } elseif ($p['participation_format'] === 'online') {
-            $orgSummary[$organization]['online']++;
-            if ((int)$p['online_watch_seconds'] >= 900) $orgSummary[$organization]['online_present']++;
+            $orgSummary[$orgKey]['online']++;
+            if ((int)$p['online_watch_seconds'] >= 900) $orgSummary[$orgKey]['online_present']++;
         }
     }
     uasort($orgSummary, static fn($a, $b) => ($b['confirmed'] <=> $a['confirmed']) ?: strcmp($a['organization'], $b['organization']));
@@ -255,12 +215,15 @@ try {
         ['Организаций с подтвержденными участниками', count($orgs)],
         ['Государственных организаций', count($categoryStats['government']['orgs'])],
         ['Участников из государственных организаций', $categoryStats['government']['participants']],
-        ['Частных / иных организаций', count($categoryStats['private']['orgs'])],
-        ['Участников из частных / иных организаций', $categoryStats['private']['participants']],
+        ['Частных / коммерческих организаций', count($categoryStats['private']['orgs'])],
+        ['Участников из частных / коммерческих организаций', $categoryStats['private']['participants']],
         ['Организаций-организаторов', count($categoryStats['organizer']['orgs'])],
         ['Участников от организаторов', $categoryStats['organizer']['participants']],
+        ['Не определено — организаций', count($categoryStats['unknown']['orgs'])],
+        ['Не определено — участников', $categoryStats['unknown']['participants']],
         ['РЦЛСМО', $organizers['РЦЛСМО']],
         ['ЦВИОД', $organizers['ЦВИОД']],
+        ['МОНИКИ', $organizers['МОНИКИ']],
         ['Минздрав МО', $organizers['Минздрав МО']],
         ['Очно зарегистрировано', $offlineConfirmed],
         ['Очно через публичную форму', $publicOffline],
@@ -281,11 +244,13 @@ try {
     }
 
     $participantRows = [[
-        'Код', 'ФИО', 'Организация', 'Категория', 'Должность', 'Email', 'Телефон', 'Формат', 'Источник регистрации', 'Статус',
+        'Код', 'ФИО', 'Организация', 'Организация (как введено)', 'Категория', 'Должность', 'Email', 'Телефон', 'Формат', 'Источник регистрации', 'Статус',
         'Дата регистрации', 'Приход очно', 'Онлайн, мин', 'Факт участия'
     ]];
     foreach ($participants as $p) {
-        [, $categoryLabel] = organizationCategory((string)$p['organization']);
+        $rawOrganization = trim((string)$p['organization']);
+        $organization = dashboardCanonicalOrganization($rawOrganization);
+        [, $categoryLabel] = dashboardOrganizationCategory($organization);
         $onlineMinutes = $p['participation_format'] === 'online' ? round((int)$p['online_watch_seconds'] / 60, 1) : 0;
         $fact = 'Нет';
         if ($p['registration_status'] === 'confirmed') {
@@ -293,7 +258,7 @@ try {
             if ($p['participation_format'] === 'online' && (int)$p['online_watch_seconds'] >= 900) $fact = 'Да, онлайн';
         }
         $participantRows[] = [
-            (string)$p['participant_code'], (string)$p['full_name'], (string)$p['organization'], $categoryLabel,
+            (string)$p['participant_code'], (string)$p['full_name'], $organization, $rawOrganization, $categoryLabel,
             (string)$p['position'], (string)$p['email'], (string)($p['phone'] ?? ''),
             $p['participation_format'] === 'offline' ? 'Очно' : 'Онлайн',
             registrationSourceLabel((string)$p['registration_source']),
@@ -317,7 +282,7 @@ try {
     if ($tmp === false) throw new RuntimeException('Unable to create temp file');
     writeXlsx($tmp, [
         ['name' => 'Сводка', 'rows' => $summaryRows, 'widths' => [42, 28, 16, 12, 12, 16, 14, 16, 14]],
-        ['name' => 'Участники', 'rows' => $participantRows, 'widths' => [16, 32, 34, 28, 28, 30, 18, 12, 22, 18, 20, 20, 14, 18]],
+        ['name' => 'Участники', 'rows' => $participantRows, 'widths' => [16, 32, 38, 34, 28, 28, 30, 18, 12, 22, 18, 20, 20, 14, 18]],
     ]);
 
     $filename = 'forum_2026_current_' . date('Y-m-d_H-i') . '.xlsx';
