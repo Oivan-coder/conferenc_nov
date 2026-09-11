@@ -11,11 +11,12 @@ if (!defined('DASHBOARD_PRINT_CLIENT_INJECTED')) {
         $config = json_encode([
             'speakerNames' => dashboardSpeakerNames(),
             'organizationAliases' => dashboardOrganizationAliases(),
+            'organizationMeta' => dashboardOrganizationClientMap(),
         ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
 
         $assets = '<script src="/dashboard/print-client.js?v=20260910-2"></script>'
             . '<script>window.DASHBOARD_REPORTING_CONFIG=' . $config . ';</script>'
-            . '<script src="/dashboard/reporting-client.js?v=20260911-org2"></script>';
+            . '<script src="/dashboard/reporting-client.js?v=20260911-org3"></script>';
 
         return str_ireplace('</body>', $assets . '</body>', $html);
     });
