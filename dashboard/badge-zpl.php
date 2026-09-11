@@ -10,6 +10,8 @@ const DB_CONFIG_PATH = '/home/c/cx314477/public_html/.private/db.php';
 const EVENT_ID = 'forum-lab-innovations-2026-10-07';
 const BADGE_ORG_PREFIX = '__BADGE_ORG__:';
 
+require_once __DIR__ . '/organization-analytics.php';
+
 if (empty($_SESSION['conference_dashboard_auth'])) {
     http_response_code(403);
     header('Content-Type: text/plain; charset=utf-8');
@@ -183,7 +185,7 @@ try {
         ];
     }
 
-    $organizationSource = (string)$participant['organization'];
+    $organizationSource = dashboardBadgeOrganizationName((string)$participant['organization']);
     if ((string)$participant['registration_source'] === 'test') {
         $position = (string)$participant['position'];
         if (str_starts_with($position, BADGE_ORG_PREFIX)) {
