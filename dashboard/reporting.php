@@ -15,7 +15,7 @@ if (!defined('DASHBOARD_PRINT_CLIENT_INJECTED')) {
 
         $assets = '<script src="/dashboard/print-client.js?v=20260910-2"></script>'
             . '<script>window.DASHBOARD_REPORTING_CONFIG=' . $config . ';</script>'
-            . '<script src="/dashboard/reporting-client.js?v=20260911-org1"></script>';
+            . '<script src="/dashboard/reporting-client.js?v=20260911-org2"></script>';
 
         return str_ireplace('</body>', $assets . '</body>', $html);
     });
@@ -33,7 +33,7 @@ function dashboardLeadershipStats(array $organizations): array {
         'organizer_people' => 0,
         'unknown_orgs' => 0,
         'unknown_people' => 0,
-        'organizers' => ['РЦЛСМО' => 0, 'ЦВИОД' => 0, 'МОНИКИ' => 0, 'Минздрав МО' => 0],
+        'organizers' => ['РЦЛСМО' => 0, 'ЦВИОД' => 0],
     ];
 
     foreach ($organizations as $org) {
@@ -92,7 +92,7 @@ function dashboardLeadershipBrief(array $stats, int $offlineConfirmed, int $onli
         . '• государственные — ' . $stats['government_orgs'] . ' орг. (' . $governmentOrgPct . '%); ' . $stats['government_people'] . ' чел. (' . $governmentPeoplePct . '%)' . "\n"
         . '• частные/коммерческие — ' . $stats['private_orgs'] . ' орг. (' . $privateOrgPct . '%); ' . $stats['private_people'] . ' чел. (' . $privatePeoplePct . '%)' . "\n"
         . '• организаторы — ' . $stats['organizer_orgs'] . ' орг. (' . $organizerOrgPct . '%); ' . $stats['organizer_people'] . ' чел. (' . $organizerPeoplePct . '%)' . "\n"
-        . '  РЦЛСМО — ' . $o['РЦЛСМО'] . '; ЦВИОД — ' . $o['ЦВИОД'] . '; МОНИКИ — ' . $o['МОНИКИ'] . '; Минздрав МО — ' . $o['Минздрав МО'] . "\n"
+        . '  РЦЛСМО — ' . $o['РЦЛСМО'] . '; ЦВИОД — ' . $o['ЦВИОД'] . "\n"
         . '• не определено — ' . $stats['unknown_orgs'] . ' орг. (' . $unknownOrgPct . '%); ' . $stats['unknown_people'] . ' чел. (' . $unknownPeoplePct . '%)' . "\n\n"
         . 'Формат участия:' . "\n"
         . '• очно — ' . $offlineConfirmed . ' (' . $offlinePct . '%); пришли — ' . $checkedIn . ' (' . $checkedInPct . '% от очных)' . "\n"
