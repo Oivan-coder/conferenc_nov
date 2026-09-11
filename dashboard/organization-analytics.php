@@ -54,8 +54,6 @@ function dashboardOrganizerLabel(string $organization): ?string {
     $n = dashboardNormalizeOrganization(dashboardCanonicalOrganization($organization));
     if ($n === 'рцлсмо' || str_contains($n, 'референс-центр лабораторной службы')) return 'РЦЛСМО';
     if (str_contains($n, 'цвиод') || str_contains($n, 'центр внедрения изменений')) return 'ЦВИОД';
-    if (str_contains($n, 'моники')) return 'МОНИКИ';
-    if (str_contains($n, 'министерство здравоохранения') && (str_contains($n, 'московской области') || preg_match('/\bмо\b/u', $n))) return 'Минздрав МО';
     return null;
 }
 
@@ -99,7 +97,7 @@ function dashboardOrganizationCategory(string $organization): array {
         return ['government', 'Государственная организация'];
     }
 
-    foreach (['минздрава', 'фмба', 'рманпо', 'пспбгму', 'рниму', 'ростгму', 'нмиц', 'мкнц', 'рнпц', 'црб', 'гкб', 'сгб', 'бсмп', 'квд'] as $marker) {
+    foreach (['министерство здравоохранения', 'минздрав', 'минздрава', 'фмба', 'рманпо', 'пспбгму', 'рниму', 'ростгму', 'нмиц', 'мкнц', 'рнпц', 'црб', 'гкб', 'сгб', 'бсмп', 'квд'] as $marker) {
         if (str_contains($n, $marker)) return ['government', 'Государственная организация'];
     }
 
