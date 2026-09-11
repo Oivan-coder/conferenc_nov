@@ -149,7 +149,7 @@ try {
         'organizer' => ['orgs' => [], 'participants' => 0],
         'unknown' => ['orgs' => [], 'participants' => 0],
     ];
-    $organizers = ['РЦЛСМО' => 0, 'ЦВИОД' => 0, 'МОНИКИ' => 0, 'Минздрав МО' => 0];
+    $organizers = ['РЦЛСМО' => 0, 'ЦВИОД' => 0];
 
     foreach ($participants as $p) {
         if ($p['registration_status'] === 'waitlist') $waitlist++;
@@ -223,8 +223,6 @@ try {
         ['Не определено — участников', $categoryStats['unknown']['participants']],
         ['РЦЛСМО', $organizers['РЦЛСМО']],
         ['ЦВИОД', $organizers['ЦВИОД']],
-        ['МОНИКИ', $organizers['МОНИКИ']],
-        ['Минздрав МО', $organizers['Минздрав МО']],
         ['Очно зарегистрировано', $offlineConfirmed],
         ['Очно через публичную форму', $publicOffline],
         ['Очно по приглашению', $invitedOffline],
