@@ -71,32 +71,30 @@ function dashboardLeadershipBrief(array $stats, int $offlineConfirmed, int $onli
     $fact = $checkedIn + $onlinePresent;
     $o = $stats['organizers'];
 
+    $governmentOrgPct = dashboardPct((int)$stats['government_orgs'], (int)$stats['organizations']);
+    $privateOrgPct = dashboardPct((int)$stats['private_orgs'], (int)$stats['organizations']);
+    $organizerOrgPct = dashboardPct((int)$stats['organizer_orgs'], (int)$stats['organizations']);
+    $unknownOrgPct = dashboardPct((int)$stats['unknown_orgs'], (int)$stats['organizations']);
+
+    $governmentPeoplePct = dashboardPct((int)$stats['government_people'], $confirmed);
+    $privatePeoplePct = dashboardPct((int)$stats['private_people'], $confirmed);
+    $organizerPeoplePct = dashboardPct((int)$stats['organizer_people'], $confirmed);
+    $unknownPeoplePct = dashboardPct((int)$stats['unknown_people'], $confirmed);
+
     $offlinePct = dashboardPct($offlineConfirmed, $confirmed);
     $onlinePct = dashboardPct($onlineConfirmed, $confirmed);
     $checkedInPct = dashboardPct($checkedIn, $offlineConfirmed);
     $onlinePresentPct = dashboardPct($onlinePresent, $onlineConfirmed);
     $factPct = dashboardPct($fact, $confirmed);
 
-    $organizationBlock = '';
-    if ((int)$stats['unknown_orgs'] === 0 && (int)$stats['unknown_people'] === 0) {
-        $governmentOrgPct = dashboardPct((int)$stats['government_orgs'], (int)$stats['organizations']);
-        $privateOrgPct = dashboardPct((int)$stats['private_orgs'], (int)$stats['organizations']);
-        $organizerOrgPct = dashboardPct((int)$stats['organizer_orgs'], (int)$stats['organizations']);
-
-        $governmentPeoplePct = dashboardPct((int)$stats['government_people'], $confirmed);
-        $privatePeoplePct = dashboardPct((int)$stats['private_people'], $confirmed);
-        $organizerPeoplePct = dashboardPct((int)$stats['organizer_people'], $confirmed);
-
-        $organizationBlock = 'Организации:' . "\n"
-            . '• государственные — ' . $stats['government_orgs'] . ' орг. (' . $governmentOrgPct . '%); ' . $stats['government_people'] . ' чел. (' . $governmentPeoplePct . '%)' . "\n"
-            . '• частные/коммерческие — ' . $stats['private_orgs'] . ' орг. (' . $privateOrgPct . '%); ' . $stats['private_people'] . ' чел. (' . $privatePeoplePct . '%)' . "\n"
-            . '• организаторы — ' . $stats['organizer_orgs'] . ' орг. (' . $organizerOrgPct . '%); ' . $stats['organizer_people'] . ' чел. (' . $organizerPeoplePct . '%)' . "\n"
-            . '  РЦЛСМО — ' . $o['РЦЛСМО'] . '; ЦВИОД — ' . $o['ЦВИОД'] . "\n\n";
-    }
-
     return 'Форум 07.10.2026' . "\n"
         . 'Зарегистрировано: ' . $confirmed . ' участников / ' . $stats['organizations'] . ' организаций' . "\n\n"
-        . $organizationBlock
+        . 'Организации:' . "\n"
+        . '• государственные — ' . $stats['government_orgs'] . ' орг. (' . $governmentOrgPct . '%); ' . $stats['government_people'] . ' чел. (' . $governmentPeoplePct . '%)' . "\n"
+        . '• частные/коммерческие — ' . $stats['private_orgs'] . ' орг. (' . $privateOrgPct . '%); ' . $stats['private_people'] . ' чел. (' . $privatePeoplePct . '%)' . "\n"
+        . '• организаторы — ' . $stats['organizer_orgs'] . ' орг. (' . $organizerOrgPct . '%); ' . $stats['organizer_people'] . ' чел. (' . $organizerPeoplePct . '%)' . "\n"
+        . '  РЦЛСМО — ' . $o['РЦЛСМО'] . '; ЦВИОД — ' . $o['ЦВИОД'] . "\n"
+        . '• неуточнённые организации — ' . $stats['unknown_orgs'] . ' орг. (' . $unknownOrgPct . '%); ' . $stats['unknown_people'] . ' чел. (' . $unknownPeoplePct . '%)' . "\n\n"
         . 'Формат участия:' . "\n"
         . '• очно — ' . $offlineConfirmed . ' (' . $offlinePct . '%); пришли — ' . $checkedIn . ' (' . $checkedInPct . '% от очных)' . "\n"
         . '• онлайн — ' . $onlineConfirmed . ' (' . $onlinePct . '%); факт ≥15 мин — ' . $onlinePresent . ' (' . $onlinePresentPct . '% от онлайн)' . "\n"
