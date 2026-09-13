@@ -16,10 +16,43 @@ if (!defined('DASHBOARD_PRINT_CLIENT_INJECTED')) {
 
         $assets = '<script src="/dashboard/print-client.js?v=20260910-2"></script>'
             . '<script>window.DASHBOARD_REPORTING_CONFIG=' . $config . ';</script>'
-            . '<script src="/dashboard/reporting-client.js?v=20260911-org3"></script>';
+            . '<script src="/dashboard/reporting-client.js?v=20260911-org3"></script>'
+            . '<script>document.addEventListener("DOMContentLoaded",function(){var el=document.getElementById("briefText");if(!el)return;el.textContent=el.textContent.split("\\n").filter(function(line){return !line.includes("названия организаций требуют проверки")&&!line.includes("неуточнённые организации");}).join("\\n").replace(/\\n{3,}/g,"\\n\\n");});</script>';
 
         return str_ireplace('</body>', $assets . '</body>', $html);
     });
+}
+
+function dashboardMinisterOrganizationCategory(string $organization): array {
+    [$category, $label] = dashboardOrganizationCategory($organization);
+    if ($category !== 'unknown') return [$category, $label];
+
+    $normalized = dashboardNormalizeOrganization($organization);
+
+    if ($normalized === 'kdl'
+        || $normalized === 'независимый эксперт'
+        || str_contains($normalized, 'многопрофильный медицинский центр')) {
+        return ['private', 'Частная / коммерческая организация'];
+    }
+
+    foreach ([
+        'больница',
+        'ркод',
+        'гц гсэн',
+        'цкдл ро',
+        'кдц здоровье',
+        'елабужская центральная районная больница',
+        'ерамишанцева',
+        'липецкая городская больница',
+        'домодедовская больница',
+        'онкологический диспансер',
+    ] as $marker) {
+        if (str_contains($normalized, $marker)) {
+            return ['government', 'Государственная организация'];
+        }
+    }
+
+    return ['private', 'Частная / коммерческая организация'];
 }
 
 function dashboardLeadershipStats(array $organizations): array {
@@ -42,7 +75,7 @@ function dashboardLeadershipStats(array $organizations): array {
         if ($confirmed <= 0) continue;
 
         $stats['organizations']++;
-        [$category, $label] = dashboardOrganizationCategory((string)($org['organization'] ?? ''));
+        [$category, $label] = dashboardMinisterOrganizationCategory((string)($org['organization'] ?? ''));
         if ($category === 'government') {
             $stats['government_orgs']++;
             $stats['government_people'] += $confirmed;
@@ -74,12 +107,10 @@ function dashboardLeadershipBrief(array $stats, int $offlineConfirmed, int $onli
     $governmentOrgPct = dashboardPct((int)$stats['government_orgs'], (int)$stats['organizations']);
     $privateOrgPct = dashboardPct((int)$stats['private_orgs'], (int)$stats['organizations']);
     $organizerOrgPct = dashboardPct((int)$stats['organizer_orgs'], (int)$stats['organizations']);
-    $unknownOrgPct = dashboardPct((int)$stats['unknown_orgs'], (int)$stats['organizations']);
 
     $governmentPeoplePct = dashboardPct((int)$stats['government_people'], $confirmed);
     $privatePeoplePct = dashboardPct((int)$stats['private_people'], $confirmed);
     $organizerPeoplePct = dashboardPct((int)$stats['organizer_people'], $confirmed);
-    $unknownPeoplePct = dashboardPct((int)$stats['unknown_people'], $confirmed);
 
     $offlinePct = dashboardPct($offlineConfirmed, $confirmed);
     $onlinePct = dashboardPct($onlineConfirmed, $confirmed);
@@ -87,17 +118,27 @@ function dashboardLeadershipBrief(array $stats, int $offlineConfirmed, int $onli
     $onlinePresentPct = dashboardPct($onlinePresent, $onlineConfirmed);
     $factPct = dashboardPct($fact, $confirmed);
 
-    return 'Форум 07.10.2026' . "\n"
+    $brief = 'Форум лабораторных инноваций МО — 07.10.2026' . "\n"
         . 'Зарегистрировано: ' . $confirmed . ' участников / ' . $stats['organizations'] . ' организаций' . "\n\n"
-        . 'Организации:' . "\n"
-        . '• государственные — ' . $stats['government_orgs'] . ' орг. (' . $governmentOrgPct . '%); ' . $stats['government_people'] . ' чел. (' . $governmentPeoplePct . '%)' . "\n"
-        . '• частные/коммерческие — ' . $stats['private_orgs'] . ' орг. (' . $privateOrgPct . '%); ' . $stats['private_people'] . ' чел. (' . $privatePeoplePct . '%)' . "\n"
-        . '• организаторы — ' . $stats['organizer_orgs'] . ' орг. (' . $organizerOrgPct . '%); ' . $stats['organizer_people'] . ' чел. (' . $organizerPeoplePct . '%)' . "\n"
-        . '  РЦЛСМО — ' . $o['РЦЛСМО'] . '; ЦВИОД — ' . $o['ЦВИОД'] . "\n"
-        . '• неуточнённые организации — ' . $stats['unknown_orgs'] . ' орг. (' . $unknownOrgPct . '%); ' . $stats['unknown_people'] . ' чел. (' . $unknownPeoplePct . '%)' . "\n\n"
+        . 'Представленность:' . "\n"
+        . '• государственные организации — ' . $stats['government_orgs'] . ' (' . $governmentOrgPct . '%); ' . $stats['government_people'] . ' участников (' . $governmentPeoplePct . '%)' . "\n"
+        . '• частные/коммерческие организации и независимые эксперты — ' . $stats['private_orgs'] . ' (' . $privateOrgPct . '%); ' . $stats['private_people'] . ' участников (' . $privatePeoplePct . '%)' . "\n"
+        . '• организаторы — ' . $stats['organizer_orgs'] . ' (' . $organizerOrgPct . '%); ' . $stats['organizer_people'] . ' участников (' . $organizerPeoplePct . '%)' . "\n"
+        . '  РЦЛСМО — ' . $o['РЦЛСМО'] . '; ЦВИОД — ' . $o['ЦВИОД'] . "\n\n"
         . 'Формат участия:' . "\n"
-        . '• очно — ' . $offlineConfirmed . ' (' . $offlinePct . '%); пришли — ' . $checkedIn . ' (' . $checkedInPct . '% от очных)' . "\n"
-        . '• онлайн — ' . $onlineConfirmed . ' (' . $onlinePct . '%); факт ≥15 мин — ' . $onlinePresent . ' (' . $onlinePresentPct . '% от онлайн)' . "\n"
-        . '• лист ожидания — ' . $waitlist . "\n\n"
-        . 'Факт участия: ' . $fact . ' (' . $factPct . '% от зарегистрированных)';
+        . '• очно — ' . $offlineConfirmed . ' (' . $offlinePct . '%)' . "\n"
+        . '• онлайн — ' . $onlineConfirmed . ' (' . $onlinePct . '%)';
+
+    if ($fact > 0) {
+        $brief .= "\n\n" . 'Факт участия:' . "\n"
+            . '• очно — ' . $checkedIn . ' (' . $checkedInPct . '% от зарегистрированных очно)' . "\n"
+            . '• онлайн ≥15 мин — ' . $onlinePresent . ' (' . $onlinePresentPct . '% от зарегистрированных онлайн)' . "\n"
+            . '• всего — ' . $fact . ' (' . $factPct . '% от зарегистрированных)';
+    }
+
+    if ($waitlist > 0) {
+        $brief .= "\n" . '• лист ожидания — ' . $waitlist;
+    }
+
+    return $brief;
 }
