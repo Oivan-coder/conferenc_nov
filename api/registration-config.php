@@ -2,7 +2,8 @@
 
 const REGISTRATION_EVENT_ID = 'forum-lab-innovations-2026-10-07';
 const REGISTRATION_HALL_CAPACITY = 94;
-const REGISTRATION_PUBLIC_OFFLINE_LIMIT = 50;
+const REGISTRATION_PUBLIC_OFFLINE_LIMIT = 60;
+const REGISTRATION_LEGACY_PUBLIC_OFFLINE_LIMIT = 50;
 
 function registrationEnsureSourceColumn(PDO $pdo): void
 {
@@ -28,7 +29,9 @@ function registrationEffectiveHallCapacity(array $settings): int
 function registrationEffectivePublicOfflineLimit(array $settings): int
 {
     $configured = max(0, (int)($settings['public_offline_limit'] ?? 0));
-    if ($configured === 0) return REGISTRATION_PUBLIC_OFFLINE_LIMIT;
+    if ($configured === 0 || $configured === REGISTRATION_LEGACY_PUBLIC_OFFLINE_LIMIT) {
+        return min(REGISTRATION_PUBLIC_OFFLINE_LIMIT, registrationEffectiveHallCapacity($settings));
+    }
     return min($configured, REGISTRATION_PUBLIC_OFFLINE_LIMIT, registrationEffectiveHallCapacity($settings));
 }
 
