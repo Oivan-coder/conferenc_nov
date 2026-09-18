@@ -92,9 +92,9 @@ $isTestParticipant = $participant && (
     trim((string)($participant['registration_source'] ?? '')) === 'test'
     || in_array(mb_strtolower(trim((string)$participant['organization'])), ['тестовая мо', 'тест', 'test', 'ovan', 'oivan'], true)
 );
-$usingTestEmbed = $isTestParticipant;
-if ($usingTestEmbed) $liveEmbedUrl = TEST_EMBED_URL;
-$playerActive = $liveEmbedUrl !== '' && ($state === 'live' || $isTestParticipant);
+$usingTestEmbed = true;
+$liveEmbedUrl = TEST_EMBED_URL;
+$playerActive = $participant && $liveEmbedUrl !== '';
 $trackingActive = $participant && ($state === 'live' || $isTestParticipant);
 $interactionActive = $participant && ($state === 'live' || $isTestParticipant);
 ?>
@@ -139,7 +139,7 @@ $interactionActive = $participant && ($state === 'live' || $isTestParticipant);
         <section class="card">
             <div class="player">
                 <?php if ($playerActive): ?>
-                    <iframe src="<?= h($liveEmbedUrl) ?>" allow="autoplay; encrypted-media; fullscreen; picture-in-picture" allowfullscreen title="<?= $usingTestEmbed ? 'Тестовый видеоплеер' : 'Прямая трансляция' ?>"></iframe>
+                    <iframe src="<?= h($liveEmbedUrl) ?>" allow="autoplay; encrypted-media; fullscreen; picture-in-picture" allowfullscreen title="Прямая трансляция"></iframe>
                 <?php elseif ($state === 'before'): ?>
                     <div class="placeholder"><strong>Трансляция ещё не началась</strong>Вернитесь на эту страницу 7 октября 2026 года. Персональная ссылка останется той же.</div>
                 <?php elseif ($state === 'after'): ?>
@@ -157,7 +157,7 @@ $interactionActive = $participant && ($state === 'live' || $isTestParticipant);
             <p><strong>Учёт присутствия:</strong> <?= $isTestParticipant ? 'тестовый режим активен' : 'активен только во время мероприятия' ?></p>
             <p class="small">Участник считается фактически присутствовавшим онлайн при суммарном активном времени на странице от 15 минут.</p>
             <div class="info-actions"><a class="action-link primary" href="/participant.php?t=<?= h($token) ?>">Открыть мой билет</a><a class="action-link" href="/conference-2026/">Программа форума</a></div>
-            <?php if ($isTestParticipant): ?><div class="test">Тест: накоплено <strong data-watch-seconds><?= (int)$participant['online_watch_seconds'] ?></strong> сек. Для тестового участника чат и Q&A также доступны уже сейчас.<?= $usingTestEmbed ? ' Сейчас показан нейтральный тестовый ролик; после подключения рабочей ссылки он заменится автоматически.' : '' ?></div><?php endif; ?>
+            <?php if ($isTestParticipant): ?><div class="test">Тест: накоплено <strong data-watch-seconds><?= (int)$participant['online_watch_seconds'] ?></strong> сек. Для тестового участника чат и Q&A также доступны уже сейчас.</div><?php endif; ?>
         </aside>
     </div>
 
