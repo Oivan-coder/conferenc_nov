@@ -54,7 +54,7 @@ try {
     if ($pdo instanceof PDO) {
         if (preg_match('/^[a-f0-9]{64}$/', $token)) {
             $stmt = $pdo->prepare(
-                'SELECT id, participant_code, full_name, position, organization, online_watch_seconds, online_token
+                'SELECT id, participant_code, full_name, position, organization, registration_source, online_watch_seconds, online_token
                  FROM participants
                  WHERE online_token = :token AND participation_format = "online" AND registration_status = "confirmed"
                  LIMIT 1'
@@ -63,7 +63,7 @@ try {
             $participant = $stmt->fetch(PDO::FETCH_ASSOC) ?: null;
         } elseif (preg_match('/^LE[A-F0-9]{8}$/', $testCode)) {
             $stmt = $pdo->prepare(
-                'SELECT id, participant_code, full_name, position, organization, online_watch_seconds, online_token
+                'SELECT id, participant_code, full_name, position, organization, registration_source, online_watch_seconds, online_token
                  FROM participants
                  WHERE participant_code = :code
                    AND organization = :test_org
@@ -87,7 +87,10 @@ try {
 if (!$participant) http_response_code(404);
 $state = eventWindowState();
 $liveEmbedUrl = loadLiveEmbedUrl();
-$isTestParticipant = $participant && trim((string)$participant['organization']) === TEST_ORGANIZATION;
+$isTestParticipant = $participant && (
+    trim((string)($participant['registration_source'] ?? '')) === 'test'
+    || in_array(mb_strtolower(trim((string)$participant['organization'])), ['тестовая мо', 'тест', 'test', 'ovan', 'oivan'], true)
+);
 $usingTestEmbed = $isTestParticipant;
 if ($usingTestEmbed) $liveEmbedUrl = TEST_EMBED_URL;
 $playerActive = $liveEmbedUrl !== '' && ($state === 'live' || $isTestParticipant);
