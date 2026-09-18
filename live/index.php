@@ -9,6 +9,7 @@ header('X-Content-Type-Options: nosniff');
 const DB_CONFIG_PATH = '/home/c/cx314477/public_html/.private/db.php';
 const LIVE_EMBED_URL_PATH = '/home/c/cx314477/public_html/.private/live_embed_url';
 const TEST_EMBED_URL = 'https://vkvideo.ru/video_ext.php?oid=-233714649&id=456239019&hash=25e935338eb5bfe5&hd=3';
+const TEST_ACCESS_TOKEN_HASH = '7da3f4677c33af849880c0f83be23b65964dfcd33fdcea175f2af546ad525746';
 const EVENT_START = '2026-10-07 07:00:00';
 const EVENT_END = '2026-10-07 20:00:00';
 const TEST_ORGANIZATION = 'Тестовая МО';
@@ -88,15 +89,14 @@ try {
 if (!$participant) http_response_code(404);
 $state = eventWindowState();
 $liveEmbedUrl = loadLiveEmbedUrl();
-$isTestParticipant = $participant && (
-    trim((string)($participant['registration_source'] ?? '')) === 'test'
-    || in_array(mb_strtolower(trim((string)$participant['organization'])), ['тестовая мо', 'тест', 'test', 'ovan', 'oivan'], true)
-);
-$usingTestEmbed = false;
+$hasTestAccess = $participant
+    && hash_equals(TEST_ACCESS_TOKEN_HASH, hash('sha256', $token));
+$isTestParticipant = $hasTestAccess;
+$usingTestEmbed = $hasTestAccess;
 $liveEmbedUrl = TEST_EMBED_URL;
-$playerActive = $participant && $liveEmbedUrl !== '' && $state === 'live';
-$trackingActive = $participant && $state === 'live';
-$interactionActive = $participant && $state === 'live';
+$playerActive = $participant && $liveEmbedUrl !== '' && ($state === 'live' || $hasTestAccess);
+$trackingActive = $participant && ($state === 'live' || $hasTestAccess);
+$interactionActive = $participant && ($state === 'live' || $hasTestAccess);
 ?>
 <!doctype html>
 <html lang="ru">
