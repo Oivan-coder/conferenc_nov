@@ -92,11 +92,11 @@ $isTestParticipant = $participant && (
     trim((string)($participant['registration_source'] ?? '')) === 'test'
     || in_array(mb_strtolower(trim((string)$participant['organization'])), ['тестовая мо', 'тест', 'test', 'ovan', 'oivan'], true)
 );
-$usingTestEmbed = true;
+$usingTestEmbed = false;
 $liveEmbedUrl = TEST_EMBED_URL;
-$playerActive = $participant && $liveEmbedUrl !== '';
-$trackingActive = $participant && ($state === 'live' || $isTestParticipant);
-$interactionActive = $participant && ($state === 'live' || $isTestParticipant);
+$playerActive = $participant && $liveEmbedUrl !== '' && $state === 'live';
+$trackingActive = $participant && $state === 'live';
+$interactionActive = $participant && $state === 'live';
 ?>
 <!doctype html>
 <html lang="ru">
@@ -138,7 +138,15 @@ $interactionActive = $participant && ($state === 'live' || $isTestParticipant);
     <div class="grid">
         <section class="card">
             <div class="player">
-                <iframe src="<?= h(TEST_EMBED_URL) ?>" allow="autoplay; encrypted-media; fullscreen; picture-in-picture; screen-wake-lock" allowfullscreen title="Прямая трансляция"></iframe>
+                <?php if ($playerActive): ?>
+                    <iframe src="<?= h($liveEmbedUrl) ?>" allow="autoplay; encrypted-media; fullscreen; picture-in-picture; screen-wake-lock" allowfullscreen title="Прямая трансляция"></iframe>
+                <?php elseif ($state === 'before'): ?>
+                    <div class="placeholder"><strong>Трансляция ещё не началась</strong>Вернитесь на эту страницу 7 октября 2026 года. Персональная ссылка останется той же.</div>
+                <?php elseif ($state === 'after'): ?>
+                    <div class="placeholder"><strong>Прямая трансляция завершена</strong>Информация о записи мероприятия будет опубликована дополнительно.</div>
+                <?php else: ?>
+                    <div class="placeholder"><strong>Страница трансляции готова</strong>Источник видеопотока будет подключён организаторами перед мероприятием.</div>
+                <?php endif; ?>
             </div>
             <div class="body"><h2><?= h($participant['full_name']) ?></h2><div class="muted"><?= h($participant['organization']) ?> · <?= h($participant['position']) ?></div><div class="small">Персональная ссылка используется для учёта фактического онлайн-присутствия. Не пересылайте её другим участникам.</div></div>
         </section>
