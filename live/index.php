@@ -1,4 +1,5 @@
 <?php
+// Deployment refresh: 2026-09-18 live stream
 header('Cache-Control: private, no-store, max-age=0');
 header('Pragma: no-cache');
 header('X-Robots-Tag: noindex, nofollow,noarchive', true);
