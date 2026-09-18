@@ -46,24 +46,42 @@ function loadLiveEmbedUrl(): string {
 }
 
 $token = strtolower(trim((string)($_GET['t'] ?? '')));
+$testCode = strtoupper(trim((string)($_GET['code'] ?? '')));
 $participant = null;
 
-if (preg_match('/^[a-f0-9]{64}$/', $token)) {
-    try {
-        $pdo = require DB_CONFIG_PATH;
-        if ($pdo instanceof PDO) {
+try {
+    $pdo = require DB_CONFIG_PATH;
+    if ($pdo instanceof PDO) {
+        if (preg_match('/^[a-f0-9]{64}$/', $token)) {
             $stmt = $pdo->prepare(
-                'SELECT id, participant_code, full_name, position, organization, online_watch_seconds
+                'SELECT id, participant_code, full_name, position, organization, online_watch_seconds, online_token
                  FROM participants
                  WHERE online_token = :token AND participation_format = "online" AND registration_status = "confirmed"
                  LIMIT 1'
             );
             $stmt->execute([':token' => $token]);
             $participant = $stmt->fetch(PDO::FETCH_ASSOC) ?: null;
+        } elseif (preg_match('/^LE[A-F0-9]{8}$/', $testCode)) {
+            $stmt = $pdo->prepare(
+                'SELECT id, participant_code, full_name, position, organization, online_watch_seconds, online_token
+                 FROM participants
+                 WHERE participant_code = :code
+                   AND organization = :test_org
+                   AND participation_format = "online"
+                   AND registration_status = "confirmed"
+                 LIMIT 1'
+            );
+            $stmt->execute([':code' => $testCode, ':test_org' => TEST_ORGANIZATION]);
+            $participant = $stmt->fetch(PDO::FETCH_ASSOC) ?: null;
+            if ($participant && preg_match('/^[a-f0-9]{64}$/', (string)$participant['online_token'])) {
+                $token = strtolower((string)$participant['online_token']);
+            } else {
+                $participant = null;
+            }
         }
-    } catch (Throwable $e) {
-        $participant = null;
     }
+} catch (Throwable $e) {
+    $participant = null;
 }
 
 if (!$participant) http_response_code(404);
