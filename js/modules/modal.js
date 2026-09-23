@@ -8,8 +8,6 @@ const specialistsData = {
         bio: "Главный внештатный специалист по клинической лабораторной диагностике. Руководитель проекта «Централизация лабораторной службы» Московской области.",
         photo: "images/team/irina-scheblykina.jpg",
         contacts: [
-            { type: "phone", value: "+79958832336", label: "Телефон", icon: "📞" },
-            { type: "whatsapp", value: "+79958832336", label: "WhatsApp", icon: "💬" },
             { type: "telegram", value: "doc_kld", label: "Telegram", icon: "✈️" },
             { type: "email", value: "ScheblykinaIV@mosreg.ru", label: "Email", icon: "📧" }
         ]
@@ -20,8 +18,6 @@ const specialistsData = {
         bio: "Заведующий референс-центром лабораторной службы Московской области. Курирует организационные вопросы и развитие направления.",
         photo: "images/team/ivan-goltsev.jpg",
         contacts: [
-            { type: "phone", value: "+79778290881", label: "Телефон", icon: "📞" },
-            { type: "whatsapp", value: "+79778290881", label: "WhatsApp", icon: "💬" },
             { type: "telegram", value: "ivan_goltsev", label: "Telegram", icon: "✈️" }
         ]
     },
