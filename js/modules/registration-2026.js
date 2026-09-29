@@ -17,7 +17,7 @@
     function normalizeRussianPhone(value) {
         const digits = String(value || '').replace(/\D+/g, '');
         if (!digits) return '';
-        if (digits.length === 10) return `7${digits}`;
+        if (digits.length === 10 && !/^\s*\+/.test(value)) return `7${digits}`;
         if (digits.length === 11 && (digits[0] === '7' || digits[0] === '8')) return `7${digits.slice(1)}`;
         return null;
     }
@@ -33,25 +33,40 @@
     }
 
     function formatRussianPhoneInput(value) {
-        let digits = String(value || '').replace(/\D+/g, '');
-        if (!digits || digits === '7') return '+7 ';
-
-        if (digits.length > 11 && (digits.startsWith('77') || digits.startsWith('78'))) {
-            digits = digits.slice(-11);
-        }
-        if (digits.length === 10) digits = `7${digits}`;
-        if (digits.length >= 11 && digits[0] === '8') digits = `7${digits.slice(1)}`;
-        if (digits[0] !== '7') digits = `7${digits}`;
-
-        const subscriber = digits.slice(1, 11);
+        const raw = String(value || '');
+        const digits = raw.replace(/\D+/g, '');
+        // A displayed +7 is already the country code, even during partial input.
+        const hasCountryCode = /^\s*\+7/.test(raw) || (digits.length === 11 && /^[78]/.test(digits));
+        const subscriber = hasCountryCode ? digits.slice(1) : digits;
         let result = '+7';
         if (!subscriber.length) return '+7 ';
         result += ` (${subscriber.slice(0, 3)}`;
         if (subscriber.length >= 3) result += ')';
         if (subscriber.length > 3) result += ` ${subscriber.slice(3, 6)}`;
         if (subscriber.length > 6) result += `-${subscriber.slice(6, 8)}`;
-        if (subscriber.length > 8) result += `-${subscriber.slice(8, 10)}`;
+        if (subscriber.length > 8) result += `-${subscriber.slice(8)}`;
         return result;
+    }
+
+    function phoneDigitPosition(value, position) {
+        return Math.max(0, value.slice(0, position).replace(/\D/g, '').length - 1);
+    }
+
+    function setPhoneDigits(phone, digits, position) {
+        phone.value = formatRussianPhoneInput(`+7${digits}`);
+        let caret = phone.value.length;
+        let count = 0;
+        if (position === 0) caret = digits.length ? 4 : 3;
+        else {
+            for (let i = 2; i < phone.value.length; i += 1) {
+                if (/\d/.test(phone.value[i]) && ++count === position) {
+                    caret = i + 1;
+                    break;
+                }
+            }
+        }
+        phone.setSelectionRange(caret, caret);
+        setFieldValidity(phone, '');
     }
 
     function isValidPersonName(value, required) {
@@ -352,13 +367,59 @@
 
             phone.addEventListener('focus', () => {
                 if (isPhonePrefixOnly(phone.value)) phone.value = '+7 ';
-                window.setTimeout(() => phone.setSelectionRange(phone.value.length, phone.value.length), 0);
+            });
+
+            // Edit subscriber digits, so deleting a separator cannot restore it
+            // forever or accidentally turn the country code into another digit.
+            phone.addEventListener('beforeinput', (event) => {
+                if (!event.cancelable || event.isComposing) return;
+                const deleting = event.inputType.startsWith('delete');
+                const inserting = event.inputType === 'insertText' && event.data !== null;
+                if (!deleting && !inserting) return;
+                const digits = phone.value.replace(/\D/g, '').slice(1);
+                let start = phoneDigitPosition(phone.value, phone.selectionStart);
+                let end = phoneDigitPosition(phone.value, phone.selectionEnd);
+                const insertion = inserting ? event.data.replace(/\D/g, '') : '';
+                event.preventDefault();
+                if (inserting && !insertion) return;
+                if (deleting && start === end) {
+                    if (event.inputType === 'deleteContentBackward') start = Math.max(0, start - 1);
+                    else if (event.inputType === 'deleteContentForward') end = Math.min(digits.length, end + 1);
+                    else if (event.inputType.endsWith('Backward')) start = 0;
+                    else if (event.inputType.endsWith('Forward')) end = digits.length;
+                }
+                const next = digits.slice(0, start) + insertion + digits.slice(end);
+                if (next.length > 10) return;
+                setPhoneDigits(phone, next, start + insertion.length);
+            });
+
+            phone.addEventListener('paste', (event) => {
+                if (!event.clipboardData) return;
+                event.preventDefault();
+                const raw = event.clipboardData.getData('text');
+                let pasted = raw.replace(/\D/g, '');
+                if (!pasted) return;
+                if (/^\s*\+7/.test(raw) || (pasted.length === 11 && /^[78]/.test(pasted))) pasted = pasted.slice(1);
+                const digits = phone.value.replace(/\D/g, '').slice(1);
+                const start = phoneDigitPosition(phone.value, phone.selectionStart);
+                const end = phoneDigitPosition(phone.value, phone.selectionEnd);
+                const next = digits.slice(0, start) + pasted + digits.slice(end);
+                if (next.length > 10) {
+                    setFieldValidity(phone, 'Введите 10 цифр номера после +7.');
+                    return;
+                }
+                setPhoneDigits(phone, next, start + pasted.length);
             });
 
             phone.addEventListener('input', () => {
+                // Fallback for autofill, composition and non-cancelable input.
+                const raw = phone.value;
+                const rawCaret = phone.selectionStart;
+                const formatted = formatRussianPhoneInput(raw);
+                const removedPrefix = formatted.replace(/\D/g, '').length === raw.replace(/\D/g, '').length;
+                const position = Math.max(0, raw.slice(0, rawCaret).replace(/\D/g, '').length - (removedPrefix ? 1 : 0));
                 setFieldValidity(phone, '');
-                phone.value = formatRussianPhoneInput(phone.value);
-                phone.setSelectionRange(phone.value.length, phone.value.length);
+                setPhoneDigits(phone, formatted.replace(/\D/g, '').slice(1), position);
             });
 
             phone.addEventListener('blur', () => {
