@@ -64,6 +64,8 @@ function cleanupOperations(array $plan, array $input): array {
 
 function cleanupBackup(string $directory, array $operations): string {
     if (!is_dir($directory) && !mkdir($directory, 0700, true)) throw new RuntimeException('Не удалось создать резервную копию. Изменения отменены.');
+    $deny = 'Require all denied' . PHP_EOL;
+    if (file_put_contents($directory . '/.htaccess', $deny, LOCK_EX) !== strlen($deny)) throw new RuntimeException('Не удалось закрыть резервные копии от скачивания.');
     $name = gmdate('Ymd-His') . '-' . bin2hex(random_bytes(8)) . '.json';
     $path = $directory . '/' . $name;
     $oldMask = umask(0077);

@@ -27,5 +27,5 @@ $file = cleanupBackup($dir, $ops);
 $backup = json_decode(file_get_contents($dir . '/' . $file), true, 512, JSON_THROW_ON_ERROR);
 expect($backup['operations']['delete'][1]['participant_code'] === $rows[0]['participant_code'], 'Backup retains full deleted row');
 expect((fileperms($dir . '/' . $file) & 0777) === 0600, 'Private backup permissions');
-unlink($dir . '/' . $file); rmdir($dir);
+unlink($dir . '/' . $file); unlink($dir . '/.htaccess'); rmdir($dir);
 echo "Registration cleanup checks passed\n";

@@ -45,7 +45,7 @@ try {
                 if ($stmt->fetchColumn()) throw new RuntimeException('У удаляемой записи есть связанные данные. Удаление отменено.');
             }
         }
-        $backup = cleanupBackup(dirname(CLEANUP_PRIVATE, 2) . '/registration-cleanup', $ops);
+        $backup = cleanupBackup(CLEANUP_PRIVATE . '/registration-cleanup', $ops);
         foreach ($ops['organizations'] as $id => $change) {
             $pdo->prepare('UPDATE participants SET organization = :organization WHERE id = :id AND event_id = :event')->execute([':organization' => $change['after'], ':id' => $id, ':event' => CLEANUP_EVENT]);
         }
