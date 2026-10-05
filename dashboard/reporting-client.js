@@ -31,7 +31,7 @@
   const inferCategory = (value) => {
     const raw = String(value || '').trim();
     const n = norm(raw);
-    if (/^\s*(ооо|ао|пао|зао|ип)\b/i.test(raw)
+    if (/^\s*(ооо|ао|пао|зао|ип)(?=$|[\s«"(])/i.test(raw)
       || /^\s*гк\s*[«" ]/i.test(raw)
       || n.includes('лабораторная служба хеликс')
       || /\bниармедик\b/i.test(raw)
