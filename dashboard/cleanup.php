@@ -17,7 +17,7 @@ function cleanupRows(PDO $pdo, bool $lock = false): array {
 }
 if (empty($_SESSION['dashboard_csrf'])) $_SESSION['dashboard_csrf'] = bin2hex(random_bytes(32));
 $error = ''; $notice = (string)($_SESSION['cleanup_notice'] ?? ''); unset($_SESSION['cleanup_notice']);
-$rows = []; $plan = cleanupPlan([]);
+$rows = []; $plan = cleanupPlan([]); $related = [];
 try {
     $pdo = require CLEANUP_PRIVATE . '/db.php';
     if (!$pdo instanceof PDO) throw new RuntimeException('База недоступна.');
@@ -68,6 +68,29 @@ try {
         try { $rows = cleanupRows($pdo); $plan = cleanupPlan($rows); } catch (Throwable $ignored) {}
     }
 }
+// Read-only preflight: explain blockers without attempting another deletion.
+if (isset($pdo) && $pdo instanceof PDO) {
+    try {
+        $refs = $pdo->query("SELECT TABLE_NAME, COLUMN_NAME FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND COLUMN_NAME = 'participant_id'")->fetchAll(PDO::FETCH_ASSOC);
+        $fks = $pdo->query("SELECT TABLE_NAME, COLUMN_NAME FROM information_schema.KEY_COLUMN_USAGE WHERE TABLE_SCHEMA = DATABASE() AND REFERENCED_TABLE_NAME = 'participants' AND REFERENCED_COLUMN_NAME = 'id'")->fetchAll(PDO::FETCH_ASSOC);
+        $candidates = $plan['tests'];
+        foreach ($plan['duplicates'] as $group) foreach ($group as $row) $candidates[(int)$row['id']] = $row;
+        $seen = [];
+        foreach (array_merge($refs, $fks) as $ref) {
+            $key = $ref['TABLE_NAME'] . '.' . $ref['COLUMN_NAME'];
+            if (isset($seen[$key])) continue;
+            $seen[$key] = true;
+            $table = str_replace('`', '``', $ref['TABLE_NAME']);
+            $column = str_replace('`', '``', $ref['COLUMN_NAME']);
+            $stmt = $pdo->prepare("SELECT COUNT(*) FROM `$table` WHERE `$column` = :id");
+            foreach ($candidates as $id => $row) {
+                $stmt->execute([':id' => $id]);
+                $count = (int)$stmt->fetchColumn();
+                if ($count) $related[] = ['row' => $row, 'source' => $key, 'count' => $count];
+            }
+        }
+    } catch (Throwable $ignored) { $error = 'Не удалось проверить связанные данные. Удаление следует отложить.'; }
+}
 ?>
 <!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Очистка регистраций</title>
 <style> *{box-sizing:border-box}body{margin:0;background:#f4f7f5;color:#173126;font:16px/1.5 Arial,sans-serif}main{max-width:1200px;margin:auto;padding:24px}a{color:#214f3b}section{background:white;border:1px solid #dbe6df;border-radius:14px;padding:20px;margin:20px 0}h1{font-size:28px}h2{font-size:21px}h3{font-size:17px}.table{overflow:auto}table{border-collapse:collapse;width:100%;font-size:14px}td,th{text-align:left;padding:10px;border-bottom:1px solid #dbe6df;vertical-align:top}.error{background:#fff0ef;padding:14px}.notice{background:#e5f4ea;padding:14px}button{background:#214f3b;color:white;border:0;border-radius:10px;padding:14px 20px;font:inherit;cursor:pointer}label{display:block;margin:12px 0}select{font:inherit;max-width:100%;padding:8px}small{font-size:14px;color:#65786b}</style></head><body><main>
@@ -75,6 +98,7 @@ try {
 <p>Выберите изменения. Для дублей укажите запись, которую нужно оставить: её код и билет сохранятся. Совпадение ФИО само по себе не подтверждает дубль.</p>
 <?php if ($error): ?><p class="error"><?= ch($error) ?></p><?php endif ?>
 <?php if ($notice): ?><p class="notice"><?= ch($notice) ?></p><?php endif ?>
+<?php if ($related): ?><section><h2>Связанные данные: удаление заблокировано</h2><p>История этих регистраций сохраняется. Перед удалением нужно отдельно разобрать связи.</p><table><tr><th>Участник / код</th><th>Связь</th><th>Записей</th></tr><?php foreach ($related as $link): ?><tr><td><?= ch($link['row']['full_name'] . ' · ' . $link['row']['participant_code']) ?></td><td><?= ch($link['source']) ?></td><td><?= (int)$link['count'] ?></td></tr><?php endforeach ?></table></section><?php endif ?>
 <form method="post"><input type="hidden" name="csrf" value="<?= ch($_SESSION['dashboard_csrf']) ?>"><input type="hidden" name="snapshot" value="<?= ch(cleanupFingerprint($rows)) ?>">
 <section><h2>Названия организаций · <?= count($plan['organizations']) ?></h2><p>Показаны только точные соответствия словарю. Неизвестные названия не сокращаются и не заменяются автоматически.</p>
 <label><input type="checkbox" name="normalize" value="yes"> Применить все показанные исправления организаций</label>
