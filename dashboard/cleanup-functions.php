@@ -13,7 +13,7 @@ function cleanupFingerprint(array $rows): string {
 function cleanupPlan(array $rows): array {
     $plan = ['organizations' => [], 'duplicates' => [], 'tests' => [], 'checkins' => []];
     $groups = [];
-    $staff = array_map('cleanupNameKey', ['Щеблыкина-Монастырёва Ирина Владимировна', 'Гольцев Иван', 'Гольцев Иван Александрович', 'Довгаль Лада Алексеевна', 'Шоль Елизавета Викторовна']);
+    $staff = array_map('cleanupNameKey', ['Щеблыкина-Монастырёва Ирина Владимировна', 'Гольцев Иван', 'Гольцев Иван Михайлович', 'Довгаль Лада Алексеевна', 'Шоль Елизавета Викторовна']);
     foreach ($rows as $row) {
         $id = (int)$row['id'];
         $name = cleanupNameKey((string)$row['full_name']);
