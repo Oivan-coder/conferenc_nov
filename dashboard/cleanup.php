@@ -34,7 +34,14 @@ try {
         $plan = cleanupPlan($rows);
         $ops = cleanupOperations($plan, $_POST);
         if (!$ops['delete'] && !$ops['organizations'] && !$ops['checkins']) throw new RuntimeException('Изменения не выбраны.');
-        // Never delete records with conference activity, including references with cascading FKs.
+        // Real participant activity remains protected; test history requires explicit separate approval.
+        $ops['test_history'] = [];
+        if (($_POST['test_history'] ?? '') === 'yes') {
+            foreach ($ops['delete'] as $id => $row) {
+                if (!isset($plan['tests'][$id])) continue;
+                $ops['test_history'][$id] = cleanupTestHistory($pdo, $row);
+            }
+        }
         $tables = $pdo->query("SELECT TABLE_NAME, COLUMN_NAME FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND COLUMN_NAME = 'participant_id'")->fetchAll(PDO::FETCH_ASSOC);
         $foreign = $pdo->query("SELECT TABLE_NAME, COLUMN_NAME FROM information_schema.KEY_COLUMN_USAGE WHERE TABLE_SCHEMA = DATABASE() AND REFERENCED_TABLE_NAME = 'participants' AND REFERENCED_COLUMN_NAME = 'id'")->fetchAll(PDO::FETCH_ASSOC);
         foreach ($ops['delete'] as $id => $row) {
@@ -43,10 +50,15 @@ try {
                 $table = str_replace('`', '``', $ref['TABLE_NAME']); $column = str_replace('`', '``', $ref['COLUMN_NAME']);
                 $stmt = $pdo->prepare("SELECT 1 FROM `$table` WHERE `$column` = :id LIMIT 1 FOR UPDATE");
                 $stmt->execute([':id' => $id]);
-                if ($stmt->fetchColumn()) throw new RuntimeException('У удаляемой записи есть связанные данные. Удаление отменено.');
+                if ($stmt->fetchColumn()) {
+                    $approvedTestLink = isset($ops['test_history'][$id]) && $ref['COLUMN_NAME'] === 'participant_id'
+                        && in_array($ref['TABLE_NAME'], ['conference_messages', 'conference_message_votes'], true);
+                    if (!$approvedTestLink) throw new RuntimeException('У удаляемой записи есть связанные данные. Удаление отменено.');
+                }
             }
         }
         $backup = cleanupBackup($pdo, $ops);
+        foreach ($ops['test_history'] as $history) cleanupDeleteTestHistory($pdo, $history);
         foreach ($ops['organizations'] as $id => $change) {
             $pdo->prepare('UPDATE participants SET organization = :organization WHERE id = :id AND event_id = :event')->execute([':organization' => $change['after'], ':id' => $id, ':event' => CLEANUP_EVENT]);
         }
@@ -57,7 +69,7 @@ try {
             $pdo->prepare('DELETE FROM participants WHERE id = :id AND event_id = :event')->execute([':id' => $id, ':event' => CLEANUP_EVENT]);
         }
         $pdo->commit();
-        $_SESSION['cleanup_notice'] = 'Обновлено организаций: ' . count($ops['organizations']) . '. Удалено записей: ' . count($ops['delete']) . '. Сброшено входов: ' . count($ops['checkins']) . '. Резервная копия: ' . $backup;
+        $_SESSION['cleanup_notice'] = 'Обновлено организаций: ' . count($ops['organizations']) . '. Удалено записей: ' . count($ops['delete']) . '. Сброшено входов: ' . count($ops['checkins']) . '. Удалено тестовых сообщений: ' . array_sum(array_map(static fn($h) => count($h['messages']), $ops['test_history'])) . '. Удалено тестовых голосов: ' . array_sum(array_map(static fn($h) => count($h['votes']), $ops['test_history'])) . '. Резервная копия: ' . $backup;
         header('Location: /dashboard/cleanup.php'); exit;
     }
     $rows = cleanupRows($pdo); $plan = cleanupPlan($rows);
@@ -106,7 +118,7 @@ if (isset($pdo) && $pdo instanceof PDO) {
 <section><h2>Повторы по ФИО · <?= count($plan['duplicates']) ?></h2>
 <?php foreach ($plan['duplicates'] as $key => $group): ?><h3><?= ch($group[0]['full_name']) ?></h3><div class="table"><table><tr><th>Код / дата</th><th>Формат</th><th>Организация / должность</th><th>Контакты</th><th>Посещение</th></tr><?php foreach ($group as $row): ?><tr><td><?= ch($row['participant_code']) ?><br><?= ch($row['created_at']) ?></td><td><?= $row['participation_format'] === 'offline' ? 'Очно' : 'Онлайн' ?></td><td><?= ch($row['organization']) ?><br><?= ch($row['position']) ?></td><td><?= ch($row['email']) ?><br><?= ch($row['phone'] ?? $row['phone_normalized'] ?? '') ?></td><td><?= ch($row['check_in_at'] ?? '') ?><br><?= (int)($row['online_watch_seconds'] ?? 0) ?> сек. онлайн</td></tr><?php endforeach ?></table></div>
 <label>Оставить <select name="keep[<?= ch($key) ?>]"><option value="">Не менять эту группу</option><?php foreach ($group as $row): ?><option value="<?= (int)$row['id'] ?>"><?= ch($row['participant_code'] . ' · ' . $row['created_at'] . ' · ' . ($row['participation_format'] === 'offline' ? 'Очно' : 'Онлайн')) ?></option><?php endforeach ?></select></label><small>Остальные записи этой группы будут удалены. При наличии посещения или связанных данных удаление блокируется.</small><?php endforeach ?></section>
-<section><h2>Тестовая регистрация</h2><?php foreach ($plan['tests'] as $id => $row): ?><label><input type="checkbox" name="tests[]" value="<?= $id ?>"> Удалить <?= ch($row['full_name'] . ' · ' . $row['participant_code'] . ' · ' . $row['email']) ?></label><?php endforeach ?></section>
+<section><h2>Тестовая регистрация</h2><?php foreach ($plan['tests'] as $id => $row): ?><label><input type="checkbox" name="tests[]" value="<?= $id ?>"> Удалить <?= ch($row['full_name'] . ' · ' . $row['participant_code'] . ' · ' . $row['email']) ?></label><?php endforeach ?><?php if ($plan['tests']): ?><label><input type="checkbox" name="test_history" value="yes"> Удалить также 3 сообщения и 1 голос записи «Тест Тест»</label><small>История сохраняется в резервной копии. При изменении количества записей или наличии чужих ответов и реакций удаление отменяется.</small><?php endif ?></section>
 <section><h2>Тестовые входы до 7 октября</h2><p>Сбрасываются только выбранные ранние отметки организаторов.</p><?php foreach ($plan['checkins'] as $id => $row): ?><label><input type="checkbox" name="checkins[]" value="<?= $id ?>"> <?= ch($row['full_name'] . ' · ' . $row['participant_code'] . ' · ' . $row['check_in_at']) ?></label><?php endforeach ?></section>
 <section><p>Перед изменениями сохраняется резервная копия затронутых записей. Все выбранные изменения выполняются вместе; при ошибке ни одно не применяется.</p><label><input type="checkbox" name="confirm" value="yes" required> Подтверждаю показанные исправления и удаление выбранных записей</label><button type="submit">Применить выбранные изменения</button></section>
 </form></main></body></html>

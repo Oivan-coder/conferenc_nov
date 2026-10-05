@@ -34,4 +34,26 @@ expect((int)$pdo->query('SELECT COUNT(*) FROM registration_cleanup_backups')->fe
 $pdo->beginTransaction();
 cleanupBackup($pdo, $ops); $pdo->commit();
 expect((int)$pdo->query('SELECT COUNT(*) FROM registration_cleanup_backups')->fetchColumn() === 1, 'Committed backup is durable');
+$pdo->exec('CREATE TABLE conference_messages (id INTEGER PRIMARY KEY, participant_id INTEGER, event_id TEXT, reply_to_id INTEGER, message_text TEXT)');
+$pdo->exec('CREATE TABLE conference_message_votes (message_id INTEGER, participant_id INTEGER)');
+$test = row(3, 'Тест Тест', 'Тест', 'ivangoltsev8@gmail.com'); $test['participant_code'] = 'LE2AF0502A';
+$pdo->exec("INSERT INTO conference_messages VALUES (1,3,'forum-lab-innovations-2026-10-07',NULL,'test one'),(2,3,'forum-lab-innovations-2026-10-07',NULL,'test two'),(3,3,'forum-lab-innovations-2026-10-07',NULL,'test three'),(4,99,'forum-lab-innovations-2026-10-07',NULL,'real message')");
+$pdo->exec('INSERT INTO conference_message_votes VALUES (4,3)');
+$history = cleanupTestHistory($pdo, $test);
+expect(count($history['messages']) === 3 && count($history['votes']) === 1, 'Capture all approved test history');
+$pdo->exec('INSERT INTO conference_message_votes VALUES (1,99)');
+try { cleanupTestHistory($pdo, $test); throw new LogicException('Foreign reaction accepted'); } catch (RuntimeException $e) { expect(!$e instanceof LogicException, 'Foreign reaction blocks removal'); }
+$pdo->exec('DELETE FROM conference_message_votes WHERE participant_id = 99');
+$pdo->exec('UPDATE conference_messages SET reply_to_id = 1 WHERE id = 4');
+try { cleanupTestHistory($pdo, $test); throw new LogicException('Foreign reply accepted'); } catch (RuntimeException $e) { expect(!$e instanceof LogicException, 'Foreign reply blocks removal'); }
+$pdo->exec('UPDATE conference_messages SET reply_to_id = NULL WHERE id = 4');
+$pdo->beginTransaction();
+cleanupBackup($pdo, ['test_history' => [$history]]);
+cleanupDeleteTestHistory($pdo, $history);
+expect((int)$pdo->query('SELECT COUNT(*) FROM conference_messages')->fetchColumn() === 1, 'Keep real message');
+expect((int)$pdo->query('SELECT COUNT(*) FROM conference_message_votes')->fetchColumn() === 0, 'Remove only test vote');
+$pdo->rollBack();
+expect((int)$pdo->query('SELECT COUNT(*) FROM conference_messages')->fetchColumn() === 4, 'Restore history on rollback');
+$pdo->exec('DELETE FROM conference_messages WHERE id = 3');
+try { cleanupTestHistory($pdo, $test); throw new LogicException('Changed history accepted'); } catch (RuntimeException $e) { expect(!$e instanceof LogicException, 'Changed history counts block removal'); }
 echo "Registration cleanup checks passed\n";

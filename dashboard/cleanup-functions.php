@@ -78,3 +78,33 @@ function cleanupBackup(PDO $pdo, array $operations): string {
     $stmt->execute([':id' => $id, ':event' => 'forum-lab-innovations-2026-10-07', ':payload' => $json]);
     return $id;
 }
+
+// Only the explicitly reviewed disposable test account may remove its chat history.
+function cleanupTestHistory(PDO $pdo, array $row): array {
+    if ($row['participant_code'] !== 'LE2AF0502A' || !isset(cleanupPlan([$row])['tests'][(int)$row['id']])) {
+        throw new RuntimeException('Удаление истории разрешено только для согласованной тестовой записи.');
+    }
+    $id = (int)$row['id'];
+    $lock = $pdo->getAttribute(PDO::ATTR_DRIVER_NAME) === 'mysql' ? ' FOR UPDATE' : '';
+    $stmt = $pdo->prepare('SELECT * FROM conference_messages WHERE participant_id = :id ORDER BY id' . $lock);
+    $stmt->execute([':id' => $id]); $messages = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $stmt = $pdo->prepare('SELECT * FROM conference_message_votes WHERE participant_id = :id ORDER BY message_id' . $lock);
+    $stmt->execute([':id' => $id]); $votes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    if (count($messages) !== 3 || count($votes) !== 1) throw new RuntimeException('Тестовая история изменилась: ожидались 3 сообщения и 1 голос. Изменения отменены.');
+    foreach ($messages as $message) {
+        if ($message['event_id'] !== 'forum-lab-innovations-2026-10-07') throw new RuntimeException('Найдена история другого мероприятия. Изменения отменены.');
+        $stmt = $pdo->prepare('SELECT participant_id FROM conference_messages WHERE reply_to_id = :message AND participant_id <> :participant' . $lock);
+        $stmt->execute([':message' => $message['id'], ':participant' => $id]);
+        if ($stmt->fetchColumn()) throw new RuntimeException('На тестовое сообщение есть чужие ответы. Изменения отменены.');
+        $stmt = $pdo->prepare('SELECT participant_id FROM conference_message_votes WHERE message_id = :message AND participant_id <> :participant' . $lock);
+        $stmt->execute([':message' => $message['id'], ':participant' => $id]);
+        if ($stmt->fetchColumn()) throw new RuntimeException('У тестового сообщения есть чужие реакции. Изменения отменены.');
+    }
+    return ['participant_id' => $id, 'messages' => $messages, 'votes' => $votes];
+}
+
+function cleanupDeleteTestHistory(PDO $pdo, array $history): void {
+    $id = (int)$history['participant_id'];
+    $pdo->prepare('DELETE FROM conference_message_votes WHERE participant_id = :id')->execute([':id' => $id]);
+    $pdo->prepare('DELETE FROM conference_messages WHERE participant_id = :id')->execute([':id' => $id]);
+}
