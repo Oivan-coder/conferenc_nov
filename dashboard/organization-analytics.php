@@ -12,6 +12,26 @@ function dashboardNormalizeOrganization(string $value): string {
 
 function dashboardOrganizationRegistry(): array {
     return [
+        'vector_best_europe' => [
+            'display' => 'Вектор-Бест-Европа', 'category' => 'private',
+            'aliases' => ['Внктор-Бест-Европа', 'Вектор-Бест-Европа'],
+        ],
+        'abbott' => [
+            'display' => 'Эбботт Лэбораториз', 'category' => 'private',
+            'aliases' => ['ЭББОТТ ЛЭБОРАТОРИЗ', 'Эбботт Лэбораториз'],
+        ],
+        'lipetsk_gb3' => [
+            'display' => 'Липецкая городская больница №3', 'category' => 'government',
+            'aliases' => ['Липецкая городская больница №3', 'Липецкая городская больница № 3'],
+        ],
+        'blokhin' => [
+            'display' => 'НМИЦ онкологии им. Н.Н. Блохина', 'category' => 'government',
+            'aliases' => ['НМИЦ онкологии им. Н.Н. Блохина'],
+        ],
+        'primushko' => [
+            'display' => 'РКОД им. С.Г. Примушко', 'category' => 'government',
+            'aliases' => ['РКОД им. С.Г. Примушко', 'РКОД имени С.Г. Примушко'],
+        ],
         'rclsmo' => [
             'display' => 'РЦЛСМО',
             'category' => 'organizer',
@@ -79,7 +99,7 @@ function dashboardOrganizationRegistry(): array {
         'odintsovo_b' => [
             'display' => 'Одинцовская ОБ',
             'category' => 'government',
-            'aliases' => ['Одинцовская ОБ', 'ГБУЗ МО «Одинцовская областная больница»', 'ГБУЗ МО Одинцовская областная больница'],
+            'aliases' => ['Одинцовская ОБ', '#Одинцовская ОБ#', 'ГБУЗ МО «Одинцовская областная больница»', 'ГБУЗ МО Одинцовская областная больница'],
         ],
         'vidnoe_pc' => [
             'display' => 'Видновский ПЦ',
@@ -254,7 +274,7 @@ function dashboardOrganizationRegistry(): array {
         'rnimu' => [
             'display' => 'РНИМУ им. Н.И. Пирогова',
             'category' => 'government',
-            'aliases' => ['ФГАОУ ВО РНИМУ им. Н.И. Пирогова Минздрава России (Пироговский Университет)', 'РНИМУ им. Н.И. Пирогова'],
+            'aliases' => ['ФГАОУ ВО РНИМУ им. Н.И. Пирогова Минздрава России (Пироговский Университет)', 'РНИМУ им. Н.И. Пирогова', 'РНИМУ имени Н.И. Пирогова'],
         ],
         'burdenko' => [
             'display' => 'НМИЦ нейрохирургии им. Н.Н. Бурденко',
@@ -269,7 +289,7 @@ function dashboardOrganizationRegistry(): array {
         'nmic_rk' => [
             'display' => 'НМИЦ РК Минздрава России',
             'category' => 'government',
-            'aliases' => ['ФГБУ НМИЦ РК МИНЗДРАВА РФ', 'НМИЦ РК Минздрава России'],
+            'aliases' => ['Нмиц РК МЗ', 'Нмиц РКМЗ', 'ФГБУ НМИЦ РК МИНЗДРАВА РФ', 'НМИЦ РК Минздрава России'],
         ],
         'fmba_blood' => [
             'display' => 'Центр крови ФМБА России',

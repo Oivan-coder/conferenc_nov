@@ -16,7 +16,7 @@ if (!defined('DASHBOARD_PRINT_CLIENT_INJECTED')) {
 
         $assets = '<script src="/dashboard/print-client.js?v=20260910-2"></script>'
             . '<script>window.DASHBOARD_REPORTING_CONFIG=' . $config . ';</script>'
-            . '<script src="/dashboard/reporting-client.js?v=20260911-org3"></script>'
+            . '<script src="/dashboard/reporting-client.js?v=20261005-org4"></script>'
             . '<script>document.addEventListener("DOMContentLoaded",function(){var el=document.getElementById("briefText");if(!el)return;el.textContent=el.textContent.split("\\n").filter(function(line){return !line.includes("названия организаций требуют проверки")&&!line.includes("неуточнённые организации");}).join("\\n").replace(/\\n{3,}/g,"\\n\\n");});</script>';
 
         return str_ireplace('</body>', $assets . '</body>', $html);
