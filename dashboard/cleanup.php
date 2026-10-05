@@ -27,6 +27,7 @@ try {
             http_response_code(403); throw new RuntimeException('Обновите страницу: запрос не прошёл проверку.');
         }
         if (($_POST['confirm'] ?? '') !== 'yes') throw new RuntimeException('Подтвердите применение выбранных изменений.');
+        cleanupEnsureBackups($pdo);
         $pdo->beginTransaction();
         $rows = cleanupRows($pdo, true);
         if (!hash_equals(cleanupFingerprint($rows), (string)($_POST['snapshot'] ?? ''))) throw new RuntimeException('Регистрации изменились после открытия страницы. Проверьте обновлённый список и повторите выбор.');
@@ -45,7 +46,7 @@ try {
                 if ($stmt->fetchColumn()) throw new RuntimeException('У удаляемой записи есть связанные данные. Удаление отменено.');
             }
         }
-        $backup = cleanupBackup(CLEANUP_PRIVATE . '/registration-cleanup', $ops);
+        $backup = cleanupBackup($pdo, $ops);
         foreach ($ops['organizations'] as $id => $change) {
             $pdo->prepare('UPDATE participants SET organization = :organization WHERE id = :id AND event_id = :event')->execute([':organization' => $change['after'], ':id' => $id, ':event' => CLEANUP_EVENT]);
         }

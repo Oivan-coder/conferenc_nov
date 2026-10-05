@@ -62,20 +62,19 @@ function cleanupOperations(array $plan, array $input): array {
     return $ops;
 }
 
-function cleanupBackup(string $directory, array $operations): string {
-    if (!is_dir($directory) && !mkdir($directory, 0700, true)) throw new RuntimeException('Не удалось создать резервную копию. Изменения отменены.');
-    $deny = 'Require all denied' . PHP_EOL;
-    if (file_put_contents($directory . '/.htaccess', $deny, LOCK_EX) !== strlen($deny)) throw new RuntimeException('Не удалось закрыть резервные копии от скачивания.');
-    $name = gmdate('Ymd-His') . '-' . bin2hex(random_bytes(8)) . '.json';
-    $path = $directory . '/' . $name;
-    $oldMask = umask(0077);
-    try {
-        $handle = fopen($path, 'x');
-        if (!$handle) throw new RuntimeException('Не удалось создать резервную копию.');
-        try {
-            $json = json_encode(['event' => 'forum-lab-innovations-2026-10-07', 'created_at' => gmdate('c'), 'operations' => $operations], JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT | JSON_THROW_ON_ERROR);
-            if (fwrite($handle, $json) !== strlen($json) || !fflush($handle)) throw new RuntimeException('Резервная копия записана не полностью.');
-        } finally { fclose($handle); }
-    } finally { umask($oldMask); }
-    return $name;
+function cleanupEnsureBackups(PDO $pdo): void {
+    $pdo->exec('CREATE TABLE IF NOT EXISTS registration_cleanup_backups (
+        id CHAR(32) PRIMARY KEY,
+        event_id VARCHAR(100) NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        payload LONGTEXT NOT NULL
+    )');
+}
+
+function cleanupBackup(PDO $pdo, array $operations): string {
+    $id = bin2hex(random_bytes(16));
+    $json = json_encode(['event' => 'forum-lab-innovations-2026-10-07', 'created_at' => gmdate('c'), 'operations' => $operations], JSON_UNESCAPED_UNICODE | JSON_THROW_ON_ERROR);
+    $stmt = $pdo->prepare('INSERT INTO registration_cleanup_backups (id, event_id, payload) VALUES (:id, :event, :payload)');
+    $stmt->execute([':id' => $id, ':event' => 'forum-lab-innovations-2026-10-07', ':payload' => $json]);
+    return $id;
 }
