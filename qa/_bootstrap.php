@@ -151,6 +151,21 @@ function qa_current_session(PDO $pdo): ?array
     return $row ?: null;
 }
 
+function qa_questions(PDO $pdo, bool $includeHidden = false): array
+{
+    $hiddenFilter = $includeHidden ? '' : " AND m.status <> 'hidden'";
+    $stmt = $pdo->prepare("SELECT m.id, m.participant_name, m.organization,
+        m.message_text AS question_text, m.status, m.created_at, m.session_id,
+        m.reply_to_id, s.title AS session_title, s.speaker_name,
+        (SELECT COUNT(*) FROM conference_message_votes v WHERE v.message_id = m.id) AS votes
+        FROM conference_messages m
+        LEFT JOIN conference_sessions s ON s.id = m.session_id
+        WHERE m.event_id = :event_id AND m.message_type = 'question'" . $hiddenFilter . "
+        ORDER BY m.id ASC");
+    $stmt->execute([':event_id' => QA_EVENT_ID]);
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
 function qa_login_markup(bool $pinConfigured, string $error, string $title = 'Вопросы спикеру'): string
 {
     $notice = !$pinConfigured
