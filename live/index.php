@@ -8,7 +8,6 @@ header('X-Content-Type-Options: nosniff');
 
 const DB_CONFIG_PATH = '/home/c/cx314477/public_html/.private/db.php';
 const LIVE_EMBED_URL_PATH = '/home/c/cx314477/public_html/.private/live_embed_url';
-const TEST_EMBED_URL = 'https://vkvideo.ru/video_ext.php?oid=-233714649&id=456239021&hash=61cffae7ff506239&hd=3';
 const TEST_ACCESS_TOKEN_HASH = '7da3f4677c33af849880c0f83be23b65964dfcd33fdcea175f2af546ad525746';
 const EVENT_START = '2026-10-07 07:00:00';
 const EVENT_END = '2026-10-07 20:00:00';
@@ -89,13 +88,8 @@ try {
 if (!$participant) http_response_code(404);
 $state = eventWindowState();
 $liveEmbedUrl = loadLiveEmbedUrl();
-$hasTestAccess = $participant
-    && (hash_equals(TEST_ACCESS_TOKEN_HASH, hash('sha256', $token))
-        || ($state === 'before' && hash_equals('48a6e6f00a80338f36c179ca7f03c1e2ab268bd0c633178e8539bd8ddeed5742', hash('sha256', $token))));
+$hasTestAccess = $participant && hash_equals(TEST_ACCESS_TOKEN_HASH, hash('sha256', $token));
 $isTestParticipant = $hasTestAccess;
-$usingTestEmbed = $hasTestAccess;
-$liveEmbedUrl = TEST_EMBED_URL;
-$playerActive = $participant && $liveEmbedUrl !== '' && ($state === 'live' || $hasTestAccess);
 $trackingActive = $participant && ($state === 'live' || $hasTestAccess);
 $interactionActive = $participant && ($state === 'live' || $hasTestAccess);
 ?>
@@ -139,9 +133,7 @@ $interactionActive = $participant && ($state === 'live' || $hasTestAccess);
     <div class="grid">
         <section class="card">
             <div class="player">
-                <?php if ($playerActive): ?>
-                    <iframe src="<?= h($liveEmbedUrl) ?>" allow="autoplay; encrypted-media; fullscreen; picture-in-picture; screen-wake-lock" allowfullscreen title="Прямая трансляция"></iframe>
-                <?php elseif ($state === 'before'): ?>
+                <?php if ($state === 'before'): ?>
                     <div class="placeholder"><strong>Трансляция ещё не началась</strong>Вернитесь на эту страницу 7 октября 2026 года. Персональная ссылка останется той же.</div>
                 <?php elseif ($state === 'after'): ?>
                     <div class="placeholder"><strong>Прямая трансляция завершена</strong>Информация о записи мероприятия будет опубликована дополнительно.</div>
