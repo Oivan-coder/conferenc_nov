@@ -122,7 +122,7 @@
     if (filters && !role) {
       role = document.createElement('select');
       role.id = 'role';
-      role.innerHTML = '<option value="">Все роли</option><option value="speaker">Докладчики</option><option value="participant">Не докладчики</option>';
+      role.innerHTML = '<option value="">Все роли</option><option value="speaker">Докладчики</option><option value="organizer">Организаторы</option><option value="volunteer">Волонтёры</option><option value="participant">Участники</option>';
       filters.appendChild(role);
     }
 
@@ -160,6 +160,8 @@
     const rows = [...table.querySelectorAll('tbody tr')];
     let speakers = 0;
     let others = 0;
+    let organizers = 0;
+    let volunteers = 0;
     let invitedSpeakers = 0;
 
     rows.forEach((row) => {
@@ -168,15 +170,22 @@
 
       const name = row.querySelector('td strong')?.textContent || '';
       const isSpeaker = speakerSet.has(norm(name));
-      row.dataset.role = isSpeaker ? 'speaker' : 'participant';
-      if (row.dataset.status === 'confirmed') {
-        if (isSpeaker) speakers += 1; else others += 1;
-      }
 
       const orgCell = row.children[1];
       const orgStrong = orgCell?.querySelector('strong');
       const rawOrg = orgStrong?.textContent || '';
       const info = orgInfo(rawOrg);
+      const position = norm(orgCell?.querySelector('.muted')?.textContent || '');
+      const isVolunteer = /волонт[её]р/.test(position);
+      const isOrganizer = info.category.key === 'organizer';
+      const participantRole = isVolunteer ? 'volunteer' : isOrganizer ? 'organizer' : isSpeaker ? 'speaker' : 'participant';
+      row.dataset.role = participantRole;
+      if (row.dataset.status === 'confirmed') {
+        if (participantRole === 'volunteer') volunteers += 1;
+        else if (participantRole === 'organizer') organizers += 1;
+        else if (participantRole === 'speaker') speakers += 1;
+        else others += 1;
+      }
       row.dataset.category = info.category.key;
       row.dataset.normalized = info.known ? 'known' : 'review';
 
@@ -198,16 +207,18 @@
       const sourceCell = cells.find((td) => /Публичная регистрация|По приглашению|Тест/.test(td.textContent));
       if (isSpeaker && sourceCell && /По приглашению/.test(sourceCell.textContent)) invitedSpeakers += 1;
       const roleCell = document.createElement('td');
-      roleCell.innerHTML = isSpeaker
-        ? '<span class="tag" style="background:#e9eefc;color:#3d5791">Докладчик</span>'
-        : '<span class="muted">Участник</span>';
+      const roleLabels = { speaker: 'Докладчик', organizer: 'Организатор', volunteer: 'Волонтёр', participant: 'Участник' };
+      const roleTag = document.createElement('span');
+      roleTag.className = participantRole === 'participant' ? 'muted' : 'tag';
+      roleTag.textContent = roleLabels[participantRole];
+      roleCell.appendChild(roleTag);
       if (sourceCell) row.insertBefore(roleCell, sourceCell); else row.appendChild(roleCell);
     });
 
     const panel = table.closest('.panel');
     const meta = panel?.querySelector('.panel-head .muted');
     const reviewCount = rows.filter((row) => row.dataset.normalized === 'review').length;
-    if (meta) meta.textContent = `${rows.length} записей · докладчики ${speakers} · остальные ${others}${reviewCount ? ` · проверить МО ${reviewCount}` : ''}`;
+    if (meta) meta.textContent = `${rows.length} записей · докладчики ${speakers} · организаторы ${organizers} · волонтёры ${volunteers} · участники ${others}${reviewCount ? ` · проверить МО ${reviewCount}` : ''}`;
 
     const q = document.getElementById('q');
     const fmt = document.getElementById('fmt');
@@ -229,8 +240,8 @@
     [q, fmt, status, role, categoryFilter, normalizationFilter].filter(Boolean).forEach((el) => el.addEventListener('input', apply));
 
     const brief = document.getElementById('briefText');
-    if (brief && speakers + others > 0) {
-      brief.textContent += `\n\nРоли участников:\n• докладчики — ${speakers}${invitedSpeakers ? ` (по приглашению — ${invitedSpeakers})` : ''}\n• остальные участники — ${others}`;
+    if (brief && speakers + organizers + volunteers + others > 0) {
+      brief.textContent += `\n\nРоли участников:\n• докладчики — ${speakers}${invitedSpeakers ? ` (по приглашению — ${invitedSpeakers})` : ''}\n• организаторы — ${organizers}\n• волонтёры — ${volunteers}\n• остальные участники — ${others}`;
       if (reviewCount) brief.textContent += `\n• названия организаций требуют проверки — ${reviewCount}`;
     }
   }
