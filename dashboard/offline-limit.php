@@ -14,11 +14,12 @@ try {
  if ($_SERVER['REQUEST_METHOD']==='POST') {
   if (!hash_equals($_SESSION['limit_csrf'],(string)($_POST['csrf']??''))) throw new RuntimeException('Обновите страницу');
   $pdo->beginTransaction();
-  $q=$pdo->prepare('SELECT hall_capacity FROM event_registration_settings WHERE event_id=? FOR UPDATE');
+  $q=$pdo->prepare('SELECT hall_capacity,public_offline_limit FROM event_registration_settings WHERE event_id=? FOR UPDATE');
   $q->execute([REGISTRATION_EVENT_ID]);$row=$q->fetch(PDO::FETCH_ASSOC);
   if (!$row) throw new RuntimeException('Настройки мероприятия не найдены');
-  if (registrationEffectiveHallCapacity($row)<100) throw new RuntimeException('Вместимость зала ниже запрошенного лимита');
-  $pdo->prepare('UPDATE event_registration_settings SET public_offline_limit=100,offline_registration_open=1 WHERE event_id=?')->execute([REGISTRATION_EVENT_ID]);
+  $reserve=max(0,(int)$row['hall_capacity']-(int)$row['public_offline_limit']);
+  $capacity=min(REGISTRATION_HALL_CAPACITY,max((int)$row['hall_capacity'],100+$reserve));
+  $pdo->prepare('UPDATE event_registration_settings SET public_offline_limit=100,hall_capacity=?,offline_registration_open=1 WHERE event_id=?')->execute([$capacity,REGISTRATION_EVENT_ID]);
   $pdo->commit();$notice='Лимит публичной очной регистрации — 100. Очная регистрация открыта.';
  }
  $q=$pdo->prepare('SELECT hall_capacity,public_offline_limit,offline_registration_open FROM event_registration_settings WHERE event_id=?');$q->execute([REGISTRATION_EVENT_ID]);$settings=$q->fetch(PDO::FETCH_ASSOC)?:[];
