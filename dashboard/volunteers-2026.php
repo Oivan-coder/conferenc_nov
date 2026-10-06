@@ -46,9 +46,68 @@ foreach($names as $n) { $lookup->execute([$event,trim(implode(' ',$n))]); $r=$lo
 } catch(Throwable $e) { if(isset($pdo)&&$pdo->inTransaction()) $pdo->rollBack(); $notice=$e instanceof PDOException?'Не удалось добавить записи. Изменения отменены.':$e->getMessage(); }
 ?><!doctype html><html lang="ru"><meta charset="utf-8"><title>Регистрация волонтёров</title>
 <style>body{font:16px Arial;margin:40px;color:#173126}table{border-collapse:collapse}td,th{padding:12px;border-bottom:1px solid #ccc;text-align:left}button{padding:14px;background:#214f3b;color:white;border:0;border-radius:8px}</style>
-<h1>Волонтёры — бейджи форума</h1><p><?=vh($org)?></p>
+<nav style="display:flex;gap:16px;margin-bottom:24px"><a href="/dashboard/">Регистрация</a><strong>Волонтёры</strong></nav><h1>Волонтёры — бейджи форума</h1><p><?=vh($org)?></p>
 <p>7 волонтёров, очное участие. Технические email для бейджей; письма не отправляются. Согласие участников не отмечается.</p>
 <p><?=vh($notice)?></p>
 <?php if(count($results)<7): ?><ul><?php foreach($names as $n):?><li><?=vh(trim(implode(' ',$n)))?></li><?php endforeach?></ul>
 <form method="post"><input type="hidden" name="csrf" value="<?=vh($_SESSION['volunteer_import_csrf'])?>"><button type="submit">Добавить 7 волонтёров для бейджей</button></form><?php endif?>
-<h2>В регистрации: <?=count($results)?> из 7</h2><table><tr><th>ФИО</th><th>Должность</th><th>Формат</th><th>Код бейджа</th></tr><?php foreach($results as $r):?><tr><td><?=vh($r['full_name'])?></td><td><?=vh($r['position'])?></td><td><?=vh($r['participation_format']==='offline'?'Очно':$r['participation_format'])?></td><td><?=vh($r['participant_code'])?></td></tr><?php endforeach?></table><p><a href="/dashboard/">Дашборд и печать бейджей</a></p></html>
+<p><button type="button" id="print-all"<?= !$results ? ' disabled' : '' ?>>Напечатать все этикетки</button> <button type="button" id="check-printer">Проверить сервис печати</button></p><p id="print-status" role="status" aria-live="polite">Печать через сервис на этом компьютере.</p><h2>В регистрации: <?=count($results)?> из 7</h2><table><tr><th>ФИО</th><th>Должность</th><th>Формат</th><th>Код бейджа</th><th>Печать</th></tr><?php foreach($results as $r):?><tr><td><?=vh($r['full_name'])?></td><td><?=vh($r['position'])?></td><td><?=vh($r['participation_format']==='offline'?'Очно':$r['participation_format'])?></td><td><?=vh($r['participant_code'])?></td><td><button type="button" data-print-code="<?=vh($r['participant_code'])?>">Напечатать</button><span data-print-result style="display:block;margin-top:8px"></span></td></tr><?php endforeach?></table><p><a href="/dashboard/">Дашборд и печать бейджей</a></p>
+<script>
+(() => {
+ const bridge='http://127.0.0.1:5030';
+ const status=document.getElementById('print-status');
+ const buttons=[...document.querySelectorAll('[data-print-code]')];
+ const all=document.getElementById('print-all');
+ const check=document.getElementById('check-printer');
+ const sent=new Set(); let busy=false;
+ function lock(value){busy=value;buttons.forEach(b=>b.disabled=value);all.disabled=value||!buttons.length;check.disabled=value;}
+ async function request(url,options={}){
+  const controller=new AbortController();const timer=setTimeout(()=>controller.abort(),20000);
+  try {return await fetch(url,{...options,signal:controller.signal,cache:'no-store'});}
+  finally {clearTimeout(timer);}
+ }
+ async function health(){
+  const r=await request(bridge+'/health',{mode:'cors'});const data=await r.json();
+  if(!r.ok||data.status!=='success')throw Error('Сервис печати недоступен');
+  return data;
+ }
+ async function print(b){
+  const code=b.dataset.printCode;
+  const result=b.parentElement.querySelector('[data-print-result]');
+  status.textContent='Печать '+code+'…';result.textContent='Подготовка…';
+  const r=await request('/dashboard/badge-zpl.php?code='+encodeURIComponent(code),{credentials:'same-origin'});
+  const zpl=await r.text();
+  if(!r.ok||!zpl.startsWith('^XA')||!zpl.trimEnd().endsWith('^XZ')){
+   result.textContent='Не удалось сформировать этикетку';throw Error('Ошибка этикетки '+code);
+  }
+  result.textContent='Отправка…';
+  try{
+   const response=await request(bridge+'/print',{method:'POST',mode:'cors',headers:{'Content-Type':'application/json'},body:JSON.stringify({participant_id:code,zpl,action:'print_badge'})});
+   const data=await response.json();
+   if(!response.ok||data.status!=='success')throw Error(data.message||'Ошибка сервиса печати');
+  }catch(e){result.textContent='Проверьте принтер перед повторной печатью';throw e;}
+  sent.add(code);result.textContent='Передано на принтер';b.textContent='Напечатать ещё раз';
+ }
+ async function run(queue){
+  if(busy)return;lock(true);let count=0;
+  try{
+   await health();
+   for(const b of queue){await print(b);count++;}
+   status.textContent='Передано на принтер: '+count+' этикеток.';
+  }catch(e){status.textContent='Печать остановлена. Передано в этом запуске: '+count+'. '+(e.name==='AbortError'?'Сервис не ответил вовремя. Проверьте очередь принтера.':e.message);}
+  finally{lock(false);}
+ }
+ buttons.forEach(b=>b.addEventListener('click',()=>run([b])));
+ all.addEventListener('click',()=>{
+  const queue=buttons.filter(b=>!sent.has(b.dataset.printCode));
+  if(!queue.length){status.textContent='Все этикетки уже переданы. Для повторной печати используйте кнопку рядом с ФИО.';return;}
+  run(queue);
+ });
+ check.addEventListener('click',async()=>{
+  if(busy)return;lock(true);status.textContent='Проверка сервиса…';
+  try{const data=await health();status.textContent='Сервис готов. Принтер: '+(data.printer||'по умолчанию');}
+  catch(e){status.textContent='Сервис печати недоступен на этом компьютере.';}
+  finally{lock(false);}
+ });
+})();
+</script></html>
