@@ -6,6 +6,18 @@ header('Referrer-Policy: no-referrer');
 header('Content-Security-Policy: frame-ancestors \'none\'; base-uri \'self\'; form-action \'self\'');
 if(empty($_SESSION['conference_dashboard_auth'])){http_response_code(403);exit('Требуется вход организатора');}
 require_once dirname(__DIR__).'/api/smtp-mailer.php';
+if(isset($_GET['ticket_code'])){
+ $code=(string)$_GET['ticket_code'];
+ if($code!=='LEE312A03C'){http_response_code(400);exit('Некорректный код');}
+ $pdo=require '/home/c/cx314477/public_html/.private/db.php';
+ $q=$pdo->prepare('SELECT full_name,email,qr_token,participation_format,registration_status FROM participants WHERE event_id=? AND participant_code=?');
+ $q->execute(['forum-lab-innovations-2026-10-07',$code]);$rows=$q->fetchAll(PDO::FETCH_ASSOC);
+ if(count($rows)!==1){http_response_code(404);exit('Участник не найден');}
+ $r=$rows[0];
+ if($r['full_name']!=='Коршенко Сергей Анатольевич'||strtolower(trim($r['email']))!=='s.korshenko@ilslab.ru'||$r['participation_format']!=='offline'||$r['registration_status']!=='confirmed'||!preg_match('/^[a-f0-9]{64}$/',(string)$r['qr_token'])){http_response_code(409);exit('Данные требуют сверки');}
+ $u='https://rclsmo.ru/participant.php?t='.rawurlencode($r['qr_token']);
+ echo '<!doctype html><html lang="ru"><meta charset="utf-8"><title>Билет Коршенко</title><h1>Коршенко Сергей Анатольевич</h1><p>s.korshenko@ilslab.ru · LEE312A03C · Очно · Подтверждено</p><a href="'.htmlspecialchars($u,ENT_QUOTES,'UTF-8').'">Открыть персональный билет</a></html>';exit;
+}
 const TEN_EVENT='forum-lab-innovations-2026-10-07';
 const TEN_LOG='/home/c/cx314477/public_html/.private/ten-offline-20261006.json';
 function mailShell(string $title, string $body): string {
