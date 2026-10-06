@@ -7,7 +7,7 @@ header('Referrer-Policy: strict-origin-when-cross-origin');
 header('X-Content-Type-Options: nosniff');
 
 const DB_CONFIG_PATH = '/home/c/cx314477/public_html/.private/db.php';
-const TEST_EMBED_URL = 'https://www.youtube-nocookie.com/embed/aqz-KE-bpKQ';
+const TEST_EMBED_URL = 'https://vkvideo.ru/video_ext.php?oid=-233714649&id=456239021&hash=61cffae7ff506239&hd=3';
 
 function h(?string $value): string {
     return htmlspecialchars((string)$value, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
