@@ -77,7 +77,7 @@ $counts = ['new' => 0, 'on_air' => 0, 'answered' => 0, 'hidden' => 0];
 if ($isStateRequest && !$authorized) {
     header('Content-Type: application/json; charset=utf-8');
     http_response_code(401);
-    echo json_encode(['ok' => false, 'error' => 'unauthorized'], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+    echo json_encode(['ok' => false, 'error' => 'unauthorized'], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT);
     exit;
 }
 
@@ -126,23 +126,32 @@ if ($authorized) {
                 $id = filter_input(INPUT_POST, 'question_id', FILTER_VALIDATE_INT);
                 if (!$id) throw new InvalidArgumentException('Некорректный номер вопроса.');
 
-                if ($action === 'air') {
-                    $pdo->beginTransaction();
-                    $reset = $pdo->prepare("UPDATE conference_messages SET status = 'new' WHERE event_id = :event_id AND message_type = 'question' AND status = 'on_air'");
-                    $reset->execute([':event_id' => QA_EVENT_ID]);
-                    $stmt = $pdo->prepare("UPDATE conference_messages SET status = 'on_air', approved_at = COALESCE(approved_at, NOW()), on_air_at = NOW() WHERE id = :id AND event_id = :event_id AND message_type = 'question'");
-                    $stmt->execute([':id' => $id, ':event_id' => QA_EVENT_ID]);
-                    $pdo->commit();
-                } elseif ($action === 'answered') {
-                    $stmt = $pdo->prepare("UPDATE conference_messages SET status = 'answered', answered_at = NOW() WHERE id = :id AND event_id = :event_id AND message_type = 'question'");
-                    $stmt->execute([':id' => $id, ':event_id' => QA_EVENT_ID]);
-                } elseif ($action === 'hide') {
-                    $stmt = $pdo->prepare("UPDATE conference_messages SET status = 'hidden', hidden_at = NOW() WHERE id = :id AND event_id = :event_id AND message_type = 'question'");
-                    $stmt->execute([':id' => $id, ':event_id' => QA_EVENT_ID]);
-                } else {
-                    $stmt = $pdo->prepare("UPDATE conference_messages SET status = 'new', hidden_at = NULL WHERE id = :id AND event_id = :event_id AND message_type = 'question'");
-                    $stmt->execute([':id' => $id, ':event_id' => QA_EVENT_ID]);
+                // Compare the submitted status while holding the row lock: stale buttons cannot
+                // change a different state, and showing one question never resets another.
+                $expectedStatus = (string)($_POST['expected_status'] ?? '');
+                $pdo->beginTransaction();
+                $lock = $pdo->prepare("SELECT status FROM conference_messages WHERE id = :id AND event_id = :event_id AND message_type = 'question' FOR UPDATE");
+                $lock->execute([':id' => $id, ':event_id' => QA_EVENT_ID]);
+                $actualStatus = $lock->fetchColumn();
+                if ($actualStatus === false || $expectedStatus === '' || $actualStatus !== $expectedStatus) {
+                    throw new InvalidArgumentException('Статус вопроса уже изменился. Обновите очередь и повторите действие.');
                 }
+                $allowed = ['air' => ['new'], 'answered' => ['new', 'on_air'], 'hide' => ['new', 'on_air', 'answered'], 'restore' => ['hidden', 'answered', 'on_air']];
+                if (!in_array($actualStatus, $allowed[$action], true)) {
+                    throw new InvalidArgumentException('Это действие недоступно для текущего статуса вопроса.');
+                }
+                if ($action === 'air') {
+                    $sql = "UPDATE conference_messages SET status = 'on_air', approved_at = COALESCE(approved_at, NOW()), on_air_at = NOW() WHERE id = :id AND event_id = :event_id AND message_type = 'question'";
+                } elseif ($action === 'answered') {
+                    $sql = "UPDATE conference_messages SET status = 'answered', answered_at = NOW() WHERE id = :id AND event_id = :event_id AND message_type = 'question'";
+                } elseif ($action === 'hide') {
+                    $sql = "UPDATE conference_messages SET status = 'hidden', hidden_at = NOW() WHERE id = :id AND event_id = :event_id AND message_type = 'question'";
+                } else {
+                    $sql = "UPDATE conference_messages SET status = 'new', hidden_at = NULL, answered_at = NULL, on_air_at = NULL WHERE id = :id AND event_id = :event_id AND message_type = 'question'";
+                }
+                $stmt = $pdo->prepare($sql);
+                $stmt->execute([':id' => $id, ':event_id' => QA_EVENT_ID]);
+                $pdo->commit();
 
                 header('Location: /qa/moderator.php');
                 exit;
@@ -158,30 +167,7 @@ if ($authorized) {
             if (array_key_exists($row['status'], $counts)) $counts[$row['status']] = (int)$row['cnt'];
         }
 
-        $stmt = $pdo->prepare(
-            "SELECT
-                m.id,
-                m.participant_name,
-                m.organization,
-                m.message_text AS question_text,
-                m.status,
-                m.created_at,
-                m.reply_to_id,
-                s.title AS session_title,
-                s.speaker_name,
-                (SELECT COUNT(*) FROM conference_message_votes v WHERE v.message_id = m.id) AS votes
-             FROM conference_messages m
-             LEFT JOIN conference_sessions s ON s.id = m.session_id
-             WHERE m.event_id = :event_id
-               AND m.message_type = 'question'
-             ORDER BY
-                CASE m.status WHEN 'on_air' THEN 0 WHEN 'new' THEN 1 WHEN 'answered' THEN 2 ELSE 3 END,
-                votes DESC,
-                m.created_at DESC
-             LIMIT 200"
-        );
-        $stmt->execute([':event_id' => QA_EVENT_ID]);
-        $questions = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $questions = qa_questions($pdo, true);
     } catch (InvalidArgumentException $e) {
         if (isset($pdo) && $pdo instanceof PDO && $pdo->inTransaction()) $pdo->rollBack();
         $error = $e->getMessage();
@@ -195,7 +181,7 @@ if ($isStateRequest) {
     header('Content-Type: application/json; charset=utf-8');
     if ($error !== '') {
         http_response_code(500);
-        echo json_encode(['ok' => false, 'error' => 'server_error'], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+        echo json_encode(['ok' => false, 'error' => 'server_error'], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT);
         exit;
     }
     echo json_encode([
@@ -204,7 +190,7 @@ if ($isStateRequest) {
         'current_program_index' => $currentProgramIndex,
         'counts' => $counts,
         'questions' => $questions,
-    ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+    ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT);
     exit;
 }
 
@@ -262,7 +248,7 @@ $csrf = qa_csrf_token();
 <option value="<?= $index ?>"<?= $currentProgramIndex === $index ? ' selected' : '' ?>><?= qa_h(sprintf('%02d · %s · %s — %s', $item['number'], $item['time'], $item['speaker'], $item['title'])) ?></option>
 <?php endforeach; ?>
 </select>
-<p class="program-help">Все 20 докладов уже внесены. Вручную ФИО и тему вводить не нужно.</p></div>
+<p class="program-help">Все <?= count($program) ?> докладов уже внесены. Вручную ФИО и тему вводить не нужно.</p></div>
 <div style="margin-top:12px"><button class="btn" name="action" value="set_session">Сделать текущим</button></div>
 </form>
 <form method="post" class="program-nav">
@@ -273,7 +259,7 @@ $csrf = qa_csrf_token();
 </section>
 <section class="card question-list" id="questionCard">
 <div class="session">
-    <div><div class="brand">Общая очередь</div><h2 style="margin:6px 0 0">Вопросы из зала и онлайн</h2></div>
+    <div><div class="brand">Общая очередь</div><h2 style="margin:6px 0 0">Вопросы из зала и онлайн</h2><p class="muted small">Карточки идут по порядку поступления и не меняются местами. На экране спикера видны все нескрытые вопросы.</p></div>
     <div class="queue-head-right"><span class="pill poll-pill ok" id="pollStatus">● автообновление 2 сек</span></div>
 </div>
 <div class="question-tabs" id="questionTabs" role="tablist" aria-label="Фильтр вопросов">
@@ -291,10 +277,11 @@ $csrf = qa_csrf_token();
 <div class="question-text"><?= qa_h($q['question_text']) ?></div>
 <div class="question-meta"><?= qa_h($q['participant_name']) ?> · <?= qa_h($q['organization']) ?> · <?= qa_h($q['created_at']) ?><?php if ($q['session_title']): ?><br><?= qa_h($q['session_title']) ?><?php endif; ?></div>
 <form method="post" class="actions" style="margin-top:13px">
-<input type="hidden" name="csrf" value="<?= qa_h($csrf) ?>"><input type="hidden" name="question_id" value="<?= (int)$q['id'] ?>">
-<?php if ($q['status'] === 'new'): ?><button class="btn" name="action" value="air">Показать спикеру</button><?php endif; ?>
-<?php if ($q['status'] === 'on_air'): ?><button class="btn" name="action" value="answered">✓ Отвечен</button><?php endif; ?>
-<?php if ($q['status'] !== 'hidden' && $q['status'] !== 'answered'): ?><button class="btn ghost" name="action" value="hide">Скрыть</button><?php elseif ($q['status'] === 'hidden'): ?><button class="btn ghost" name="action" value="restore">Вернуть</button><?php endif; ?>
+<input type="hidden" name="csrf" value="<?= qa_h($csrf) ?>"><input type="hidden" name="question_id" value="<?= (int)$q['id'] ?>"><input type="hidden" name="expected_status" value="<?= qa_h($q['status']) ?>">
+<button class="btn" name="action" value="air"<?= $q['status'] !== 'new' ? ' disabled' : '' ?>><?= $q['status'] === 'on_air' ? 'Выбран для спикера' : 'Показать спикеру' ?></button>
+<button class="btn" name="action" value="answered"<?= !in_array($q['status'], ['new', 'on_air'], true) ? ' disabled' : '' ?>>✓ Отвечен</button>
+<?php if ($q['status'] !== 'hidden'): ?><button class="btn ghost" name="action" value="hide">Скрыть</button><?php endif; ?>
+<?php if (in_array($q['status'], ['hidden', 'answered', 'on_air'], true)): ?><button class="btn secondary" name="action" value="restore">Вернуть в новые</button><?php endif; ?>
 </form>
 </div>
 <?php endforeach; ?>
@@ -303,7 +290,7 @@ $csrf = qa_csrf_token();
 </div>
 </div>
 <script>
-const csrf=<?= json_encode($csrf, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) ?>;
+const csrf=<?= json_encode($csrf, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>;
 const programCount=<?= count($program) ?>;
 const statusLabels={new:'Новый',on_air:'У спикера',answered:'Отвечен',hidden:'Скрыт'};
 const questionList=document.getElementById('questionList');
@@ -340,11 +327,11 @@ soundToggle.addEventListener('click',()=>{soundEnabled=!soundEnabled;localStorag
 function actionButtons(q){
     const id=intValue(q.id);
     let buttons='';
-    if(q.status==='new')buttons+='<button class="btn" name="action" value="air">Показать спикеру</button>';
-    if(q.status==='on_air')buttons+='<button class="btn" name="action" value="answered">✓ Отвечен</button>';
-    if(q.status!=='hidden'&&q.status!=='answered')buttons+='<button class="btn ghost" name="action" value="hide">Скрыть</button>';
-    else if(q.status==='hidden')buttons+='<button class="btn ghost" name="action" value="restore">Вернуть</button>';
-    return '<form method="post" class="actions" style="margin-top:13px"><input type="hidden" name="csrf" value="'+escapeHtml(csrf)+'"><input type="hidden" name="question_id" value="'+id+'">'+buttons+'</form>';
+    buttons+='<button class="btn" name="action" value="air"'+(q.status!=='new'?' disabled':'')+'>'+(q.status==='on_air'?'Выбран для спикера':'Показать спикеру')+'</button>';
+    buttons+='<button class="btn" name="action" value="answered"'+(!['new','on_air'].includes(q.status)?' disabled':'')+'>✓ Отвечен</button>';
+    if(q.status!=='hidden')buttons+='<button class="btn ghost" name="action" value="hide">Скрыть</button>';
+    if(['hidden','answered','on_air'].includes(q.status))buttons+='<button class="btn secondary" name="action" value="restore">Вернуть в новые</button>';
+    return '<form method="post" class="actions" style="margin-top:13px"><input type="hidden" name="csrf" value="'+escapeHtml(csrf)+'"><input type="hidden" name="question_id" value="'+id+'"><input type="hidden" name="expected_status" value="'+escapeHtml(q.status)+'">'+buttons+'</form>';
 }
 
 function questionMarkup(q){
@@ -394,32 +381,47 @@ function renderState(data){
     updateSession(data.session,Number.isInteger(data.current_program_index)?data.current_program_index:null);
     const signature=JSON.stringify({session:data.session,current_program_index:data.current_program_index,counts:data.counts,questions:data.questions});
     if(signature===lastSignature)return;
+    let deferred=false;
     const questions=Array.isArray(data.questions)?data.questions:[];
     const added=questions.filter(q=>!knownQuestionIds.has(String(q.id))&&q.status==='new');
     questions.forEach(q=>knownQuestionIds.add(String(q.id)));
-    questionList.innerHTML=questions.length?questions.map(questionMarkup).join(''):'<p class="muted" id="emptyQuestions">Пока вопросов нет. Они появятся здесь автоматически, когда участник выберет «Вопрос спикеру».</p>';
+    const existing=new Map(Array.from(questionList.querySelectorAll('[data-question-id]')).map(el=>[el.dataset.questionId,el]));
+    const present=new Set(questions.map(q=>String(q.id)));
+    questionList.querySelector('#emptyQuestions')?.remove();
+    for(const q of questions){
+        const key=String(q.id),signature=JSON.stringify(q),old=existing.get(key);
+        if(old?.dataset.signature===signature)continue;
+        if(old&&(old.matches(':hover')||old.contains(document.activeElement))){deferred=true;continue;}
+        const template=document.createElement('template');template.innerHTML=questionMarkup(q);
+        const card=template.content.firstElementChild;card.dataset.signature=signature;
+        if(old)old.replaceWith(card);else questionList.appendChild(card);
+    }
+    existing.forEach((el,id)=>{if(!present.has(id))el.remove();});
+    if(!questions.length)questionList.innerHTML='<p class="muted" id="emptyQuestions">Пока вопросов нет.</p>';
     applyFilter();
     if(added.length){beep();questionCard.classList.remove('flash');void questionCard.offsetWidth;questionCard.classList.add('flash');}
-    lastSignature=signature;
+    lastSignature=deferred?'':signature;
 }
 
 async function poll(){
     if(polling||qaBusy||document.hidden)return;
     polling=true;
     try{
-        const r=await fetch('/qa/moderator.php?state=1',{cache:'no-store',credentials:'same-origin',headers:{Accept:'application/json'}});
+        const r=await fetch('/qa/moderator.php?state=1',{signal:AbortSignal.timeout(10000),cache:'no-store',credentials:'same-origin',headers:{Accept:'application/json'}});
         if(r.status===401){location.reload();return;}
         if(!r.ok)throw new Error('http');
         const data=await r.json();if(!data.ok)throw new Error('api');
+        if(qaBusy)return;
         renderState(data);
         pollStatus.textContent='● автообновление 2 сек';pollStatus.classList.add('ok');pollStatus.classList.remove('error');
     }catch(e){pollStatus.textContent='● нет связи — повторяем';pollStatus.classList.remove('ok');pollStatus.classList.add('error');}
     finally{polling=false;}
 }
 
-lastSignature=JSON.stringify({session:<?= json_encode($currentSession, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) ?>,current_program_index:<?= json_encode($currentProgramIndex) ?>,counts:<?= json_encode($counts, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) ?>,questions:<?= json_encode($questions, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) ?>});
+lastSignature=JSON.stringify({session:<?= json_encode($currentSession, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>,current_program_index:<?= json_encode($currentProgramIndex) ?>,counts:<?= json_encode($counts, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>,questions:<?= json_encode($questions, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>});
 poll();setInterval(poll,2000);document.addEventListener('visibilitychange',()=>{if(!document.hidden)poll();});
 </script>
 <?php endif; ?>
 </body>
 </html>
+
