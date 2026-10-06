@@ -204,7 +204,7 @@
       if (orgCell) orgCell.insertAdjacentElement('afterend', categoryCell);
 
       const cells = [...row.children];
-      const sourceCell = cells.find((td) => /Публичная регистрация|По приглашению|Тест/.test(td.textContent));
+      const sourceCell = cells.find((td) => /^(?:Публичная регистрация|По приглашению|Тест)$/.test(td.textContent.trim()));
       if (isSpeaker && sourceCell && /По приглашению/.test(sourceCell.textContent)) invitedSpeakers += 1;
       const roleCell = document.createElement('td');
       const roleLabels = { speaker: 'Докладчик', organizer: 'Организатор', volunteer: 'Волонтёр', participant: 'Участник' };
@@ -257,7 +257,8 @@
       const cells = [...row.children];
       const raw = cells[0]?.querySelector('strong')?.textContent || cells[0]?.textContent || '';
       const info = orgInfo(raw);
-      const key = norm(info.display);
+      // Unknown names must retain their full identity; compact labels can collide.
+      const key = info.known ? `known:${norm(info.display)}` : `raw:${norm(raw)}`;
       const values = cells.slice(1).map((cell) => Number.parseInt(cell.textContent.trim(), 10) || 0);
       if (!groups.has(key)) groups.set(key, { organization: info.display, category: info.category, known: info.known, values: new Array(values.length).fill(0) });
       const group = groups.get(key);
