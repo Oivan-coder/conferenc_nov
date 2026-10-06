@@ -41,6 +41,12 @@ function prodPlan(array $rows):array{
   }unset($check);
   $r['email']=$email;$jobs[$r['participant_code']]=['row'=>$r,'fingerprint'=>prodKey($r),'status'=>'pending'];$counts[$format]++;
  }
+ // Hold every member of an ambiguous group instead of guessing a format.
+ $emailCounts=[];$nameCounts=[];$tokenCounts=[];
+ foreach($jobs as $job){$r=$job['row'];$n=preg_replace('/\\s+/u',' ',str_replace('ё','е',mb_strtolower(trim($r['full_name']))));$t=$r['participation_format']==='offline'?$r['qr_token']:$r['online_token'];$emailCounts[$r['email']]=($emailCounts[$r['email']]??0)+1;$nameCounts[$n]=($nameCounts[$n]??0)+1;$tokenCounts[$t]=($tokenCounts[$t]??0)+1;}
+ foreach($jobs as $code=>$job){$r=$job['row'];$n=preg_replace('/\\s+/u',' ',str_replace('ё','е',mb_strtolower(trim($r['full_name']))));$t=$r['participation_format']==='offline'?$r['qr_token']:$r['online_token'];if($emailCounts[$r['email']]>1||$nameCounts[$n]>1||$tokenCounts[$t]>1){$excluded[]=$r['full_name'].' · '.$code.' — повтор, формат требует уточнения';unset($jobs[$code]);}}
+ $issues=array_values(array_filter($issues,static fn($issue)=>!str_contains($issue,' — повтор ')));
+ $counts=['offline'=>0,'online'=>0];foreach($jobs as $job)$counts[$job['row']['participation_format']]++;
  return compact('jobs','excluded','issues','counts');
 }
 function prodSave(array $campaign):void{
