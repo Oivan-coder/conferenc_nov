@@ -91,8 +91,7 @@ $state = eventWindowState();
 $liveEmbedUrl = loadLiveEmbedUrl();
 $hasTestAccess = $participant
     && (hash_equals(TEST_ACCESS_TOKEN_HASH, hash('sha256', $token))
-        || ($state === 'before' && trim((string)$participant['organization']) === TEST_ORGANIZATION
-            && hash_equals('48a6e6f00a80338f36c179ca7f03c1e2ab268bd0c633178e8539bd8ddeed5742', hash('sha256', $token))));
+        || ($state === 'before' && hash_equals('48a6e6f00a80338f36c179ca7f03c1e2ab268bd0c633178e8539bd8ddeed5742', hash('sha256', $token))));
 $isTestParticipant = $hasTestAccess;
 $usingTestEmbed = $hasTestAccess;
 $liveEmbedUrl = TEST_EMBED_URL;
