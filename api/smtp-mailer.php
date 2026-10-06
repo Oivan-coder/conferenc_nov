@@ -5,7 +5,7 @@ use PHPMailer\PHPMailer\PHPMailer;
 const SMTP_AUTOLOAD_PATH = '/home/c/cx314477/public_html/.private/vendor/autoload.php';
 const SMTP_PASSWORD_PATH = '/home/c/cx314477/public_html/.private/unisender_smtp_pass';
 
-function sendConfiguredMail(string $to, string $subject, string $htmlBody, array $cc = []): bool
+function sendConfiguredMail(string $to, string $subject, string $htmlBody, array $cc = [], array $inlineImages = []): bool
 {
     try {
         if (!is_readable(SMTP_AUTOLOAD_PATH) || !is_readable(SMTP_PASSWORD_PATH)) {
@@ -44,6 +44,11 @@ function sendConfiguredMail(string $to, string $subject, string $htmlBody, array
         foreach ($cc as $copyTo) {
             if (!is_string($copyTo) || !filter_var($copyTo, FILTER_VALIDATE_EMAIL)) throw new InvalidArgumentException('Invalid CC address');
             $mail->addCC($copyTo);
+        }
+
+        foreach ($inlineImages as $cid => $image) {
+            if (!is_string($cid) || !preg_match('/^[a-z0-9_-]+$/i', $cid) || !is_array($image) || !is_string($image['data'] ?? null)) throw new InvalidArgumentException('Invalid inline image');
+            $mail->addStringEmbeddedImage($image['data'], $cid, 'qr.png', 'base64', 'image/png');
         }
 
         $mail->isHTML(true);
