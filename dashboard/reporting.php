@@ -16,7 +16,7 @@ if (!defined('DASHBOARD_PRINT_CLIENT_INJECTED')) {
 
         $assets = '<script src="/dashboard/print-client.js?v=20260910-2"></script>'
             . '<script>window.DASHBOARD_REPORTING_CONFIG=' . $config . ';</script>'
-            . '<script src="/dashboard/reporting-client.js?v=20261005-org4"></script>'
+            . '<script src="/dashboard/reporting-client.js?v=20261006-roles1"></script>'
             . '<script>document.addEventListener("DOMContentLoaded",function(){var el=document.getElementById("briefText");if(!el)return;el.textContent=el.textContent.split("\\n").filter(function(line){return !line.includes("названия организаций требуют проверки")&&!line.includes("неуточнённые организации");}).join("\\n").replace(/\\n{3,}/g,"\\n\\n");});</script>';
 
         return str_ireplace('</body>', $assets . '</body>', $html);
@@ -123,7 +123,7 @@ function dashboardLeadershipBrief(array $stats, int $offlineConfirmed, int $onli
         . 'Представленность:' . "\n"
         . '• государственные организации — ' . $stats['government_orgs'] . ' (' . $governmentOrgPct . '%); ' . $stats['government_people'] . ' участников (' . $governmentPeoplePct . '%)' . "\n"
         . '• частные/коммерческие организации и независимые эксперты — ' . $stats['private_orgs'] . ' (' . $privateOrgPct . '%); ' . $stats['private_people'] . ' участников (' . $privatePeoplePct . '%)' . "\n"
-        . '• организаторы — ' . $stats['organizer_orgs'] . ' (' . $organizerOrgPct . '%); ' . $stats['organizer_people'] . ' участников (' . $organizerPeoplePct . '%)' . "\n"
+        . '• организации-организаторы — ' . $stats['organizer_orgs'] . ' (' . $organizerOrgPct . '%); сотрудников-организаторов — ' . $stats['organizer_people'] . ' (' . $organizerPeoplePct . '%)' . "\n"
         . '  РЦЛСМО — ' . $o['РЦЛСМО'] . '; ЦВИОД — ' . $o['ЦВИОД'] . "\n\n"
         . 'Формат участия:' . "\n"
         . '• очно — ' . $offlineConfirmed . ' (' . $offlinePct . '%)' . "\n"
