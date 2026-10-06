@@ -8,7 +8,7 @@ header('X-Content-Type-Options: nosniff');
 
 const DB_CONFIG_PATH = '/home/c/cx314477/public_html/.private/db.php';
 const LIVE_EMBED_URL_PATH = '/home/c/cx314477/public_html/.private/live_embed_url';
-const TEST_EMBED_URL = 'https://vkvideo.ru/video_ext.php?oid=-233714649&id=456239019&hash=25e935338eb5bfe5&hd=3';
+const TEST_EMBED_URL = 'https://vkvideo.ru/video_ext.php?oid=-233714649&id=456239021&hash=61cffae7ff506239&hd=3';
 const TEST_ACCESS_TOKEN_HASH = '7da3f4677c33af849880c0f83be23b65964dfcd33fdcea175f2af546ad525746';
 const EVENT_START = '2026-10-07 07:00:00';
 const EVENT_END = '2026-10-07 20:00:00';
