@@ -16,6 +16,15 @@ function respond(int $status, array $payload): never {
 
 if ($_SERVER['REQUEST_METHOD'] !== 'GET') respond(405, ['ok' => false, 'error' => 'method_not_allowed']);
 
+if (REGISTRATION_ENDED) {
+    respond(200, [
+        'ok' => true,
+        'registration_closed' => true,
+        'offline' => ['available' => false, 'state' => 'closed', 'waitlist_available' => false],
+        'online' => ['available' => false]
+    ]);
+}
+
 try {
     $pdo = require DB_CONFIG_PATH;
     if (!$pdo instanceof PDO) throw new RuntimeException('Database config invalid');
