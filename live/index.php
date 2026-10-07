@@ -1,5 +1,5 @@
 <?php
-// Deployment refresh: 2026-09-18 live stream
+// Public broadcast: 2026-10-07
 header('Cache-Control: private, no-store, max-age=0');
 header('Pragma: no-cache');
 header('X-Robots-Tag: noindex, nofollow,noarchive', true);
@@ -7,7 +7,7 @@ header('Referrer-Policy: no-referrer');
 header('X-Content-Type-Options: nosniff');
 
 const DB_CONFIG_PATH = '/home/c/cx314477/public_html/.private/db.php';
-const LIVE_EMBED_URL_PATH = '/home/c/cx314477/public_html/.private/live_embed_url';
+const LIVE_EMBED_URL = 'https://vkvideo.ru/video_ext.php?oid=-233714649&id=456239022&hash=f87c6a2c49e1a00d&hd=3';
 const TEST_ACCESS_TOKEN_HASH = '7da3f4677c33af849880c0f83be23b65964dfcd33fdcea175f2af546ad525746';
 const EVENT_START = '2026-10-07 07:00:00';
 const EVENT_END = '2026-10-07 20:00:00';
@@ -27,31 +27,13 @@ function eventWindowState(): string {
     return 'live';
 }
 
-function loadLiveEmbedUrl(): string {
-    if (!is_readable(LIVE_EMBED_URL_PATH)) return '';
-    $url = trim((string)file_get_contents(LIVE_EMBED_URL_PATH));
-    if (!filter_var($url, FILTER_VALIDATE_URL)) return '';
-
-    $parts = parse_url($url);
-    $scheme = strtolower((string)($parts['scheme'] ?? ''));
-    $host = strtolower((string)($parts['host'] ?? ''));
-    $allowedHosts = [
-        'www.youtube.com',
-        'www.youtube-nocookie.com',
-        'rutube.ru',
-        'vk.com',
-        'vkvideo.ru',
-    ];
-
-    return $scheme === 'https' && in_array($host, $allowedHosts, true) ? $url : '';
-}
-
 $token = strtolower(trim((string)($_GET['t'] ?? '')));
 $testCode = strtoupper(trim((string)($_GET['code'] ?? '')));
 $participant = null;
 
 try {
-    $pdo = require DB_CONFIG_PATH;
+    $hasPersonalLink = preg_match('/^[a-f0-9]{64}$/', $token) || preg_match('/^LE[A-F0-9]{8}$/', $testCode);
+    $pdo = $hasPersonalLink && is_readable(DB_CONFIG_PATH) ? require DB_CONFIG_PATH : null;
     if ($pdo instanceof PDO) {
         if (preg_match('/^[a-f0-9]{64}$/', $token)) {
             $stmt = $pdo->prepare(
@@ -85,9 +67,8 @@ try {
     $participant = null;
 }
 
-if (!$participant) http_response_code(404);
 $state = eventWindowState();
-$liveEmbedUrl = loadLiveEmbedUrl();
+$liveEmbedUrl = LIVE_EMBED_URL;
 $hasTestAccess = $participant && hash_equals(TEST_ACCESS_TOKEN_HASH, hash('sha256', $token));
 $isTestParticipant = $hasTestAccess;
 $trackingActive = $participant && ($state === 'live' || $hasTestAccess);
@@ -100,7 +81,7 @@ $interactionActive = $participant && ($state === 'live' || $hasTestAccess);
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="robots" content="noindex,nofollow,noarchive">
     <meta name="theme-color" content="#061426">
-    <title><?= $participant ? 'Онлайн-трансляция — Форум лабораторных инноваций Московской области — 2026' : 'Ссылка недействительна' ?></title>
+    <title>Онлайн-трансляция — Форум лабораторных инноваций Московской области — 2026</title>
     <link rel="icon" type="image/png" href="/images/favicon-32x32.png">
     <style>
         :root{--bg:#061426;--bg2:#04101e;--panel:rgba(12,35,57,.88);--panel-strong:#0b2a42;--line:rgba(102,222,241,.19);--line-strong:rgba(102,222,241,.32);--cyan:#66def1;--cyan2:#27c7de;--text:#edf8fb;--muted:#9cb6c5;--muted2:#7693a4;--violet:#7859df;--danger:#ff8f8f;--ok:#77e0a9;--shadow:0 24px 80px rgba(0,0,0,.28)}
@@ -121,29 +102,25 @@ $interactionActive = $participant && ($state === 'live' || $hasTestAccess);
     </style>
 </head>
 <body>
-<?php if (!$participant): ?>
-    <div class="error"><h1>Ссылка недействительна</h1><p class="muted">Проверьте персональную ссылку из письма о регистрации или обратитесь по адресу info@rclsmo.ru.</p><a href="/conference-2026/">К странице форума</a></div>
-<?php else: ?>
 <div class="wrap">
     <div class="brand-row">
         <a class="brand" href="/"><img src="/images/logo.png" alt="Логотип РЦЛСМО"><strong>РЦЛСМО</strong></a>
-        <div class="brand-actions"><a class="mini-link" href="/participant.php?t=<?= h($token) ?>">Мой билет</a><a class="mini-link" href="/conference-2026/">Программа форума</a></div>
+        <div class="brand-actions"><?php if ($participant): ?><a class="mini-link" href="/participant.php?t=<?= h($token) ?>">Мой билет</a><?php endif; ?><a class="mini-link" href="/conference-2026/">Программа форума</a></div>
     </div>
-    <div class="top"><div class="eyebrow"><span class="live-dot"></span>Персональный онлайн-доступ</div><h1>Форум лабораторных инноваций Московской области — 2026</h1><div class="top-sub">7 октября 2026 · прямая трансляция и обсуждение</div></div>
+    <div class="top"><div class="eyebrow"><span class="live-dot"></span><?= $participant ? 'Персональный онлайн-доступ' : 'Открытая трансляция' ?></div><h1>Форум лабораторных инноваций Московской области — 2026</h1><div class="top-sub">7 октября 2026 · прямая трансляция и обсуждение</div></div>
     <div class="grid">
         <section class="card">
             <div class="player">
-                <?php if ($state === 'before'): ?>
-                    <div class="placeholder"><strong>Трансляция ещё не началась</strong>Вернитесь на эту страницу 7 октября 2026 года. Персональная ссылка останется той же.</div>
-                <?php elseif ($state === 'after'): ?>
-                    <div class="placeholder"><strong>Прямая трансляция завершена</strong>Информация о записи мероприятия будет опубликована дополнительно.</div>
-                <?php else: ?>
-                    <div class="placeholder"><strong>Страница трансляции готова</strong>Источник видеопотока будет подключён организаторами перед мероприятием.</div>
-                <?php endif; ?>
+                <iframe src="<?= h($liveEmbedUrl) ?>" title="Прямая трансляция форума — VK Видео" width="1280" height="720" allow="autoplay; encrypted-media; fullscreen; picture-in-picture; screen-wake-lock;" allowfullscreen></iframe>
             </div>
+            <?php if ($participant): ?>
             <div class="body"><h2><?= h($participant['full_name']) ?></h2><div class="muted"><?= h($participant['organization']) ?> · <?= h($participant['position']) ?></div><div class="small">Персональная ссылка используется для учёта фактического онлайн-присутствия. Не пересылайте её другим участникам.</div></div>
+            <?php else: ?>
+            <div class="body"><h2>Прямая трансляция форума</h2><div class="muted">Просмотр открыт для всех. Нажмите кнопку воспроизведения в плеере.</div><div class="small">Если плеер не открывается, <a href="<?= h($liveEmbedUrl) ?>" target="_blank" rel="noopener noreferrer">смотрите трансляцию в VK Видео</a>.</div></div>
+            <?php endif; ?>
         </section>
         <aside class="card info">
+            <?php if ($participant): ?>
             <div class="info-head"><span class="badge">Онлайн-участие</span><h2>Вы подключены</h2><div class="muted">Персональная сессия участника</div></div>
             <p><strong>Код:</strong> <?= h($participant['participant_code']) ?></p>
             <p><strong>Дата:</strong> 7 октября 2026 года</p>
@@ -151,9 +128,17 @@ $interactionActive = $participant && ($state === 'live' || $hasTestAccess);
             <p class="small">Участник считается фактически присутствовавшим онлайн при суммарном активном времени на странице от 15 минут.</p>
             <div class="info-actions"><a class="action-link primary" href="/participant.php?t=<?= h($token) ?>">Открыть мой билет</a><a class="action-link" href="/conference-2026/">Программа форума</a></div>
             <?php if ($isTestParticipant): ?><div class="test">Тест: накоплено <strong data-watch-seconds><?= (int)$participant['online_watch_seconds'] ?></strong> сек. Для тестового участника чат и Q&A также доступны уже сейчас.</div><?php endif; ?>
+            <?php else: ?>
+            <div class="info-head"><span class="badge">Свободный просмотр</span><h2>Добро пожаловать!</h2><div class="muted">Форум лабораторных инноваций Московской области</div></div>
+            <p><strong>Дата:</strong> 7 октября 2026 года</p>
+            <p>Трансляция доступна без регистрации и персональной ссылки.</p>
+            <p class="small">Зарегистрированным онлайн-участникам: откройте персональную ссылку из письма, чтобы задавать вопросы спикерам и учитывать присутствие.</p>
+            <div class="info-actions"><a class="action-link primary" href="/conference-2026/">Программа форума</a><a class="action-link" href="<?= h($liveEmbedUrl) ?>" target="_blank" rel="noopener noreferrer">Открыть в VK Видео</a></div>
+            <?php endif; ?>
         </aside>
     </div>
 
+    <?php if ($participant): ?>
     <section class="card discussion" aria-labelledby="discussionTitle">
         <div class="discussion-head">
             <div><h2 id="discussionTitle">Обсуждение</h2><p class="muted">Общий чат участников и вопросы текущему спикеру.</p></div>
@@ -174,8 +159,8 @@ $interactionActive = $participant && ($state === 'live' || $hasTestAccess);
             <div class="chat-closed"><strong>Обсуждение откроется во время форума</strong><span class="muted">7 октября на этой же персональной странице появятся чат и кнопка «Вопрос спикеру».</span></div>
         <?php endif; ?>
     </section>
+    <?php endif; ?>
 </div>
-<?php endif; ?>
 
 <?php if ($participant && $interactionActive): ?>
 <script>
