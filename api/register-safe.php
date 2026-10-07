@@ -4,6 +4,13 @@ header('Cache-Control: no-store');
 header('X-Content-Type-Options: nosniff');
 header('Referrer-Policy: no-referrer');
 
+require_once __DIR__ . '/registration-config.php';
+if (REGISTRATION_ENDED) {
+    http_response_code(($_SERVER['REQUEST_METHOD'] ?? '') === 'POST' ? 409 : 405);
+    echo json_encode(['ok' => false, 'error' => 'registration_closed', 'message' => 'Форум завершён. Регистрация закрыта.'], JSON_UNESCAPED_UNICODE);
+    exit;
+}
+
 const PREVIEW_TOKEN_HASHES_SAFE = [
     '39e70b738bd910aa9296407b8e856e4c0ec58f3e420fd523d67d88bc6cee6cc1',
     '6fbe6025563f098ca8756103aa6cb93f4ac2c5bbb5f769e42aff0de2de2c14b9',
