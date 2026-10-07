@@ -1,5 +1,7 @@
 <?php
 
+const REGISTRATION_ENDED = true;
+
 const REGISTRATION_EVENT_ID = 'forum-lab-innovations-2026-10-07';
 const REGISTRATION_HALL_CAPACITY = 120;
 const REGISTRATION_PUBLIC_OFFLINE_LIMIT = 120;
