@@ -27,6 +27,7 @@
     <link rel="icon" type="image/png" href="images/favicon-32x32.png">
     <link rel="stylesheet" href="css/public-bundle.css?v=20260903-moniki1">
     <link rel="stylesheet" href="css/institution-footer.css?v=20260910-footer-layout3">
+    <link rel="stylesheet" href="css/conference-feedback.css?v=20261008-1">
     <style>
         @media (max-width: 980px) {
             .conference-2026-page .institution-footer__lead {
@@ -136,7 +137,7 @@
 
             <div class="c26-hero__actions">
                 <a class="c26-button c26-button--primary" href="#program">Смотреть программу</a>
-                <a class="c26-button c26-button--secondary" href="/registration/">Регистрация закрыта</a>
+                <a class="c26-button c26-button--secondary" href="/conference-2026/#feedback">Оставить отзыв</a>
             </div>
 
             <div class="c26-hero__metrics" aria-label="Параметры программы">
@@ -307,12 +308,39 @@
                         <p>Благодарим участников, спикеров и партнёров! Приём заявок на очное и онлайн-участие завершён.</p>
                     </div>
                     <div class="c26-registration-cta__actions">
-                        <a class="c26-button c26-button--primary" href="/registration/">Регистрация закрыта</a>
+                        <a class="c26-button c26-button--primary" href="/conference-2026/#feedback">Оставить отзыв</a>
                         <a class="c26-button c26-button--secondary" href="#contacts">Задать вопрос</a>
                     </div>
                 </div>
             </div>
         </section>
+
+        <section id="feedback" class="c26-feedback" aria-labelledby="feedbackTitle">
+            <div class="container c26-feedback__layout">
+                <div class="c26-feedback__intro">
+                    <span>Обратная связь</span>
+                    <h2 id="feedbackTitle">Как прошёл форум для вас?</h2>
+                    <p>Спасибо, что были с нами! Поделитесь впечатлениями о программе и организации. Ваши ответы помогут сделать следующий форум лучше.</p>
+                    <p class="c26-feedback__privacy">Отзыв анонимный: мы не запрашиваем имя и контакты и не связываем ответы с регистрацией. Его увидят только организаторы. Пожалуйста, не указывайте ФИО и контакты в тексте.</p>
+                </div>
+                <div>
+                    <form id="conferenceFeedbackForm" class="c26-feedback__form">
+                        <fieldset><legend>Общее впечатление</legend><div class="c26-feedback__rating"><label><input type="radio" name="overall_rating" value="1" required aria-label="1 из 5"><span>1</span></label><label><input type="radio" name="overall_rating" value="2" required aria-label="2 из 5"><span>2</span></label><label><input type="radio" name="overall_rating" value="3" required aria-label="3 из 5"><span>3</span></label><label><input type="radio" name="overall_rating" value="4" required aria-label="4 из 5"><span>4</span></label><label><input type="radio" name="overall_rating" value="5" required aria-label="5 из 5"><span>5</span></label></div><p class="c26-feedback__hint">1 — не понравилось · 5 — отлично</p></fieldset>
+                        <fieldset><legend>Программа и выступления</legend><div class="c26-feedback__rating"><label><input type="radio" name="program_rating" value="1" required aria-label="1 из 5"><span>1</span></label><label><input type="radio" name="program_rating" value="2" required aria-label="2 из 5"><span>2</span></label><label><input type="radio" name="program_rating" value="3" required aria-label="3 из 5"><span>3</span></label><label><input type="radio" name="program_rating" value="4" required aria-label="4 из 5"><span>4</span></label><label><input type="radio" name="program_rating" value="5" required aria-label="5 из 5"><span>5</span></label></div><p class="c26-feedback__hint">1 — не понравилось · 5 — отлично</p></fieldset>
+                        <fieldset><legend>Организация форума</legend><div class="c26-feedback__rating"><label><input type="radio" name="organization_rating" value="1" required aria-label="1 из 5"><span>1</span></label><label><input type="radio" name="organization_rating" value="2" required aria-label="2 из 5"><span>2</span></label><label><input type="radio" name="organization_rating" value="3" required aria-label="3 из 5"><span>3</span></label><label><input type="radio" name="organization_rating" value="4" required aria-label="4 из 5"><span>4</span></label><label><input type="radio" name="organization_rating" value="5" required aria-label="5 из 5"><span>5</span></label></div><p class="c26-feedback__hint">1 — не понравилось · 5 — отлично</p></fieldset>
+                        <div class="c26-feedback__field"><label class="c26-feedback__label" for="feedbackFormat">Как вы участвовали?</label><select id="feedbackFormat" name="participation_format"><option value="unspecified">Не хочу указывать</option><option value="offline">Очно</option><option value="online">Онлайн</option></select></div>
+                        <div class="c26-feedback__field"><label class="c26-feedback__label" for="feedbackLiked">Что понравилось? <small>(необязательно)</small></label><textarea id="feedbackLiked" name="liked_text" maxlength="3000" rows="4" placeholder="Темы, выступления, полезные идеи…"></textarea></div>
+                        <div class="c26-feedback__field"><label class="c26-feedback__label" for="feedbackImprovements">Что стоит улучшить? <small>(необязательно)</small></label><textarea id="feedbackImprovements" name="improvements_text" maxlength="3000" rows="4" placeholder="Что учесть при подготовке следующего форума?"></textarea></div>
+                        <div class="c26-feedback__trap" aria-hidden="true"><label>Сайт<input name="website" type="text" tabindex="-1" autocomplete="off"></label></div>
+                        <button type="submit" class="c26-feedback__submit">Отправить отзыв</button>
+                        <p id="feedbackStatus" class="c26-feedback__status" role="alert" aria-live="polite"></p>
+                        <noscript><p>Для отправки отзыва включите JavaScript в браузере.</p></noscript>
+                    </form>
+                    <div id="feedbackSuccess" class="c26-feedback__success" role="status" tabindex="-1" hidden><h3>Спасибо за обратную связь!</h3><p>Ваш отзыв сохранён и передан организаторам. Учтём ваши пожелания при подготовке следующего форума.</p></div>
+                </div>
+            </div>
+        </section>
+
     </main>
 
     <footer class="main-footer" id="contacts" data-site-shell="footer"></footer>
@@ -384,6 +412,7 @@
     </script>
     <script src="js/modules/map.js" defer></script>
     <script src="js/modules/conference-2026.js?v=20261005-program3" defer></script>
+    <script src="js/modules/conference-feedback.js?v=20261008-1" defer></script>
     <script src="js/url-cleaner.js" defer></script>
     <script src="cookies.js?v=20260821-consent1" defer></script>
 </body>
