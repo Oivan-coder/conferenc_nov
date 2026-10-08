@@ -116,6 +116,16 @@
 .forum-recording__heading h2::after{content:none!important}
 @media(max-width:800px){.forum-recording{padding-top:40px}.forum-recording__heading{flex-direction:column;align-items:flex-start;gap:20px}.forum-recording__player{border-radius:12px}}
 </style>
+
+<style>
+.conference-2026-page .c26-hero__metrics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;width:min(100%,780px);margin-top:32px;padding:0;border:1px solid rgba(157,215,231,.22);border-radius:18px;overflow:hidden;background:linear-gradient(120deg,rgba(7,24,43,.78),rgba(16,44,64,.55));backdrop-filter:blur(12px);box-shadow:0 12px 36px rgba(0,0,0,.12)}
+.conference-2026-page .c26-hero__metrics>div{display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:8px;padding:22px 28px;min-width:0;border:0}
+.conference-2026-page .c26-hero__metrics>div+div{border-left:1px solid rgba(157,215,231,.18)}
+.conference-2026-page .c26-hero__metrics strong{display:block;color:#86e7f5;font-size:46px;line-height:1;font-weight:750;letter-spacing:-.04em;font-variant-numeric:tabular-nums;white-space:nowrap}
+.conference-2026-page .c26-hero__metrics strong small{font-size:23px;font-weight:600;letter-spacing:-.02em;color:#eaf8fc}
+.conference-2026-page .c26-hero__metrics>div>span{display:block;color:#c3d4df;font-size:13px;line-height:1.45;letter-spacing:0}
+@media(max-width:600px){.conference-2026-page .c26-hero__metrics{margin-top:24px;border-radius:14px}.conference-2026-page .c26-hero__metrics>div{padding:17px 12px;gap:7px}.conference-2026-page .c26-hero__metrics strong{font-size:34px}.conference-2026-page .c26-hero__metrics strong small{font-size:17px}.conference-2026-page .c26-hero__metrics>div>span{font-size:11px}}
+</style>
 </head>
 <body class="conference-2026-page" data-page="conference-2026">
     <a class="skip-link" href="/conference-2026/#mainContent">К программе</a>
@@ -162,7 +172,7 @@
             <div class="c26-hero__metrics" aria-label="Параметры программы">
                 <div><strong>4</strong><span>тематических блока</span></div>
                 <div><strong>74</strong><span>очных участника</span></div>
-                <div><strong>1 день</strong><span>доклады и дискуссии</span></div>
+                <div><strong>1 <small>день</small></strong><span>доклады и дискуссии</span></div>
             </div>
         </div>
     </section>
