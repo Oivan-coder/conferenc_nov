@@ -20,9 +20,12 @@ if (isset($_GET['file'])) {
     $path = $root . '/' . $name;
     $info = getimagesize($path);
     if (isset($_GET['thumb']) && function_exists('imagecreatefromstring') && ($info[0] * $info[1]) <= 16000000) {
+        $large = isset($_GET['size']) && $_GET['size'] === 'large';
+        $edge = $large ? 2400 : 900;
+        $quality = $large ? 92 : 84;
         $cache = dirname($root) . '/thumbnails';
         if (is_dir($cache) || @mkdir($cache, 0755, true)) {
-            $target = $cache . '/' . hash('sha256', $name . ':' . filemtime($path) . ':' . filesize($path)) . '.jpg';
+            $target = $cache . '/' . hash('sha256', $name . ':' . filemtime($path) . ':' . filesize($path) . ':' . $edge . ':' . $quality) . '.jpg';
             if (!is_file($target)) {
                 $source = @imagecreatefromstring(file_get_contents($path));
                 if ($source !== false) {
@@ -34,11 +37,11 @@ if (isset($_GET['file'])) {
                         elseif ($orientation === 8) $source = imagerotate($source, 90, 0);
                     }
                     $w = imagesx($source); $h = imagesy($source);
-                    $ratio = min(1, 900 / max($w, $h));
+                    $ratio = min(1, $edge / max($w, $h));
                     $small = imagecreatetruecolor(max(1, (int)round($w * $ratio)), max(1, (int)round($h * $ratio)));
                     imagecopyresampled($small, $source, 0, 0, 0, 0, imagesx($small), imagesy($small), $w, $h);
                     $temp = tempnam($cache, 'photo-');
-                    if ($temp !== false) { imagejpeg($small, $temp, 84); rename($temp, $target); }
+                    if ($temp !== false) { imagejpeg($small, $temp, $quality); rename($temp, $target); }
                     imagedestroy($small); imagedestroy($source);
                 }
             }
