@@ -108,6 +108,10 @@
 .forum-recording__heading .photo-eyebrow{margin-bottom:14px}
 .forum-recording__player{position:relative;aspect-ratio:16/9;background:#020b16;border:1px solid #ffffff26;border-radius:18px;overflow:hidden;box-shadow:0 20px 70px #0004}
 .forum-recording__player iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.forum-recording__cover{position:absolute;inset:0;width:100%;height:100%;border:0;cursor:pointer;background:linear-gradient(0deg,#07182be6,#07182b22),url('/images/og/forum-2026.jpg') center/cover;color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;font-family:inherit;font-size:20px;font-weight:600}
+.forum-recording__cover span{display:grid;place-items:center;width:82px;height:82px;border-radius:50%;background:#42dff5;color:#07182b;font-size:32px;box-shadow:0 0 45px #42dff566}
+.forum-recording__cover:focus-visible{outline:3px solid #42dff5;outline-offset:-5px}
+.forum-recording__player iframe[hidden]{display:none}
 .forum-recording__note{color:#91a9be;font-size:13px;line-height:1.6;margin:16px 0 0}
 .forum-recording__heading h2::after{content:none!important}
 @media(max-width:800px){.forum-recording{padding-top:40px}.forum-recording__heading{flex-direction:column;align-items:flex-start;gap:20px}.forum-recording__player{border-radius:12px}}
@@ -167,7 +171,7 @@
 <section id="recording" class="forum-recording" aria-labelledby="recordingTitle">
 <div class="container">
 <div class="forum-recording__heading"><div><span class="photo-eyebrow">Материалы форума · 7 октября 2026</span><h2 id="recordingTitle">Видеозапись форума</h2><p>Вернитесь к выступлениям и обсуждениям в удобное время.</p></div><a class="photo-button" href="https://vkvideo.ru/live-233714649_456239022" target="_blank" rel="noopener noreferrer">Смотреть в VK Видео ↗</a></div>
-<div class="forum-recording__player"><iframe src="https://vkvideo.ru/video_ext.php?oid=-233714649&amp;id=456239022&amp;hash=f87c6a2c49e1a00d&amp;hd=3" title="Видеозапись Форума лабораторных инноваций Московской области — 7 октября 2026" loading="lazy" allow="autoplay; encrypted-media; fullscreen; picture-in-picture; screen-wake-lock;" allowfullscreen></iframe></div>
+<div class="forum-recording__player"><iframe id="forumRecordingPlayer" hidden data-src="https://vkvideo.ru/video_ext.php?oid=-233714649&amp;id=456239022&amp;hash=f87c6a2c49e1a00d&amp;hd=3" title="Видеозапись Форума лабораторных инноваций Московской области — 7 октября 2026" loading="lazy" allow="autoplay; encrypted-media; fullscreen; picture-in-picture; screen-wake-lock;" allowfullscreen></iframe><button type="button" id="forumRecordingPlay" class="forum-recording__cover" aria-label="Запустить видеозапись форума"><span aria-hidden="true">▶</span>Смотреть видеозапись форума</button></div>
 <p class="forum-recording__note">Если плеер не загружается, откройте запись по кнопке «Смотреть в VK Видео».</p>
 </div></section>
 <section class="forum-photo-feature"><div class="container"><div class="forum-photo-feature__heading"><div><span class="photo-eyebrow">7 октября 2026 · Как это было</span><h2>Форум в фотографиях</h2><p>Выступления, встречи и моменты, которые хочется сохранить.</p></div><a class="photo-button" href="/conference-2026/photos/">Все фотографии ↗</a></div><div class="photo-grid photo-grid--preview" data-photo-preview></div></div></section>
@@ -409,5 +413,14 @@
     <script src="js/url-cleaner.js" defer></script>
     <script src="cookies.js?v=20260821-consent1" defer></script>
 <script src="/js/modules/forum-photos.js?v=20261008-1" defer></script>
+<script>
+document.getElementById('forumRecordingPlay').addEventListener('click',function(){
+const player=document.getElementById('forumRecordingPlayer');
+player.src=player.dataset.src;
+player.hidden=false;
+this.remove();
+player.focus();
+});
+</script>
 </body>
 </html>
