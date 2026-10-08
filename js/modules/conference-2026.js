@@ -18,7 +18,8 @@
         if (!root) return;
         const eventStart = new Date('2026-10-07T09:30:00+03:00');
         const now = new Date();
-        root.dataset.eventState = now < eventStart ? 'upcoming' : 'started';
+        const eventEnd = new Date('2026-10-07T16:30:00+03:00');
+        root.dataset.eventState = now < eventStart ? 'upcoming' : now < eventEnd ? 'started' : 'completed';
     }
 
     function publishAgenda() {
@@ -32,7 +33,7 @@
         const summaryMeta = root.querySelector('[data-agenda-disclosure] summary em');
         if (eyebrow) eyebrow.textContent = 'Программа конференции';
         if (title) title.textContent = 'Один день — четыре содержательных блока';
-        if (lead) lead.textContent = 'Актуальная сетка выступлений и состав спикеров форума 7 октября 2026 года.';
+        if (lead) lead.textContent = 'Программа и состав спикеров прошедшего форума 7 октября 2026 года.';
         if (summaryMeta) summaryMeta.textContent = '4 блока · 18 докладов · 09:30–16:30';
 
         const agenda = root.querySelector('.c26-agenda');
