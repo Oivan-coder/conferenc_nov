@@ -9,7 +9,7 @@
         const link = document.createElement('link');
         link.id = 'conference-agenda-2026-styles';
         link.rel = 'stylesheet';
-        link.href = '/css/conference-agenda-2026.css?v=20261005-program3';
+        link.href = '/css/conference-agenda-2026.css?v=20261008-presentations1';
         document.head.appendChild(link);
     }
 
@@ -46,7 +46,7 @@
             .replace(/>/g, '&gt;');
 
         const talk = (time, n, talkTitle, speaker, photo = '', credentials = '', focus = '50% 28%', role = credentials) => `
-            <article class="c26-agenda__item agenda-talk">
+            <article class="c26-agenda__item agenda-talk" data-presentation-speaker="${attr(speaker)}">
                 <time>${time}</time>
                 <div>
                     <div class="agenda-talk__meta"><span class="agenda-talk__tag">${String(n).padStart(2, '0')} · выступление</span></div>
@@ -122,6 +122,53 @@
             </div>`;
 
         initSpeakerPopovers(agenda);
+    }
+
+
+    async function loadPresentations() {
+        const aliases = {
+            'Билалов': ['bilalov'], 'Ройтман': ['roitman'], 'Денисов': ['denisov'],
+            'Волкова': ['volkova'], 'Показаньев': ['pokazanyev', 'pokazanev'],
+            'Ламбакахар': ['Ламбакхар', 'Ламбакакар', 'Ламбакахар']
+        };
+        try {
+            const response = await fetch('/api/forum-presentations.php', { cache: 'no-store' });
+            if (!response.ok) return;
+            const data = await response.json();
+            if (!Array.isArray(data.files)) return;
+            let count = 0;
+            document.querySelectorAll('[data-presentation-speaker]').forEach((card) => {
+                const speaker = card.dataset.presentationSpeaker;
+                const surname = speaker.split(' ')[0];
+                const keys = [surname, ...(aliases[surname] || [])].map(s => s.toLocaleLowerCase('ru'));
+                const matches = data.files.filter(file => {
+                    const stem = file.name.replace(/\.[^.]+$/, '').replace(/^\d+[.\s_-]*/, '').toLocaleLowerCase('ru');
+                    return keys.some(key => stem === key || stem.startsWith(key + ' ') || stem.startsWith(key + '-') || stem.startsWith(key + '_'));
+                });
+                if (!matches.length) return;
+                const actions = document.createElement('div');
+                actions.className = 'agenda-presentation-actions';
+                matches.forEach(file => {
+                    const link = document.createElement('a');
+                    link.className = 'agenda-presentation-link';
+                    link.href = file.url;
+                    link.setAttribute('download', file.name);
+                    link.setAttribute('aria-label', 'Скачать презентацию: ' + speaker + ' (' + file.format + ')');
+                    const size = (file.bytes / 1048576).toLocaleString('ru-RU', { maximumFractionDigits: 1 });
+                    link.textContent = '↓ Скачать презентацию';
+                    const meta = document.createElement('span');
+                    meta.textContent = file.format + ' · ' + size + ' МБ';
+                    link.append(meta);
+                    actions.append(link);
+                });
+                card.querySelector('.agenda-speaker-copy').append(actions);
+                count++;
+            });
+            if (count) {
+                document.querySelector('.c26-program .c26-section-heading p').textContent = 'Программа прошедшего форума. Презентации доступны для скачивания рядом с докладами.';
+                document.querySelector('[data-agenda-toggle-label]').textContent = 'Программа и презентации';
+            }
+        } catch (error) { /* The programme remains available if the files service is unavailable. */ }
     }
 
     function initSpeakerPopovers(agenda) {
@@ -315,6 +362,7 @@
         initMobileMenuLayerFix();
         updateEventState();
         publishAgenda();
+        loadPresentations();
         markAgendaOnScroll();
         initAgendaDisclosure();
         initLocationActions();

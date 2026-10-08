@@ -108,3 +108,10 @@
 
 /* Every speaker uses the same name and role layout. */
 .agenda-speaker-copy .agenda-speaker>span{display:block;flex-basis:100%;margin-top:3px}
+
+.agenda-presentation-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.agenda-speaker-copy a.agenda-presentation-link{display:inline-flex;align-items:center;flex-wrap:wrap;gap:12px;padding:11px 15px;border:1px solid rgba(66,223,245,.35);border-radius:10px;background:rgba(66,223,245,.08);color:#8debf7;font-size:13px;font-weight:650;text-decoration:none;line-height:1.4;transition:background .2s,border-color .2s}
+.agenda-speaker-copy a.agenda-presentation-link span{font-size:10px;font-weight:500;color:#a9c0cd;white-space:nowrap}
+.agenda-speaker-copy a.agenda-presentation-link:hover{background:rgba(66,223,245,.17);border-color:#42dff5}
+.agenda-speaker-copy a.agenda-presentation-link:focus-visible{outline:2px solid #42dff5;outline-offset:4px}
+@media(max-width:720px){.agenda-presentation-actions{margin-top:10px}.agenda-speaker-copy a.agenda-presentation-link{font-size:11px;padding:9px 10px;gap:4px 8px}}
