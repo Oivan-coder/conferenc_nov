@@ -18,6 +18,7 @@ const SITE_NAV = [
             { id: 'conf-sen-2025', href: '/conf_sen2025', label: 'Сентябрь 2025' }
         ]
     },
+    { id: 'education', href: '/education/', label: 'Обучение' },
     { id: 'about', href: '/about', label: 'О центре' }
 ];
 
