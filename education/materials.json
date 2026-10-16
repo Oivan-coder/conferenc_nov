@@ -1,0 +1,84 @@
+{
+  "updated": "2026-10-16",
+  "topics": [
+    {
+      "id": "pgt",
+      "category": "diagnostics",
+      "title": "Пероральный глюкозотолерантный тест",
+      "subtitle": "Презентация и материал по проведению теста",
+      "featured": true,
+      "files": [
+        {
+          "label": "Презентация",
+          "name": "ПГТТ.pptx",
+          "format": "PPTX",
+          "size": 6911249
+        },
+        {
+          "label": "Проведение теста",
+          "name": "Проведение глюкозотолерантного теста.pdf",
+          "format": "PDF",
+          "size": 1591702
+        }
+      ]
+    },
+    {
+      "id": "blood",
+      "category": "diagnostics",
+      "title": "Группа крови",
+      "subtitle": "Учебная презентация",
+      "files": [
+        {
+          "label": "Открыть презентацию",
+          "name": "Копия Группа крови 13.08.2026.pptx",
+          "format": "PPTX",
+          "size": 6401652
+        }
+      ]
+    },
+    {
+      "id": "dispatch",
+      "category": "processes",
+      "title": "Диспетчеризация",
+      "subtitle": "Учебная презентация",
+      "files": [
+        {
+          "label": "Открыть презентацию",
+          "name": "Диспетчеризация.pptx",
+          "format": "PPTX",
+          "size": 1004394
+        }
+      ]
+    },
+    {
+      "id": "semd",
+      "category": "digital",
+      "title": "Выгрузка отчётов по СЭМД",
+      "subtitle": "Пошаговый материал в формате презентации",
+      "files": [
+        {
+          "label": "Открыть презентацию",
+          "name": "Выгрузка отчетов по СЭМД.pptx",
+          "format": "PPTX",
+          "size": 230553
+        }
+      ]
+    }
+  ],
+  "visuals": [
+    {
+      "id": "memo",
+      "title": "Памятка",
+      "name": "памятка в2.png",
+      "format": "PNG",
+      "size": 1678444
+    },
+    {
+      "id": "image",
+      "title": "Дополнительная иллюстрация",
+      "name": "image.png",
+      "format": "PNG",
+      "size": 1394808
+    }
+  ]
+}
