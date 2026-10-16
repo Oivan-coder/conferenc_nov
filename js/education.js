@@ -13,6 +13,7 @@
   const CATEGORIES = {
     diagnostics: 'Лабораторные исследования',
     processes: 'Организация работы',
+    guides: 'Практические инструкции',
     digital: 'Цифровые инструменты'
   };
   let topics = [];
