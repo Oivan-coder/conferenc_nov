@@ -1,0 +1,22 @@
+/* Тематический переход к библиотеке. Только страница «О центре». */
+.about-education{position:relative;padding:50px 0 85px!important;background:linear-gradient(180deg,#081b2c,#0c2032);isolation:isolate}
+.about-education__card{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(240px,.85fr);min-height:340px;position:relative;background:#0e2b3f;border:1px solid rgba(139,211,226,.25);border-radius:19px;overflow:hidden;text-decoration:none!important;box-shadow:0 22px 60px rgba(0,0,0,.14);transition:border-color .22s,transform .22s,box-shadow .22s}
+.about-education__card:hover{border-color:rgba(131,227,239,.7);transform:translateY(-3px);box-shadow:0 29px 70px rgba(0,0,0,.22)}
+.about-education__card:focus-visible{outline:3px solid #7bdeeb;outline-offset:4px}
+.about-education__content{position:relative;z-index:2;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;padding:clamp(30px,4.4vw,60px)}
+.about-education__eyebrow{display:inline-flex;gap:12px;align-items:center;font-size:11px;letter-spacing:.14em;font-weight:800;color:#74dfeb;margin-bottom:20px}
+.about-education__eyebrow span{width:24px;height:1px;background:#75dce9}
+.about-page .about-education__content h2{max-width:610px;text-align:left;color:#f6fbff;font-size:clamp(28px,3.2vw,43px);line-height:1.11;font-weight:750;letter-spacing:-.038em;margin:0 0 16px;background:none;-webkit-text-fill-color:initial}
+.about-page .about-education__content h2::after{display:none}
+.about-education__content h2 span{display:block;color:#83e2ec}
+.about-education__content p{font-size:14px;max-width:415px;line-height:1.6;color:#abc3d4;margin:0 0 26px}
+.about-education__action{display:inline-flex;align-items:center;justify-content:space-between;gap:30px;min-height:46px;background:#78deeb;color:#082539;padding:11px 18px;border-radius:7px;font-size:13px;font-weight:770;transition:background .18s}
+.about-education__action>span{font-size:19px;line-height:1}
+.about-education__card:hover .about-education__action{background:#c1f8fb}
+.about-education__art{position:relative;display:flex;flex-direction:column;justify-content:space-between;overflow:hidden;padding:24px 29px;background:linear-gradient(90deg,rgba(7,29,44,.3),rgba(5,19,33,.55)),url('/images/hero/home-video-poster.jpg') center/cover no-repeat}
+.about-education__art:before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,#0e2b3f 0%,rgba(14,43,63,.28) 35%,rgba(4,19,31,.18) 100%)}
+.about-education__art-label,.about-education__art-mark{position:relative;z-index:1;align-self:flex-end;font-size:10px;letter-spacing:.15em;color:#ddf6fa}
+.about-education__art-mark{font-size:13px;font-weight:800;letter-spacing:.1em}
+@media(max-width:780px){.about-education{padding:24px 0 55px!important}.about-education__card{grid-template-columns:1fr;min-height:auto}.about-education__content{padding:36px 28px 40px}.about-education__art{min-height:135px;background-position:center 42%}.about-education__art:before{background:linear-gradient(0deg,rgba(7,28,45,.25),rgba(7,28,45,.38))}.about-education__content p{margin-bottom:25px}}
+@media(max-width:420px){.about-education__card{border-radius:13px}.about-education__content{padding:30px 22px 32px}.about-page .about-education__content h2{font-size:29px}.about-education__action{width:100%}.about-education__art{min-height:108px;padding:14px 17px}}
+@media(prefers-reduced-motion:reduce){.about-education__card,.about-education__action{transition:none}}
