@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Учебные материалы | Референс-центр лабораторной службы Московской области</title>
+  <meta name="description" content="Презентации, инструкции и памятки по лабораторной диагностике, организации работы и цифровым инструментам лабораторной службы Московской области.">
+  <link rel="canonical" href="https://rclsmo.ru/education/">
+  <meta name="theme-color" content="#07182b">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="ru_RU">
+  <meta property="og:site_name" content="РЦЛСМО">
+  <meta property="og:title" content="Учебные материалы — РЦЛСМО">
+  <meta property="og:description" content="Профессиональные материалы для лабораторной службы Московской области.">
+  <meta property="og:url" content="https://rclsmo.ru/education/">
+  <meta property="og:image" content="https://rclsmo.ru/images/hero/home-video-poster.jpg">
+  <base href="/">
+  <link rel="icon" type="image/png" href="images/favicon-32x32.png">
+  <link rel="preload" as="image" href="images/hero/home-video-poster.jpg" fetchpriority="high">
+  <link rel="stylesheet" href="css/public-bundle.css?v=20260903-moniki1">
+  <link rel="stylesheet" href="css/institution-footer.css?v=20260910-footer-layout3">
+  <link rel="stylesheet" href="css/education.css?v=20261016-a">
+</head>
+<body class="education-page" data-page="education">
+  <header class="photo-header" data-site-shell="header"></header>
+  <main>
+    <section class="edu-hero" aria-labelledby="educationTitle">
+      <div class="edu-hero__photo" aria-hidden="true"></div>
+      <div class="edu-hero__overlay" aria-hidden="true"></div>
+      <div class="container edu-hero__inner">
+        <div class="edu-hero__text">
+          <span class="edu-kicker"><span class="edu-kicker__line"></span>Референс-центр / образование</span>
+          <h1 id="educationTitle">Знания для <span>лабораторной практики</span></h1>
+          <p>Учебные презентации, практические инструкции и памятки для специалистов лабораторной службы.</p>
+          <a class="edu-primary-link" href="#library">Смотреть материалы <span aria-hidden="true">↗</span></a>
+        </div>
+        <div class="edu-hero__side" aria-label="О разделе">
+          <span class="edu-hero__side-index">01 / БИБЛИОТЕКА РЦЛСМО</span>
+          <div class="edu-hero__side-rule"></div>
+          <span>Материалы для работы</span>
+          <strong>Изучайте. Применяйте.</strong>
+        </div>
+      </div>
+      <div class="edu-hero__bottom"><div class="container"><span>РЦЛСМО · МОСКОВСКАЯ ОБЛАСТЬ</span><a href="#library">К материалам <span aria-hidden="true">↓</span></a></div></div>
+    </section>
+
+    <section class="edu-library" id="library" aria-labelledby="libraryTitle">
+      <div class="container">
+        <div class="edu-section-head">
+          <div>
+            <span class="edu-overline">ОТКРЫТАЯ БИБЛИОТЕКА</span>
+            <h2 id="libraryTitle">Материалы по темам</h2>
+          </div>
+          <p>Выберите направление или найдите нужную тему по названию.</p>
+        </div>
+        <div class="edu-toolbar">
+          <div class="edu-filters" role="group" aria-label="Фильтр по направлению">
+            <button type="button" class="is-active" data-edu-filter="all" aria-pressed="true">Все</button>
+            <button type="button" data-edu-filter="diagnostics" aria-pressed="false">Исследования</button>
+            <button type="button" data-edu-filter="processes" aria-pressed="false">Организация работы</button>
+            <button type="button" data-edu-filter="digital" aria-pressed="false">Цифровые инструменты</button>
+          </div>
+          <label class="edu-search">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.8" stroke="currentColor" stroke-width="1.8"/><path d="m16 16 5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+            <span class="sr-only">Поиск материалов</span>
+            <input id="eduSearch" type="search" placeholder="Найти материал..." autocomplete="off" maxlength="120">
+          </label>
+        </div>
+        <p id="eduResultCount" class="edu-results-meta" aria-live="polite">Загрузка материалов...</p>
+        <div id="eduFeatured" class="edu-featured-wrap"></div>
+        <div id="eduList" class="edu-topic-list"></div>
+        <div id="eduEmpty" class="edu-empty" hidden>
+          <strong>Материалы не найдены</strong>
+          <span>Попробуйте изменить запрос или выбрать другое направление.</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="edu-visuals-section" id="handouts" aria-labelledby="eduVisualsTitle">
+      <div class="container">
+        <div class="edu-section-head edu-section-head--visuals">
+          <div>
+            <span class="edu-overline">СПРАВОЧНЫЕ МАТЕРИАЛЫ</span>
+            <h2 id="eduVisualsTitle">Памятки и иллюстрации</h2>
+          </div>
+          <p>Изображения можно открыть в полном размере и сохранить.</p>
+        </div>
+        <div id="eduVisuals" class="edu-visuals"></div>
+      </div>
+    </section>
+
+    <section class="edu-outro" aria-label="Информация о центре">
+      <div class="container edu-outro__inner">
+        <div><span class="edu-overline">РЕФЕРЕНС-ЦЕНТР</span><h2>Лабораторная служба в движении</h2></div>
+        <a href="/about/" class="edu-outro__link">Подробнее о центре <span aria-hidden="true">↗</span></a>
+      </div>
+    </section>
+  </main>
+  <footer class="main-footer" id="contacts" data-site-shell="footer"></footer>
+  <button id="backToTop" class="back-to-top" aria-label="Наверх">↑</button>
+  <script src="js/common.js?v=20261016-education"></script>
+  <script src="js/education.js?v=20261016-a" defer></script>
+  <script src="js/url-cleaner.js" defer></script>
+  <script src="cookies.js?v=20260821-consent1" defer></script>
+</body>
+</html>
