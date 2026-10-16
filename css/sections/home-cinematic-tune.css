@@ -1,17 +1,19 @@
 /* Homepage cinematic hero · focused visual tune */
+/* Conservative video clarity tune. Keep existing MP4 sources and bandwidth policy. */
 .home-cinema__grade {
     background:
-        linear-gradient(90deg, rgba(3, 10, 19, 0.90) 0%, rgba(3, 10, 19, 0.79) 35%, rgba(3, 10, 19, 0.42) 67%, rgba(3, 10, 19, 0.76) 100%),
+        linear-gradient(90deg, rgba(3, 10, 19, 0.90) 0%, rgba(3, 10, 19, 0.79) 35%, rgba(3, 10, 19, 0.33) 67%, rgba(3, 10, 19, 0.69) 100%),
         linear-gradient(0deg, #07111f 0%, rgba(4, 12, 23, 0.10) 30%, rgba(4, 12, 23, 0.24) 100%);
 }
 
 .home-cinema__video {
-    filter: saturate(0.92) contrast(1.06) brightness(0.88);
-    transform: scale(1.00);
+    filter: saturate(1.0) contrast(1.065) brightness(0.96);
+    transform: none;
 }
 
+/* Avoid enlarging a low-bitrate video by 1.2%, which softens the rendered pixels. */
 .home-cinema__video.is-ready {
-    transform: scale(1.012);
+    transform: none;
 }
 
 @media (min-width: 981px) {
@@ -45,6 +47,10 @@
 }
 
 @media (max-width: 640px) {
+    .home-cinema__grade {
+        background: linear-gradient(0deg, #07111f 0%, rgba(3, 10, 19, 0.76) 56%, rgba(3, 10, 19, 0.8) 100%);
+    }
+
     .home-cinema {
         padding-top: calc(var(--site-header-height, 64px) + 28px) !important;
     }
