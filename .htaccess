@@ -1,12 +1,2 @@
 # Custom error pages
 ErrorDocument 404 /404.html
-
-# Temporarily restrict public access to internal management reports.
-# The files remain on the hosting server; access can be restored later.
-<IfModule mod_alias.c>
-    RedirectMatch 403 ^/reports(?:/|$)
-</IfModule>
-<IfModule mod_rewrite.c>
-    RewriteEngine On
-    RewriteRule ^reports(?:/|$) - [F,L,NC]
-</IfModule>
